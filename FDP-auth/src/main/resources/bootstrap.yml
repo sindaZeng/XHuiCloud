@@ -1,0 +1,49 @@
+nacos:
+  address: 127.0.0.1:8848
+spring:
+  application:
+    name: FDP-auth
+  cloud:
+    nacos:
+      config:
+        server-addr: ${nacos.address}
+        #后缀 yml
+        file-extension: yml
+        # 公共的配置文件
+        shared-dataids: application-common.yml
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    platform: mysql
+    url: jdbc:mysql://localhost:3306/sinda_user?characterEncoding=utf8&characterSetResults=utf8&autoReconnect=true
+    username: root
+    password: root
+    initialSize: 5
+    minIdle: 5
+    maxActive: 20
+    maxWait: 60000
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: SELECT 1
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    filters: stat,wall,log4j
+    session:
+      timeout: 2592000
+  zipkin:
+    #设置zipkin的地址
+    base-url: http://localhost:9411/
+    #注意 如果不设置 nacos客户端会把这个当成服务名疯狂的从服务端获取此服务
+    discoveryClientEnabled: false
+  sleuth:
+    sampler:
+      #抽样率 默认是(10%) 生产环境请不要设置1.0
+      probability: 1.0
+
+feign:
+  okhttp:
+    enabled: true
+  httpclient:
+    enabled: false
+

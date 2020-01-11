@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>FDPlatform</artifactId>
+        <groupId>com.zsinda</groupId>
+        <version>1.0.0</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <packaging>pom</packaging>
+    <artifactId>FDP-management-business</artifactId>
+    <description>公共管理业务模块</description>
+    <modules>
+        <module>FDP-sentinel-dashboard</module>
+        <module>FDP-gateway</module>
+        <module>FDP-register</module>
+    </modules>
+
+
+</project>

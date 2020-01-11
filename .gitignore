@@ -1,0 +1,11 @@
+# Project exclude paths
+/FDP-auth/target/
+/FDP-commons/FDP-common-core/target/
+/FDP-commons/FDP-common-datasource/target/
+/FDP-commons/FDP-common-security/target/
+/FDP-commons/FDP-common-sentinel/target/
+/FDP-management-business/FDP-gateway/target/
+/FDP-management-business/FDP-register/target/
+/FDP-management-business/FDP-sentinel-dashboard/target/
+/FDP-upmm/FDP-upmm-api/target/
+/FDP-upmm/FDP-upmm-business/target/

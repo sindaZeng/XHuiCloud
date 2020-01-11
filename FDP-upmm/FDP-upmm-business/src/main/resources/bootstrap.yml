@@ -1,0 +1,38 @@
+nacos:
+  address: 127.0.0.1:8848
+spring:
+  application:
+    name: FDP-upmm-business
+  cloud:
+    nacos:
+      config:
+        server-addr: ${nacos.address}
+        #后缀 yml
+        file-extension: yml
+        # 公共的配置文件
+        shared-dataids: application-common.yml
+  zipkin:
+    #设置zipkin的地址
+    base-url: http://localhost:9411/
+    #注意 如果不设置 nacos客户端会把这个当成服务名疯狂的从服务端获取此服务
+    discoveryClientEnabled: false
+  sleuth:
+    sampler:
+      #抽样率 默认是(10%) 生产环境请不要设置1.0
+      probability: 1.0
+
+security:
+  oauth2:
+    client:
+      client-id: FDP-upmm-business
+      client-secret: 123456
+      access-token-uri: http://localhost:15000/FDP-auth/oauth/token  #请求令牌的地址
+      user-authorization-uri: http://localhost:15000/FDP-auth/oauth/authorize #对用户授权的地址
+      ignore-urls:
+        - /druid/**
+    resource:
+      token-info-uri: http://localhost:15000/FDP-auth/oauth/check_token #检查token是否有效的地址
+
+mybatis-plus:
+  global-config:
+    banner: false

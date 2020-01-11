@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zsinda.fdp.mapper.SysRoleMapper">
+  <resultMap id="BaseResultMap" type="com.zsinda.fdp.entity.SysRole">
+    <!--@mbg.generated-->
+    <!--@Table sys_role-->
+    <id column="role_id" jdbcType="INTEGER" property="roleId" />
+    <result column="role_name" jdbcType="VARCHAR" property="roleName" />
+    <result column="role_desc" jdbcType="VARCHAR" property="roleDesc" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="del_flag" jdbcType="INTEGER" property="delFlag" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    role_id, role_name, role_desc, create_time, update_time, del_flag
+  </sql>
+
+  <select id="listRolesByUserId" resultMap="BaseResultMap">
+    SELECT
+    r.*
+    FROM
+    sys_role r, sys_user_role ur WHERE r.role_id = ur.role_id AND r.del_flag = 1 and  ur.user_id IN (#{userId})
+  </select>
+
+
+</mapper>
