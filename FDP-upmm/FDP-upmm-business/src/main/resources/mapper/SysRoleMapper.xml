@@ -5,6 +5,7 @@
     <!--@mbg.generated-->
     <!--@Table sys_role-->
     <id column="role_id" jdbcType="INTEGER" property="roleId" />
+    <id column="role_code" jdbcType="INTEGER" property="roleCode" />
     <result column="role_name" jdbcType="VARCHAR" property="roleName" />
     <result column="role_desc" jdbcType="VARCHAR" property="roleDesc" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />

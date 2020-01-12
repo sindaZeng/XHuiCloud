@@ -19,6 +19,12 @@ public class SysRole implements Serializable {
     private Integer roleId;
 
     /**
+     * 角色标识
+     */
+    @TableField(value = "role_code")
+    private String roleCode;
+
+    /**
      * 角色名称
      */
     @TableField(value = "role_name")

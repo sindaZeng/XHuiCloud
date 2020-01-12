@@ -10,4 +10,7 @@ public interface SysRoleService extends IService<SysRole> {
 
 
     List<SysRole> findRoleById(Integer userId);
+
+    Boolean deleteRoleById(Integer id);
 }
+
