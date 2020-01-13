@@ -28,6 +28,21 @@ public class SysRoleController {
         return R.ok(sysRoleService.page(page, Wrappers.<SysRole>lambdaQuery().eq(SysRole::getDelFlag,1)));
     }
 
+    /**
+     *  新增角色
+     * @param sysRole
+     * @return
+     */
+    @PostMapping("/save")
+    public R save(@Valid @RequestBody SysRole sysRole) {
+        return R.ok(sysRoleService.getBaseMapper().insert(sysRole));
+    }
+
+    /**
+     * 更新角色
+     * @param sysRole
+     * @return
+     */
     @PutMapping("/update")
     public R pageList(@Valid @RequestBody SysRole sysRole) {
         return R.ok(sysRoleService.updateById(sysRole));
