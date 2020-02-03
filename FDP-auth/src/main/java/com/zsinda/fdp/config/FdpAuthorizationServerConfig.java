@@ -1,8 +1,9 @@
 package com.zsinda.fdp.config;
 
 import com.zsinda.fdp.component.FdpWebResponseExceptionTranslator;
+import com.zsinda.fdp.constant.AuthorizationConstants;
 import com.zsinda.fdp.service.FdpUserDetailsService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
@@ -28,31 +29,30 @@ import javax.sql.DataSource;
  **/
 @Configuration
 @EnableAuthorizationServer
+@AllArgsConstructor
 public class FdpAuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
+    private final AuthenticationManager authenticationManager;
 
-    @Autowired
-    private FdpUserDetailsService fdpUserDetailsService;
+    private final FdpUserDetailsService fdpUserDetailsService;
 
-    @Autowired
-    private DataSource dataSource;
+    private final DataSource dataSource;
 
-    @Autowired
-    private RedisConnectionFactory redisConnectionFactory;
+    private final RedisConnectionFactory redisConnectionFactory;
 
-    @Autowired
-    private TokenEnhancer fdpTokenEnhancer;
+    private final TokenEnhancer fdpTokenEnhancer;
 
     /**
-     *  配置客户端信息
-     * @param clients
+     * 配置客户端信息
+     * @param clientDetailsServiceConfigurer
      * @throws Exception
      */
     @Override
-    public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-        clients.withClientDetails(new JdbcClientDetailsService(dataSource));
+    public void configure(ClientDetailsServiceConfigurer clientDetailsServiceConfigurer) throws Exception {
+        JdbcClientDetailsService jdbcClientDetailsService = new JdbcClientDetailsService(dataSource);
+        jdbcClientDetailsService.setSelectClientDetailsSql(AuthorizationConstants.DEFAULT_SELECT_STATEMENT);
+        jdbcClientDetailsService.setFindClientDetailsSql(AuthorizationConstants.DEFAULT_FIND_STATEMENT);
+        clientDetailsServiceConfigurer.withClientDetails(jdbcClientDetailsService);
     }
 
     @Bean
@@ -62,7 +62,7 @@ public class FdpAuthorizationServerConfig extends AuthorizationServerConfigurerA
     }
 
     @Override
-    public void configure(AuthorizationServerSecurityConfigurer security){
+    public void configure(AuthorizationServerSecurityConfigurer security) {
         security.allowFormAuthenticationForClients()
                 .checkTokenAccess("isAuthenticated()");
     }
@@ -72,7 +72,7 @@ public class FdpAuthorizationServerConfig extends AuthorizationServerConfigurerA
      * 配置有哪些用户可以来访问认证服务器
      */
     @Override
-    public void configure(AuthorizationServerEndpointsConfigurer endpoints){
+    public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
         endpoints
                 .allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST)
                 .tokenStore(tokenStore())

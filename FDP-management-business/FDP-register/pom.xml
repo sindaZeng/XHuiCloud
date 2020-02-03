@@ -14,19 +14,26 @@
     <dependencies>
 
         <dependency>
-            <groupId>${project.groupId}.nacos</groupId>
+            <groupId>com.xkcoding.nacos</groupId>
             <artifactId>nacos-config</artifactId>
-            <version>${FDPlatform.version}</version>
+            <version>1.1.4</version>
         </dependency>
+        <dependency>
+            <groupId>com.xkcoding.nacos</groupId>
+            <artifactId>nacos-naming</artifactId>
+            <version>1.1.4</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.xkcoding.nacos</groupId>
+            <artifactId>nacos-istio</artifactId>
+            <version>1.1.4</version>
+        </dependency>
+
         <dependency>
             <groupId>org.apache.tomcat.embed</groupId>
             <artifactId>tomcat-embed-jasper</artifactId>
             <version>7.0.59</version>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}.nacos</groupId>
-            <artifactId>nacos-naming</artifactId>
-            <version>${FDPlatform.version}</version>
         </dependency>
 
 <!--        <dependency>-->

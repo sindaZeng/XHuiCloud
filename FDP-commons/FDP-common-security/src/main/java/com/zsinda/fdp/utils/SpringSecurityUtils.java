@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import static com.zsinda.fdp.content.SecurityContent.ROLE_PREFIX;
+import static com.zsinda.fdp.constant.AuthorizationConstants.ROLE_PREFIX;
 
 /**
  * @program: FDPlatform

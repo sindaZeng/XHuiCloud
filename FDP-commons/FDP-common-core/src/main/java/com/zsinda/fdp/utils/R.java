@@ -1,7 +1,7 @@
 
 package com.zsinda.fdp.utils;
 
-import com.zsinda.fdp.content.CommonContent;
+import com.zsinda.fdp.constant.CommonConstants;
 import lombok.*;
 import lombok.experimental.Accessors;
 
@@ -31,31 +31,31 @@ public class R<T> implements Serializable {
 	private T data;
 
 	public static <T> R<T> ok() {
-		return restResult(null, CommonContent.REQUEST_SUCCESS, null);
+		return restResult(null, CommonConstants.REQUEST_SUCCESS, null);
 	}
 
 	public static <T> R<T> ok(T data) {
-		return restResult(data, CommonContent.REQUEST_SUCCESS, null);
+		return restResult(data, CommonConstants.REQUEST_SUCCESS, null);
 	}
 
 	public static <T> R<T> ok(T data, String msg) {
-		return restResult(data, CommonContent.REQUEST_SUCCESS, msg);
+		return restResult(data, CommonConstants.REQUEST_SUCCESS, msg);
 	}
 
 	public static <T> R<T> failed() {
-		return restResult(null, CommonContent.REQUEST_FAIL, null);
+		return restResult(null, CommonConstants.REQUEST_FAIL, null);
 	}
 
 	public static <T> R<T> failed(String msg) {
-		return restResult(null, CommonContent.REQUEST_FAIL, msg);
+		return restResult(null, CommonConstants.REQUEST_FAIL, msg);
 	}
 
 	public static <T> R<T> failed(T data) {
-		return restResult(data, CommonContent.REQUEST_FAIL, null);
+		return restResult(data, CommonConstants.REQUEST_FAIL, null);
 	}
 
 	public static <T> R<T> failed(T data, String msg) {
-		return restResult(data, CommonContent.REQUEST_FAIL, msg);
+		return restResult(data, CommonConstants.REQUEST_FAIL, msg);
 	}
 
 	private static <T> R<T> restResult(T data, int code, String msg) {

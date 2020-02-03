@@ -18,6 +18,8 @@
         <module>FDP-common-core</module>
         <module>FDP-common-swagger</module>
         <module>FDP-common-security</module>
+        <module>FDP-common-transaction</module>
+        <module>FDP-common-logger</module>
     </modules>
 
 

@@ -1,8 +1,7 @@
 package com.zsinda.fdp.annotation;
 
 
-import com.zsinda.fdp.mybatis.DynamicDataSourceConfig;
-import com.zsinda.fdp.properties.DataSourceCoreProperties;
+import com.zsinda.fdp.datasource.DynamicDataSourceConfig;
 import org.springframework.context.annotation.Import;
 
 import java.lang.annotation.*;
@@ -18,6 +17,6 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
-@Import({DynamicDataSourceConfig.class, DataSourceCoreProperties.class})
+@Import(DynamicDataSourceConfig.class)
 public @interface EnableDynamicDataSource {
 }

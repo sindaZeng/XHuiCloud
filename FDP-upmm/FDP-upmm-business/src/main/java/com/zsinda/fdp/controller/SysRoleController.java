@@ -4,6 +4,7 @@ package com.zsinda.fdp.controller;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zsinda.fdp.entity.SysRole;
+import com.zsinda.fdp.service.SysRoleMenuService;
 import com.zsinda.fdp.service.SysRoleService;
 import com.zsinda.fdp.utils.R;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,8 @@ public class SysRoleController {
 
     @Autowired
     private SysRoleService sysRoleService;
+    @Autowired
+    private SysRoleMenuService sysRoleMenuService;
 
     /**
      * 分页查询角色列表
@@ -57,5 +60,27 @@ public class SysRoleController {
     public R removeById(@PathVariable Integer id) {
         return R.ok(sysRoleService.deleteRoleById(id));
     }
+
+    /**
+     * 通过ID查询角色信息
+     * @param id
+     * @return
+     */
+    @GetMapping("/{id}")
+    public R getById(@PathVariable Integer id) {
+        return R.ok(sysRoleService.getById(id));
+    }
+    /**
+     * 更新角色菜单
+     * @param roleId
+     * @param menuIds
+     * @return
+     */
+    @PostMapping("/menus")
+    public R saveRoleMenus(Integer roleId, @RequestParam(value = "menuIds", required = false) String menuIds) {
+        return R.ok(sysRoleMenuService.saveRoleMenus(roleId, menuIds));
+    }
+
+
 
 }

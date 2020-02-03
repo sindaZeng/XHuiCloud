@@ -32,7 +32,7 @@ import java.util.Objects;
 @Slf4j
 public class DataSourceAspect{
 
-    @Pointcut("execution(* com.zsinda.mapper.*.*(..))")
+    @Pointcut("execution(* com.zsinda.fdp.mapper.*.*(..))")
     public void pointcut() {
     }
 

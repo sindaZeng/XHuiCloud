@@ -33,8 +33,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         UserInfo userInfo = new UserInfo();
         userInfo.setSysUser(sysUser);
         //查询该用户的角色
-        List<SysRole> roleById = sysRoleService.findRoleById(sysUser.getUserId());
-        List<Integer> roleIds = roleById.stream().map(SysRole::getRoleId)
+        List<SysRole> sysRoles = sysRoleService.findRoleById(sysUser.getUserId());
+        List<Integer> roleIds = sysRoles.stream().map(SysRole::getRoleId)
                 .collect(Collectors.toList());
 
         userInfo.setRoles(ArrayUtil.toArray(roleIds, Integer.class));

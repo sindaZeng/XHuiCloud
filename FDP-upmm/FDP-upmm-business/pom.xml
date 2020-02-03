@@ -12,12 +12,20 @@
     <artifactId>FDP-upmm-business</artifactId>
     <dependencies>
         <dependency>
-            <groupId>com.zsinda</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>FDP-upmm-api</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.zsinda</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>FDP-common-datasource</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>FDP-common-transaction</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>FDP-common-security</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -52,11 +60,23 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.zsinda</groupId>
-            <artifactId>FDP-common-security</artifactId>
-        </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 
 
 </project>

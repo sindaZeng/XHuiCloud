@@ -25,6 +25,11 @@ public class MenuTree extends TreeNode {
     private String name;
 
     /**
+     * 菜单标签
+     */
+    private String label;
+
+    /**
      * 权限
      */
     private String permission;

@@ -1,5 +1,5 @@
 nacos:
-  address: 127.0.0.1:8848
+  address: 127.0.0.1:13000
 spring:
   application:
     name: FDP-upmm-business
@@ -11,6 +11,11 @@ spring:
         file-extension: yml
         # 公共的配置文件
         shared-dataids: application-common.yml
+    alibaba:
+      seata:
+        tx-service-group: fdp_tx_group
+  main:
+    allow-bean-definition-overriding: true
   zipkin:
     #设置zipkin的地址
     base-url: http://localhost:9411/

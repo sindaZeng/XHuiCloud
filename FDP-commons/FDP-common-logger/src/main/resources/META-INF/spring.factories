@@ -1,0 +1,4 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+    com.zsinda.fdp.LogAutoConfiguration
+org.springframework.context.ApplicationContextInitializer=\
+    com.zsinda.fdp.init.ApplicationLoggerInitializer

@@ -36,6 +36,13 @@ public class SysMenu implements Serializable {
     @TableField(value = "path")
     private String path;
 
+
+    /**
+     * 重定向地址
+     */
+    @TableField(value = "redirect")
+    private String redirect;
+
     /**
      * 图标
      */

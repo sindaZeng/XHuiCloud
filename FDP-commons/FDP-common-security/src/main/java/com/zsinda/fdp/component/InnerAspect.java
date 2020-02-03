@@ -13,6 +13,9 @@ import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 
+import static com.zsinda.fdp.constant.AuthorizationConstants.FROM;
+import static com.zsinda.fdp.constant.AuthorizationConstants.IS_COMMING_INNER_YES;
+
 
 /**
  * @program: FDPlatform
@@ -27,11 +30,12 @@ import javax.servlet.http.HttpServletRequest;
 public class InnerAspect {
 
     private final HttpServletRequest request;
+
     @SneakyThrows
     @Around("@annotation(inner)")
     public Object around(ProceedingJoinPoint point, Inner inner) {
-        String header = request.getHeader("from");
-        if (inner.value() && !StrUtil.equals("Y", header)) {
+        String header = request.getHeader(FROM);
+        if (inner.value() && !StrUtil.equals(IS_COMMING_INNER_YES, header)) {
             log.warn("访问接口 {} 没有权限", point.getSignature().getName());
             throw new AccessDeniedException("Access is denied");
         }

@@ -2,7 +2,7 @@ server:
   port: 15000
 
 nacos:
-  address: 127.0.0.1:8848
+  address: 127.0.0.1:13000
 spring:
   application:
     name: FDP-gateway

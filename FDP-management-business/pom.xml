@@ -15,6 +15,7 @@
         <module>FDP-sentinel-dashboard</module>
         <module>FDP-gateway</module>
         <module>FDP-register</module>
+        <module>FDP-transaction-coordinator</module>
     </modules>
 
 

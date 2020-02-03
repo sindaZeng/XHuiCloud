@@ -5,14 +5,15 @@
     <modelVersion>4.0.0</modelVersion>
     <packaging>pom</packaging>
     <artifactId>FDP-dependencies-bom</artifactId>
-    <version>${FDPlatform.version}</version>
-    <description>第三方jar包统一管理</description>
+    <description>jar 依赖管理</description>
     <groupId>com.zsinda</groupId>
+    <version>1.0.0</version>
+    <name>${project.artifactId} ${description}</name>
     <properties>
-        <FDPlatform.version>1.0.0</FDPlatform.version>
+        <FDPlatform.version>${project.version}</FDPlatform.version>
         <mybatis-plus.version>3.3.0</mybatis-plus.version>
         <druid.version>1.1.21</druid.version>
-        <mysql.connector.version>8.0.16</mysql.connector.version>
+        <mysql.connector.version>8.0.15</mysql.connector.version>
         <oracle.version>11.2.0.3</oracle.version>
         <hutool.version>5.0.5</hutool.version>
         <mybatis-plus.version>3.2.0</mybatis-plus.version>
@@ -44,7 +45,31 @@
 
             <dependency>
                 <groupId>${project.groupId}</groupId>
+                <artifactId>FDP-common-logger</artifactId>
+                <version>${FDPlatform.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>FDP-common-transaction</artifactId>
+                <version>${FDPlatform.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>${project.groupId}</groupId>
                 <artifactId>FDP-common-security</artifactId>
+                <version>${FDPlatform.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>FDP-common-sentinel</artifactId>
+                <version>${FDPlatform.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>FDP-common-core</artifactId>
                 <version>${FDPlatform.version}</version>
             </dependency>
 
@@ -64,18 +89,6 @@
                 <groupId>com.github.xiaoymin</groupId>
                 <artifactId>knife4j-micro-spring-boot-starter</artifactId>
                 <version>${knife4j.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>FDP-common-core</artifactId>
-                <version>${FDPlatform.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>FDP-common-sentinel</artifactId>
-                <version>${FDPlatform.version}</version>
             </dependency>
 
             <!--mybatis-->
@@ -127,21 +140,21 @@
                 <artifactId>jjwt-api</artifactId>
                 <version>${jjwt.version}</version>
             </dependency>
+
             <dependency>
                 <groupId>io.jsonwebtoken</groupId>
                 <artifactId>jjwt-impl</artifactId>
                 <version>${jjwt.version}</version>
                 <scope>runtime</scope>
             </dependency>
+
             <dependency>
                 <groupId>io.jsonwebtoken</groupId>
                 <artifactId>jjwt-jackson</artifactId>
                 <version>${jjwt.version}</version>
                 <scope>runtime</scope>
             </dependency>
-
         </dependencies>
     </dependencyManagement>
-
 
 </project>

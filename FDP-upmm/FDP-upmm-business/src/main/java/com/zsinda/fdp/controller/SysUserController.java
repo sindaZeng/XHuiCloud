@@ -7,18 +7,15 @@ import com.zsinda.fdp.entity.SysUser;
 import com.zsinda.fdp.service.SysUserService;
 import com.zsinda.fdp.utils.R;
 import com.zsinda.fdp.utils.SpringSecurityUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import lombok.AllArgsConstructor;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/user")
+@AllArgsConstructor
 public class SysUserController {
 
-    @Autowired
-    private SysUserService sysUserService;
+    private final SysUserService sysUserService;
 
     /**
      * 获取当前登录用户全部信息
@@ -43,5 +40,20 @@ public class SysUserController {
             return R.failed(null, String.format("用户信息为空 %s", userName));
         }
         return R.ok(sysUserService.findUserInfo(user));
+    }
+
+    /**
+     * 添加用户
+     * @return
+     */
+    @Inner
+    @PostMapping
+    public R user() {
+        SysUser sysUser = new SysUser();
+        sysUser.setUsername("root");
+        sysUser.setPhone("123123123");
+        sysUser.setEmail("12332@ee.com");
+        sysUser.setPassword("12312312312");
+        return R.ok(sysUserService.save(sysUser));
     }
 }

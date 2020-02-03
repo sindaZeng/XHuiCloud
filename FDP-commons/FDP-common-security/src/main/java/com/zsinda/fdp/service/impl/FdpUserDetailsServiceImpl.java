@@ -18,7 +18,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-import static com.zsinda.fdp.content.SecurityContent.*;
+import static com.zsinda.fdp.constant.AuthorizationConstants.*;
 
 /**
  * @program: FDPlatform

@@ -41,6 +41,10 @@ public class MenuVO implements Serializable {
      */
     private String path;
     /**
+     * 前端路径
+     */
+    private String redirect;
+    /**
      * 排序值
      */
     private Integer sort;

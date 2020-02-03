@@ -1,0 +1,13 @@
+${AnsiColor.BRIGHT_MAGENTA}
+     ████████ ███████   ███████
+    ░██░░░░░ ░██░░░░██ ░██░░░░██
+    ░██      ░██    ░██░██   ░██
+    ░███████ ░██    ░██░███████
+    ░██░░░░  ░██    ░██░██░░░░
+    ░██      ░██    ██ ░██
+    ░██      ░███████  ░██
+    ░░       ░░░░░░░   ░░
+Application-name : @project.artifactId@
+Application-Version     : @project.version@
+Spring Boot Version: ${spring-boot.version}
+${AnsiColor.DEFAULT}

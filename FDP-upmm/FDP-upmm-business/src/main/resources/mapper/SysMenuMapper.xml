@@ -7,6 +7,7 @@
     <id column="menu_id" jdbcType="INTEGER" property="menuId" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="permission" jdbcType="VARCHAR" property="permission" />
+    <result column="redirect" jdbcType="VARCHAR" property="redirect" />
     <result column="path" jdbcType="VARCHAR" property="path" />
     <result column="icon" jdbcType="VARCHAR" property="icon" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
@@ -21,6 +22,7 @@
     <id column="menu_id" property="menuId"/>
     <result column="name" property="name"/>
     <result column="permission" property="permission"/>
+    <result column="redirect" property="redirect"/>
     <result column="parent_id" property="parentId"/>
     <result column="icon" property="icon"/>
     <result column="path" property="path"/>
