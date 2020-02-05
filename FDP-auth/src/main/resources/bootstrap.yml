@@ -58,6 +58,8 @@ spring:
       probability: 1.0
   autoconfigure:
     exclude:
+  redis:
+    port:
 
 logging:
   file:

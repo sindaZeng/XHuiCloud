@@ -20,6 +20,7 @@
         <module>FDP-common-security</module>
         <module>FDP-common-transaction</module>
         <module>FDP-common-logger</module>
+        <module>FDP-common-Lock</module>
     </modules>
 
 

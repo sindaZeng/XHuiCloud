@@ -21,6 +21,7 @@
         <swagger.version>2.9.2</swagger.version>
         <knife4j.version>1.9.6</knife4j.version>
         <guava.version>26.0-jre</guava.version>
+        <redisson.version>3.12.1</redisson.version>
     </properties>
 
     <dependencyManagement>
@@ -154,6 +155,13 @@
                 <version>${jjwt.version}</version>
                 <scope>runtime</scope>
             </dependency>
+
+            <dependency>
+                <groupId>org.redisson</groupId>
+                <artifactId>redisson</artifactId>
+                <version>${redisson.version}</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 
