@@ -1,11 +1,17 @@
 package com.zsinda.fdp.annotation;
 
+import java.lang.annotation.*;
+
 /**
  * @program: FDPlatform
  * @description: 分布式锁注解
  * @author: Sinda
  * @create: 2020-02-04 10:00
  */
+@Documented
+@Inherited
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.METHOD)
 public @interface FdpLock {
 
     /**

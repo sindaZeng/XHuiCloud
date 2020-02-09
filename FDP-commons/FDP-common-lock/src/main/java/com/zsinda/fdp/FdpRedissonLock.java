@@ -14,7 +14,7 @@ import java.util.concurrent.TimeUnit;
  */
 @Slf4j
 @AllArgsConstructor
-public class RedissonLock {
+public class FdpRedissonLock {
 
 
     private final Redisson redisson;

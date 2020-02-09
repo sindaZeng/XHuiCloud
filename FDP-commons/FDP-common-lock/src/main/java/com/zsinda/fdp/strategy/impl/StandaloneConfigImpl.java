@@ -1,7 +1,7 @@
 package com.zsinda.fdp.strategy.impl;
 
 import com.zsinda.fdp.enums.RedissonEnum;
-import com.zsinda.fdp.properties.RedissonProperties;
+import com.zsinda.fdp.properties.FdpRedisProperties;
 import com.zsinda.fdp.strategy.ConfigService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -16,20 +16,19 @@ import org.redisson.config.Config;
 @Slf4j
 public class StandaloneConfigImpl implements ConfigService {
     @Override
-    public Config createConfig(RedissonProperties redissonProperties) {
+    public Config createConfig(FdpRedisProperties redisProperties) {
         Config config = new Config();
         try {
-            String address = redissonProperties.getAddress();
-            String password = redissonProperties.getPassword();
-            int database = redissonProperties.getDatabase();
-            String redisAddr = RedissonEnum.REDIS_CONNECTION_PREFIX.getType() + address;
+            String password = redisProperties.getPassword();
+            int database = redisProperties.getDatabase();
+            String redisAddr = RedissonEnum.REDIS_CONNECTION_PREFIX.getType() + redisProperties.getHost()+":"+redisProperties.getPort();
             config.useSingleServer().setAddress(redisAddr);
             config.useSingleServer().setDatabase(database);
             //密码可以为空
             if (StringUtils.isNotBlank(password)) {
                 config.useSingleServer().setPassword(password);
             }
-            log.info("初始化[单机部署]方式Config,redisAddress: [{}]",address);
+            log.info("初始化[单机部署]方式Config,redisAddress:" + redisAddr);
         } catch (Exception e) {
             log.error("单机部署 Redisson init error", e);
         }

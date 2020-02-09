@@ -1,6 +1,6 @@
 package com.zsinda.fdp.strategy;
 
-import com.zsinda.fdp.properties.RedissonProperties;
+import com.zsinda.fdp.properties.FdpRedisProperties;
 import org.redisson.config.Config;
 
 /**
@@ -11,5 +11,5 @@ import org.redisson.config.Config;
  */
 public interface ConfigService {
 
-    Config createConfig(RedissonProperties redissonProperties);
+    Config createConfig(FdpRedisProperties fdpRedisProperties);
 }

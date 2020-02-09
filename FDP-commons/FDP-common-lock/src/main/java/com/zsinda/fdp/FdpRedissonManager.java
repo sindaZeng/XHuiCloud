@@ -2,7 +2,7 @@ package com.zsinda.fdp;
 
 import com.google.common.base.Preconditions;
 import com.zsinda.fdp.enums.RedissonEnum;
-import com.zsinda.fdp.properties.RedissonProperties;
+import com.zsinda.fdp.properties.FdpRedisProperties;
 import com.zsinda.fdp.strategy.ConfigService;
 import com.zsinda.fdp.strategy.impl.ClusterConfigImpl;
 import com.zsinda.fdp.strategy.impl.MasterslaveConfigImpl;
@@ -19,19 +19,19 @@ import org.redisson.config.Config;
  * @create: 2020-02-04 11:07
  */
 @Slf4j
-public class RedissonManager {
+public class FdpRedissonManager {
 
     private Config config = new Config();
 
     private Redisson redisson = null;
 
-    public RedissonManager() {
+    public FdpRedissonManager() {
     }
 
-    public RedissonManager(RedissonProperties redissonProperties) {
+    public FdpRedissonManager(FdpRedisProperties fdpRedisProperties) {
         try {
             //通过不同部署方式获得不同cofig实体
-            config = RedissonConfigFactory.getInstance().createConfig(redissonProperties);
+            config = RedissonConfigFactory.getInstance().createConfig(fdpRedisProperties);
             redisson = (Redisson) Redisson.create(config);
         } catch (Exception e) {
             log.error("Redisson init error {}", e);
@@ -70,29 +70,29 @@ public class RedissonManager {
         /**
          * 根据连接类型获取对应连接方式的配置,基于策略模式
          *
-         * @param redissonProperties redis连接信息
+         * @param redisProperties redis连接信息
          * @return Config
          */
-        Config createConfig(RedissonProperties redissonProperties) {
-            Preconditions.checkNotNull(redissonProperties);
-            Preconditions.checkNotNull(redissonProperties.getAddress(), "redisson.lock.server.address cannot be NULL!");
-            Preconditions.checkNotNull(redissonProperties.getType(), "redisson.lock.server.password cannot be NULL");
-            Preconditions.checkNotNull(redissonProperties.getDatabase(), "redisson.lock.server.database cannot be NULL");
-            String connectionType = redissonProperties.getType();
+        Config createConfig(FdpRedisProperties redisProperties) {
+            Preconditions.checkNotNull(redisProperties);
+            Preconditions.checkNotNull(redisProperties.getType(), "redisson.lock.server.password cannot be NULL");
+            Preconditions.checkNotNull(redisProperties.getDatabase(), "redisson.lock.server.database cannot be NULL");
+            RedissonEnum redissonEnum = redisProperties.getType();
+            String type = redissonEnum.getType();
             //声明配置上下文
-            ConfigService redissonConfigService = null;
-            if (connectionType.equals(RedissonEnum.STANDALONE.getType())) {
+            ConfigService redissonConfigService;
+            if (type.equals(RedissonEnum.STANDALONE.getType())) {
                 redissonConfigService = new StandaloneConfigImpl();
-            } else if (connectionType.equals(RedissonEnum.SENTINEL.getType())) {
+            } else if (type.equals(RedissonEnum.SENTINEL.getType())) {
                 redissonConfigService = new SentineConfigImpl();
-            } else if (connectionType.equals(RedissonEnum.CLUSTER.getType())) {
+            } else if (type.equals(RedissonEnum.CLUSTER.getType())) {
                 redissonConfigService = new ClusterConfigImpl();
-            } else if (connectionType.equals(RedissonEnum.MASTERSLAVE.getType())) {
+            } else if (type.equals(RedissonEnum.MASTERSLAVE.getType())) {
                 redissonConfigService = new MasterslaveConfigImpl();
             } else {
-                throw new IllegalArgumentException("创建Redisson连接Config失败！当前连接方式:" + connectionType);
+                throw new IllegalArgumentException("创建Redisson连接Config失败！当前连接方式:" + type);
             }
-            return redissonConfigService.createConfig(redissonProperties);
+            return redissonConfigService.createConfig(redisProperties);
         }
     }
 

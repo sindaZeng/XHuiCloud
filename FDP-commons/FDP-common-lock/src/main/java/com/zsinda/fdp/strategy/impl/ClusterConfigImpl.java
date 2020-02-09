@@ -1,11 +1,13 @@
 package com.zsinda.fdp.strategy.impl;
 
 import com.zsinda.fdp.enums.RedissonEnum;
-import com.zsinda.fdp.properties.RedissonProperties;
+import com.zsinda.fdp.properties.FdpRedisProperties;
 import com.zsinda.fdp.strategy.ConfigService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.redisson.config.Config;
+
+import java.util.List;
 
 /**
  * @program: FDPlatform
@@ -19,23 +21,22 @@ import org.redisson.config.Config;
 @Slf4j
 public class ClusterConfigImpl implements ConfigService {
     @Override
-    public Config createConfig(RedissonProperties redissonProperties) {
+    public Config createConfig(FdpRedisProperties redisProperties) {
         Config config = new Config();
         try {
-            String address = redissonProperties.getAddress();
-            String password = redissonProperties.getPassword();
-            String[] addrTokens = address.split(",");
+            List<String> nodes = redisProperties.getCluster().getNodes();
+            String password = redisProperties.getPassword();
             //设置cluster节点的服务IP和端口
-            for (int i = 0; i < addrTokens.length; i++) {
+            nodes.forEach(node->{
                 config.useClusterServers()
-                        .addNodeAddress(RedissonEnum.REDIS_CONNECTION_PREFIX.getType() + addrTokens[i]);
+                        .addNodeAddress(RedissonEnum.REDIS_CONNECTION_PREFIX.getType() + node);
                 if (StringUtils.isNotBlank(password)) {
                     config.useClusterServers().setPassword(password);
                 }
-            }
-            log.info("初始化[集群部署]方式Config,redisAddress: [{}]",address);
+            });
+            log.info("初始化[集群部署]方式Config,redisAddress:{}",nodes.toString());
         } catch (Exception e) {
-            log.error("集群部署 Redisson init error", e);
+            log.error("集群部署 Redisson init error{}", e);
             e.printStackTrace();
         }
         return config;

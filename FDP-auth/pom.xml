@@ -33,9 +33,14 @@
             <artifactId>FDP-upmm-api</artifactId>
         </dependency>
 
+        <!--        <dependency>-->
+        <!--            <groupId>${project.groupId}</groupId>-->
+        <!--            <artifactId>FDP-common-transaction</artifactId>-->
+        <!--        </dependency>-->
+
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>FDP-common-transaction</artifactId>
+            <artifactId>FDP-common-Lock</artifactId>
         </dependency>
 
         <!--        调用链监控-->

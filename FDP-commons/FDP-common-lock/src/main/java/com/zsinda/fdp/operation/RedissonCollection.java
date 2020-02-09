@@ -1,6 +1,6 @@
 package com.zsinda.fdp.operation;
 
-import com.zsinda.fdp.properties.RedissonProperties;
+import com.zsinda.fdp.properties.FdpRedisProperties;
 import lombok.AllArgsConstructor;
 import org.redisson.api.RList;
 import org.redisson.api.RMap;
@@ -22,7 +22,7 @@ import java.util.concurrent.TimeUnit;
 public class RedissonCollection {
 
     private final RedissonClient redisson;
-    private final RedissonProperties redissonProperties;
+    private final FdpRedisProperties fdpRedisProperties;
 
     /**
      * 获取map集合
@@ -46,7 +46,7 @@ public class RedissonCollection {
      */
     public void setMapValues(String name, Map data, Long time) {
         RMap map = redisson.getMap(name);
-        Long dataValidTime = redissonProperties.getDataValidTime();
+        Long dataValidTime = fdpRedisProperties.getDataValidTime();
         if (time != -1) {
             map.expire(dataValidTime, TimeUnit.MILLISECONDS);
         }
@@ -61,7 +61,7 @@ public class RedissonCollection {
      * @return
      */
     public void setMapValues(String name, Map data) {
-        setMapValues(name, data, redissonProperties.getDataValidTime());
+        setMapValues(name, data, fdpRedisProperties.getDataValidTime());
     }
 
     /**
@@ -84,7 +84,7 @@ public class RedissonCollection {
      */
     public void setListValues(String name, List data, Long time) {
         RList list = redisson.getList(name);
-        Long dataValidTime = redissonProperties.getDataValidTime();
+        Long dataValidTime = fdpRedisProperties.getDataValidTime();
         if (time != -1) {
             list.expire(dataValidTime, TimeUnit.MILLISECONDS);
         }
@@ -99,7 +99,7 @@ public class RedissonCollection {
      * @return
      */
     public void setListValues(String name, List data) {
-        setListValues(name, data, redissonProperties.getDataValidTime());
+        setListValues(name, data, fdpRedisProperties.getDataValidTime());
     }
 
     /**
@@ -122,7 +122,7 @@ public class RedissonCollection {
      */
     public void setSetValues(String name, Set data, Long time) {
         RSet set = redisson.getSet(name);
-        Long dataValidTime = redissonProperties.getDataValidTime();
+        Long dataValidTime = fdpRedisProperties.getDataValidTime();
         if (time != -1) {
             set.expire(dataValidTime, TimeUnit.MILLISECONDS);
         }
@@ -137,7 +137,7 @@ public class RedissonCollection {
      * @return
      */
     public void setSetValues(String name, Set data) {
-        setSetValues(name, data, redissonProperties.getDataValidTime());
+        setSetValues(name, data, fdpRedisProperties.getDataValidTime());
     }
 
 

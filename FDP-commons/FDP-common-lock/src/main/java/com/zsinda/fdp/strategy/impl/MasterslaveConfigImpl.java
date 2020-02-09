@@ -1,7 +1,7 @@
 package com.zsinda.fdp.strategy.impl;
 
 import com.zsinda.fdp.enums.RedissonEnum;
-import com.zsinda.fdp.properties.RedissonProperties;
+import com.zsinda.fdp.properties.FdpRedisProperties;
 import com.zsinda.fdp.strategy.ConfigService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -21,29 +21,28 @@ import java.util.List;
 @Slf4j
 public class MasterslaveConfigImpl implements ConfigService {
     @Override
-    public Config createConfig(RedissonProperties redissonProperties) {
+    public Config createConfig(FdpRedisProperties redisProperties) {
         Config config = new Config();
         try {
-            String address = redissonProperties.getAddress();
-            String password = redissonProperties.getPassword();
-            int database = redissonProperties.getDatabase();
-            String[] addrTokens = address.split(",");
-            String masterNodeAddr = addrTokens[0];
-            //设置主节点ip
-            masterNodeAddr = RedissonEnum.REDIS_CONNECTION_PREFIX.getType() + masterNodeAddr;
+            String password = redisProperties.getPassword();
+            int database = redisProperties.getDatabase();
+            //主节点ip
+            String masterNodeAddr = RedissonEnum.REDIS_CONNECTION_PREFIX.getType() +
+                    redisProperties.getHost()+":"+redisProperties.getPort();
             config.useMasterSlaveServers().setMasterAddress(masterNodeAddr);
             if (StringUtils.isNotBlank(password)) {
                 config.useMasterSlaveServers().setPassword(password);
             }
             config.useMasterSlaveServers().setDatabase(database);
-            //设置从节点，移除第一个节点，默认第一个为主节点
+            //从节点ip
+            List<FdpRedisProperties.Slave> slaves = redisProperties.getSlaves();
             List<String> slaveList = new ArrayList<>();
-            for (String addrToken : addrTokens) {
-                slaveList.add(RedissonEnum.REDIS_CONNECTION_PREFIX.getType() + addrToken);
+            for (FdpRedisProperties.Slave slave: slaves) {
+                slaveList.add(RedissonEnum.REDIS_CONNECTION_PREFIX.getType() +
+                        slave.getHost()+":"+slave.getPort());
             }
-            slaveList.remove(0);
             config.useMasterSlaveServers().addSlaveAddress(slaveList.toArray(new String[slaveList.size()]));
-            log.info("初始化[主从部署]方式Config,redisAddress: [{}]",address);
+            log.info("初始化[主从部署]方式Config,master:{},salve:{}",masterNodeAddr,slaveList.toString());
         } catch (Exception e) {
             log.error("主从部署 Redisson init error", e);
             e.printStackTrace();

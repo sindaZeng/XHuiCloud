@@ -1,19 +1,17 @@
 package com.zsinda.fdp.controller;
 
 import cn.hutool.core.util.StrUtil;
-import com.zsinda.fdp.annotation.SysLog;
+import com.zsinda.fdp.annotation.FdpLock;
 import com.zsinda.fdp.feign.SysUserServiceFeign;
 import com.zsinda.fdp.utils.R;
-import io.seata.spring.annotation.GlobalTransactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-
-import static com.zsinda.fdp.constant.AuthorizationConstants.IS_COMMING_INNER_YES;
 
 /**
  * @program: FDPlatform
@@ -30,6 +28,8 @@ public class AuthController {
     private final TokenStore tokenStore;
 
     private final SysUserServiceFeign sysUserServiceFeign;
+
+    private final RedisTemplate redisTemplate;
 
     /**
      * 认证页面
@@ -67,12 +67,21 @@ public class AuthController {
     }
 
     @GetMapping("/{id}")
-    @GlobalTransactional
-    @SysLog("测试111111")
+//    @SysLog("测试111111")
+    @FdpLock(value = "#id", isUserTryLock = true)
     public R user(@PathVariable String id){
         log.info("id+{}",id);
-        sysUserServiceFeign.user(IS_COMMING_INNER_YES);
-        return R.ok(1/0);
+        Object value = redisTemplate.opsForValue().get(id);
+        if (null==value){
+            redisTemplate.opsForValue().set(id,"123123123");
+        }
+        try {
+            Thread.sleep(10000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+//        sysUserServiceFeign.user(IS_COMMING_INNER_YES);
+        return R.ok(value);
     }
 
 

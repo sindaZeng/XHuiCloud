@@ -70,6 +70,12 @@
 
             <dependency>
                 <groupId>${project.groupId}</groupId>
+                <artifactId>FDP-common-Lock</artifactId>
+                <version>${FDPlatform.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>${project.groupId}</groupId>
                 <artifactId>FDP-common-core</artifactId>
                 <version>${FDPlatform.version}</version>
             </dependency>

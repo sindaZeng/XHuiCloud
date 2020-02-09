@@ -1,6 +1,6 @@
 package com.zsinda.fdp.operation;
 
-import com.zsinda.fdp.properties.RedissonProperties;
+import com.zsinda.fdp.properties.FdpRedisProperties;
 import lombok.AllArgsConstructor;
 import org.redisson.api.RBucket;
 import org.redisson.api.RedissonClient;
@@ -17,7 +17,7 @@ import java.util.concurrent.TimeUnit;
 public class RedissonObject {
 
     private final RedissonClient redisson;
-    private final RedissonProperties redissonProperties;
+    private final FdpRedisProperties fdpRedisProperties;
 
     /**
      * 获取对象值
@@ -50,7 +50,7 @@ public class RedissonObject {
      * @return
      */
     public <T> void setValue(String name, T value) {
-        setValue(name, value, redissonProperties.getDataValidTime());
+        setValue(name, value, fdpRedisProperties.getDataValidTime());
     }
 
     /**
@@ -97,7 +97,7 @@ public class RedissonObject {
      * @return true 设置成功,false 值存在,不设置
      */
     public <T> Boolean trySetValue(String name, T value) {
-        return trySetValue(name, value, redissonProperties.getDataValidTime());
+        return trySetValue(name, value, fdpRedisProperties.getDataValidTime());
     }
 
     /**

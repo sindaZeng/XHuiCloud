@@ -1,2 +1,4 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
   com.zsinda.fdp.config.RedissonAutoConfiguration
+org.springframework.boot.context.properties.EnableConfigurationProperties=\
+  com.zsinda.fdp.properties.FdpRedisProperties

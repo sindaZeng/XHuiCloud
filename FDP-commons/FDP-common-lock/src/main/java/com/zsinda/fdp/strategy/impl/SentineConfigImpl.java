@@ -1,11 +1,13 @@
 package com.zsinda.fdp.strategy.impl;
 
 import com.zsinda.fdp.enums.RedissonEnum;
-import com.zsinda.fdp.properties.RedissonProperties;
+import com.zsinda.fdp.properties.FdpRedisProperties;
 import com.zsinda.fdp.strategy.ConfigService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.redisson.config.Config;
+
+import java.util.List;
 
 /**
  * @program: FDPlatform
@@ -16,25 +18,24 @@ import org.redisson.config.Config;
 @Slf4j
 public class SentineConfigImpl implements ConfigService {
     @Override
-    public Config createConfig(RedissonProperties redissonProperties) {
+    public Config createConfig(FdpRedisProperties redisProperties) {
         Config config = new Config();
         try {
-            String address = redissonProperties.getAddress();
-            String password = redissonProperties.getPassword();
-            int database = redissonProperties.getDatabase();
-            String[] addrTokens = address.split(",");
-            String sentinelAliasName = addrTokens[0];
+            String password = redisProperties.getPassword();
+            int database = redisProperties.getDatabase();
+            List<String> nodes = redisProperties.getSentinel().getNodes();
             //设置redis配置文件sentinel.conf配置的sentinel别名
-            config.useSentinelServers().setMasterName(sentinelAliasName);
+            config.useSentinelServers().setMasterName(redisProperties.getSentinel().getMaster());
             config.useSentinelServers().setDatabase(database);
             if (StringUtils.isNotBlank(password)) {
                 config.useSentinelServers().setPassword(password);
             }
             //设置sentinel节点的服务IP和端口
-            for (int i = 1; i < addrTokens.length; i++) {
-                config.useSentinelServers().addSentinelAddress(RedissonEnum.REDIS_CONNECTION_PREFIX.getType() + addrTokens[i]);
-            }
-            log.info("初始化[哨兵部署]方式Config,redisAddress: [{}]",address);
+            nodes.forEach(node->{
+                config.useSentinelServers().addSentinelAddress(RedissonEnum.REDIS_CONNECTION_PREFIX.getType() + node);
+            });
+
+            log.info("初始化[哨兵部署]方式Config,redisAddress:{}",nodes);
         } catch (Exception e) {
             log.error("哨兵部署 Redisson init error", e);
 

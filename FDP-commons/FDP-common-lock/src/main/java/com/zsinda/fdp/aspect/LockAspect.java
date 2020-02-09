@@ -1,6 +1,8 @@
 package com.zsinda.fdp.aspect;
 
+import com.zsinda.fdp.FdpRedissonLock;
 import com.zsinda.fdp.annotation.FdpLock;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -8,14 +10,11 @@ import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.redisson.RedissonLock;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.expression.EvaluationContext;
 import org.springframework.expression.Expression;
 import org.springframework.expression.ExpressionParser;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
 import org.springframework.expression.spel.support.StandardEvaluationContext;
-import org.springframework.stereotype.Component;
 
 /**
  * @program: FDPlatform
@@ -23,13 +22,12 @@ import org.springframework.stereotype.Component;
  * @author: Sinda
  * @create: 2020-02-04 10:01
  */
-@Aspect
-@Component
 @Slf4j
+@Aspect
+@AllArgsConstructor
 public class LockAspect {
 
-    @Autowired
-    RedissonLock redissonLock;
+    private final FdpRedissonLock redissonLock;
 
     private final ExpressionParser PARSER = new SpelExpressionParser();
 
@@ -78,7 +76,6 @@ public class LockAspect {
         String methodName = signature.getName();
         if (StringUtils.isNotEmpty(key) && key.startsWith("#")) {
             Expression expression = PARSER.parseExpression(key);
-            // 参数
             Object[] arguments = joinPoint.getArgs();
             EvaluationContext context = new StandardEvaluationContext();
             MethodSignature methodSignature = (MethodSignature) signature;
