@@ -3,28 +3,19 @@ nacos:
 spring:
   application:
     name: FDP-upmm-business
+  profiles:
+    active: dev
   cloud:
     nacos:
+      discovery:
+        server-addr: ${nacos.address}
       config:
         server-addr: ${nacos.address}
         #后缀 yml
         file-extension: yml
         # 公共的配置文件
-        shared-dataids: application-common.yml
-    alibaba:
-      seata:
-        tx-service-group: fdp_tx_group
-  main:
-    allow-bean-definition-overriding: true
-  zipkin:
-    #设置zipkin的地址
-    base-url: http://localhost:9411/
-    #注意 如果不设置 nacos客户端会把这个当成服务名疯狂的从服务端获取此服务
-    discoveryClientEnabled: false
-  sleuth:
-    sampler:
-      #抽样率 默认是(10%) 生产环境请不要设置1.0
-      probability: 1.0
+        shared-configs:
+          - application-common.yml
 
 security:
   oauth2:
@@ -37,9 +28,3 @@ security:
         - /druid/**
     resource:
       token-info-uri: http://localhost:15000/FDP-auth/oauth/check_token #检查token是否有效的地址
-
-mybatis-plus:
-  global-config:
-    banner: false
-  configuration:
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

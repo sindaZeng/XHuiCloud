@@ -24,24 +24,24 @@
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
         </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>FDP-common-sentinel</artifactId>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>${project.groupId}</groupId>-->
+<!--            <artifactId>FDP-common-sentinel</artifactId>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>FDP-upmm-api</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>FDP-common-transaction</artifactId>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>${project.groupId}</groupId>-->
+<!--            <artifactId>FDP-common-transaction</artifactId>-->
+<!--        </dependency>-->
 
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>FDP-common-Lock</artifactId>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>${project.groupId}</groupId>-->
+<!--            <artifactId>FDP-common-Lock</artifactId>-->
+<!--        </dependency>-->
 
         <!--        调用链监控-->
         <!--        <dependency>-->

@@ -8,9 +8,12 @@ spring:
     name: FDP-gateway
   cloud:
     nacos:
-      discovery:
-        #nacos 地址
+      config:
         server-addr: ${nacos.address}
+        #后缀 yml
+        file-extension: yml
+        # 公共的配置文件
+        shared-configs: application-common.yml
     sentinel:
       transport:
         # sentinel 地址
