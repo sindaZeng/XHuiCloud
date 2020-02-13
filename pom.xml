@@ -23,7 +23,8 @@
         <spring-security.version>5.2.1.RELEASE</spring-security.version>
         <spring-boot.version>2.1.11.RELEASE</spring-boot.version>
         <spring-cloud.version>Greenwich.SR3</spring-cloud.version>
-        <spring-cloud-alibaba-dependencies.version>2.1.1.RELEASE</spring-cloud-alibaba-dependencies.version>
+<!--        <spring-cloud-alibaba-dependencies.version>2.1.1.RELEASE</spring-cloud-alibaba-dependencies.version>-->
+        <spring-cloud-alibaba-dependencies.version>2.2.0.RELEASE</spring-cloud-alibaba-dependencies.version>
         <seata.version>1.0.0</seata.version>
     </properties>
 

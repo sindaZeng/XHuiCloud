@@ -92,7 +92,7 @@ public class ClusterAssignController {
         try {
             return Result.ofSuccess(clusterAssignService.unbindClusterServers(app, machineIds));
         } catch (Throwable throwable) {
-            logger.error("Error when unbinding cluster server {} for app <{}>", machineIds, app, throwable);
+            logger.error("Error when unbinding cluster io.seata.server {} for app <{}>", machineIds, app, throwable);
             return Result.ofFail(-1, throwable.getMessage());
         }
     }

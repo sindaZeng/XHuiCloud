@@ -58,7 +58,7 @@ public class ClusterUniversalStateVO {
         return "ClusterUniversalStateVO{" +
             "stateInfo=" + stateInfo +
             ", client=" + client +
-            ", server=" + server +
+            ", io.seata.server=" + server +
             '}';
     }
 }

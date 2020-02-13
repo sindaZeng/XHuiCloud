@@ -75,8 +75,8 @@ public class FdpRedissonManager {
          */
         Config createConfig(FdpRedisProperties redisProperties) {
             Preconditions.checkNotNull(redisProperties);
-            Preconditions.checkNotNull(redisProperties.getType(), "redisson.lock.server.password cannot be NULL");
-            Preconditions.checkNotNull(redisProperties.getDatabase(), "redisson.lock.server.database cannot be NULL");
+            Preconditions.checkNotNull(redisProperties.getType(), "redisson.lock.io.seata.server.password cannot be NULL");
+            Preconditions.checkNotNull(redisProperties.getDatabase(), "redisson.lock.io.seata.server.database cannot be NULL");
             RedissonEnum redissonEnum = redisProperties.getType();
             String type = redissonEnum.getType();
             //声明配置上下文

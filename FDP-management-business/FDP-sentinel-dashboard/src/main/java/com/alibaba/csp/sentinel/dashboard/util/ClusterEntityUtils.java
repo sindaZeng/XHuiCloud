@@ -72,7 +72,7 @@ public final class ClusterEntityUtils {
                 if (tokenServerSet.contains(serverIp + ":" + serverPort)) {
                     continue;
                 }
-                // We are not able to get the commandPort of foreign token server directly.
+                // We are not able to get the commandPort of foreign token io.seata.server directly.
                 String serverId = String.format("%s:%d", serverIp, serverPort);
                 map.computeIfAbsent(serverId, v -> new AppClusterServerStateWrapVO()
                     .setId(serverId)

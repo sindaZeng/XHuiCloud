@@ -149,10 +149,10 @@ public class ClusterConfigController {
                 .thenApply(Result::ofSuccess)
                 .get();
         } catch (ExecutionException ex) {
-            logger.error("Error when fetching cluster server state of app: " + app, ex.getCause());
+            logger.error("Error when fetching cluster io.seata.server state of app: " + app, ex.getCause());
             return errorResponse(ex);
         } catch (Throwable throwable) {
-            logger.error("Error when fetching cluster server state of app: " + app, throwable);
+            logger.error("Error when fetching cluster io.seata.server state of app: " + app, throwable);
             return Result.ofFail(-1, throwable.getMessage());
         }
     }

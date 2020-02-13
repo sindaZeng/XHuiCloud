@@ -143,7 +143,7 @@ public class ClusterAssignServiceImpl implements ClusterAssignService {
         Set<String> failedServerSet = new HashSet<>();
         Set<String> failedClientSet = new HashSet<>();
 
-        // Assign server and apply config.
+        // Assign io.seata.server and apply config.
         clusterMap.stream()
             .filter(Objects::nonNull)
             .filter(ClusterAppAssignMap::getBelongToApp)

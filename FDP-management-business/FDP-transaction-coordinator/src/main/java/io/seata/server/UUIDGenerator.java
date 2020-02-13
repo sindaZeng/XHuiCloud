@@ -33,6 +33,7 @@ public class UUIDGenerator {
     private static final AtomicLong UUID = new AtomicLong(1000);
     private static int serverNodeId = 1;
     private static final long UUID_INTERNAL = 2000000000;
+    private static long initUUID = 0;
 
     /**
      * Generate uuid long.
@@ -41,7 +42,7 @@ public class UUIDGenerator {
      */
     public static long generateUUID() {
         long id = UUID.incrementAndGet();
-        if (id >= UUID_INTERNAL * (serverNodeId + 1)) {
+        if (id >= getMaxUUID()) {
             synchronized (UUID) {
                 if (UUID.get() >= id) {
                     id -= UUID_INTERNAL;
@@ -74,9 +75,27 @@ public class UUIDGenerator {
     }
 
     /**
+     * Gets max uuid.
+     *
+     * @return the max uuid
+     */
+    public static long getMaxUUID() {
+        return UUID_INTERNAL * (serverNodeId + 1);
+    }
+
+    /**
+     * Gets init uuid.
+     *
+     * @return the init uuid
+     */
+    public static long getInitUUID() {
+        return initUUID;
+    }
+
+    /**
      * Init.
      *
-     * @param serverNodeId the server node id
+     * @param serverNodeId the io.seata.server node id
      */
     public static void init(int serverNodeId) {
         try {
@@ -89,6 +108,7 @@ public class UUIDGenerator {
             long base = cal.getTimeInMillis();
             long current = System.currentTimeMillis();
             UUID.addAndGet((current - base) / 1000);
+            initUUID = getCurrentUUID();
         } catch (ParseException e) {
             throw new ShouldNeverHappenException(e);
         }

@@ -4,6 +4,7 @@ import cn.hutool.core.util.StrUtil;
 import com.zsinda.fdp.annotation.FdpLock;
 import com.zsinda.fdp.feign.SysUserServiceFeign;
 import com.zsinda.fdp.utils.R;
+import io.seata.spring.annotation.GlobalTransactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -12,6 +13,8 @@ import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import static com.zsinda.fdp.constant.AuthorizationConstants.IS_COMMING_INNER_YES;
 
 /**
  * @program: FDPlatform
@@ -69,6 +72,7 @@ public class AuthController {
     @GetMapping("/{id}")
 //    @SysLog("测试111111")
     @FdpLock(value = "#id", isUserTryLock = true)
+    @GlobalTransactional
     public R user(@PathVariable String id){
         log.info("id+{}",id);
         Object value = redisTemplate.opsForValue().get(id);
@@ -80,8 +84,8 @@ public class AuthController {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-//        sysUserServiceFeign.user(IS_COMMING_INNER_YES);
-        return R.ok(value);
+        sysUserServiceFeign.user(IS_COMMING_INNER_YES);
+        return R.ok(1/0);
     }
 
 

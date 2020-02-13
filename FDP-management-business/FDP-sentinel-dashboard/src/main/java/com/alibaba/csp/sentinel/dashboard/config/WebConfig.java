@@ -51,7 +51,7 @@ public class WebConfig implements WebMvcConfigurer {
     }
 
     /**
-     * Add {@link CommonFilter} to the server, this is the simplest way to use Sentinel
+     * Add {@link CommonFilter} to the io.seata.server, this is the simplest way to use Sentinel
      * for Web application.
      */
     @Bean

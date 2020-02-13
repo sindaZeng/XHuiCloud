@@ -39,7 +39,7 @@ import java.util.Map;
 /**
  * The type File based session manager.
  *
- * @author jimin.jm @alibaba-inc.com
+ * @author slievrly
  */
 @LoadLevel(name = "file")
 public class FileBasedSessionManager extends DefaultSessionManager implements Reloadable {

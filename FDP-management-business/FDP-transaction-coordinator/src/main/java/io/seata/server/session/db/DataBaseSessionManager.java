@@ -24,6 +24,7 @@ import io.seata.core.exception.TransactionException;
 import io.seata.core.model.BranchStatus;
 import io.seata.core.model.GlobalStatus;
 import io.seata.core.store.StoreMode;
+import io.seata.server.UUIDGenerator;
 import io.seata.server.session.*;
 import io.seata.server.store.TransactionStoreManager;
 import io.seata.server.store.TransactionStoreManager.LogOperation;
@@ -37,11 +38,10 @@ import java.util.List;
  * The Data base session manager.
  *
  * @author zhangsen
- * @data 2019 /4/4
  */
 @LoadLevel(name = "db")
 public class DataBaseSessionManager extends AbstractSessionManager
-    implements SessionManager, SessionLifecycleListener, Initialize {
+    implements SessionManager, SessionLifecycleListener, Initialize, Reloadable {
 
     /**
      * The constant LOGGER.
@@ -148,7 +148,12 @@ public class DataBaseSessionManager extends AbstractSessionManager
 
     @Override
     public GlobalSession findGlobalSession(String xid) {
-        return transactionStoreManager.readSession(xid);
+        return this.findGlobalSession(xid, true);
+    }
+
+    @Override
+    public GlobalSession findGlobalSession(String xid, boolean withBranchSessions) {
+        return transactionStoreManager.readSession(xid, withBranchSessions);
     }
 
     @Override
@@ -160,7 +165,7 @@ public class DataBaseSessionManager extends AbstractSessionManager
             return findGlobalSessions(new SessionCondition(new GlobalStatus[] {GlobalStatus.CommitRetrying}));
         } else if (SessionHolder.RETRY_ROLLBACKING_SESSION_MANAGER_NAME.equalsIgnoreCase(taskName)) {
             return findGlobalSessions(new SessionCondition(new GlobalStatus[] {GlobalStatus.RollbackRetrying,
-                GlobalStatus.TimeoutRollbacking, GlobalStatus.TimeoutRollbackRetrying}));
+                GlobalStatus.Rollbacking, GlobalStatus.TimeoutRollbacking, GlobalStatus.TimeoutRollbackRetrying}));
         } else {
             //all data
             return findGlobalSessions(new SessionCondition(new GlobalStatus[] {
@@ -177,4 +182,11 @@ public class DataBaseSessionManager extends AbstractSessionManager
         return transactionStoreManager.readSession(condition);
     }
 
+    @Override
+    public void reload() {
+        long maxSessionId = transactionStoreManager.getCurrentMaxSessionId();
+        if (maxSessionId > UUIDGenerator.getCurrentUUID()) {
+            UUIDGenerator.setUUID(UUIDGenerator.getCurrentUUID(), maxSessionId);
+        }
+    }
 }

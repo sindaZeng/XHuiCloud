@@ -21,6 +21,7 @@
         <module>FDP-common-transaction</module>
         <module>FDP-common-logger</module>
         <module>FDP-common-Lock</module>
+        <module>FDP-common-data</module>
     </modules>
 
 

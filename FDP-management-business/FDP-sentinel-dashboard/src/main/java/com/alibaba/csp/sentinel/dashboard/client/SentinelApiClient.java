@@ -93,12 +93,12 @@ public class SentinelApiClient {
     private static final String FETCH_CLUSTER_CLIENT_CONFIG_PATH = "cluster/client/fetchConfig";
     private static final String MODIFY_CLUSTER_CLIENT_CONFIG_PATH = "cluster/client/modifyConfig";
 
-    private static final String FETCH_CLUSTER_SERVER_ALL_CONFIG_PATH = "cluster/server/fetchConfig";
-    private static final String FETCH_CLUSTER_SERVER_BASIC_INFO_PATH = "cluster/server/info";
+    private static final String FETCH_CLUSTER_SERVER_ALL_CONFIG_PATH = "cluster/io.seata.server/fetchConfig";
+    private static final String FETCH_CLUSTER_SERVER_BASIC_INFO_PATH = "cluster/io.seata.server/info";
 
-    private static final String MODIFY_CLUSTER_SERVER_TRANSPORT_CONFIG_PATH = "cluster/server/modifyTransportConfig";
-    private static final String MODIFY_CLUSTER_SERVER_FLOW_CONFIG_PATH = "cluster/server/modifyFlowConfig";
-    private static final String MODIFY_CLUSTER_SERVER_NAMESPACE_SET_PATH = "cluster/server/modifyNamespaceSet";
+    private static final String MODIFY_CLUSTER_SERVER_TRANSPORT_CONFIG_PATH = "cluster/io.seata.server/modifyTransportConfig";
+    private static final String MODIFY_CLUSTER_SERVER_FLOW_CONFIG_PATH = "cluster/io.seata.server/modifyFlowConfig";
+    private static final String MODIFY_CLUSTER_SERVER_NAMESPACE_SET_PATH = "cluster/io.seata.server/modifyNamespaceSet";
 
     private static final String FETCH_GATEWAY_API_PATH = "gateway/getApiDefinitions";
     private static final String MODIFY_GATEWAY_API_PATH = "gateway/updateApiDefinitions";
@@ -114,7 +114,7 @@ public class SentinelApiClient {
     private CloseableHttpAsyncClient httpClient;
 
     private static final SentinelVersion version160 = new SentinelVersion(1, 6, 0);
-    
+
     @Autowired
     private AppManagement appManagement;
 
@@ -133,11 +133,11 @@ public class SentinelApiClient {
     private boolean isSuccess(int statusCode) {
         return statusCode >= 200 && statusCode < 300;
     }
-    
+
     private boolean isCommandNotFound(int statusCode, String body) {
         return statusCode == 400 && StringUtil.isNotEmpty(body) && body.contains(CommandConstants.MSG_UNKNOWN_COMMAND_PREFIX);
     }
-    
+
     private StringBuilder queryString(Map<String, String> params) {
         StringBuilder queryStringBuilder = new StringBuilder();
         for (Entry<String, String> entry : params.entrySet()) {
@@ -155,7 +155,7 @@ public class SentinelApiClient {
         }
         return queryStringBuilder;
     }
-    
+
     private HttpUriRequest postRequest(String url, Map<String, String> params) {
         HttpPost httpPost = new HttpPost(url);
         if (params != null && params.size() > 0) {
@@ -172,7 +172,7 @@ public class SentinelApiClient {
         }
         return httpPost;
     }
-    
+
     private String urlEncode(String str) {
         try {
             return URLEncoder.encode(str, DEFAULT_CHARSET.name());
@@ -181,7 +181,7 @@ public class SentinelApiClient {
             return null;
         }
     }
-    
+
     private String getBody(HttpResponse response) throws Exception {
         Charset charset = null;
         try {
@@ -194,10 +194,10 @@ public class SentinelApiClient {
         }
         return EntityUtils.toString(response.getEntity(), charset != null ? charset : DEFAULT_CHARSET);
     }
-    
+
     /**
      * With no param
-     * 
+     *
      * @param ip
      * @param port
      * @param api
@@ -206,10 +206,10 @@ public class SentinelApiClient {
     private CompletableFuture<String> executeCommand(String ip, int port, String api, boolean useHttpPost) {
         return executeCommand(ip, port, api, null, useHttpPost);
     }
-    
+
     /**
      * No app specified, force to GET
-     * 
+     *
      * @param ip
      * @param port
      * @param api
@@ -222,7 +222,7 @@ public class SentinelApiClient {
 
     /**
      * Prefer to execute request using POST
-     * 
+     *
      * @param app
      * @param ip
      * @param port
@@ -263,7 +263,7 @@ public class SentinelApiClient {
             return executeCommand(postRequest(urlBuilder.toString(), params));
         }
     }
-    
+
     private CompletableFuture<String> executeCommand(HttpUriRequest request) {
         CompletableFuture<String> future = new CompletableFuture<>();
         httpClient.execute(request, new FutureCallback<HttpResponse>() {
@@ -301,11 +301,11 @@ public class SentinelApiClient {
         });
         return future;
     }
-    
+
     public void close() throws Exception {
         httpClient.close();
     }
-    
+
     @Nullable
     private <T> CompletableFuture<List<T>> fetchItemsAsync(String ip, int port, String api, String type, Class<T> ruleType) {
         AssertUtil.notEmpty(ip, "Bad machine IP");
@@ -318,7 +318,7 @@ public class SentinelApiClient {
         return executeCommand(ip, port, api, params, false)
                 .thenApply(json -> JSON.parseArray(json, ruleType));
     }
-    
+
     @Nullable
     private <T> List<T> fetchItems(String ip, int port, String api, String type, Class<T> ruleType) {
         try {
@@ -338,11 +338,11 @@ public class SentinelApiClient {
             return null;
         }
     }
-    
+
     private <T extends Rule> List<T> fetchRules(String ip, int port, String type, Class<T> ruleType) {
         return fetchItems(ip, port, GET_RULES_PATH, type, ruleType);
     }
-    
+
     private boolean setRules(String app, String ip, int port, String type, List<? extends RuleEntity> entities) {
         if (entities == null) {
             return true;
@@ -623,12 +623,12 @@ public class SentinelApiClient {
                     if (CommandConstants.MSG_SUCCESS.equals(e)) {
                         return CompletableFuture.completedFuture(null);
                     } else {
-                        logger.warn("Error when modifying cluster server flow config: " + e);
+                        logger.warn("Error when modifying cluster io.seata.server flow config: " + e);
                         return AsyncUtils.newFailedFuture(new RuntimeException(e));
                     }
                 });
         } catch (Exception ex) {
-            logger.warn("Error when modifying cluster server flow config", ex);
+            logger.warn("Error when modifying cluster io.seata.server flow config", ex);
             return AsyncUtils.newFailedFuture(ex);
         }
     }
@@ -646,12 +646,12 @@ public class SentinelApiClient {
                     if (CommandConstants.MSG_SUCCESS.equals(e)) {
                         return CompletableFuture.completedFuture(null);
                     } else {
-                        logger.warn("Error when modifying cluster server transport config: " + e);
+                        logger.warn("Error when modifying cluster io.seata.server transport config: " + e);
                         return AsyncUtils.newFailedFuture(new RuntimeException(e));
                     }
                 });
         } catch (Exception ex) {
-            logger.warn("Error when modifying cluster server transport config", ex);
+            logger.warn("Error when modifying cluster io.seata.server transport config", ex);
             return AsyncUtils.newFailedFuture(ex);
         }
     }
@@ -668,12 +668,12 @@ public class SentinelApiClient {
                     if (CommandConstants.MSG_SUCCESS.equals(e)) {
                         return CompletableFuture.completedFuture(null);
                     } else {
-                        logger.warn("Error when modifying cluster server NamespaceSet", e);
+                        logger.warn("Error when modifying cluster io.seata.server NamespaceSet", e);
                         return AsyncUtils.newFailedFuture(new RuntimeException(e));
                     }
                 });
         } catch (Exception ex) {
-            logger.warn("Error when modifying cluster server NamespaceSet", ex);
+            logger.warn("Error when modifying cluster io.seata.server NamespaceSet", ex);
             return AsyncUtils.newFailedFuture(ex);
         }
     }

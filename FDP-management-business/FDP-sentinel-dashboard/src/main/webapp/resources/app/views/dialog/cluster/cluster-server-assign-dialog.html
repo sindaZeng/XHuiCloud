@@ -20,10 +20,10 @@
                         </div>
                         <div class="form-group" ng-if="serverAssignDialogData.serverData.belongToApp">
                             <label class="col-sm-2 control-label"
-                                   title="server 最大允许的总 QPS，注意 embedded 模式下不要设的太大">最大允许 QPS</label>
+                                   title="io.seata.server 最大允许的总 QPS，注意 embedded 模式下不要设的太大">最大允许 QPS</label>
                             <div class="col-sm-3">
                                 <input type="number" min="0" max="200000" class="form-control highlight-border"
-                                       ng-model='serverAssignDialogData.serverData.maxAllowedQps' placeholder='请输入 server 最大允许 QPS'/>
+                                       ng-model='serverAssignDialogData.serverData.maxAllowedQps' placeholder='请输入 io.seata.server 最大允许 QPS'/>
                             </div>
                         </div>
                     </div>
@@ -40,7 +40,7 @@
 
                             <div ng-if="serverAssignDialogData.serverData.serverType == 1">
                                 <div class="col-sm-6">
-                                    <p class="form-control-static text-primary" style="font-size: x-small;">若指定外部 server，请先在相应页面对外部 server 进行配置，然后在此页面指定。</p>
+                                    <p class="form-control-static text-primary" style="font-size: x-small;">若指定外部 io.seata.server，请先在相应页面对外部 io.seata.server 进行配置，然后在此页面指定。</p>
                                 </div>
                             </div>
                         </div>
@@ -62,10 +62,10 @@
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-2 control-label"
-                                       title="server 最大允许的总 QPS，注意 embedded 模式下不要设的太大">最大允许 QPS</label>
+                                       title="io.seata.server 最大允许的总 QPS，注意 embedded 模式下不要设的太大">最大允许 QPS</label>
                                 <div class="col-sm-3">
                                     <input type="number" min="0" max="200000" class="form-control highlight-border"
-                                           ng-model='serverAssignDialogData.serverData.maxAllowedQps' placeholder='请输入 server 最大允许 QPS'/>
+                                           ng-model='serverAssignDialogData.serverData.maxAllowedQps' placeholder='请输入 io.seata.server 最大允许 QPS'/>
                                 </div>
                             </div>
                         </div>

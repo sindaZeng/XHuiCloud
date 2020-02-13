@@ -32,7 +32,6 @@ import java.util.List;
  * The type Data base locker.
  *
  * @author zhangsen
- * @data 2019 -05-15
  */
 @LoadLevel(name = "db")
 public class DataBaseLocker extends AbstractLocker {
@@ -66,7 +65,7 @@ public class DataBaseLocker extends AbstractLocker {
         } catch (StoreException e) {
             throw e;
         } catch (Exception t) {
-            LOGGER.error("AcquireLock error, locks:" + CollectionUtils.toString(locks), t);
+            LOGGER.error("AcquireLock error, locks:{}", CollectionUtils.toString(locks), t);
             return false;
         }
     }
@@ -82,7 +81,35 @@ public class DataBaseLocker extends AbstractLocker {
         } catch (StoreException e) {
             throw e;
         } catch (Exception t) {
-            LOGGER.error("unLock error, locks:" + CollectionUtils.toString(locks), t);
+            LOGGER.error("unLock error, locks:{}", CollectionUtils.toString(locks), t);
+            return false;
+        }
+    }
+
+    @Override
+    public boolean releaseLock(String xid, Long branchId) {
+        try {
+            return lockStore.unLock(xid, branchId);
+        } catch (StoreException e) {
+            throw e;
+        } catch (Exception t) {
+            LOGGER.error("unLock by branchId error, xid {}, branchId:{}", xid, branchId, t);
+            return false;
+        }
+    }
+
+    @Override
+    public boolean releaseLock(String xid, List<Long> branchIds) {
+        if (CollectionUtils.isEmpty(branchIds)) {
+            //no lock
+            return true;
+        }
+        try {
+            return lockStore.unLock(xid, branchIds);
+        } catch (StoreException e) {
+            throw e;
+        } catch (Exception t) {
+            LOGGER.error("unLock by branchIds error, xid {}, branchIds:{}", xid, CollectionUtils.toString(branchIds), t);
             return false;
         }
     }
@@ -94,7 +121,7 @@ public class DataBaseLocker extends AbstractLocker {
         } catch (DataAccessException e) {
             throw e;
         } catch (Exception t) {
-            LOGGER.error("isLockable error, locks:" + CollectionUtils.toString(locks), t);
+            LOGGER.error("isLockable error, locks:{}", CollectionUtils.toString(locks), t);
             return false;
         }
     }

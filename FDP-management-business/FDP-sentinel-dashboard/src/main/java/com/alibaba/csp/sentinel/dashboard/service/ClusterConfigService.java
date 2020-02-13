@@ -140,7 +140,7 @@ public class ClusterConfigService {
                 .filter(e1 -> e1.getMachineId().equals(machineId))
                 .findAny()
                 .map(CompletableFuture::completedFuture)
-                .orElse(AsyncUtils.newFailedFuture(new IllegalStateException("not a server: " + machineId)))
+                .orElse(AsyncUtils.newFailedFuture(new IllegalStateException("not a io.seata.server: " + machineId)))
             );
     }
 
