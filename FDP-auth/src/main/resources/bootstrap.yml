@@ -27,6 +27,3 @@ spring:
 #      enable: true #需要分布式锁的话，请打开
 #    type: CLUSTER
 
-
-
-

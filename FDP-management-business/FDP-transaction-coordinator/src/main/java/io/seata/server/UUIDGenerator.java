@@ -95,7 +95,7 @@ public class UUIDGenerator {
     /**
      * Init.
      *
-     * @param serverNodeId the io.seata.server node id
+     * @param serverNodeId the server node id
      */
     public static void init(int serverNodeId) {
         try {

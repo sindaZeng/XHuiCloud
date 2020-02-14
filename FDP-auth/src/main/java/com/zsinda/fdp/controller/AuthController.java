@@ -3,9 +3,9 @@ package com.zsinda.fdp.controller;
 import cn.hutool.core.util.StrUtil;
 import com.zsinda.fdp.feign.SysUserServiceFeign;
 import com.zsinda.fdp.utils.R;
+import io.seata.spring.annotation.GlobalTransactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
@@ -13,9 +13,6 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.sql.DataSource;
-
-import java.sql.Connection;
 import java.sql.SQLException;
 
 import static com.zsinda.fdp.constant.AuthorizationConstants.IS_COMMING_INNER_YES;
@@ -73,13 +70,10 @@ public class AuthController {
         return R.ok(Boolean.TRUE);
     }
 
-    @Autowired
-    private DataSource dataSource;
-
     @GetMapping("/test")
 //    @SysLog("测试111111")
 //    @FdpLock(value = "#id", isUserTryLock = true)
-//    @GlobalTransactional
+    @GlobalTransactional
     public R user() throws SQLException {
 //        log.info("id+{}",id);
 //        Object value = redisTemplate.opsForValue().get(id);
@@ -91,7 +85,6 @@ public class AuthController {
 //        } catch (InterruptedException e) {
 //            e.printStackTrace();
 //        }
-        Connection connection = dataSource.getConnection();
         sysUserServiceFeign.user(IS_COMMING_INNER_YES);
 //        return R.ok(1/0);
         return R.ok(true);

@@ -1,2 +1,2 @@
-io.seata.server.fdpLock.memory.MemoryLocker
-io.seata.server.fdpLock.db.DataBaseLocker
+io.seata.server.lock.memory.MemoryLocker
+io.seata.server.lock.db.DataBaseLocker

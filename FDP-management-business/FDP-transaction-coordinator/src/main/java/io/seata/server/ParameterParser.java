@@ -43,7 +43,7 @@ public class ParameterParser {
     private static final Logger LOGGER = LoggerFactory.getLogger(ParameterParser.class);
 
     private static final String PROGRAM_NAME
-        = "sh seata-io.seata.server.sh(for linux and mac) or cmd seata-io.seata.server.bat(for windows)";
+        = "sh seata-server.sh(for linux and mac) or cmd seata-server.bat(for windows)";
 
     private static final int SERVER_DEFAULT_PORT = 8091;
     private static final String SERVER_DEFAULT_STORE_MODE = "file";
@@ -65,7 +65,7 @@ public class ParameterParser {
     private int port = SERVER_DEFAULT_PORT;
     @Parameter(names = {"--storeMode", "-m"}, description = "log store mode : file, db", order = 3)
     private String storeMode;
-    @Parameter(names = {"--serverNode", "-n"}, description = "io.seata.server node id, such as 1, 2, 3. default is 1", order = 4)
+    @Parameter(names = {"--serverNode", "-n"}, description = "server node id, such as 1, 2, 3. default is 1", order = 4)
     private int serverNode = SERVER_DEFAULT_NODE;
     @Parameter(names = {"--seataEnv", "-e"}, description = "The name used for multi-configuration isolation.",
         order = 5)
@@ -86,7 +86,7 @@ public class ParameterParser {
 
             if (inContainer) {
                 if (LOGGER.isInfoEnabled()) {
-                    LOGGER.info("The io.seata.server is running in container.");
+                    LOGGER.info("The server is running in container.");
                 }
 
                 this.seataEnv = StringUtils.trimToNull(System.getenv(ENV_SYSTEM_KEY));
@@ -177,9 +177,9 @@ public class ParameterParser {
     }
 
     /**
-     * Gets io.seata.server node.
+     * Gets server node.
      *
-     * @return the io.seata.server node
+     * @return the server node
      */
     public int getServerNode() {
         return serverNode;
