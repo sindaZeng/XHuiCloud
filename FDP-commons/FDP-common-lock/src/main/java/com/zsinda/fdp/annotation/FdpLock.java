@@ -30,6 +30,11 @@ public @interface FdpLock {
     int leaseTime() default 20;
 
     /**
+     * 锁的等待时间,单位秒
+     */
+    long waitTime() default 30L;
+
+    /**
      * lock()方法是一个无条件的锁
      * tryLock()方法只有在成功获取了锁的情况下才会返回true，
      * 如果别的线程当前正持有锁，则会立即返回false！如果为这个方法加上timeout参数，

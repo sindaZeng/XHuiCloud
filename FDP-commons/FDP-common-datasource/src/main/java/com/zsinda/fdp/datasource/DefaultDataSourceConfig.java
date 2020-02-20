@@ -12,9 +12,5 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 @Slf4j
 @ConditionalOnMissingBean(DynamicDataSourceConfig.class)
 public class DefaultDataSourceConfig {
-
-
-
-
 }
 

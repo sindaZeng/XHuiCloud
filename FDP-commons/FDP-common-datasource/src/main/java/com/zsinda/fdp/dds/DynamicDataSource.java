@@ -13,8 +13,6 @@ import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
 @Slf4j
 public class DynamicDataSource extends AbstractRoutingDataSource {
 
-
-
     /**
      * 数据源路由，选取的数据源逻辑名称
      */

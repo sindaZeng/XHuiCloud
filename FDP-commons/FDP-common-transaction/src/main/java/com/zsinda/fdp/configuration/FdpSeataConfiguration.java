@@ -28,8 +28,7 @@ public class FdpSeataConfiguration implements BeanPostProcessor {
     @Override
     public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
         if (bean instanceof DataSource){
-            DataSource dataSource= (DataSource) bean;
-            return new DataSourceProxy(dataSource);
+            return new DataSourceProxy((DataSource) bean);
         }
         return bean;
     }

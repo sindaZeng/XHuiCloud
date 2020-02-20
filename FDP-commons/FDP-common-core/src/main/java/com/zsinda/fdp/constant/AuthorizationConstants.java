@@ -26,11 +26,30 @@ public interface AuthorizationConstants {
      */
     String FROM = "from";
 
-
     /**
      * 用户锁定
      */
     String USER_IS_LOCK = "1";
+
+    /**
+     * 用户ID
+     */
+    String USER_ID = "user_id";
+
+    /**
+     * 用户名称
+     */
+    String USER_NAME = "username";
+
+    /**
+     * 资源服务器默认bean名称
+     */
+    String RESOURCE_SERVER_CONFIGURER = "resourceServerConfigurerAdapter";
+
+    /**
+     * 客户端模式
+     */
+    String CLIENT_CREDENTIALS = "client_credentials";
 
     String CLIENT_FIELDS_FOR_UPDATE = "resource_ids, scope, "
             + "authorized_grant_types, web_server_redirect_uri, authorities, access_token_validity, "

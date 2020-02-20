@@ -31,6 +31,5 @@ public abstract class AbstractAuthenticationSuccessEventHandler implements Appli
         }
     }
 
-
     public abstract void handle(Authentication authentication, HttpServletRequest request, HttpServletResponse response);
 }

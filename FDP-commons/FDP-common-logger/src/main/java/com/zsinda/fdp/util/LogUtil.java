@@ -2,6 +2,7 @@ package com.zsinda.fdp.util;
 
 import cn.hutool.core.util.URLUtil;
 import cn.hutool.extra.servlet.ServletUtil;
+import com.google.common.net.HttpHeaders;
 import com.zsinda.fdp.constant.CommonConstants;
 import com.zsinda.fdp.entity.SysLog;
 import lombok.experimental.UtilityClass;
@@ -25,8 +26,6 @@ import java.util.Objects;
 @UtilityClass
 public class LogUtil {
 
-
-
     public SysLog getSysLog() {
         HttpServletRequest request = ((ServletRequestAttributes) Objects
                 .requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
@@ -36,7 +35,7 @@ public class LogUtil {
         sysLog.setRequestIp(ServletUtil.getClientIP(request));
         sysLog.setRequestUri(URLUtil.getPath(request.getRequestURI()));
         sysLog.setHttpMethod(request.getMethod());
-        sysLog.setUserAgent(request.getHeader("user-agent"));
+        sysLog.setUserAgent(request.getHeader(HttpHeaders.USER_AGENT));
         sysLog.setCreateTime(LocalDateTime.now());
         return sysLog;
     }

@@ -42,7 +42,6 @@ public class MobileCodeAuthenticationProvider implements AuthenticationProvider{
         return mobileCodeAuthenticationToken;
     }
 
-
     /**
      * AuthenticationProvider中的supports来表明支持什么样的MobileCodeAuthenticationToken
      * @param authenticationToken

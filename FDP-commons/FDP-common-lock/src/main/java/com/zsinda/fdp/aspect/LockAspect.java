@@ -2,6 +2,7 @@ package com.zsinda.fdp.aspect;
 
 import com.zsinda.fdp.FdpRedissonLock;
 import com.zsinda.fdp.annotation.FdpLock;
+import jodd.util.StringPool;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -42,7 +43,7 @@ public class LockAspect {
         if (!fdpLock.isUserTryLock()) {
             redissonLock.lock(lockName, leaseTime);
         } else {
-            lockFlag = redissonLock.tryLock(lockName, leaseTime, 30L);
+            lockFlag = redissonLock.tryLock(lockName, leaseTime, fdpLock.waitTime());
         }
         try {
             log.info("获取Redis分布式锁[成功]，加锁完成，开始执行业务逻辑...");
@@ -73,8 +74,9 @@ public class LockAspect {
         String key = fdpLock.value();
         String keyPrefix = fdpLock.prefix();
         Signature signature = joinPoint.getSignature();
+
         String methodName = signature.getName();
-        if (StringUtils.isNotEmpty(key) && key.startsWith("#")) {
+        if (StringUtils.isNotEmpty(key) && key.startsWith(StringPool.HASH)) {
             Expression expression = PARSER.parseExpression(key);
             Object[] arguments = joinPoint.getArgs();
             EvaluationContext context = new StandardEvaluationContext();
@@ -89,7 +91,7 @@ public class LockAspect {
             key=methodName.toUpperCase();
         }
         if (StringUtils.isBlank(keyPrefix)){
-            keyPrefix+=methodName.toUpperCase()+"-";
+            keyPrefix+=methodName.toUpperCase()+StringPool.DASH;
         }
         return keyPrefix+key;
     }

@@ -18,8 +18,6 @@ import javax.servlet.http.HttpServletResponse;
  */
 public abstract class AbstractAuthenticationFailureEvenHandler implements ApplicationListener<AbstractAuthenticationFailureEvent> {
 
-
-
     @Override
     public void onApplicationEvent(AbstractAuthenticationFailureEvent event) {
         ServletRequestAttributes requestAttributes = (ServletRequestAttributes)

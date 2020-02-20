@@ -35,14 +35,13 @@ public class FdpWebResponseExceptionTranslator implements WebResponseExceptionTr
         // Try to extract a SpringSecurityException from the stacktrace
         Throwable[] causeChain = throwableAnalyzer.determineCauseChain(e);
 
-        Exception ase = (OAuth2Exception) throwableAnalyzer.getFirstThrowableOfType(OAuth2Exception.class, causeChain);
+        Exception ase;
 
         ase = (AuthenticationException) throwableAnalyzer.getFirstThrowableOfType(AuthenticationException.class,
                 causeChain);
         if (ase != null) {
             return handleOAuth2Exception(new UnauthorizedException(e.getMessage(), e));
         }
-
 
         ase = (InvalidGrantException) throwableAnalyzer
                 .getFirstThrowableOfType(InvalidGrantException.class, causeChain);
@@ -63,16 +62,15 @@ public class FdpWebResponseExceptionTranslator implements WebResponseExceptionTr
         }
 
         return handleOAuth2Exception(new ServerErrorException(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(), e));
-
     }
 
     private ResponseEntity<OAuth2Exception> handleOAuth2Exception(OAuth2Exception e) {
         int status = e.getHttpErrorCode();
         HttpHeaders headers = new HttpHeaders();
-        headers.set("Cache-Control", "no-store");
-        headers.set("Pragma", "no-cache");
+        headers.set(HttpHeaders.CACHE_CONTROL, "no-store");
+        headers.set(HttpHeaders.PRAGMA, "no-cache");
         if (status == HttpStatus.UNAUTHORIZED.value() || (e instanceof InsufficientScopeException)) {
-            headers.set("WWW-Authenticate", String.format("%s %s", OAuth2AccessToken.BEARER_TYPE, e.getSummary()));
+            headers.set(HttpHeaders.WWW_AUTHENTICATE, String.format("%s %s", OAuth2AccessToken.BEARER_TYPE, e.getSummary()));
         }
         // 客户端异常直接返回
         if (e instanceof ClientAuthenticationException) {

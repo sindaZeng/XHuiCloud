@@ -12,4 +12,5 @@ import org.redisson.config.Config;
 public interface ConfigService {
 
     Config createConfig(FdpRedisProperties fdpRedisProperties);
+    
 }
