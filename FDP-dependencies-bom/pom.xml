@@ -98,6 +98,12 @@
                 <version>${knife4j.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>com.github.xiaoymin</groupId>
+                <artifactId>knife4j-spring-ui</artifactId>
+                <version>${knife4j.version}</version>
+            </dependency>
+
             <!--mybatis-->
             <dependency>
                 <groupId>com.baomidou</groupId>

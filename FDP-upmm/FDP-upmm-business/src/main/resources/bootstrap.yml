@@ -22,9 +22,9 @@ security:
     client:
       client-id: FDP-upmm-business
       client-secret: 123456
-      access-token-uri: http://localhost:15000/FDP-auth/oauth/token  #请求令牌的地址
-      user-authorization-uri: http://localhost:15000/FDP-auth/oauth/authorize #对用户授权的地址
-      ignore-urls:
-        - /druid/**
-    resource:
-      token-info-uri: http://localhost:15000/FDP-auth/oauth/check_token #检查token是否有效的地址
+#      access-token-uri: http://localhost:15000/FDP-auth/oauth/token  #请求令牌的地址
+#      user-authorization-uri: http://localhost:15000/FDP-auth/oauth/authorize #对用户授权的地址
+#      ignore-urls:
+#        - /druid/**
+#    resource:
+#      token-info-uri: http://localhost:15000/FDP-auth/oauth/check_token #检查token是否有效的地址

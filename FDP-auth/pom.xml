@@ -34,10 +34,15 @@
             <artifactId>FDP-common-transaction</artifactId>
         </dependency>
 
-<!--        <dependency>-->
-<!--            <groupId>${project.groupId}</groupId>-->
-<!--            <artifactId>FDP-common-Lock</artifactId>-->
-<!--        </dependency>-->
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>FDP-common-swagger</artifactId>
+        </dependency>
+
+        <!--        <dependency>-->
+        <!--            <groupId>${project.groupId}</groupId>-->
+        <!--            <artifactId>FDP-common-Lock</artifactId>-->
+        <!--        </dependency>-->
 
         <!--        调用链监控-->
         <!--        <dependency>-->

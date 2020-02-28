@@ -4,6 +4,9 @@ import cn.hutool.core.util.StrUtil;
 import com.zsinda.fdp.feign.SysUserServiceFeign;
 import com.zsinda.fdp.utils.R;
 import io.seata.spring.annotation.GlobalTransactional;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -27,6 +30,7 @@ import static com.zsinda.fdp.constant.AuthorizationConstants.IS_COMMING_INNER_YE
 @RestController
 @RequestMapping("/token")
 @AllArgsConstructor
+@Api(value = "auth", tags = "认证模块")
 public class AuthController {
 
     private final TokenStore tokenStore;
@@ -70,12 +74,14 @@ public class AuthController {
         return R.ok(Boolean.TRUE);
     }
 
-    @GetMapping("/test")
+    @GetMapping("/test/{id}")
 //    @SysLog("测试111111")
 //    @FdpLock(value = "#id", isUserTryLock = true)
     @GlobalTransactional
-    public R user() throws SQLException {
-//        log.info("id+{}",id);
+    @ApiOperation(value = "test", notes = "测试")
+    @ApiImplicitParam(name = "id", value = "用户ID", required = true, dataType = "int", paramType = "path")
+    public R user(@PathVariable Integer id) throws SQLException {
+        log.info("id+{}",id);
 //        Object value = redisTemplate.opsForValue().get(id);
 //        if (null==value){
 //            redisTemplate.opsForValue().set(id,"123123123");
