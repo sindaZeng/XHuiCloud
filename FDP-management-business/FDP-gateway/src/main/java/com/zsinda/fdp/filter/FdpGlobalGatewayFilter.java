@@ -13,6 +13,7 @@ import reactor.core.publisher.Mono;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
+import static com.zsinda.fdp.constant.AuthorizationConstants.FROM;
 import static org.springframework.cloud.gateway.support.ServerWebExchangeUtils.GATEWAY_REQUEST_URL_ATTR;
 import static org.springframework.cloud.gateway.support.ServerWebExchangeUtils.addOriginalRequestUrl;
 
@@ -24,13 +25,13 @@ import static org.springframework.cloud.gateway.support.ServerWebExchangeUtils.a
  */
 @Slf4j
 @Component
-public class FdpGlobalGatewayFilter implements GlobalFilter, Ordered {
+public class  FdpGlobalGatewayFilter implements GlobalFilter, Ordered {
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         // 删除from 参数
         ServerHttpRequest request = exchange.getRequest().mutate()
-                .headers(httpHeaders -> httpHeaders.remove("from"))
+                .headers(httpHeaders -> httpHeaders.remove(FROM))
                 .build();
         // 保留原始url
         addOriginalRequestUrl(exchange, request.getURI());

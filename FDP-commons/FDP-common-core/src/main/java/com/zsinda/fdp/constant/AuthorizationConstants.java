@@ -9,17 +9,17 @@ public interface AuthorizationConstants {
     /**
      * 角色前缀
      */
-    String ROLE_PREFIX ="ROLE_";
+    String ROLE_PREFIX = "ROLE_";
 
     /**
      * 是来自内部服务调用
      */
-    String IS_COMMING_INNER_YES ="Y";
+    String IS_COMMING_INNER_YES = "Y";
 
     /**
      * 不是来自内部服务调用
      */
-    String IS_COMMING_INNER_NO ="N";
+    String IS_COMMING_INNER_NO = "N";
 
     /**
      * 标志

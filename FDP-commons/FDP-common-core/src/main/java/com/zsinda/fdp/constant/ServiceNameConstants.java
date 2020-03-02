@@ -6,10 +6,9 @@ package com.zsinda.fdp.constant;
  */
 public interface ServiceNameConstants {
 
-	/**
-	 * UMPS模块
-	 */
-	String FDP_UPMM_BUSINESS = "FDP-upmm-business";
-
+    /**
+     * UMPS模块
+     */
+    String FDP_UPMM_BUSINESS = "FDP-upmm-business";
 
 }
