@@ -5,6 +5,7 @@ import com.google.common.base.Predicates;
 import com.zsinda.fdp.properties.SwaggerProperties;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;
@@ -30,6 +31,7 @@ import java.util.List;
 @Configuration
 @EnableSwagger2
 @EnableAutoConfiguration
+@ConditionalOnProperty(name = "swagger.enabled", matchIfMissing = true)
 public class SwaggerConfiguration {
 
     /**

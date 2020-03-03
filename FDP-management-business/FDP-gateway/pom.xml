@@ -13,6 +13,12 @@
     <description>网关</description>
 
     <dependencies>
+
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>FDP-common-gateway</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-gateway</artifactId>
@@ -31,14 +37,6 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-redis-reactive</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.zsinda</groupId>
-            <artifactId>FDP-common-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
         <!--接口文档-->
@@ -53,6 +51,10 @@
         <dependency>
             <groupId>com.github.xiaoymin</groupId>
             <artifactId>knife4j-spring-ui</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.zsinda</groupId>
+            <artifactId>FDP-upmm-api</artifactId>
         </dependency>
     </dependencies>
 </project>

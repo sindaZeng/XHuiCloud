@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.RequestHeader;
 
 import static com.zsinda.fdp.constant.AuthorizationConstants.FROM;
 
-@FeignClient(contextId = "sysUserServiceFeign", value = ServiceNameConstants.FDP_UPMM_BUSINESS)
+@FeignClient(contextId = SysUserServiceFeign.SYSUSERSERVICEFEIGN, value = ServiceNameConstants.FDP_UPMM_BUSINESS)
 public interface SysUserServiceFeign {
+
+    String SYSUSERSERVICEFEIGN = "sysUserServiceFeign";
 
     @GetMapping("/user/getSysUser/{userName}")
     R<UserInfo> getSysUser(@PathVariable("userName") String userName, @RequestHeader(FROM) String from);

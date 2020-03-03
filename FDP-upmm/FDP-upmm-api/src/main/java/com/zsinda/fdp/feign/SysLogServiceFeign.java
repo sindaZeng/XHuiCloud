@@ -10,8 +10,10 @@ import org.springframework.web.bind.annotation.RequestHeader;
 
 import static com.zsinda.fdp.constant.AuthorizationConstants.FROM;
 
-@FeignClient(contextId = "sysLogServiceFeign", value = ServiceNameConstants.FDP_UPMM_BUSINESS)
+@FeignClient(contextId = SysLogServiceFeign.SYSLOGSERVICEFEIGN, value = ServiceNameConstants.FDP_UPMM_BUSINESS)
 public interface SysLogServiceFeign {
+
+    String SYSLOGSERVICEFEIGN = "sysLogServiceFeign";
 
     @PostMapping("/log/save")
     R save(@RequestBody SysLog sysLog,@RequestHeader(FROM) String from);

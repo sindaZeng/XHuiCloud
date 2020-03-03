@@ -4,6 +4,8 @@ server:
 nacos:
   address: 127.0.0.1:13000
 spring:
+  main:
+    allow-bean-definition-overriding: true
   application:
     name: FDP-gateway
   cloud:
@@ -25,7 +27,6 @@ spring:
         locator:
           #通过nacos找到注册的其他微服务 调用方式 http://Gateway ip:Gateway port/目标服务名/ +uri
           enabled: true
-      routes:
 ignore:
   swagger-providers:
     - FDP-auth

@@ -7,12 +7,14 @@ import com.zsinda.fdp.entity.SysUser;
 import com.zsinda.fdp.service.SysUserService;
 import com.zsinda.fdp.utils.R;
 import com.zsinda.fdp.utils.SpringSecurityUtils;
+import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/user")
 @AllArgsConstructor
+@Api(value = "user",tags = "用户管理模块")
 public class SysUserController {
 
     private final SysUserService sysUserService;

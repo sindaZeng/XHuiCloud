@@ -5,8 +5,6 @@ import com.zsinda.fdp.feign.SysUserServiceFeign;
 import com.zsinda.fdp.utils.R;
 import io.seata.spring.annotation.GlobalTransactional;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -17,8 +15,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.sql.SQLException;
-
-import static com.zsinda.fdp.constant.AuthorizationConstants.IS_COMMING_INNER_YES;
 
 /**
  * @program: FDPlatform
@@ -38,6 +34,7 @@ public class AuthController {
     private final SysUserServiceFeign sysUserServiceFeign;
 
     private final RedisTemplate redisTemplate;
+
 
     /**
      * 认证页面
@@ -78,8 +75,6 @@ public class AuthController {
 //    @SysLog("测试111111")
 //    @FdpLock(value = "#id", isUserTryLock = true)
     @GlobalTransactional
-    @ApiOperation(value = "test", notes = "测试")
-    @ApiImplicitParam(name = "id", value = "用户ID", required = true, dataType = "int", paramType = "path")
     public R user(@PathVariable Integer id) throws SQLException {
         log.info("id+{}",id);
 //        Object value = redisTemplate.opsForValue().get(id);
@@ -91,7 +86,7 @@ public class AuthController {
 //        } catch (InterruptedException e) {
 //            e.printStackTrace();
 //        }
-        sysUserServiceFeign.user(IS_COMMING_INNER_YES);
+//        sysUserServiceFeign.user(IS_COMMING_INNER_YES);
 //        return R.ok(1/0);
         return R.ok(true);
     }

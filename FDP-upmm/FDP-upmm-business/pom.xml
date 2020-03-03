@@ -17,6 +17,10 @@
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
+            <artifactId>FDP-common-gateway</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
             <artifactId>FDP-common-datasource</artifactId>
         </dependency>
         <dependency>
@@ -47,14 +51,9 @@
 <!--            <groupId>org.springframework.cloud</groupId>-->
 <!--            <artifactId>spring-cloud-starter-zipkin</artifactId>-->
 <!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>com.zsinda</groupId>-->
-<!--            <artifactId>FDP-common-swagger</artifactId>-->
-<!--        </dependency>-->
-<!--        redis 响应式编程-->
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-redis-reactive</artifactId>
+            <groupId>com.zsinda</groupId>
+            <artifactId>FDP-common-swagger</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

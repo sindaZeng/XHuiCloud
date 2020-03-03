@@ -7,19 +7,20 @@ import com.zsinda.fdp.entity.SysRole;
 import com.zsinda.fdp.service.SysRoleMenuService;
 import com.zsinda.fdp.service.SysRoleService;
 import com.zsinda.fdp.utils.R;
-import org.springframework.beans.factory.annotation.Autowired;
+import io.swagger.annotations.Api;
+import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/role")
+@AllArgsConstructor
+@Api(value = "role",tags = "角色管理模块")
 public class SysRoleController {
 
-    @Autowired
-    private SysRoleService sysRoleService;
-    @Autowired
-    private SysRoleMenuService sysRoleMenuService;
+    private final SysRoleService sysRoleService;
+    private final SysRoleMenuService sysRoleMenuService;
 
     /**
      * 分页查询角色列表

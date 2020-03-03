@@ -8,6 +8,7 @@ import com.zsinda.fdp.utils.R;
 import com.zsinda.fdp.utils.SpringSecurityUtils;
 import com.zsinda.fdp.utils.TreeUtil;
 import com.zsinda.fdp.vo.MenuVO;
+import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,6 +30,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/menu")
 @AllArgsConstructor
+@Api(value = "menu",tags = "菜单管理模块")
 public class SysMenuController {
 
     private final SysMenuService sysMenuService;

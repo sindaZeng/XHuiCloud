@@ -21,11 +21,8 @@
         <maven.resource.plugin.version>3.1.0</maven.resource.plugin.version>
         <FDPlatform.version>1.0.0</FDPlatform.version>
         <spring-security.version>5.2.1.RELEASE</spring-security.version>
-<!--        <spring-boot.version>2.1.11.RELEASE</spring-boot.version>-->
         <spring-boot.version>2.2.2.RELEASE</spring-boot.version>
-<!--        <spring-cloud.version>Greenwich.SR3</spring-cloud.version>-->
         <spring-cloud.version>Hoxton.SR1</spring-cloud.version>
-<!--        <spring-cloud-alibaba-dependencies.version>2.1.1.RELEASE</spring-cloud-alibaba-dependencies.version>-->
         <spring-cloud-alibaba-dependencies.version>2.2.0.RELEASE</spring-cloud-alibaba-dependencies.version>
         <seata.version>1.0.0</seata.version>
     </properties>
@@ -37,10 +34,16 @@
             <artifactId>lombok</artifactId>
             <scope>provided</scope>
         </dependency>
+        <!--配置文件处理器-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>
             <optional>true</optional>
+        </dependency>
+        <!--监控-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
     </dependencies>
 

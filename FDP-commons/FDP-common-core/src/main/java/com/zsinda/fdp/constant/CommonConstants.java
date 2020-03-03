@@ -28,4 +28,18 @@ public interface CommonConstants {
      */
     String LOG_EX_TYPE = "1";
 
+    /**
+     * 路由key
+     */
+    String ROUTE_KEY = "gateway_route_key";
+
+    /**
+     * redis reload 事件
+     */
+    String ROUTE_REDIS_RELOAD_TOPIC = "gateway_redis_route_reload_topic";
+
+    /**
+     * 内存reload 时间
+     */
+    String ROUTE_JVM_RELOAD_TOPIC = "gateway_jvm_route_reload_topic";
 }
