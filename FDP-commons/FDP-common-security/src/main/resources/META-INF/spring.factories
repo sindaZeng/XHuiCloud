@@ -1,3 +1,4 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
     com.zsinda.fdp.service.impl.FdpUserDetailsServiceImpl,\
-         com.zsinda.fdp.component.FdpTokenEnhancer
+         com.zsinda.fdp.component.FdpTokenEnhancer,\
+  com.zsinda.fdp.component.GlobalExceptionHandlerResolver

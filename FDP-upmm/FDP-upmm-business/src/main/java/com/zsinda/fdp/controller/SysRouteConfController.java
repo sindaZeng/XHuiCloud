@@ -1,6 +1,5 @@
 package com.zsinda.fdp.controller;
 
-import com.zsinda.fdp.annotation.Inner;
 import com.zsinda.fdp.entity.SysRouteConf;
 import com.zsinda.fdp.service.SysRouteConfService;
 import com.zsinda.fdp.utils.R;
@@ -30,8 +29,7 @@ public class SysRouteConfController {
      * 获取所有路由
      * @return
      */
-    @Inner
-    @GetMapping
+    @GetMapping("/listRoutes")
     public R<List<SysRouteConf>> listRoutes() {
         return R.ok(sysRouteConfService.getRoutes());
     }

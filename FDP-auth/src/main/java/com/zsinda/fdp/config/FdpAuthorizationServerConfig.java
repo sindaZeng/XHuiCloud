@@ -15,6 +15,7 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
+import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
@@ -67,6 +68,16 @@ public class FdpAuthorizationServerConfig extends AuthorizationServerConfigurerA
                 .checkTokenAccess("isAuthenticated()");
     }
 
+    public DefaultTokenServices defaultTokenServices() {
+        DefaultTokenServices tokenServices = new DefaultTokenServices();
+        tokenServices.setTokenStore(tokenStore());
+        tokenServices.setSupportRefreshToken(true);
+        // token有效期自定义设置，90天
+        tokenServices.setAccessTokenValiditySeconds(60 * 60 * 24 * 900);
+        // refresh_token 90天
+        tokenServices.setRefreshTokenValiditySeconds(60 * 60 * 24 * 900);
+        return tokenServices;
+    }
 
     /**
      * 配置有哪些用户可以来访问认证服务器
@@ -75,12 +86,14 @@ public class FdpAuthorizationServerConfig extends AuthorizationServerConfigurerA
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
         endpoints
                 .allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST)
-                .tokenStore(tokenStore())
                 .tokenEnhancer(fdpTokenEnhancer)
                 .userDetailsService(fdpUserDetailsService)
                 .authenticationManager(authenticationManager)//校验用户信息是否合法
                 .reuseRefreshTokens(false)
+                .tokenServices(defaultTokenServices())
                 .pathMapping("/oauth/confirm_access", "/confirm_access")//设置成自己的授权页面
                 .exceptionTranslator(new FdpWebResponseExceptionTranslator()); //修改Oauth2定义的错误信息 为我们定义的错误信息
+
+
     }
 }

@@ -11,7 +11,7 @@ import com.zsinda.fdp.component.FdpOAuth2ExceptionJacksonSerializer;
  */
 @JsonSerialize(using = FdpOAuth2ExceptionJacksonSerializer.class)
 public class InvalidException extends FdpOAuth2Exception {
-    
+
     public InvalidException(String message, Throwable throwable) {
         super(message);
     }

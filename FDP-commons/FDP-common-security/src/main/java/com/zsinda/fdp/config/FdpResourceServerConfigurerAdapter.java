@@ -1,6 +1,7 @@
 package com.zsinda.fdp.config;
 
 import com.zsinda.fdp.component.PermitHavaInnerUrlProperties;
+import com.zsinda.fdp.component.ResourceAuthExceptionEntryPoint;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,23 +31,27 @@ public class FdpResourceServerConfigurerAdapter extends ResourceServerConfigurer
     private UserDetailsService userDetailsService;
 
     @Autowired
-    private RestTemplate restTemplate;
+    private RestTemplate lbRestTemplate;
 
     @Autowired
     private PermitHavaInnerUrlProperties permitHavaInnerUrlProperties;
 
+    @Autowired
+    protected ResourceAuthExceptionEntryPoint resourceAuthExceptionEntryPoint;
+
 
     @Override
-    public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
-
+    public void configure(ResourceServerSecurityConfigurer resources) {
         DefaultAccessTokenConverter accessTokenConverter = new DefaultAccessTokenConverter();
         DefaultUserAuthenticationConverter userTokenConverter = new DefaultUserAuthenticationConverter();
         userTokenConverter.setUserDetailsService(userDetailsService);
         accessTokenConverter.setUserTokenConverter(userTokenConverter);
 
-        remoteTokenServices.setRestTemplate(restTemplate);
+        remoteTokenServices.setRestTemplate(lbRestTemplate);
         remoteTokenServices.setAccessTokenConverter(accessTokenConverter);
-        resources.tokenServices(remoteTokenServices);
+        resources.
+                authenticationEntryPoint(resourceAuthExceptionEntryPoint)
+                .tokenServices(remoteTokenServices);
     }
 
 
@@ -59,6 +64,7 @@ public class FdpResourceServerConfigurerAdapter extends ResourceServerConfigurer
     @Override
     @SneakyThrows
     public void configure(HttpSecurity httpSecurity) {
+        httpSecurity.headers().frameOptions().disable();
         ExpressionUrlAuthorizationConfigurer<HttpSecurity>
                 .ExpressionInterceptUrlRegistry registry = httpSecurity
                 .authorizeRequests();

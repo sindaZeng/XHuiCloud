@@ -73,12 +73,6 @@ public class SwaggerProperties {
     private List<String> excludePath = new ArrayList<>();
 
 
-    /**
-     * 全局统一鉴权配置
-     **/
-    private Authorization authorization = new Authorization();
-
-
     @Data
     @NoArgsConstructor
     public static class Contact {
@@ -96,44 +90,6 @@ public class SwaggerProperties {
          * 联系人email
          **/
         private String email = "";
-    }
-
-    @Data
-    @NoArgsConstructor
-    public static class Authorization {
-
-        /**
-         * 鉴权策略ID，需要和SecurityReferences ID保持一致
-         */
-        private String name = "";
-
-        /**
-         * 需要开启鉴权URL的正则
-         */
-        private String authRegex = "^.*$";
-
-        /**
-         * 鉴权作用域列表
-         */
-        private List<AuthorizationScope> authorizationScopeList = new ArrayList<>();
-
-        private List<String> tokenUrlList = new ArrayList<>();
-    }
-
-    @Data
-    @NoArgsConstructor
-    public static class AuthorizationScope {
-
-        /**
-         * 作用域名称
-         */
-        private String scope = "";
-
-        /**
-         * 作用域描述
-         */
-        private String description = "";
-
     }
 
 }

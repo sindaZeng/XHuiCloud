@@ -13,21 +13,19 @@ import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
  */
 @JsonSerialize(using = FdpOAuth2ExceptionJacksonSerializer.class)
 public class FdpOAuth2Exception extends OAuth2Exception {
-
     @Getter
-    private String code;
-
-
-    public FdpOAuth2Exception(String msg,String code) {
-        super(msg);
-        this.code=code;
-    }
-
-    public FdpOAuth2Exception(String msg, Throwable t) {
-        super(msg, t);
-    }
+    private String errorCode;
 
     public FdpOAuth2Exception(String msg) {
         super(msg);
+    }
+
+    public FdpOAuth2Exception(String msg, Throwable t) {
+        super(msg,t);
+    }
+
+    public FdpOAuth2Exception(String msg, String errorCode) {
+        super(msg);
+        this.errorCode = errorCode;
     }
 }

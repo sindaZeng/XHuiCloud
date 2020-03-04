@@ -9,10 +9,7 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 import java.lang.annotation.*;
 
 /**
- * @author lengleng
- * @date 2018/11/10
- * <p>
- * 资源服务注解
+ * 资源服务器注解
  */
 @Documented
 @Inherited

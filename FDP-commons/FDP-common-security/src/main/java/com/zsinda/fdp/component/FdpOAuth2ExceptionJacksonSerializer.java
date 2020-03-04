@@ -17,12 +17,12 @@ import java.io.IOException;
 public class FdpOAuth2ExceptionJacksonSerializer extends StdSerializer<FdpOAuth2Exception> {
 
     @Override
-    public void serialize(FdpOAuth2Exception e, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {
-        jsonGenerator.writeStartObject();
-        jsonGenerator.writeObjectField("code", CommonConstants.REQUEST_FAIL);
-        jsonGenerator.writeStringField("msg", e.getMessage());
-        jsonGenerator.writeStringField("data", e.getCode());
-        jsonGenerator.writeEndObject();
+    public void serialize(FdpOAuth2Exception e, JsonGenerator generator, SerializerProvider s) throws IOException {
+        generator.writeStartObject();
+        generator.writeObjectField("code", CommonConstants.REQUEST_FAIL);
+        generator.writeStringField("msg", e.getMessage());
+        generator.writeStringField("data", e.getErrorCode());
+        generator.writeEndObject();
     }
 
     public FdpOAuth2ExceptionJacksonSerializer() {
