@@ -9,7 +9,12 @@ import com.zsinda.fdp.utils.R;
 import com.zsinda.fdp.utils.SpringSecurityUtils;
 import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.client.ServiceInstance;
+import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/user")
@@ -19,11 +24,15 @@ public class SysUserController {
 
     private final SysUserService sysUserService;
 
+    @Autowired
+    private DiscoveryClient discoveryClient;
+
     /**
      * 获取当前登录用户全部信息
      */
     @GetMapping("/info")
     public R info() {
+        List<ServiceInstance> instances = discoveryClient.getInstances("FDP-upmm-business");
         String username = SpringSecurityUtils.getUser().getUsername();
         SysUser user = sysUserService.getOne(Wrappers.<SysUser>query()
                 .lambda().eq(SysUser::getUsername, username));

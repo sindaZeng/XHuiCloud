@@ -6,6 +6,8 @@ spring:
   profiles:
     active: dev
   cloud:
+    gateway:
+      enabled: false
     nacos:
       discovery:
         server-addr: ${nacos.address}
@@ -16,7 +18,10 @@ spring:
         # 公共的配置文件
         shared-configs:
           - application-common.yml
-
+  autoconfigure:
+    exclude:
+      - org.springframework.cloud.gateway.config.GatewayAutoConfiguration
+      - org.springframework.cloud.gateway.config.GatewayClassPathWarningAutoConfiguration
 security:
   oauth2:
     client:

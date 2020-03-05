@@ -1,6 +1,7 @@
 package com.zsinda.fdp.controller;
 
 import cn.hutool.core.util.StrUtil;
+import com.zsinda.fdp.base.IDGenerate;
 import com.zsinda.fdp.feign.SysUserServiceFeign;
 import com.zsinda.fdp.utils.R;
 import io.seata.spring.annotation.GlobalTransactional;
@@ -34,6 +35,8 @@ public class AuthController {
     private final SysUserServiceFeign sysUserServiceFeign;
 
     private final RedisTemplate redisTemplate;
+
+    private final IDGenerate defaultSnowflakeIDGenerate;
 
 
     /**
@@ -77,6 +80,8 @@ public class AuthController {
     @GlobalTransactional
     public R user(@PathVariable Integer id) throws SQLException {
         log.info("id+{}",id);
+        long l = defaultSnowflakeIDGenerate.get();
+        System.out.println(l);
 //        Object value = redisTemplate.opsForValue().get(id);
 //        if (null==value){
 //            redisTemplate.opsForValue().set(id,"123123123");

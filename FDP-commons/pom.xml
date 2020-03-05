@@ -23,6 +23,7 @@
         <module>FDP-common-Lock</module>
         <module>FDP-common-data</module>
         <module>FDP-common-gateway</module>
+        <module>FDP-common-zero</module>
     </modules>
 
 

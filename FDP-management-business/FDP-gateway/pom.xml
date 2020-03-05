@@ -52,9 +52,5 @@
             <groupId>com.github.xiaoymin</groupId>
             <artifactId>knife4j-spring-ui</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.zsinda</groupId>
-            <artifactId>FDP-upmm-api</artifactId>
-        </dependency>
     </dependencies>
 </project>

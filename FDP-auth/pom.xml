@@ -74,6 +74,11 @@
             <groupId>${project.groupId}</groupId>
             <artifactId>FDP-common-logger</artifactId>
         </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>FDP-common-zero</artifactId>
+        </dependency>
+
 
     </dependencies>
 
