@@ -1,0 +1,5 @@
+fdp:
+  elasticjob:
+    zookeeper:
+      server-lists: localhost:19999
+      namespace: FDP-task

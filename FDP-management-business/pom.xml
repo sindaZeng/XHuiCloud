@@ -16,6 +16,7 @@
         <module>FDP-gateway</module>
         <module>FDP-register</module>
         <module>FDP-transaction-coordinator</module>
+        <module>FDP-task</module>
     </modules>
 
 
