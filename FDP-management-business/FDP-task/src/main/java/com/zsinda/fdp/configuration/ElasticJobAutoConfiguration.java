@@ -32,7 +32,7 @@ public class ElasticJobAutoConfiguration {
     @Bean(initMethod = "init")
     @ConditionalOnMissingBean
     @ConditionalOnBean(CoordinatorRegistryCenter.class)
-    public AllJobInitialize dataflowJobInitialize() {
+    public AllJobInitialize allJobInitialize() {
         return new AllJobInitialize();
     }
 

@@ -1,6 +1,8 @@
 package com.zsinda.fdp.annotation;
 
 import com.dangdang.ddframe.job.api.JobType;
+import com.dangdang.ddframe.job.lite.api.strategy.JobShardingStrategy;
+import com.dangdang.ddframe.job.lite.api.strategy.impl.AverageAllocationJobShardingStrategy;
 import org.springframework.stereotype.Component;
 
 import java.lang.annotation.ElementType;
@@ -10,7 +12,7 @@ import java.lang.annotation.Target;
 
 /**
  * @program: FDPlatform
- * @description: 开启简单任务
+ * @description: 开启一个任务
  * @author: Sinda
  * @create: 2020-03-06 11:07
  */
@@ -96,4 +98,10 @@ public @interface EnableElasticJob {
      * 默认: true
      */
     boolean misfire() default true;
+
+    /**
+     * 自定义分片策略
+     * 默认: 根据作业名的哈希值奇偶数决定IP升降序算法的分片策略
+     */
+    Class<? extends JobShardingStrategy> Strategy() default AverageAllocationJobShardingStrategy.class;
 }

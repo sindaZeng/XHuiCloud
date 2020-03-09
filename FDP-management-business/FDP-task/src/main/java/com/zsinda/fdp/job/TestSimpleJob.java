@@ -11,8 +11,8 @@ import com.zsinda.fdp.annotation.EnableElasticJob;
  * @author: Sinda
  * @create: 2020-03-06 11:11
  */
-@EnableElasticJob(cron = "0/10 * * * * ?", shardingTotalCount = 2, jobType = JobType.DATAFLOW)
-public class TestSimpleJob implements SimpleJob {
+@EnableElasticJob(cron = "0/10 * * * * ?", shardingTotalCount = 2, jobType = JobType.SIMPLE)
+public class TestSimpleJob implements SimpleJob{
 
     @Override
     public void execute(ShardingContext shardingContext) {

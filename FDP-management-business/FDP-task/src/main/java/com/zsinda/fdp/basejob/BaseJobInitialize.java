@@ -2,22 +2,27 @@ package com.zsinda.fdp.basejob;
 
 import com.dangdang.ddframe.job.api.ElasticJob;
 import com.dangdang.ddframe.job.api.JobType;
+import com.dangdang.ddframe.job.api.dataflow.DataflowJob;
 import com.dangdang.ddframe.job.api.simple.SimpleJob;
 import com.dangdang.ddframe.job.config.JobCoreConfiguration;
 import com.dangdang.ddframe.job.config.JobTypeConfiguration;
 import com.dangdang.ddframe.job.config.dataflow.DataflowJobConfiguration;
 import com.dangdang.ddframe.job.config.simple.SimpleJobConfiguration;
+import com.dangdang.ddframe.job.event.rdb.JobEventRdbConfiguration;
+import com.dangdang.ddframe.job.exception.JobConfigurationException;
 import com.dangdang.ddframe.job.executor.handler.JobProperties;
 import com.dangdang.ddframe.job.lite.config.LiteJobConfiguration;
 import com.dangdang.ddframe.job.lite.spring.api.SpringJobScheduler;
 import com.dangdang.ddframe.job.reg.base.CoordinatorRegistryCenter;
 import com.zsinda.fdp.annotation.EnableElasticJob;
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
+
+import javax.sql.DataSource;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * @program: FDPlatform
@@ -26,18 +31,16 @@ import org.springframework.context.ApplicationContextAware;
  * @create: 2020-03-06 16:04
  */
 @Slf4j
-public abstract class BaseJobInitialize implements ApplicationContextAware {
+public abstract class BaseJobInitialize {
 
+    @Autowired
     protected ApplicationContext applicationContext;
 
     @Autowired
     protected CoordinatorRegistryCenter coordinatorRegistryCenter;
 
-    @Override
-    @SneakyThrows
-    public void setApplicationContext(ApplicationContext applicationContext) {
-        this.applicationContext = applicationContext;
-    }
+    @Autowired(required = false)
+    protected DataSource dataSource;
 
     public abstract void init();
 
@@ -49,8 +52,14 @@ public abstract class BaseJobInitialize implements ApplicationContextAware {
         JobTypeConfiguration jobTypeConfiguration = getJobTypeConfiguration(annotation, elasticJob, jobCoreConfiguration, jobType);
         // 根配置
         LiteJobConfiguration liteJobConfiguration = getLiteJobConfiguration(annotation, jobTypeConfiguration);
-        new SpringJobScheduler(elasticJob, coordinatorRegistryCenter, liteJobConfiguration).init();
-    }
+        if (dataSource ==null){
+            new SpringJobScheduler(elasticJob, coordinatorRegistryCenter, liteJobConfiguration).init();
+        }else {
+            // 数据源
+            JobEventRdbConfiguration jobEventRdbConfiguration = new JobEventRdbConfiguration(dataSource);
+            new SpringJobScheduler(elasticJob, coordinatorRegistryCenter, liteJobConfiguration,jobEventRdbConfiguration).init();
+        }
+     }
 
     /**
      * 获取任务类型
@@ -80,7 +89,9 @@ public abstract class BaseJobInitialize implements ApplicationContextAware {
      * @return
      */
     private LiteJobConfiguration getLiteJobConfiguration(EnableElasticJob annotation, JobTypeConfiguration jobTypeConfiguration) {
-        return LiteJobConfiguration.newBuilder(jobTypeConfiguration).overwrite(annotation.overwrite()).build();
+        return LiteJobConfiguration.newBuilder(jobTypeConfiguration)
+                .jobShardingStrategyClass(annotation.Strategy().getCanonicalName())
+                .overwrite(annotation.overwrite()).build();
     }
 
     /**
@@ -115,5 +126,29 @@ public abstract class BaseJobInitialize implements ApplicationContextAware {
         return StringUtils.isEmpty(annotation.jobName()) ? elasticJob.getClass().getName() : annotation.jobName();
     }
 
-
+    /**
+     * 根据任务类型,校验是否为此类型的所需的实现类
+     * @param interfaces
+     * @param jobType
+     * @param instanceClass
+     */
+    protected void checkJobType(Class<?>[] interfaces, JobType jobType, Class<?> instanceClass) {
+        List<Class<?>> classes = Arrays.asList(interfaces);
+        switch (jobType) {
+                case SIMPLE:
+                    if (!classes.contains(SimpleJob.class)){
+                        throw new JobConfigurationException("Wrong implementation type! In this "
+                                +instanceClass+" ! And The right way implementation SimpleJob.class");
+                    }
+                    break;
+                case DATAFLOW:
+                    if (!classes.contains(DataflowJob.class)){
+                        throw new JobConfigurationException("Wrong implementation type! In this"
+                                +instanceClass+" ! And The right way implementation DataflowJob.class");
+                    }
+                    break;
+                default:
+                    throw new JobConfigurationException("Wrong implementation type! In this"+instanceClass);
+            }
+    }
 }

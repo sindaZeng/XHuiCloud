@@ -1,9 +1,7 @@
 package com.zsinda.fdp.job;
 
-import com.dangdang.ddframe.job.api.JobType;
 import com.dangdang.ddframe.job.api.ShardingContext;
 import com.dangdang.ddframe.job.api.dataflow.DataflowJob;
-import com.zsinda.fdp.annotation.EnableElasticJob;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,15 +12,15 @@ import java.util.List;
  * @author: Sinda
  * @create: 2020-03-08 19:44
  */
-@EnableElasticJob(cron = "0/10 * * * * ?", shardingTotalCount = 2, isStreamProcess = false, jobType = JobType.DATAFLOW)
+//@EnableElasticJob(cron = "0/10 * * * * ?", shardingTotalCount = 2, isStreamProcess = true, jobType = JobType.DATAFLOW)
 public class TestDataflowJob implements DataflowJob<Integer> {
     @Override
     public List<Integer> fetchData(ShardingContext shardingContext) {
         List<Integer> list = new ArrayList<>();
-        for (int i = 0; i < 1; i++) {
-            list.add(i);
-            System.out.println("添加了" + i);
-        }
+//        for (int i = 0; i < 1; i++) {
+            list.add(1);
+            System.out.println("添加了");
+//        }
         return list;
     }
 
