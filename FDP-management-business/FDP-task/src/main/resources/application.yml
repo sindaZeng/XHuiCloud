@@ -1,5 +1,12 @@
+spring:
+  application:
+    name: Fdp-task
 fdp:
   elasticjob:
     zookeeper:
-      server-lists: localhost:19999
+      server-lists: localhost:2181
       namespace: FDP-task
+    job-type: simple
+server:
+  port: 8081
+

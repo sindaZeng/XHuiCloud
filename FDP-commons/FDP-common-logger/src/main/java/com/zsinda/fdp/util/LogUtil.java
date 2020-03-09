@@ -2,10 +2,10 @@ package com.zsinda.fdp.util;
 
 import cn.hutool.core.util.URLUtil;
 import cn.hutool.extra.servlet.ServletUtil;
-import com.google.common.net.HttpHeaders;
 import com.zsinda.fdp.constant.CommonConstants;
 import com.zsinda.fdp.entity.SysLog;
 import lombok.experimental.UtilityClass;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.context.request.RequestContextHolder;

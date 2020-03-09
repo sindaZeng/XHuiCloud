@@ -1,5 +1,6 @@
 package com.zsinda.fdp.properties;
 
+import com.dangdang.ddframe.job.api.JobType;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
@@ -14,9 +15,14 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 public class ElasticJobProperties {
 
     /**
+     *  任务类型
+     */
+    private JobType jobType;
+
+    /**
      * 注册中心
      */
-    private ZookeeperConfiguration zookeeper;
+    private ZkConfiguration zookeeper;
 
 //    /**
 //     * 简单作业配置
@@ -36,7 +42,7 @@ public class ElasticJobProperties {
 
 
     @Data
-    class ZookeeperConfiguration {
+    public static class ZkConfiguration {
 
         /**
          * 连接Zookeeper服务器的列表.
@@ -55,13 +61,13 @@ public class ElasticJobProperties {
          * 等待重试的间隔时间的初始值.
          * 单位毫秒.
          */
-        private int baseSleepTimeMilliseconds = 1000;
+        private int baseSleepTimeMilliseconds = 100000;
 
         /**
          * 等待重试的间隔时间的最大值.
          * 单位毫秒.
          */
-        private int maxSleepTimeMilliseconds = 3000;
+        private int maxSleepTimeMilliseconds = 30000;
 
         /**
          * 最大重试次数.
@@ -72,13 +78,13 @@ public class ElasticJobProperties {
          * 会话超时时间.
          * 单位毫秒.
          */
-        private int sessionTimeoutMilliseconds;
+        private int sessionTimeoutMilliseconds=10000;
 
         /**
          * 连接超时时间.
          * 单位毫秒.
          */
-        private int connectionTimeoutMilliseconds;
+        private int connectionTimeoutMilliseconds=10000;
 
         /**
          * 连接Zookeeper的权限令牌.
