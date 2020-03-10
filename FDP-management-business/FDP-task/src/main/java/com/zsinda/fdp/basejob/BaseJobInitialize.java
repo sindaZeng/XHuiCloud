@@ -11,6 +11,7 @@ import com.dangdang.ddframe.job.config.simple.SimpleJobConfiguration;
 import com.dangdang.ddframe.job.event.rdb.JobEventRdbConfiguration;
 import com.dangdang.ddframe.job.exception.JobConfigurationException;
 import com.dangdang.ddframe.job.executor.handler.JobProperties;
+import com.dangdang.ddframe.job.lite.api.listener.ElasticJobListener;
 import com.dangdang.ddframe.job.lite.config.LiteJobConfiguration;
 import com.dangdang.ddframe.job.lite.spring.api.SpringJobScheduler;
 import com.dangdang.ddframe.job.reg.base.CoordinatorRegistryCenter;
@@ -52,14 +53,30 @@ public abstract class BaseJobInitialize {
         JobTypeConfiguration jobTypeConfiguration = getJobTypeConfiguration(annotation, elasticJob, jobCoreConfiguration, jobType);
         // 根配置
         LiteJobConfiguration liteJobConfiguration = getLiteJobConfiguration(annotation, jobTypeConfiguration);
-        if (dataSource ==null){
-            new SpringJobScheduler(elasticJob, coordinatorRegistryCenter, liteJobConfiguration).init();
-        }else {
+        // 获取监听器
+        ElasticJobListener[] elasticJobListeners = getElasticJobListeners(annotation);
+        SpringJobScheduler springJobScheduler;
+        if (dataSource == null) {
+            springJobScheduler = new SpringJobScheduler(elasticJob, coordinatorRegistryCenter, liteJobConfiguration,elasticJobListeners);
+        } else {
             // 数据源
             JobEventRdbConfiguration jobEventRdbConfiguration = new JobEventRdbConfiguration(dataSource);
-            new SpringJobScheduler(elasticJob, coordinatorRegistryCenter, liteJobConfiguration,jobEventRdbConfiguration).init();
+            springJobScheduler = new SpringJobScheduler(elasticJob, coordinatorRegistryCenter, liteJobConfiguration, jobEventRdbConfiguration,elasticJobListeners);
         }
-     }
+        springJobScheduler.init();
+    }
+
+    private ElasticJobListener[] getElasticJobListeners(EnableElasticJob annotation) {
+        ElasticJobListener[] listeners = new ElasticJobListener[annotation.listeners().length];
+        for (int i = 0; i < annotation.listeners().length; i++) {
+            try {
+                listeners[i] = annotation.listeners()[i].getDeclaredConstructor().newInstance();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return listeners;
+    }
 
     /**
      * 获取任务类型
@@ -90,7 +107,7 @@ public abstract class BaseJobInitialize {
      */
     private LiteJobConfiguration getLiteJobConfiguration(EnableElasticJob annotation, JobTypeConfiguration jobTypeConfiguration) {
         return LiteJobConfiguration.newBuilder(jobTypeConfiguration)
-                .jobShardingStrategyClass(annotation.Strategy().getCanonicalName())
+                .jobShardingStrategyClass(annotation.strategy().getCanonicalName())
                 .overwrite(annotation.overwrite()).build();
     }
 
@@ -128,6 +145,7 @@ public abstract class BaseJobInitialize {
 
     /**
      * 根据任务类型,校验是否为此类型的所需的实现类
+     *
      * @param interfaces
      * @param jobType
      * @param instanceClass
@@ -135,20 +153,20 @@ public abstract class BaseJobInitialize {
     protected void checkJobType(Class<?>[] interfaces, JobType jobType, Class<?> instanceClass) {
         List<Class<?>> classes = Arrays.asList(interfaces);
         switch (jobType) {
-                case SIMPLE:
-                    if (!classes.contains(SimpleJob.class)){
-                        throw new JobConfigurationException("Wrong implementation type! In this "
-                                +instanceClass+" ! And The right way implementation SimpleJob.class");
-                    }
-                    break;
-                case DATAFLOW:
-                    if (!classes.contains(DataflowJob.class)){
-                        throw new JobConfigurationException("Wrong implementation type! In this"
-                                +instanceClass+" ! And The right way implementation DataflowJob.class");
-                    }
-                    break;
-                default:
-                    throw new JobConfigurationException("Wrong implementation type! In this"+instanceClass);
-            }
+            case SIMPLE:
+                if (!classes.contains(SimpleJob.class)) {
+                    throw new JobConfigurationException("Wrong implementation type! In this "
+                            + instanceClass + " ! And The right way implementation SimpleJob.class");
+                }
+                break;
+            case DATAFLOW:
+                if (!classes.contains(DataflowJob.class)) {
+                    throw new JobConfigurationException("Wrong implementation type! In this"
+                            + instanceClass + " ! And The right way implementation DataflowJob.class");
+                }
+                break;
+            default:
+                throw new JobConfigurationException("Wrong implementation type! In this" + instanceClass);
+        }
     }
 }

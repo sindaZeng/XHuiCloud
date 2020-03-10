@@ -4,6 +4,7 @@ import com.dangdang.ddframe.job.api.JobType;
 import com.dangdang.ddframe.job.api.ShardingContext;
 import com.dangdang.ddframe.job.api.simple.SimpleJob;
 import com.zsinda.fdp.annotation.EnableElasticJob;
+import com.zsinda.fdp.listener.CustomListener;
 
 /**
  * @program: FDPlatform
@@ -11,7 +12,7 @@ import com.zsinda.fdp.annotation.EnableElasticJob;
  * @author: Sinda
  * @create: 2020-03-06 11:11
  */
-@EnableElasticJob(cron = "0/10 * * * * ?", shardingTotalCount = 2, jobType = JobType.SIMPLE)
+@EnableElasticJob(cron = "0/10 * * * * ?", shardingTotalCount = 2, jobType = JobType.SIMPLE,listeners = CustomListener.class)
 public class TestSimpleJob implements SimpleJob{
 
     @Override

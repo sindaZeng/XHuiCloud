@@ -23,7 +23,7 @@ public class AllJobInitialize extends BaseJobInitialize {
             Class<?> instanceClass = instance.getClass();
             EnableElasticJob annotation = instanceClass.getAnnotation(EnableElasticJob.class);
             Class<?>[] interfaces = instanceClass.getInterfaces();
-            checkJobType(interfaces,annotation.jobType(),instanceClass);
+            checkJobType(interfaces, annotation.jobType(), instanceClass);
             initJob(annotation, (ElasticJob) instance, annotation.jobType());
         }
     }

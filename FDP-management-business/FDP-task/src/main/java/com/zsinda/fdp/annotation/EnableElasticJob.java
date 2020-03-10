@@ -1,6 +1,7 @@
 package com.zsinda.fdp.annotation;
 
 import com.dangdang.ddframe.job.api.JobType;
+import com.dangdang.ddframe.job.lite.api.listener.ElasticJobListener;
 import com.dangdang.ddframe.job.lite.api.strategy.JobShardingStrategy;
 import com.dangdang.ddframe.job.lite.api.strategy.impl.AverageAllocationJobShardingStrategy;
 import org.springframework.stereotype.Component;
@@ -103,5 +104,11 @@ public @interface EnableElasticJob {
      * 自定义分片策略
      * 默认: 根据作业名的哈希值奇偶数决定IP升降序算法的分片策略
      */
-    Class<? extends JobShardingStrategy> Strategy() default AverageAllocationJobShardingStrategy.class;
+    Class<? extends JobShardingStrategy> strategy() default AverageAllocationJobShardingStrategy.class;
+
+    /**
+     * 自定义监听器
+     * 默认: 空
+     */
+    Class<? extends ElasticJobListener>[] listeners() default {};
 }

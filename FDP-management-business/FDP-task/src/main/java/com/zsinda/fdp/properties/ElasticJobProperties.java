@@ -1,6 +1,5 @@
 package com.zsinda.fdp.properties;
 
-import com.dangdang.ddframe.job.api.JobType;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
@@ -15,31 +14,9 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 public class ElasticJobProperties {
 
     /**
-     *  任务类型
-     */
-    private JobType jobType;
-
-    /**
      * 注册中心
      */
     private ZkConfiguration zookeeper;
-
-//    /**
-//     * 简单作业配置
-//     */
-//    private Map<String, SimpleJobConfiguration> simples = new LinkedHashMap<>();
-//
-//    /**
-//     * 流式作业配置
-//     */
-//    private Map<String, DataflowJobConfiguration> dataflows = new LinkedHashMap<>();
-//
-//
-//    /**
-//     * 脚本作业配置
-//     */
-//    private Map<String, ScriptJobConfiguration> scripts = new LinkedHashMap<>();
-
 
     @Data
     public static class ZkConfiguration {
