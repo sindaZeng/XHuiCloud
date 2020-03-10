@@ -11,7 +11,6 @@ spring:
 fdp:
   elasticjob:
     zookeeper:
-      server-lists: localhost:2181
       namespace: FDP-task
     job-type: simple
 server:

@@ -27,7 +27,7 @@ public class ElasticJobProperties {
          * 多个地址用逗号分隔.
          * 如: host1:2181,host2:2181
          */
-        private String serverLists;
+        private String serverLists = "localhost:2181";
 
         /**
          * 命名空间.
