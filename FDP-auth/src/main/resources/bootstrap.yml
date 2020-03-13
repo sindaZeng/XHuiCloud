@@ -27,9 +27,8 @@ spring:
 #      enable: true #需要分布式锁的话，请打开
 #    type: CLUSTER
 
-
-fdp:
-  zero:
-    snowflake:
-      zk-address: 127.0.0.1
-      port: 19999
+#fdp:
+#  zero:
+#    snowflake:
+#      zk-address: 127.0.0.1
+#      port: 19999

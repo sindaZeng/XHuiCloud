@@ -83,7 +83,7 @@ public class SysMenu implements Serializable {
      * 菜单类型:0菜单 1按钮
      */
     @TableField(value = "type")
-    private String type;
+    private Integer type;
 
 
 

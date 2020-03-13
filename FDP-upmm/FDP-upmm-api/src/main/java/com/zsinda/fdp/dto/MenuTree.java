@@ -42,7 +42,7 @@ public class MenuTree extends TreeNode {
     /**
      * 菜单类型0菜单 1按钮
      */
-    private String type;
+    private Integer type;
 
     /**
      * 排序值

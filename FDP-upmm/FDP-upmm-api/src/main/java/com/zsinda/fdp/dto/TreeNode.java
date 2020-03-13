@@ -2,7 +2,6 @@ package com.zsinda.fdp.dto;
 
 import lombok.Data;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,7 +17,9 @@ public class TreeNode {
 
     protected int parentId;
 
-    protected List<TreeNode> children = new ArrayList<>();
+    protected int value;
+
+    protected List<TreeNode> children=null;
 
     public void add(TreeNode node) {
         children.add(node);

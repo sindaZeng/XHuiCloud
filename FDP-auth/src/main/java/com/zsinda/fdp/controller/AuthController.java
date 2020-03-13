@@ -1,10 +1,8 @@
 package com.zsinda.fdp.controller;
 
 import cn.hutool.core.util.StrUtil;
-import com.zsinda.fdp.base.IDGenerate;
 import com.zsinda.fdp.feign.SysUserServiceFeign;
 import com.zsinda.fdp.utils.R;
-import io.seata.spring.annotation.GlobalTransactional;
 import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,6 +14,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.sql.SQLException;
+
+//import com.zsinda.fdp.base.IDGenerate;
 
 /**
  * @program: FDPlatform
@@ -36,7 +36,7 @@ public class AuthController {
 
     private final RedisTemplate redisTemplate;
 
-    private final IDGenerate defaultSnowflakeIDGenerate;
+//    private final IDGenerate defaultSnowflakeIDGenerate;
 
 
     /**
@@ -77,11 +77,10 @@ public class AuthController {
     @GetMapping("/test/{id}")
 //    @SysLog("测试111111")
 //    @FdpLock(value = "#id", isUserTryLock = true)
-    @GlobalTransactional
+//    @GlobalTransactional
     public R user(@PathVariable Integer id) throws SQLException {
         log.info("id+{}",id);
-        long l = defaultSnowflakeIDGenerate.get();
-        System.out.println(l);
+//        long l = defaultSnowflakeIDGenerate.get();
 //        Object value = redisTemplate.opsForValue().get(id);
 //        if (null==value){
 //            redisTemplate.opsForValue().set(id,"123123123");

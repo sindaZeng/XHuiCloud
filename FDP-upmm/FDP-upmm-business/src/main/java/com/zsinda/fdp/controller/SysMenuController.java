@@ -41,17 +41,14 @@ public class SysMenuController {
      */
     @GetMapping
     public R getUserMenu() {
-        String MENU="0";
         Set<MenuVO> all = new HashSet<>();
         SpringSecurityUtils.getRoles()
                 .forEach(roleId -> all.addAll(sysMenuService.findMenuByRoleId(roleId)));
         List<MenuTree> menuTreeList = all.stream()
-                .filter(menuVo -> MENU.equals(menuVo.getType()))
+                .filter(menuVo -> 0==menuVo.getType())
                 .map(MenuTree::new)
                 .sorted(Comparator.comparingInt(MenuTree::getSort))
                 .collect(Collectors.toList());
-
-
         return R.ok(TreeUtil.build(menuTreeList,0));
     }
 

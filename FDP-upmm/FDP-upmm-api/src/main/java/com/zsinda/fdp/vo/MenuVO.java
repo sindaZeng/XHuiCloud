@@ -51,7 +51,7 @@ public class MenuVO implements Serializable {
     /**
      * 菜单类型 0菜单 1按钮
      */
-    private String type;
+    private Integer type;
     /**
      * 创建时间
      */

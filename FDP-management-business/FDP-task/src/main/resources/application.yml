@@ -9,10 +9,10 @@ spring:
       username: root
       password: root
 fdp:
-  elasticjob:
-    zookeeper:
-      namespace: FDP-task
-    job-type: simple
+#  elasticjob:
+#    zookeeper:
+#      namespace: FDP-task
+#    job-type: simple
 server:
   port: 8081
 

@@ -24,12 +24,14 @@ public class TreeUtil {
             node = new MenuTree();
             node.setId(menu.getMenuId());
             node.setParentId(menu.getParentId());
+            node.setValue(menu.getMenuId());
             node.setName(menu.getName());
             node.setLabel(menu.getName());
             node.setPath(menu.getPath());
             node.setPermission(menu.getPermission());
             node.setIcon(menu.getIcon());
             node.setSort(menu.getSort());
+            node.setType(menu.getType());
             trees.add(node);
         }
         return TreeUtil.build(trees, root);

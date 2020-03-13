@@ -23,10 +23,10 @@
             <groupId>${project.groupId}</groupId>
             <artifactId>FDP-common-datasource</artifactId>
         </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>FDP-common-transaction</artifactId>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>${project.groupId}</groupId>-->
+<!--            <artifactId>FDP-common-transaction</artifactId>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>FDP-common-security</artifactId>
