@@ -49,6 +49,11 @@ public class MenuTree extends TreeNode {
      */
     private Integer sort;
 
+    /**
+     * 开启禁用
+     */
+    private Integer delFlag;
+
     public MenuTree() {
     }
 

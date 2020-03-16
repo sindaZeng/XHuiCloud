@@ -115,7 +115,7 @@ public class SysLog implements Serializable {
     private String userAgent;
 
     @TableField(value = "del_flag")
-    private String delFlag;
+    private Integer delFlag;
 
 
 }

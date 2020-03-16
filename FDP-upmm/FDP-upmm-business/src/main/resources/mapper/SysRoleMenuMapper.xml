@@ -7,4 +7,13 @@
     <id column="role_id" jdbcType="INTEGER" property="roleId" />
     <id column="menu_id" jdbcType="INTEGER" property="menuId" />
   </resultMap>
+    <delete id="deleteRoleMenus">
+      DELETE FROM sys_role_menu
+      <where>
+        menu_id in
+        <foreach collection="ids" item="item" open="(" close=")" separator=",">
+          #{item}
+        </foreach>
+      </where>
+    </delete>
 </mapper>

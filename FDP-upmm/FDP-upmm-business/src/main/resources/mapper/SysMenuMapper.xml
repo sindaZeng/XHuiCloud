@@ -44,5 +44,11 @@
     sys_menu.del_flag = 1
     AND sys_role_menu.role_id = #{roleId}
   </select>
+    <update id="deleteMenu">
+      UPDATE sys_menu SET del_flag = 0 WHERE menu_id in
+      <foreach collection="ids" item="item" open="(" close=")" separator=",">
+        #{item}
+      </foreach>
+    </update>
 
 </mapper>

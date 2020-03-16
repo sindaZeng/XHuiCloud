@@ -6,6 +6,8 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -22,6 +24,7 @@ public class SysMenu implements Serializable {
      * 菜单名称
      */
     @TableField(value = "name")
+    @NotBlank(message = "菜单名称不能为空")
     private String name;
 
     /**
@@ -71,6 +74,7 @@ public class SysMenu implements Serializable {
      * 父菜单ID
      */
     @TableField(value = "parent_id")
+    @NotNull(message = "菜单父ID不能为空")
     private Integer parentId;
 
     /**
@@ -83,6 +87,7 @@ public class SysMenu implements Serializable {
      * 菜单类型:0菜单 1按钮
      */
     @TableField(value = "type")
+    @NotNull(message = "菜单类型不能为空")
     private Integer type;
 
 

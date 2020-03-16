@@ -10,11 +10,10 @@ import com.zsinda.fdp.utils.TreeUtil;
 import com.zsinda.fdp.vo.MenuVO;
 import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
@@ -76,4 +75,25 @@ public class SysMenuController {
                         .orderByAsc(SysMenu::getSort)), 0));
     }
 
+    /**
+     * 新增菜单
+     * @param sysMenu
+     * @return
+     */
+    @PostMapping
+    @PreAuthorize("@authorize.hasPermission('sys_add_menu')")
+    public R save(@Valid @RequestBody SysMenu sysMenu) {
+        return R.ok(sysMenuService.saveMenu(sysMenu));
+    }
+
+    /**
+     * 禁用，启用 菜单
+     * @param id
+     * @return
+     */
+    @DeleteMapping("/{id}")
+    @PreAuthorize("@authorize.hasPermission('sys_delete_menu')")
+    public R delete(@PathVariable Integer id) {
+        return R.ok(sysMenuService.deleteMenu(id));
+    }
 }

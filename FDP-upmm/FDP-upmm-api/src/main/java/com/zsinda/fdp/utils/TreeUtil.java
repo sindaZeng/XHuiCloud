@@ -32,6 +32,7 @@ public class TreeUtil {
             node.setIcon(menu.getIcon());
             node.setSort(menu.getSort());
             node.setType(menu.getType());
+            node.setDelFlag(menu.getDelFlag());
             trees.add(node);
         }
         return TreeUtil.build(trees, root);

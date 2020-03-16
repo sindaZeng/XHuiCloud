@@ -35,4 +35,10 @@ public class SysRoleMenuServiceImpl extends ServiceImpl<SysRoleMenuMapper, SysRo
                 }).collect(Collectors.toList());
         return saveBatch(roleMenuList);
     }
+
+    @Override
+    @Transactional
+    public Boolean deleteRoleMenus(List<Integer> ids) {
+        return baseMapper.deleteRoleMenus(ids);
+    }
 }
