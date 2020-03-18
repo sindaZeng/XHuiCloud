@@ -3,12 +3,14 @@ package com.zsinda.fdp.controller;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.zsinda.fdp.annotation.SysLog;
 import com.zsinda.fdp.entity.SysRole;
 import com.zsinda.fdp.service.SysRoleMenuService;
 import com.zsinda.fdp.service.SysRoleService;
 import com.zsinda.fdp.utils.R;
 import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -37,7 +39,9 @@ public class SysRoleController {
      * @param sysRole
      * @return
      */
+    @SysLog("新增角色")
     @PostMapping("/save")
+    @PreAuthorize("@authorize.hasPermission('sys_add_role')")
     public R save(@Valid @RequestBody SysRole sysRole) {
         return R.ok(sysRoleService.getBaseMapper().insert(sysRole));
     }
@@ -47,8 +51,10 @@ public class SysRoleController {
      * @param sysRole
      * @return
      */
-    @PutMapping("/update")
-    public R pageList(@Valid @RequestBody SysRole sysRole) {
+    @SysLog("编辑角色")
+    @PutMapping
+    @PreAuthorize("@authorize.hasPermission('sys_editor_role')")
+    public R update(@Valid @RequestBody SysRole sysRole) {
         return R.ok(sysRoleService.updateById(sysRole));
     }
 
@@ -57,6 +63,8 @@ public class SysRoleController {
      * @param id
      * @return
      */
+    @SysLog("删除角色")
+    @PreAuthorize("@authorize.hasPermission('sys_delete_role')")
     @DeleteMapping("/{id}")
     public R removeById(@PathVariable Integer id) {
         return R.ok(sysRoleService.deleteRoleById(id));
@@ -77,6 +85,8 @@ public class SysRoleController {
      * @param menuIds
      * @return
      */
+    @SysLog("更新角色菜单")
+    @PreAuthorize("@authorize.hasPermission('sys_permission_role')")
     @PostMapping("/menus")
     public R saveRoleMenus(Integer roleId, @RequestParam(value = "menuIds", required = false) String menuIds) {
         return R.ok(sysRoleMenuService.saveRoleMenus(roleId, menuIds));

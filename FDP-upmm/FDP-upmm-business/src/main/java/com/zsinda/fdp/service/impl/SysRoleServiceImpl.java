@@ -7,17 +7,17 @@ import com.zsinda.fdp.entity.SysRoleMenu;
 import com.zsinda.fdp.mapper.SysRoleMapper;
 import com.zsinda.fdp.mapper.SysRoleMenuMapper;
 import com.zsinda.fdp.service.SysRoleService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> implements SysRoleService {
 
-    @Autowired
-    private SysRoleMenuMapper sysRoleMenuMapper;
+    private final SysRoleMenuMapper sysRoleMenuMapper;
 
     @Override
     public List<SysRole> findRoleById(Integer userId) {
@@ -31,4 +31,5 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
                 .eq(SysRoleMenu::getRoleId, id));
         return removeById(id);
     }
+
 }

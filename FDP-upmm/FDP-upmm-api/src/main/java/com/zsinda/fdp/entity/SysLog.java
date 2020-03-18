@@ -12,6 +12,9 @@ import java.time.LocalDateTime;
 @Data
 @TableName(value = "sys_log")
 public class SysLog implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+    
     /**
      * 编号
      */

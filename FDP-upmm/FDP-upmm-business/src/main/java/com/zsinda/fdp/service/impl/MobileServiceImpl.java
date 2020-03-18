@@ -7,8 +7,8 @@ import com.zsinda.fdp.entity.SysUser;
 import com.zsinda.fdp.mapper.SysUserMapper;
 import com.zsinda.fdp.service.MobileService;
 import com.zsinda.fdp.utils.R;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
@@ -23,13 +23,12 @@ import java.util.concurrent.TimeUnit;
  **/
 @Slf4j
 @Service
+@AllArgsConstructor
 public class MobileServiceImpl implements MobileService {
     private static final Object CODE_KEY = "FDP_SMS_CODE_KEY";
     private static final long CODE_TIME = 60;
-    @Autowired
-    private RedisTemplate redisTemplate;
-    @Autowired
-    private  SysUserMapper userMapper;
+    private final RedisTemplate redisTemplate;
+    private final SysUserMapper userMapper;
 
 
     /**

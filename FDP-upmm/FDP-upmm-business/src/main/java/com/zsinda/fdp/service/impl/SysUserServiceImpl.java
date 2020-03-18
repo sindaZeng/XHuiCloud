@@ -1,7 +1,10 @@
 package com.zsinda.fdp.service.impl;
 
 import cn.hutool.core.util.ArrayUtil;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.zsinda.fdp.dto.UserDto;
 import com.zsinda.fdp.dto.UserInfo;
 import com.zsinda.fdp.entity.SysRole;
 import com.zsinda.fdp.entity.SysUser;
@@ -10,8 +13,8 @@ import com.zsinda.fdp.service.SysMenuService;
 import com.zsinda.fdp.service.SysRoleService;
 import com.zsinda.fdp.service.SysUserService;
 import com.zsinda.fdp.vo.MenuVO;
+import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
@@ -20,13 +23,12 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
-public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> implements SysUserService{
+@AllArgsConstructor
+public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> implements SysUserService {
 
-    @Autowired
-    private SysRoleService sysRoleService;
+    private final SysRoleService sysRoleService;
 
-    @Autowired
-    private SysMenuService sysMenuService;
+    private final SysMenuService sysMenuService;
 
     @Override
     public UserInfo findUserInfo(SysUser sysUser) {
@@ -52,6 +54,16 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         });
         userInfo.setPermissions(ArrayUtil.toArray(permissions, String.class));
         return userInfo;
+    }
+
+    @Override
+    public IPage userPage(Page page, UserDto userDto) {
+        return baseMapper.userPage(page, userDto);
+    }
+
+    @Override
+    public Boolean updateUser(SysUser sysUser) {
+        return null;
     }
 
 

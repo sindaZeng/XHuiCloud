@@ -1,6 +1,7 @@
 package com.zsinda.fdp.controller;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.zsinda.fdp.annotation.SysLog;
 import com.zsinda.fdp.dto.MenuTree;
 import com.zsinda.fdp.entity.SysMenu;
 import com.zsinda.fdp.service.SysMenuService;
@@ -80,6 +81,7 @@ public class SysMenuController {
      * @param sysMenu
      * @return
      */
+    @SysLog("新增菜单")
     @PostMapping
     @PreAuthorize("@authorize.hasPermission('sys_add_menu')")
     public R save(@Valid @RequestBody SysMenu sysMenu) {
@@ -91,9 +93,17 @@ public class SysMenuController {
      * @param id
      * @return
      */
+    @SysLog("开启禁用菜单")
     @DeleteMapping("/{id}")
     @PreAuthorize("@authorize.hasPermission('sys_delete_menu')")
     public R delete(@PathVariable Integer id) {
         return R.ok(sysMenuService.deleteMenu(id));
+    }
+
+    @SysLog("编辑菜单")
+    @PutMapping
+    @PreAuthorize("@authorize.hasPermission('sys_editor_menu')")
+    public R update(@Valid @RequestBody SysMenu sysMenu) {
+        return R.ok(sysMenuService.updateMenu(sysMenu));
     }
 }

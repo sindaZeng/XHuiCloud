@@ -2,19 +2,21 @@ package com.zsinda.fdp.controller;
 
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zsinda.fdp.annotation.Inner;
+import com.zsinda.fdp.annotation.SysLog;
+import com.zsinda.fdp.dto.UserDto;
+import com.zsinda.fdp.entity.SysMenu;
 import com.zsinda.fdp.entity.SysUser;
 import com.zsinda.fdp.service.SysUserService;
 import com.zsinda.fdp.utils.R;
 import com.zsinda.fdp.utils.SpringSecurityUtils;
 import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.client.ServiceInstance;
-import org.springframework.cloud.client.discovery.DiscoveryClient;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/user")
@@ -24,15 +26,21 @@ public class SysUserController {
 
     private final SysUserService sysUserService;
 
-    @Autowired
-    private DiscoveryClient discoveryClient;
+    /**
+     * 分页查询用户列表
+     * @param userDto
+     * @return
+     */
+    @GetMapping("/userPage")
+    public R userPage(Page page, UserDto userDto) {
+        return R.ok(sysUserService.userPage(page,userDto));
+    }
 
     /**
      * 获取当前登录用户全部信息
      */
     @GetMapping("/info")
     public R info() {
-        List<ServiceInstance> instances = discoveryClient.getInstances("FDP-upmm-business");
         String username = SpringSecurityUtils.getUser().getUsername();
         SysUser user = sysUserService.getOne(Wrappers.<SysUser>query()
                 .lambda().eq(SysUser::getUsername, username));
@@ -58,13 +66,17 @@ public class SysUserController {
      * @return
      */
     @Inner
+    @SysLog("添加用户")
     @PostMapping
-    public R user() {
-        SysUser sysUser = new SysUser();
-        sysUser.setUsername("root");
-        sysUser.setPhone("123123123");
-        sysUser.setEmail("12332@ee.com");
-        sysUser.setPassword("12312312312");
+    @PreAuthorize("@authorize.hasPermission('sys_add_user')")
+    public R user(@Valid @RequestBody SysUser sysUser) {
         return R.ok(sysUserService.save(sysUser));
+    }
+
+    @SysLog("编辑菜单")
+    @PutMapping
+    @PreAuthorize("@authorize.hasPermission('sys_editor_user')")
+    public R update(@Valid @RequestBody SysUser sysUser) {
+        return R.ok(sysUserService.updateUser(sysUser));
     }
 }

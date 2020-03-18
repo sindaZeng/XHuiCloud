@@ -31,7 +31,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 
     @Override
     @Transactional
-    public boolean saveMenu(SysMenu sysMenu) {
+    public Boolean saveMenu(SysMenu sysMenu) {
         if (sysMenu.getType() == 0 && StringUtils.isEmpty(sysMenu.getPath())) {
             throw SysException.sysFail("类型为菜单时,路由路径不能为空!");
         } else if (sysMenu.getType() == 1 && StringUtils.isEmpty(sysMenu.getPermission())) {
@@ -42,16 +42,9 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
         return save(sysMenu);
     }
 
-    /**
-     * 禁用时: 禁用本级，以及子级 ，以及禁用所有拥有此菜单以及子菜单的角色。
-     * 启用时: 只启用本级。
-     *
-     * @param id
-     * @return
-     */
     @Override
     @Transactional
-    public boolean deleteMenu(Integer id) {
+    public Boolean deleteMenu(Integer id) {
         // 查询当前节点的节点
         SysMenu sysMenu = getOne(Wrappers.<SysMenu>query()
                 .lambda().eq(SysMenu::getMenuId, id));
@@ -75,6 +68,12 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
         } else {
             throw SysException.sysFail("没有此菜单或者按钮!");
         }
+    }
+
+    @Override
+    @Transactional
+    public Boolean updateMenu(SysMenu sysMenu) {
+        return updateById(sysMenu);
     }
 
     /**

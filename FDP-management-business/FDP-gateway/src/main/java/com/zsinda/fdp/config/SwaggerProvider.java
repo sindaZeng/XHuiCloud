@@ -1,7 +1,9 @@
 package com.zsinda.fdp.config;
 
+import com.google.common.collect.Lists;
+import com.zsinda.fdp.utils.BeanUtils;
+import com.zsinda.fdp.vo.RouteDefinitionVo;
 import lombok.AllArgsConstructor;
-import org.springframework.cloud.gateway.route.RouteDefinition;
 import org.springframework.cloud.gateway.route.RouteDefinitionRepository;
 import org.springframework.cloud.gateway.support.NameUtils;
 import org.springframework.context.annotation.Primary;
@@ -9,7 +11,6 @@ import org.springframework.stereotype.Component;
 import springfox.documentation.swagger.web.SwaggerResource;
 import springfox.documentation.swagger.web.SwaggerResourcesProvider;
 
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -30,13 +31,15 @@ public class SwaggerProvider implements SwaggerResourcesProvider {
 
     @Override
     public List<SwaggerResource> get() {
-        List<RouteDefinition> routes = new ArrayList<>();
+        List<Object> routes = Lists.newArrayList();
+        List<RouteDefinitionVo> routeDefinitionVos = Lists.newArrayList();
         routeDefinitionRepository.getRouteDefinitions().subscribe(routes::add);
-        return routes.stream().flatMap(routeDefinition -> routeDefinition.getPredicates().stream()
+        BeanUtils.copyBeanList(routes,routeDefinitionVos,RouteDefinitionVo.class);
+        return routeDefinitionVos.stream().flatMap(routeDefinition -> routeDefinition.getPredicates().stream()
                 .filter(predicateDefinition -> "Path".equalsIgnoreCase(predicateDefinition.getName()))
                 .filter(predicateDefinition -> !filterIgnorePropertiesConfig.getSwaggerProviders().contains(routeDefinition.getId()))
                 .map(predicateDefinition ->
-                        swaggerResource(routeDefinition.getId(), predicateDefinition.getArgs().get(NameUtils.GENERATED_NAME_PREFIX + "0").replace("/**", API_URI))
+                        swaggerResource(routeDefinition.getRouteName(), predicateDefinition.getArgs().get(NameUtils.GENERATED_NAME_PREFIX + "0").replace("/**", API_URI))
                 )).sorted(Comparator.comparing(SwaggerResource::getName))
                 .collect(Collectors.toList());
     }

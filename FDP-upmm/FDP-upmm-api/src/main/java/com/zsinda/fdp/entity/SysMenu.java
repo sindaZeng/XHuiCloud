@@ -90,7 +90,5 @@ public class SysMenu implements Serializable {
     @NotNull(message = "菜单类型不能为空")
     private Integer type;
 
-
-
     private static final long serialVersionUID = 1L;
 }

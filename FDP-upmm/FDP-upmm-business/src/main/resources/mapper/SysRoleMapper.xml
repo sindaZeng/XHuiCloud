@@ -24,5 +24,12 @@
     sys_role r, sys_user_role ur WHERE r.role_id = ur.role_id AND r.del_flag = 1 and  ur.user_id IN (#{userId})
   </select>
 
+  <select id="listRolesNameByUserId" resultType="java.lang.String">
+    SELECT
+    r.role_name
+    FROM
+    sys_role r, sys_user_role ur WHERE r.role_id = ur.role_id AND r.del_flag = 1 and  ur.user_id IN (#{userId})
+  </select>
+
 
 </mapper>
