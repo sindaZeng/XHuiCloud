@@ -2,7 +2,7 @@ nacos:
   address: 127.0.0.1:13000
 spring:
   application:
-    name: FDP-upmm-business
+    name: FDP-logs-business
   profiles:
     active: dev
   cloud:
@@ -18,10 +18,6 @@ spring:
         # 公共的配置文件
         shared-configs:
           - application-common.yml
-  autoconfigure:
-    exclude:
-      - org.springframework.cloud.gateway.config.GatewayAutoConfiguration
-      - org.springframework.cloud.gateway.config.GatewayClassPathWarningAutoConfiguration
 security:
   oauth2:
     client:

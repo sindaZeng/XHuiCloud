@@ -11,4 +11,9 @@ public interface ServiceNameConstants {
      */
     String FDP_UPMM_BUSINESS = "FDP-upmm-business";
 
+    /**
+     * 日志模块
+     */
+    String FDP_LOGS_BUSINESS = "FDP-logs-business";
+
 }

@@ -91,7 +91,7 @@ public class FdpAuthorizationServerConfig extends AuthorizationServerConfigurerA
                 .authenticationManager(authenticationManager)//校验用户信息是否合法
                 .reuseRefreshTokens(false)
                 .tokenServices(defaultTokenServices())
-                .pathMapping("/oauth/confirm_access", "/confirm_access")//设置成自己的授权页面
+                .pathMapping("/oauth/confirm_access", "/token/confirm_access")//设置成自己的授权页面
                 .exceptionTranslator(new FdpWebResponseExceptionTranslator()); //修改Oauth2定义的错误信息 为我们定义的错误信息
 
 

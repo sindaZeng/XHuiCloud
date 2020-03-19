@@ -6,7 +6,6 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zsinda.fdp.annotation.Inner;
 import com.zsinda.fdp.annotation.SysLog;
 import com.zsinda.fdp.dto.UserDto;
-import com.zsinda.fdp.entity.SysMenu;
 import com.zsinda.fdp.entity.SysUser;
 import com.zsinda.fdp.service.SysUserService;
 import com.zsinda.fdp.utils.R;
@@ -73,10 +72,27 @@ public class SysUserController {
         return R.ok(sysUserService.save(sysUser));
     }
 
-    @SysLog("编辑菜单")
+    /**
+     * 编辑用户
+     * @param sysUser
+     * @return
+     */
+    @SysLog("编辑用户")
     @PutMapping
     @PreAuthorize("@authorize.hasPermission('sys_editor_user')")
     public R update(@Valid @RequestBody SysUser sysUser) {
         return R.ok(sysUserService.updateUser(sysUser));
+    }
+
+    /**
+     * 开启禁用用户
+     * @param id
+     * @return
+     */
+    @SysLog("开启/禁用用户")
+    @DeleteMapping("/{id}")
+    @PreAuthorize("@authorize.hasPermission('sys_delete_user')")
+    public R delete(@PathVariable Integer id) {
+        return R.ok(sysUserService.deleteUser(id));
     }
 }

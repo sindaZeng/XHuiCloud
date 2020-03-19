@@ -2,12 +2,14 @@ package com.zsinda.fdp.service.impl;
 
 import cn.hutool.core.util.ArrayUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zsinda.fdp.dto.UserDto;
 import com.zsinda.fdp.dto.UserInfo;
 import com.zsinda.fdp.entity.SysRole;
 import com.zsinda.fdp.entity.SysUser;
+import com.zsinda.fdp.exception.SysException;
 import com.zsinda.fdp.mapper.SysUserMapper;
 import com.zsinda.fdp.service.SysMenuService;
 import com.zsinda.fdp.service.SysRoleService;
@@ -63,7 +65,21 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
     @Override
     public Boolean updateUser(SysUser sysUser) {
-        return null;
+        return updateById(sysUser);
+    }
+
+    @Override
+    public Boolean deleteUser(Integer id) {
+        SysUser sysUser = getOne(Wrappers.<SysUser>lambdaQuery().eq(SysUser::getUserId, id));
+        if (sysUser == null) {
+            throw SysException.sysFail("没有此用户!");
+        }
+        if (sysUser.getDelFlag() == 0) {
+            sysUser.setDelFlag(1);
+        } else {
+            sysUser.setDelFlag(0);
+        }
+        return updateById(sysUser);
     }
 
 

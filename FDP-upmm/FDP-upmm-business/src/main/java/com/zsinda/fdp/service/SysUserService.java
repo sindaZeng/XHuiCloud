@@ -26,5 +26,17 @@ public interface SysUserService extends IService<SysUser>{
      */
     IPage userPage(Page page, UserDto userDto);
 
+    /**
+     * 编辑用户
+     * @param sysUser
+     * @return
+     */
     Boolean updateUser(SysUser sysUser);
+
+    /**
+     * 开启/禁用用户
+     * @param id
+     * @return
+     */
+    Boolean deleteUser(Integer id);
 }

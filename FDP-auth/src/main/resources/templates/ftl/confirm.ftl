@@ -5,7 +5,7 @@
     <meta charset="UTF-8"/>
     <meta name="viewport"
           content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
-    <title>PigX第三方授权</title>
+    <title>快速开发平台第三方授权</title>
     <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css"/>
     <link rel="stylesheet" type="text/css" href="/css/signin.css"/>
 </head>
@@ -18,10 +18,13 @@
         </div>
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-5">
             <p class="navbar-text navbar-right">
-                <a target="_blank" href="https://pig4cloud.com">技术支持</a>
+                <a target="_blank" href="">技术支持</a>
             </p>
             <p class="navbar-text navbar-right">
-                <a target="_blank" href="https://pig4cloud.com">${user.username}</a>
+                <a target="_blank" href="">申请接入</a>
+            </p>
+            <p class="navbar-text navbar-right">
+                <a target="_blank" href="">${user.username}</a>
             </p>
         </div>
     </div>
@@ -30,7 +33,7 @@
     <form id='confirmationForm' name='confirmationForm' action="/oauth/authorize" method='post'>
         <input name='user_oauth_approval' value='true' type='hidden'/>
         <p>
-            <a href="${app.website!''}" target="_blank">${app.appName!'未定义应用名称'}</a> 将获得以下权限：</p>
+            <a href="${app.home!''}" target="_blank">${app.name!'未定义应用名称'}</a> 将获得以下权限：</p>
         <ul class="list-group">
             <li class="list-group-item"> <span>
               <#list scopeList as scope>
@@ -44,8 +47,8 @@
     </form>
 </div>
 <footer>
-    <p>support by: pig4cloud.com</p>
-    <p>email: <a href="mailto:wangiegie@gmail.com">wangiegie@gmail.com</a>.</p>
+    <p>support by: 快速开发平台</p>
+    <p>email: <a href="mailto:wangiegie@gmail.com">sindazeng@gmail.com</a>.</p>
 </footer>
 </body>
 </html>

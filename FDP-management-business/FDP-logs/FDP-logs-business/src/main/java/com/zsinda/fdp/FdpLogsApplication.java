@@ -8,9 +8,9 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 @SpringBootApplication
 @EnableFeignClients
 @EnableFdpResourceServer
-public class FdpUserManagementApplication {
+public class FdpLogsApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(FdpUserManagementApplication.class,args);
+        SpringApplication.run(FdpLogsApplication.class,args);
     }
 }

@@ -23,7 +23,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class FdpWebSecurityConfigurer extends WebSecurityConfigurerAdapter {
 
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
@@ -36,23 +36,24 @@ public class FdpWebSecurityConfigurer extends WebSecurityConfigurerAdapter {
 
     /**
      * 不拦截资源
+     *
      * @param web
      */
     @Override
     public void configure(WebSecurity web) {
-        web.ignoring().antMatchers("/css/**","/oauth/check_token");
+        web.ignoring().antMatchers("/css/**", "/oauth/check_token");
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .formLogin()//表单登录
-                .loginPage("/token/toLogin")
+                .loginPage("/token/login")
                 .loginProcessingUrl("/token/form")
                 .and()
                 .authorizeRequests()//对请求授权
-                .antMatchers("/token/**","/mobile/**").permitAll() //匹配这个url 放行
+                .antMatchers("/token/**", "/mobile/**").permitAll() //匹配这个url 放行
                 .anyRequest().authenticated()//任何请求都要授权
-        .and().csrf().disable();//跨站请求伪造攻击
+                .and().csrf().disable();//跨站请求伪造攻击
     }
 }
