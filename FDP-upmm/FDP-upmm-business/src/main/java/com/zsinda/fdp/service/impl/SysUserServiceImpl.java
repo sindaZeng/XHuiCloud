@@ -15,6 +15,7 @@ import com.zsinda.fdp.service.SysMenuService;
 import com.zsinda.fdp.service.SysRoleService;
 import com.zsinda.fdp.service.SysUserService;
 import com.zsinda.fdp.vo.MenuVO;
+import com.zsinda.fdp.vo.UserVo;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
@@ -88,6 +89,11 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
             sysUser.setLockFlag(0);
         }
         return updateById(sysUser);
+    }
+
+    @Override
+    public UserVo getUserById(Integer id) {
+        return baseMapper.getUserById(id);
     }
 
     private SysUser checkUserId(Integer id) {

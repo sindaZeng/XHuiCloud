@@ -3,6 +3,7 @@ package com.zsinda.fdp.utils;
 import org.springframework.asm.ClassVisitor;
 import org.springframework.asm.Type;
 import org.springframework.cglib.core.*;
+import org.springframework.cglib.core.ReflectUtils;
 
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Modifier;

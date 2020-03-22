@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.zsinda.fdp.dto.UserDto;
 import com.zsinda.fdp.dto.UserInfo;
 import com.zsinda.fdp.entity.SysUser;
+import com.zsinda.fdp.vo.UserVo;
 
 public interface SysUserService extends IService<SysUser>{
 
@@ -46,4 +47,11 @@ public interface SysUserService extends IService<SysUser>{
      * @return
      */
     Boolean lock(Integer id);
+
+    /**
+     * 根据id 查找用户
+     * @param id
+     * @return
+     */
+    UserVo getUserById(Integer id);
 }

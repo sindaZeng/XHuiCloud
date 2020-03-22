@@ -35,11 +35,6 @@
             <optional>true</optional>
         </dependency>
 
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-        </dependency>
-
         <!-- druid 连接池 -->
         <dependency>
             <groupId>com.alibaba</groupId>
@@ -75,6 +70,10 @@
         <!-- mysql end -->
         <!--驱动包-->
 
+        <dependency>
+            <groupId>com.zsinda</groupId>
+            <artifactId>FDP-common-core</artifactId>
+        </dependency>
 
     </dependencies>
 
