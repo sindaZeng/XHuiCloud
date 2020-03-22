@@ -4,9 +4,10 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Data;
+
 import java.io.Serializable;
 import java.util.Date;
-import lombok.Data;
 
 @Data
 @TableName(value = "sys_user")
@@ -46,6 +47,12 @@ public class SysUser implements Serializable {
      */
     @TableField(value = "email")
     private String email;
+
+    /**
+     * 性别:0 女、1  男、2  其他
+     */
+    @TableField(value = "sex")
+    private Integer sex;
 
     /**
      * 创建时间

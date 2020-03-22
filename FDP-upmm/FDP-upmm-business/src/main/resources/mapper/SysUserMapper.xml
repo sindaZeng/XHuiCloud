@@ -1,50 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zsinda.fdp.mapper.SysUserMapper">
-  <resultMap id="BaseResultMap" type="com.zsinda.fdp.entity.SysUser">
-    <!--@mbg.generated-->
-    <!--@Table sys_user-->
-    <id column="user_id" jdbcType="INTEGER" property="userId" />
-    <result column="username" jdbcType="VARCHAR" property="username" />
-    <result column="password" jdbcType="VARCHAR" property="password" />
-    <result column="avatar" jdbcType="VARCHAR" property="avatar" />
-    <result column="phone" jdbcType="VARCHAR" property="phone" />
-    <result column="email" jdbcType="VARCHAR" property="email" />
-    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
-    <result column="lock_flag" jdbcType="INTEGER" property="lockFlag" />
-    <result column="del_flag" jdbcType="INTEGER" property="delFlag" />
-  </resultMap>
+    <resultMap id="BaseResultMap" type="com.zsinda.fdp.entity.SysUser">
+        <!--@mbg.generated-->
+        <!--@Table sys_user-->
+        <id column="user_id" jdbcType="INTEGER" property="userId"/>
+        <result column="username" jdbcType="VARCHAR" property="username"/>
+        <result column="password" jdbcType="VARCHAR" property="password"/>
+        <result column="avatar" jdbcType="VARCHAR" property="avatar"/>
+        <result column="phone" jdbcType="VARCHAR" property="phone"/>
+        <result column="email" jdbcType="VARCHAR" property="email"/>
+        <result column="sex" jdbcType="INTEGER" property="sex"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="lock_flag" jdbcType="INTEGER" property="lockFlag"/>
+        <result column="del_flag" jdbcType="INTEGER" property="delFlag"/>
+    </resultMap>
 
-  <resultMap id="UserVoResultMap" type="com.zsinda.fdp.vo.UserVo">
-    <id column="user_id" property="userId"/>
-    <result column="username" property="username"/>
-    <result column="password" property="password"/>
-    <result column="phone" property="phone"/>
-    <result column="email" property="email"/>
-    <result column="avatar" property="avatar"/>
-    <result column="create_time" property="createTime"/>
-    <result column="update_time" property="updateTime"/>
-    <result column="lock_flag" property="lockFlag"/>
-    <result column="del_flag" property="delFlag"/>
-    <collection property="roleName" ofType="java.lang.String"
-                select="com.zsinda.fdp.mapper.SysRoleMapper.listRolesNameByUserId" column="user_id">
-    </collection>
-  </resultMap>
+    <resultMap id="UserVoResultMap" type="com.zsinda.fdp.vo.UserVo">
+        <id column="user_id" property="userId"/>
+        <result column="username" property="username"/>
+        <result column="password" property="password"/>
+        <result column="phone" property="phone"/>
+        <result column="email" property="email"/>
+        <result column="avatar" property="avatar"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="lock_flag" property="lockFlag"/>
+        <result column="del_flag" property="delFlag"/>
+        <collection property="roleName" ofType="java.lang.String"
+                    select="com.zsinda.fdp.mapper.SysRoleMapper.listRolesNameByUserId" column="user_id">
+        </collection>
+        <collection property="deptName" ofType="java.lang.String"
+                    select="com.zsinda.fdp.mapper.SysDeptMapper.listDeptNameByUserId" column="user_id">
+        </collection>
+    </resultMap>
 
 
-  <sql id="Base_Column_List">
-    <!--@mbg.generated-->
-    user_id, username, `password`, avatar, phone, email, create_time, update_time, lock_flag,
-    del_flag
-  </sql>
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        user_id, username, `password`, avatar, phone, email, create_time, update_time, lock_flag,
+        del_flag
+    </sql>
 
-  <sql id="userPage">
+    <sql id="userPage">
       u.user_id,
       u.username,
       u.avatar,
       u.phone,
       u.email,
+      u.sex,
       u.create_time,
       u.update_time,
       u.del_flag,
@@ -52,33 +57,50 @@
     </sql>
 
 
-  <select id="userPage" resultMap="UserVoResultMap">
-      SELECT
-      <include refid="userPage"/>
-      FROM
-      sys_user u
-      <where>
-        u.user_id in (
-          SELECT
-          user_id
-          FROM
-          sys_user_role
-          WHERE
-          role_id IN ( SELECT role_id FROM ( SELECT role_id FROM sys_role sr WHERE 1 = 1
-          <if test="query.roleName != null and query.roleName != ''">
-             AND sr.role_name LIKE CONCAT( '%', #{query.roleName}, '%' )
-          </if>
-          ) sr )
-          GROUP BY
-          user_id
-          )
-        <if test="query.text != null and query.text != ''">
-            AND CONCAT(u.username,u.phone,u.email) LIKE CONCAT('%',#{query.text},'%')
-        </if>
-        <if test="query.delFlag != 2">
-          AND u.del_flag = #{query.delFlag}
-        </if>
-      </where>
-      ORDER BY u.create_time DESC
+    <select id="userPage" resultMap="UserVoResultMap">
+        SELECT
+        <include refid="userPage"/>
+        FROM
+        sys_user u
+        <where>
+            <!--      角色筛选条件      -->
+            u.user_id in (
+            SELECT
+            user_id
+            FROM
+            sys_user_role
+            WHERE
+            role_id IN ( SELECT role_id FROM ( SELECT role_id FROM sys_role sr WHERE 1 = 1
+            <if test="query.roleName != null and query.roleName != ''">
+                AND sr.role_name LIKE CONCAT( '%', #{query.roleName}, '%' )
+            </if>
+            ) sr )
+            GROUP BY
+            user_id
+            )
+            <!--      部门筛选条件     -->
+            <if test="query.deptIds.size()>0">
+                AND
+                u.user_id in (
+                SELECT
+                user_id
+                FROM
+                sys_user_dept
+                WHERE
+                1=1 AND
+                dept_id IN
+                <foreach collection="query.deptIds" item="item" open="(" close=")" separator=",">
+                    #{item}
+                </foreach>
+                )
+            </if>
+            <if test="query.text != null and query.text != ''">
+                AND CONCAT(u.username,u.phone,u.email) LIKE CONCAT('%',#{query.text},'%')
+            </if>
+            <if test="query.delFlag != 2 and query.delFlag != null and query.delFlag != ''">
+                AND u.del_flag = #{query.delFlag}
+            </if>
+        </where>
+        ORDER BY u.create_time DESC
     </select>
 </mapper>

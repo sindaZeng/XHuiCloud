@@ -70,16 +70,32 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
     @Override
     public Boolean deleteUser(Integer id) {
-        SysUser sysUser = getOne(Wrappers.<SysUser>lambdaQuery().eq(SysUser::getUserId, id));
-        if (sysUser == null) {
-            throw SysException.sysFail("没有此用户!");
-        }
+        SysUser sysUser = checkUserId(id);
         if (sysUser.getDelFlag() == 0) {
             sysUser.setDelFlag(1);
         } else {
             sysUser.setDelFlag(0);
         }
         return updateById(sysUser);
+    }
+
+    @Override
+    public Boolean lock(Integer id) {
+        SysUser sysUser = checkUserId(id);
+        if (sysUser.getLockFlag() == 0) {
+            sysUser.setLockFlag(1);
+        } else {
+            sysUser.setLockFlag(0);
+        }
+        return updateById(sysUser);
+    }
+
+    private SysUser checkUserId(Integer id) {
+        SysUser sysUser = getOne(Wrappers.<SysUser>lambdaQuery().eq(SysUser::getUserId, id));
+        if (sysUser == null) {
+            throw SysException.sysFail("没有此用户!");
+        }
+        return sysUser;
     }
 
 

@@ -56,6 +56,12 @@ public class UserVo implements Serializable {
     private String email;
 
     /**
+     * 性别:0 女、1  男、2  其他
+     */
+    @ApiModelProperty(value = "性别")
+    private Integer sex;
+
+    /**
      * 创建时间
      */
     @ApiModelProperty(value = "创建时间")
@@ -85,5 +91,10 @@ public class UserVo implements Serializable {
     @ApiModelProperty(value = "角色名称")
     private List<String> roleName;
 
+    /**
+     * 角色名称
+     */
+    @ApiModelProperty(value = "部门名称")
+    private List<String> deptName;
 
 }

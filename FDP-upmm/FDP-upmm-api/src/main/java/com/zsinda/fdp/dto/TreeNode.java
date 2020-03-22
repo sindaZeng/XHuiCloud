@@ -17,8 +17,6 @@ public class TreeNode {
 
     protected int parentId;
 
-    protected int value;
-
     protected List<TreeNode> children=null;
 
     public void add(TreeNode node) {

@@ -71,7 +71,7 @@ public class SysMenuController {
      */
     @GetMapping(value = "/tree")
     public R getMenuTree() {
-        return R.ok(TreeUtil.buildTree(sysMenuService
+        return R.ok(TreeUtil.buildMenuTree(sysMenuService
                 .list(Wrappers.<SysMenu>lambdaQuery()
                         .orderByAsc(SysMenu::getSort)), 0));
     }

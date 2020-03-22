@@ -39,4 +39,11 @@ public interface SysUserService extends IService<SysUser>{
      * @return
      */
     Boolean deleteUser(Integer id);
+
+    /**
+     * 锁定/解锁用户
+     * @param id
+     * @return
+     */
+    Boolean lock(Integer id);
 }

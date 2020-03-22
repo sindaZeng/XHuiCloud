@@ -11,6 +11,7 @@ spring:
     nacos:
       discovery:
         server-addr: ${nacos.address}
+        heart-beat-timeout:
       config:
         server-addr: ${nacos.address}
         #后缀 yml

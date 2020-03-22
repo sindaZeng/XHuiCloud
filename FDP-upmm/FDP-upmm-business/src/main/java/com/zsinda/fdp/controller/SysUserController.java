@@ -93,6 +93,21 @@ public class SysUserController {
     @DeleteMapping("/{id}")
     @PreAuthorize("@authorize.hasPermission('sys_delete_user')")
     public R delete(@PathVariable Integer id) {
+        for (int i = 0; i < 10; i++) {
+            continue;
+        }
         return R.ok(sysUserService.deleteUser(id));
+    }
+
+    /**
+     * 锁定/解锁用户
+     * @param id
+     * @return
+     */
+    @SysLog("锁定/解锁用户")
+    @GetMapping("/{id}")
+    @PreAuthorize("@authorize.hasPermission('sys_ban_user')")
+    public R lock(@PathVariable Integer id) {
+        return R.ok(sysUserService.lock(id));
     }
 }

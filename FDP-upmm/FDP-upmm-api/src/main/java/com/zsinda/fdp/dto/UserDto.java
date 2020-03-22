@@ -6,6 +6,7 @@ import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @program: FDPlatform
@@ -30,6 +31,9 @@ public class UserDto implements Serializable {
 
     @ApiModelProperty(value = "日期")
     private Date date;
+
+    @ApiModelProperty(value = "部门ID集合")
+    private List<Integer> deptIds;
 
 
 }
