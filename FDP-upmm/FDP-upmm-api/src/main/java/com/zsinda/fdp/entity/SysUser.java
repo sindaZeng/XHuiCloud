@@ -10,6 +10,7 @@ import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @TableName(value = "sys_user")
@@ -89,6 +90,20 @@ public class SysUser implements Serializable {
     @TableField(value = "del_flag")
     @Excel(name = "注销状态", readConverterExp = "已注销=0,正常=1")
     private Integer delFlag;
+
+    /**
+     * 角色名称
+     */
+    @Excel(name = "用户角色")
+    @TableField(exist = false)
+    private List<Integer> roleIds;
+
+    /**
+     * 角色名称
+     */
+    @Excel(name = "用户部门")
+    @TableField(exist = false)
+    private List<Integer> deptIds;
 
     private static final long serialVersionUID = 1L;
 }

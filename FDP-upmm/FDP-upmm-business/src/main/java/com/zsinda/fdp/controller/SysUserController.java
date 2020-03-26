@@ -40,17 +40,6 @@ public class SysUserController {
     }
 
     /**
-     * 根据id 查找用户
-     *
-     * @param id
-     * @return
-     */
-    @PostMapping("/{id}")
-    public R user(@PathVariable Integer id) {
-        return R.ok(sysUserService.getUserById(id));
-    }
-
-    /**
      * 获取当前登录用户全部信息
      *
      * @return
@@ -95,9 +84,11 @@ public class SysUserController {
     }
 
     /**
-     * 添加用户
-     *
+     * 导入用户
+     * @param file 文件
+     * @param updateSupport 是否更新已存在的用户
      * @return
+     * @throws Exception
      */
     @SysLog("导入用户")
     @PostMapping("/import")
@@ -105,7 +96,7 @@ public class SysUserController {
     public R importUser(MultipartFile file, boolean updateSupport) throws Exception {
         ExcelUtil<SysUser> excelUtil = new ExcelUtil<>(SysUser.class);
         List<SysUser> userList = excelUtil.importExcel(file.getInputStream());
-        return R.ok(null);
+        return R.ok(sysUserService.importUser(userList,updateSupport));
     }
 
     /**

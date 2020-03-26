@@ -29,9 +29,6 @@
         <result column="update_time" property="updateTime"/>
         <result column="lock_flag" property="lockFlag"/>
         <result column="del_flag" property="delFlag"/>
-    </resultMap>
-
-    <resultMap id="UserVoResultMap" type="com.zsinda.fdp.vo.UserVo" extends="BaseResultMap">
         <collection property="roleName" ofType="java.lang.String"
                     select="com.zsinda.fdp.mapper.SysRoleMapper.listRolesNameByUserId" column="user_id">
         </collection>
@@ -106,13 +103,5 @@
         </where>
         ORDER BY u.create_time DESC
     </select>
-    <select id="getUserById" resultMap="UserVoResultMap">
-        SELECT
-        <include refid="userPage"/>
-        FROM
-        sys_user u
-        <where>
-        u.user_id = #{id}
-        </where>
-    </select>
+
 </mapper>

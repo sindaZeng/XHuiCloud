@@ -1,5 +1,6 @@
 package com.zsinda.fdp.utils;
 
+import cn.hutool.core.convert.Convert;
 import com.zsinda.fdp.annotation.Excel;
 import com.zsinda.fdp.annotation.Excels;
 import com.zsinda.fdp.enums.ColumnType;
@@ -18,6 +19,7 @@ import org.slf4j.LoggerFactory;
 import java.io.*;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.lang.reflect.ParameterizedType;
 import java.text.DecimalFormat;
 import java.util.*;
 
@@ -110,7 +112,7 @@ public class ExcelUtil<T> {
         this.type = Type.IMPORT;
         this.wb = WorkbookFactory.create(is);
         List<T> list = new ArrayList<T>();
-        Sheet sheet = null;
+        Sheet sheet;
         if (StringUtils.isNotEmpty(sheetName)) {
             // 如果指定sheet名,则取指定sheet中的内容.
             sheet = wb.getSheet(sheetName);
@@ -127,7 +129,7 @@ public class ExcelUtil<T> {
 
         if (rows > 0) {
             // 定义一个map用于存放excel列的序号和field.
-            Map<String, Integer> cellMap = new HashMap<String, Integer>();
+            Map<String, Integer> cellMap = new HashMap();
             // 获取表头
             Row heard = sheet.getRow(0);
             for (int i = 0; i < heard.getPhysicalNumberOfCells(); i++) {
@@ -142,7 +144,7 @@ public class ExcelUtil<T> {
             // 有数据时才处理 得到类的所有field.
             Field[] allFields = clazz.getDeclaredFields();
             // 定义一个map用于存放列的序号和field.
-            Map<Integer, Field> fieldsMap = new HashMap<Integer, Field>();
+            Map<Integer, Field> fieldsMap = new HashMap();
             for (int col = 0; col < allFields.length; col++) {
                 Field field = allFields[col];
                 Excel attr = field.getAnnotation(Excel.class);
@@ -165,6 +167,13 @@ public class ExcelUtil<T> {
                     Field field = fieldsMap.get(entry.getKey());
                     // 取得类型,并根据对象类型设置值.
                     Class<?> fieldType = field.getType();
+                    if (List.class == fieldType) {
+                        ParameterizedType genericType = (ParameterizedType) field.getGenericType();
+                        java.lang.reflect.Type[] elementType = genericType.getActualTypeArguments();
+                        // 获取泛型
+                        Class classz = (Class) elementType[0];
+                        val = convertToList(Convert.toList(classz, val), fieldType);
+                    }
                     if (ObjectUtils.isNotEmpty(fieldType)) {
                         Excel attr = field.getAnnotation(Excel.class);
                         String propertyName = field.getName();
@@ -180,6 +189,10 @@ public class ExcelUtil<T> {
             }
         }
         return list;
+    }
+
+    private List<?> convertToList(List<?> objects, Class<?> fieldType) {
+        return objects;
     }
 
     /**
@@ -236,7 +249,7 @@ public class ExcelUtil<T> {
             return R.ok(filename);
         } catch (Exception e) {
             log.error("导出Excel异常{}", e.getMessage());
-            throw new SysException(500,"导出Excel失败，请联系管理员！");
+            throw new SysException(500, "导出Excel失败，请联系管理员！");
         } finally {
             if (wb != null) {
                 try {

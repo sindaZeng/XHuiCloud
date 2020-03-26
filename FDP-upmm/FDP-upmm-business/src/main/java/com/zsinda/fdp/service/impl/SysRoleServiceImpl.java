@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -30,6 +31,11 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
                 .<SysRoleMenu>update().lambda()
                 .eq(SysRoleMenu::getRoleId, id));
         return removeById(id);
+    }
+
+    @Override
+    public List<Integer> getAllRoleIds() {
+        return list(Wrappers.emptyWrapper()).stream().map(SysRole::getRoleId).collect(Collectors.toList());
     }
 
 }

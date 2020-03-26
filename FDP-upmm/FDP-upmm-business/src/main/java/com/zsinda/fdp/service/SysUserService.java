@@ -6,7 +6,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.zsinda.fdp.dto.UserDto;
 import com.zsinda.fdp.dto.UserInfo;
 import com.zsinda.fdp.entity.SysUser;
-import com.zsinda.fdp.vo.UserVo;
+
+import java.util.List;
 
 public interface SysUserService extends IService<SysUser>{
 
@@ -49,9 +50,10 @@ public interface SysUserService extends IService<SysUser>{
     Boolean lock(Integer id);
 
     /**
-     * 根据id 查找用户
-     * @param id
+     * 导入用户
+     * @param userList  用户集合
+     * @param updateSupport 是否更新已存在的用户
      * @return
      */
-    UserVo getUserById(Integer id);
+    String importUser(List<SysUser> userList, boolean updateSupport);
 }

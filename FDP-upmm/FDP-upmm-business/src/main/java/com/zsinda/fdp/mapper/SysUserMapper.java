@@ -16,5 +16,5 @@ public interface SysUserMapper extends BaseMapper<SysUser> {
 
     IPage<List<UserVo>> userPage(Page page, @Param("query") UserDto userDto);
 
-    UserVo getUserById(Integer id);
+
 }
