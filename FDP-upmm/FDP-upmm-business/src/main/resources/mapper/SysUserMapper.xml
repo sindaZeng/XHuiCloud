@@ -43,7 +43,7 @@
         del_flag
     </sql>
 
-    <sql id="userPage">
+    <sql id="userPageDto">
       u.user_id,
       u.username,
       u.avatar,
@@ -59,7 +59,7 @@
 
     <select id="userPage" resultMap="BaseUserVoResultMap">
         SELECT
-        <include refid="userPage"/>
+        <include refid="userPageDto"/>
         FROM
         sys_user u
         <where>
