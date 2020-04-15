@@ -61,9 +61,11 @@ public class TreeUtil {
                 .map(dept -> {
                     DeptTree node = new DeptTree();
                     node.setId(dept.getDeptId());
+                    node.setValue(dept.getDeptId());
                     node.setParentId(dept.getParentId());
                     node.setAddress(dept.getAddress());
                     node.setName(dept.getName());
+                    node.setLabel(dept.getName());
                     return node;
                 }).collect(Collectors.toList());
         return TreeUtil.build(deptTrees, root);

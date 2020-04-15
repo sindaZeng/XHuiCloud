@@ -25,16 +25,6 @@ public class MenuTree extends TreeNode {
     private String name;
 
     /**
-     * 菜单标签
-     */
-    private String label;
-
-    /**
-     * 菜单 选择框value
-     */
-    private int value;
-
-    /**
      * 权限
      */
     private String permission;

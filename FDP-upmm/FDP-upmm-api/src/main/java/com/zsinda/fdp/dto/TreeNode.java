@@ -13,6 +13,10 @@ import java.util.List;
 @Data
 public class TreeNode {
 
+    private String label;
+
+    private int value;
+
     protected int id;
 
     protected int parentId;

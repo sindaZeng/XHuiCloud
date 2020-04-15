@@ -4,6 +4,7 @@ package com.zsinda.fdp.controller;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zsinda.fdp.annotation.SysLog;
+import com.zsinda.fdp.dto.RoleDto;
 import com.zsinda.fdp.entity.SysRole;
 import com.zsinda.fdp.service.SysRoleMenuService;
 import com.zsinda.fdp.service.SysRoleService;
@@ -14,11 +15,12 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/role")
 @AllArgsConstructor
-@Api(value = "role",tags = "角色管理模块")
+@Api(value = "role", tags = "角色管理模块")
 public class SysRoleController {
 
     private final SysRoleService sysRoleService;
@@ -26,16 +28,29 @@ public class SysRoleController {
 
     /**
      * 分页查询角色列表
+     *
      * @param page
      * @return
      */
-    @GetMapping("/pageList")
+    @GetMapping("/page")
     public R pageList(Page page) {
-        return R.ok(sysRoleService.page(page, Wrappers.<SysRole>lambdaQuery().eq(SysRole::getDelFlag,1)));
+        return R.ok(sysRoleService.page(page, Wrappers.<SysRole>lambdaQuery().eq(SysRole::getDelFlag, 1)));
     }
 
     /**
-     *  新增角色
+     * 查询角色列表
+     *
+     * @return
+     */
+    @GetMapping("/list")
+    public R list() {
+        return R.ok(sysRoleService.list(Wrappers.<SysRole>lambdaQuery().eq(SysRole::getDelFlag, 1))
+                .stream().map(RoleDto::new).collect(Collectors.toList()));
+    }
+
+    /**
+     * 新增角色
+     *
      * @param sysRole
      * @return
      */
@@ -48,6 +63,7 @@ public class SysRoleController {
 
     /**
      * 更新角色
+     *
      * @param sysRole
      * @return
      */
@@ -60,6 +76,7 @@ public class SysRoleController {
 
     /**
      * 删除角色
+     *
      * @param id
      * @return
      */
@@ -72,6 +89,7 @@ public class SysRoleController {
 
     /**
      * 通过ID查询角色信息
+     *
      * @param id
      * @return
      */
@@ -79,8 +97,10 @@ public class SysRoleController {
     public R getById(@PathVariable Integer id) {
         return R.ok(sysRoleService.getById(id));
     }
+
     /**
      * 更新角色菜单
+     *
      * @param roleId
      * @param menuIds
      * @return
@@ -91,7 +111,6 @@ public class SysRoleController {
     public R saveRoleMenus(Integer roleId, @RequestParam(value = "menuIds", required = false) String menuIds) {
         return R.ok(sysRoleMenuService.saveRoleMenus(roleId, menuIds));
     }
-
 
 
 }
