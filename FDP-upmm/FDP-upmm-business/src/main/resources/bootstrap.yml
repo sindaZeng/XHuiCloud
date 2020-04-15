@@ -23,6 +23,10 @@ spring:
     exclude:
       - org.springframework.cloud.gateway.config.GatewayAutoConfiguration
       - org.springframework.cloud.gateway.config.GatewayClassPathWarningAutoConfiguration
+  servlet:
+    multipart:
+      max-file-size: 2MB
+      max-request-size: 50MB
 security:
   oauth2:
     client:
