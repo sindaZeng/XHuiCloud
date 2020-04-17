@@ -1,0 +1,55 @@
+version: '1.0.0'
+services:
+  FDP-mysql:
+    build:
+      context: ./resource/db
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+    restart: always
+    container_name: FDP-mysql
+    image: FDP-mysql
+    ports:
+      - 3306:3306
+    volumes:
+      - ./FDP-mysql:/var/lib/mysql
+    command: --lower_case_table_names=1
+
+  Fdp-redis:
+    container_name: Fdp-redis
+    image: redis:5.0.7
+    restart: always
+    ports:
+      - 6379:6379
+
+  FDP-register:
+    build:
+      context: ./FDP-management-business/FDP-register
+    restart: always
+    container_name: FDP-register
+    image: FDP-register
+    ports:
+      - 13000:13000
+
+  FDP-gateway:
+    build:
+      context: ./FDP-management-business/FDP-gateway
+    restart: always
+    container_name: FDP-gateway
+    image: FDP-gateway
+    ports:
+      - 15000:15000
+
+  FDP-auth:
+    build:
+      context: ./FDP-auth
+    restart: always
+    container_name: FDP-auth
+    image: FDP-auth
+
+  FDP-upmm:
+    build:
+      context: ./FDP-upmm/FDP-upmm-business
+    restart: always
+    container_name: FDP-upmm
+    image: FDP-upmm
+
