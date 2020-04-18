@@ -10,9 +10,6 @@ services:
     image: fdp-mysql
     ports:
       - 3306:3306
-    volumes:
-      - ./fdp-mysql:/var/lib/mysql
-    command: --lower_case_table_names=1
 
   fdp-redis:
     container_name: fdp-redis

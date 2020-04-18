@@ -1,23 +1,11 @@
-/*
- Navicat Premium Data Transfer
+DROP DATABASE IF EXISTS `sys_register`;
 
- Source Server         : 本机
- Source Server Type    : MySQL
- Source Server Version : 50722
- Source Host           : localhost:3306
- Source Schema         : sys_register
-
- Target Server Type    : MySQL
- Target Server Version : 50722
- File Encoding         : 65001
-
- Date: 17/04/2020 23:21:45
-*/
-USE sys_register;
+CREATE DATABASE `sys_register` DEFAULT CHARACTER SET UTF8MB4 COLLATE UTF8MB4_GENERAL_CI;
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 
+USE `sys_register`;
 -- ----------------------------
 -- Table structure for config_info
 -- ----------------------------
