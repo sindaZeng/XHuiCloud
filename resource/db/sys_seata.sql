@@ -13,6 +13,7 @@
 
  Date: 17/04/2020 23:21:53
 */
+USE sys_seata;
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;

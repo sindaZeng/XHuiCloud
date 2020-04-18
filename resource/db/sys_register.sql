@@ -13,6 +13,7 @@
 
  Date: 17/04/2020 23:21:45
 */
+USE sys_register;
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
