@@ -6,11 +6,9 @@ ENV TZ=Asia/Shanghai
 
 RUN ln -sf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
-COPY ./schema.sql /docker-entrypoint-initdb.d
-
 COPY ./sys.sql /docker-entrypoint-initdb.d
 
-COPY ./sys_config.sql /docker-entrypoint-initdb.d
+COPY ./sys_register.sql /docker-entrypoint-initdb.d
 
 COPY ./sys_job.sql /docker-entrypoint-initdb.d
 
