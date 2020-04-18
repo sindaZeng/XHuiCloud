@@ -1,1 +1,1 @@
-- 打包命令 mvn package spring-boot:repackage
+- 打包命令 mvn clean install -Dmaven.test.skip=true
