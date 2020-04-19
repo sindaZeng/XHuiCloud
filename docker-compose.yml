@@ -1,15 +1,18 @@
-version: "2"
+version: "1"
 services:
   fdp-mysql:
     build:
       context: ./resource/db
     environment:
-      - MYSQL_ROOT_PASSWORD=123456
+      MYSQL_ROOT_PASSWORD: 123456
     restart: always
     container_name: fdp-mysql
     image: fdp-mysql
     ports:
       - 3306:3306
+    volumes:
+      - ./fdp-mysql:/var/lib/mysql
+    command: --lower_case_table_names=1
 
   fdp-redis:
     container_name: fdp-redis
