@@ -4,7 +4,7 @@ services:
     build:
       context: ./resource/db
     environment:
-      MYSQL_ROOT_PASSWORD: 123456
+      - MYSQL_ROOT_PASSWORD=123456
     restart: always
     container_name: fdp-mysql
     image: fdp-mysql
@@ -21,6 +21,12 @@ services:
   fdp-register:
     build:
       context: ./FDP-management-business/FDP-register
+    environment:
+      - REDIS_HOST=fdp-redis
+      - MYSQL_HOST=fdp-mysql
+      - MYSQL_PORT=3306
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=123456
     restart: always
     container_name: fdp-register
     image: fdp-register
@@ -30,6 +36,8 @@ services:
   fdp-gateway:
     build:
       context: ./FDP-management-business/FDP-gateway
+    environment:
+      - REDIS_HOST=fdp-redis
     restart: always
     container_name: fdp-gateway
     image: fdp-gateway
@@ -39,6 +47,12 @@ services:
   fdp-auth:
     build:
       context: ./FDP-auth
+    environment:
+      - REDIS_HOST=fdp-redis
+      - MYSQL_HOST=fdp-mysql
+      - MYSQL_PORT=3306
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=123456
     restart: always
     container_name: fdp-auth
     image: fdp-auth
@@ -46,6 +60,12 @@ services:
   FDP-upmm:
     build:
       context: ./FDP-upmm/FDP-upmm-business
+    environment:
+      - REDIS_HOST=fdp-redis
+      - MYSQL_HOST=fdp-mysql
+      - MYSQL_PORT=3306
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=123456
     restart: always
     container_name: fdp-upmm
     image: fdp-upmm

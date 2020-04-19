@@ -1,11 +1,7 @@
-DROP DATABASE IF EXISTS `sys_seata`;
-
-CREATE DATABASE `sys_seata` DEFAULT CHARACTER SET UTF8MB4 COLLATE UTF8MB4_GENERAL_CI;
+USE `sys_seata`;
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
-
-USE `sys_seata`;
 
 -- ----------------------------
 -- Table structure for branch_table

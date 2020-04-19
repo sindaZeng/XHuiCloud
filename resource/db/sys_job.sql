@@ -1,11 +1,22 @@
-DROP DATABASE IF EXISTS `sys_job`;
+/*
+ Navicat Premium Data Transfer
 
-CREATE DATABASE `sys_job` DEFAULT CHARACTER SET UTF8MB4 COLLATE UTF8MB4_GENERAL_CI;
+ Source Server         : 本机
+ Source Server Type    : MySQL
+ Source Server Version : 50722
+ Source Host           : localhost:3306
+ Source Schema         : sys_job
+
+ Target Server Type    : MySQL
+ Target Server Version : 50722
+ File Encoding         : 65001
+
+ Date: 19/04/2020 21:20:36
+*/
+USE `sys_job`;
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
-
-USE `sys_job`;
 
 -- ----------------------------
 -- Table structure for JOB_EXECUTION_LOG
