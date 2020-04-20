@@ -1,10 +1,10 @@
-version: "1"
+version: '2'
 services:
   fdp-mysql:
     build:
-      context: ./resource/db
+      context: ./db
     environment:
-      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_ROOT_PASSWORD: root
     restart: always
     container_name: fdp-mysql
     image: fdp-mysql
@@ -29,7 +29,7 @@ services:
       - MYSQL_HOST=fdp-mysql
       - MYSQL_PORT=3306
       - MYSQL_USER=root
-      - MYSQL_PASSWORD=123456
+      - MYSQL_PASSWORD=root
     restart: always
     container_name: fdp-register
     image: fdp-register
@@ -41,6 +41,8 @@ services:
       context: ./FDP-management-business/FDP-gateway
     environment:
       - REDIS_HOST=fdp-redis
+      - NACOS_HOST=fdp-register
+      - NACOS_PORT=13000
     restart: always
     container_name: fdp-gateway
     image: fdp-gateway
@@ -52,10 +54,12 @@ services:
       context: ./FDP-auth
     environment:
       - REDIS_HOST=fdp-redis
+      - NACOS_HOST=fdp-register
+      - NACOS_PORT=13000
       - MYSQL_HOST=fdp-mysql
       - MYSQL_PORT=3306
       - MYSQL_USER=root
-      - MYSQL_PASSWORD=123456
+      - MYSQL_PASSWORD=root
     restart: always
     container_name: fdp-auth
     image: fdp-auth
@@ -65,10 +69,12 @@ services:
       context: ./FDP-upmm/FDP-upmm-business
     environment:
       - REDIS_HOST=fdp-redis
+      - NACOS_HOST=fdp-register
+      - NACOS_PORT=13000
       - MYSQL_HOST=fdp-mysql
       - MYSQL_PORT=3306
       - MYSQL_USER=root
-      - MYSQL_PASSWORD=123456
+      - MYSQL_PASSWORD=root
     restart: always
     container_name: fdp-upmm
     image: fdp-upmm
