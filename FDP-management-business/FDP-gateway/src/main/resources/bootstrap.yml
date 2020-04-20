@@ -1,8 +1,5 @@
 server:
   port: 15000
-
-nacos:
-  address: 127.0.0.1:13000
 spring:
   main:
     allow-bean-definition-overriding: true
@@ -11,7 +8,7 @@ spring:
   cloud:
     nacos:
       config:
-        server-addr: ${nacos.address}
+        server-addr: ${NACOS_HOST:localhost}:${NACOS_PORT:13000}
         #后缀 yml
         file-extension: yml
         # 公共的配置文件

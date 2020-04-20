@@ -1,0 +1,31 @@
+spring:
+  datasource:
+    platform: mysql
+server:
+  tomcat:
+    basedir: logs
+  port: 13000
+  servlet:
+    context-path: /nacos
+management:
+  metrics:
+    export:
+      influx:
+        enabled: false
+      elastic:
+        enabled: false
+db:
+  password: ${MYSQL_PASSWORD:root}
+  num: 1
+  user: ${MYSQL_USER:root}
+  url:
+    0: jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3306}/sys_register?characterEncoding=utf8&connectTimeout=1000&socketTimeout=3000&autoReconnect=true
+nacos:
+  security:
+    ignore:
+      urls: /,/error,/**/*.css,/**/*.js,/**/*.html,/**/*.map,/**/*.svg,/**/*.png,/**/*.ico,/console-fe/public/**,/v1/auth/login,/v1/console/health/**,/v1/cs/**,/v1/ns/**,/v1/cmdb/**,/actuator/**,/v1/console/server/**
+  cmdb:
+    loadDataAtStart: false
+    eventTaskInterval: 10
+    dumpTaskInterval: 3600
+    labelTaskInterval: 300

@@ -1,5 +1,3 @@
-nacos:
-  address: 127.0.0.1:13000
 spring:
   application:
     name: FDP-auth
@@ -8,9 +6,9 @@ spring:
   cloud:
     nacos:
       discovery:
-        server-addr: ${nacos.address}
+        server-addr: ${NACOS_HOST:localhost}:${NACOS_PORT:13000}
       config:
-        server-addr: ${nacos.address}
+        server-addr: ${NACOS_HOST:localhost}:${NACOS_PORT:13000}
         #后缀 yml
         file-extension: yml
         # 公共的配置文件
