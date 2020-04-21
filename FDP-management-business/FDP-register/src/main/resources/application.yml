@@ -19,7 +19,7 @@ db:
   num: 1
   user: ${MYSQL_USER:root}
   url:
-    0: jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3306}/sys_register?characterEncoding=utf8&connectTimeout=1000&socketTimeout=3000&autoReconnect=true
+    0: jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3306}/sys_register?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Asia/Shanghai&allowMultiQueries=true&allowPublicKeyRetrieval=true
 nacos:
   security:
     ignore:
