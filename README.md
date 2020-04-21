@@ -41,6 +41,8 @@ yum install -y git java maven
 
 git clone https://github.com/sindaZeng/FDPlatform.git
 
+- [在线预览](http://zsinda.cn:9527/) 
+
 # 运行方式一:
 Docker
 
