@@ -14,6 +14,6 @@ Docker
 - docker-compose up -d
 
 等待执行完毕,编译打包[FDP-UI 前端](https://github.com/sindaZeng/Fdp-ui)
-访问  http://localhost:9528/ 
+访问  http://localhost:9527/ 
 
 即可愉快玩耍啦~
