@@ -135,7 +135,7 @@ public class SysUserController {
      * @return
      */
     @SysLog("锁定/解锁用户")
-    @GetMapping("/{id}")
+    @PostMapping("/{id}")
     @PreAuthorize("@authorize.hasPermission('sys_ban_user')")
     public R lock(@PathVariable Integer id) {
         return R.ok(sysUserService.lock(id));
