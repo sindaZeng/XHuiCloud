@@ -6,8 +6,8 @@
 - [部署文档(编写中)]()
 - [在线预览](http://zsinda.cn:9527/) 
 
+#### 目录结构
 ```lua
-
 FDPlatform
 ├── FDP-auth                         -- 认证服务器[16000]
 └── FDP-commons                      -- 公共模块 
