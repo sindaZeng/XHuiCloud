@@ -33,7 +33,7 @@ public class SysRoleController {
      * @return
      */
     @GetMapping("/page")
-    public R pageList(Page page) {
+    public R page(Page page) {
         return R.ok(sysRoleService.page(page, Wrappers.<SysRole>lambdaQuery().eq(SysRole::getDelFlag, 1)));
     }
 

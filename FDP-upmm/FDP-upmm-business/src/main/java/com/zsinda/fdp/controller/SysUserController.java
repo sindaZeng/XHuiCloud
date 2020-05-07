@@ -34,8 +34,8 @@ public class SysUserController {
      * @param userDto
      * @return
      */
-    @GetMapping("/userPage")
-    public R userPage(Page page, UserDto userDto) {
+    @GetMapping("/page")
+    public R page(Page page, UserDto userDto) {
         return R.ok(sysUserService.userPage(page, userDto));
     }
 

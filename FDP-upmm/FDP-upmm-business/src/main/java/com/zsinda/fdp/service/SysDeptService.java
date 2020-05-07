@@ -13,4 +13,5 @@ public interface SysDeptService extends IService<SysDept>{
      */
     List<Integer> getAllDeptIds();
 
+    Boolean saveDept(SysDept sysDept);
 }

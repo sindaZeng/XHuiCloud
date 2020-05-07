@@ -7,6 +7,7 @@ import com.zsinda.fdp.entity.SysDept;
 import com.zsinda.fdp.mapper.SysDeptMapper;
 import com.zsinda.fdp.service.SysDeptService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -17,6 +18,12 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
     @Override
     public List<Integer> getAllDeptIds() {
         return list(Wrappers.emptyWrapper()).stream().map(SysDept::getDeptId).collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public Boolean saveDept(SysDept sysDept) {
+        return save(sysDept);
     }
 
 }

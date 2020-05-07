@@ -69,7 +69,7 @@ public class SysConfig implements Serializable {
      */
     @TableField(value = "create_id")
     @ApiModelProperty(value="创建者id")
-    private String createId;
+    private Integer createId;
 
     /**
      * 创建时间

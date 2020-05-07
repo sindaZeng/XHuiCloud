@@ -30,7 +30,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public Boolean saveMenu(SysMenu sysMenu) {
         if (sysMenu.getType() == 0 && StringUtils.isEmpty(sysMenu.getPath())) {
             throw SysException.sysFail("类型为菜单时,路由路径不能为空!");
@@ -43,7 +43,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public Boolean deleteMenu(Integer id) {
         // 查询当前节点的节点
         SysMenu sysMenu = getOne(Wrappers.<SysMenu>query()
@@ -71,7 +71,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public Boolean updateMenu(SysMenu sysMenu) {
         return updateById(sysMenu);
     }

@@ -11,7 +11,7 @@
     <result column="config_type" jdbcType="INTEGER" property="configType" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="sort" jdbcType="INTEGER" property="sort" />
-    <result column="create_id" jdbcType="VARCHAR" property="createId" />
+    <result column="create_id" jdbcType="INTEGER" property="createId" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_id" jdbcType="INTEGER" property="updateId" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
@@ -19,7 +19,7 @@
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
-    id, config_name, config_key, config_value, config_type, remark, sort, create_id, 
+    id, config_name, config_key, config_value, config_type, remark, sort, create_id,
     create_time, update_id, update_time, del_flag
   </sql>
 </mapper>
