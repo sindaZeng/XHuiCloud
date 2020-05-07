@@ -18,6 +18,7 @@
         <module>FDP-transaction-coordinator</module>
         <module>FDP-task</module>
         <module>FDP-logs</module>
+        <module>FDP-generator</module>
     </modules>
 
 

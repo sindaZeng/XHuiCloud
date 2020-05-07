@@ -27,9 +27,16 @@
 
     <dependencyManagement>
         <dependencies>
+
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>FDP-common-datasource</artifactId>
+                <version>${FDPlatform.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>FDP-common-data</artifactId>
                 <version>${FDPlatform.version}</version>
             </dependency>
 
