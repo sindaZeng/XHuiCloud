@@ -1,22 +1,15 @@
 package com.zsinda.fdp.controller;
 
-import cn.hutool.core.io.FileUtil;
-import cn.hutool.core.util.IdUtil;
-import cn.hutool.core.util.StrUtil;
-import cn.hutool.http.HttpStatus;
-import com.qiniu.http.Response;
-import com.qiniu.storage.Configuration;
-import com.qiniu.storage.Region;
-import com.qiniu.storage.UploadManager;
-import com.qiniu.util.Auth;
-import com.zsinda.fdp.exception.SysException;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.zsinda.fdp.annotation.SysLog;
+import com.zsinda.fdp.entity.SysFile;
+import com.zsinda.fdp.service.SysFileService;
 import com.zsinda.fdp.utils.R;
 import io.swagger.annotations.Api;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cloud.context.config.annotation.RefreshScope;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import lombok.AllArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -27,53 +20,47 @@ import org.springframework.web.multipart.MultipartFile;
  */
 @RestController
 @RequestMapping("/file")
-@Api(value = "file",tags = "文件管理模块")
-@RefreshScope
+@Api(value = "file", tags = "文件管理模块")
+@AllArgsConstructor
 public class SysFileController {
 
-    /**
-     * 七牛AK
-     */
-    @Value("${qiniu.accessKey}")
-    private String accessKey;
+    private final SysFileService sysFileService;
 
     /**
-     * 七牛SK
+     * 分页查询文件列表
+     *
+     * @param page
+     * @return
      */
-    @Value("${qiniu.secretKey}")
-    private String secretKey;
+    @GetMapping("/page")
+    public R page(Page page) {
+        return R.ok(sysFileService.page(page, Wrappers.<SysFile>lambdaQuery().eq(SysFile::getDelFlag, 1)));
+    }
 
     /**
-     * 七牛桶
-     */
-    @Value("${qiniu.bucket}")
-    private String bucket;
-
-    /**
-     * 文件上传
+     * 七牛文件上传
+     *
      * @param file
      * @return
      */
-    @PostMapping("/upload")
-    public R upload(MultipartFile file){
-
-        //构造一个带指定 Region 对象的配置类
-        Configuration cfg = new Configuration(Region.region2());
-            //...其他参数参考类注释
-        UploadManager uploadManager = new UploadManager(cfg);
-
-        String fileName = IdUtil.simpleUUID() + StrUtil.DOT + FileUtil.extName(file.getOriginalFilename());
-
-        Auth auth = Auth.create(accessKey, secretKey);
-        String upToken = auth.uploadToken(bucket);
-            try {
-                Response response = uploadManager.put(file.getBytes(), fileName, upToken);
-                if (response.statusCode != HttpStatus.HTTP_OK){
-                    throw SysException.sysFail("上传文件错误，请重新上传或联系管理员!");
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        return R.ok(fileName);
+    @SysLog("上传文件")
+    @PostMapping("/upload/{fileType}")
+    @PreAuthorize("@authorize.hasPermission('sys_upload_file')")
+    public R upload(@RequestParam("file") MultipartFile file, @PathVariable("fileType") String fileType) {
+        return R.ok(sysFileService.upload(file, fileType));
     }
+
+    /**
+     * 删除文件
+     *
+     * @param id
+     * @return
+     */
+    @SysLog("删除文件")
+    @DeleteMapping("/{id}")
+    @PreAuthorize("@authorize.hasPermission('sys_delete_file')")
+    public R removeById(@PathVariable Integer id) {
+        return R.ok(sysFileService.deleteFileById(id));
+    }
+
 }
