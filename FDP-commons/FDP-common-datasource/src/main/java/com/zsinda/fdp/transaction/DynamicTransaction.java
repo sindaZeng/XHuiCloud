@@ -16,12 +16,12 @@ import java.sql.SQLException;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-
 /**
- * 多数据源动态事务管理
- * @author x
- * @date 2019年09月09日
- */
+ * @program: FDPlatform
+ * @description: 多数据源动态事务管理
+ * @author: Sinda
+ * @create: 2019-09-09
+ **/
 @Slf4j
 public class DynamicTransaction implements Transaction {
 

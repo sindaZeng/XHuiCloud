@@ -8,6 +8,12 @@ import org.mybatis.spring.transaction.SpringManagedTransactionFactory;
 
 import javax.sql.DataSource;
 
+/**
+ * @program: FDPlatform
+ * @description: 多数据源动态事务工厂
+ * @author: Sinda
+ * @create: 2019-09-09
+ **/
 @AllArgsConstructor
 public class DynamicTransactionFactory extends SpringManagedTransactionFactory {
 

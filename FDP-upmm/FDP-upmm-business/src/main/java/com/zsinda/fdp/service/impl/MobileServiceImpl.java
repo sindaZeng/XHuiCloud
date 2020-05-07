@@ -57,6 +57,6 @@ public class MobileServiceImpl implements MobileService {
         redisTemplate.opsForValue().set(
                 CODE_KEY + mobile
                 , code, CODE_TIME, TimeUnit.SECONDS);
-        return R.ok(Boolean.TRUE, code);
+        return R.ok(Boolean.TRUE);
     }
 }

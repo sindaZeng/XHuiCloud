@@ -10,9 +10,11 @@ import org.springframework.stereotype.Component;
 import java.util.Map;
 
 /**
- * @author X
- * @date 2019/09/03
- */
+ * @program: FDPlatform
+ * @description: 动态数据源属性
+ * @author: Sinda
+ * @create: 2019-09-03
+ **/
 @Data
 @Component
 @ConditionalOnExpression("!'${spring.datasources}'.isEmpty()")

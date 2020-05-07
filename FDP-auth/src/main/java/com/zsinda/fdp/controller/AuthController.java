@@ -17,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.sql.SQLException;
 import java.util.Map;
 
 //import com.zsinda.fdp.base.IDGenerate;
@@ -44,7 +45,6 @@ public class AuthController {
 
 //    private final IDGenerate defaultSnowflakeIDGenerate;
 
-
     /**
      * 认证页面
      * @param modelAndView
@@ -58,11 +58,6 @@ public class AuthController {
         return modelAndView;
     }
 
-//    public static void main(String[] args) {
-//        Map<String, Object> getAdditionalInformation = new HashMap<>();
-//        getAdditionalInformation.put("分享谈","分享谈");
-//        System.out.println(getAdditionalInformation);
-//    }
     /**
      * 确认授权页面
      *
@@ -109,13 +104,13 @@ public class AuthController {
         return R.ok(Boolean.TRUE);
     }
 
-//    @GetMapping("/test/{id}")
+    @GetMapping("/test/{id}")
 //    @SysLog("测试111111")
 //    @FdpLock(value = "#id", isUserTryLock = true)
 //    @GlobalTransactional
-//    public R user(@PathVariable Integer id) throws SQLException {
-//        log.info("id+{}",id);
-//        long l = defaultSnowflakeIDGenerate.get();
+    public R user(@PathVariable Integer id) throws SQLException {
+        log.info("id+{}",id);
+        //        long l = defaultSnowflakeIDGenerate.get();
 //        Object value = redisTemplate.opsForValue().get(id);
 //        if (null==value){
 //            redisTemplate.opsForValue().set(id,"123123123");
@@ -127,8 +122,8 @@ public class AuthController {
 //        }
 //        sysUserServiceFeign.user(IS_COMMING_INNER_YES);
 //        return R.ok(1/0);
-//        return R.ok(true);
-//    }
+        return R.ok(true);
+    }
 
 
 }

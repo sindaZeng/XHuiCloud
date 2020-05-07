@@ -1,10 +1,11 @@
 package com.zsinda.fdp.context;
 
 /**
- * @author X
- * @date 2019/09/03
- * 动态数据源持有者
- */
+ * @program: FDPlatform
+ * @description: 动态数据源持有者
+ * @author: Sinda
+ * @create: 2019-09-03
+ **/
 public class DynamicDataSourceHolder {
     /**
      * 创建本地线程共享对象  数据源名称

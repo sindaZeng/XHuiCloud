@@ -22,10 +22,11 @@ import java.lang.reflect.Method;
 import java.util.Objects;
 
 /**
- * @author X
- * @date 2019/09/03
- * 数据源AOP切面定义
- */
+ * @program: FDPlatform
+ * @description: 数据源AOP切面定义
+ * @author: Sinda
+ * @create: 2019-09-03
+ **/
 @Component
 @Aspect
 @Order(1)

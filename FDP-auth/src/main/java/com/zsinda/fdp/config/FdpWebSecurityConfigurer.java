@@ -17,7 +17,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
  * @author: Sinda
  * @create: 2019-12-25 23:49
  **/
-
 @Configuration
 @AllArgsConstructor
 public class FdpWebSecurityConfigurer extends WebSecurityConfigurerAdapter {
