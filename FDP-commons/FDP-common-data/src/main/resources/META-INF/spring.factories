@@ -1,0 +1,4 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.zsinda.fdp.cache.RedisTemplateConfig,\
+  com.zsinda.fdp.cache.RedisCacheManagerConfig,\
+  com.zsinda.fdp.cache.RedisCacheAutoConfiguration
