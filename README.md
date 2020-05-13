@@ -12,7 +12,7 @@ FDPlatform
 ├── FDP-auth                         -- 认证服务器[16000]
 └── FDP-commons                      -- 公共模块 
      ├── FDP-common-core             -- 公共核心模块
-     ├── FDP-common-data             -- 数据缓存模块(暂未使用)
+     ├── FDP-common-data             -- 数据缓存模块
      ├── FDP-common-datasource       -- 动态数据源模块
      ├── FDP-common-elasticJob       -- elasticJob自动配置模块
      ├── FDP-common-gateway          -- 网关核心模块
