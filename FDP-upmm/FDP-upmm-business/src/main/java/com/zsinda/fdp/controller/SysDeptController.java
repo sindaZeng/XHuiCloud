@@ -42,7 +42,7 @@ public class SysDeptController {
     /**
      * 新增部门
      *
-     * @param sysMenu
+     * @param sysDept
      * @return
      */
     @SysLog("新增部门")
@@ -51,4 +51,31 @@ public class SysDeptController {
     public R save(@Valid @RequestBody SysDept sysDept) {
         return R.ok(sysDeptService.saveDept(sysDept));
     }
+
+    /**
+     * 禁用，启用 部门
+     *
+     * @param id
+     * @return
+     */
+    @SysLog("开启禁用部门")
+    @DeleteMapping("/{id}")
+    @PreAuthorize("@authorize.hasPermission('sys_delete_dept')")
+    public R delete(@PathVariable Integer id) {
+        return R.ok(sysDeptService.deleteDept(id));
+    }
+
+    /**
+     * 编辑部门
+     *
+     * @param sysDept
+     * @return
+     */
+    @SysLog("编辑部门")
+    @PutMapping
+    @PreAuthorize("@authorize.hasPermission('sys_editor_dept')")
+    public R update(@Valid @RequestBody SysDept sysDept) {
+        return R.ok(sysDeptService.updateDept(sysDept));
+    }
+
 }

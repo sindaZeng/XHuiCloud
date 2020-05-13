@@ -23,6 +23,7 @@
         <knife4j.version>2.0.1</knife4j.version>
 <!--        <guava.version>26.0-jre</guava.version>-->
         <redisson.version>3.12.1</redisson.version>
+        <ttl.version>2.11.2</ttl.version>
     </properties>
 
     <dependencyManagement>
@@ -161,6 +162,7 @@
                 <artifactId>druid-spring-boot-starter</artifactId>
                 <version>${druid.version}</version>
             </dependency>
+
             <!--mysql 驱动-->
             <dependency>
                 <groupId>mysql</groupId>
@@ -190,6 +192,12 @@
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus-extension</artifactId>
                 <version>${mybatis-plus.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>transmittable-thread-local</artifactId>
+                <version>${ttl.version}</version>
             </dependency>
 
             <dependency>

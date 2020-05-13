@@ -17,11 +17,11 @@
             <artifactId>spring-cloud-starter-oauth2</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.zsinda</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>FDP-common-core</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.zsinda</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>FDP-upmm-api</artifactId>
         </dependency>
     </dependencies>

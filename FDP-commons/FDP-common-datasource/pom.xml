@@ -68,10 +68,17 @@
             <artifactId>mysql-connector-java</artifactId>
         </dependency>
         <!-- mysql end -->
+
         <!--驱动包-->
 
         <dependency>
-            <groupId>com.zsinda</groupId>
+            <groupId>com.alibaba</groupId>
+            <artifactId>transmittable-thread-local</artifactId>
+        </dependency>
+
+
+        <dependency>
+            <groupId>${project.groupId}</groupId>
             <artifactId>FDP-common-core</artifactId>
         </dependency>
 

@@ -9,7 +9,7 @@ import com.zsinda.fdp.entity.SysUser;
 
 import java.util.List;
 
-public interface SysUserService extends IService<SysUser>{
+public interface SysUserService extends IService<SysUser> {
 
     /**
      * 查询用户信息
@@ -30,6 +30,7 @@ public interface SysUserService extends IService<SysUser>{
 
     /**
      * 编辑用户
+     *
      * @param sysUser
      * @return
      */
@@ -37,6 +38,7 @@ public interface SysUserService extends IService<SysUser>{
 
     /**
      * 开启/禁用用户
+     *
      * @param id
      * @return
      */
@@ -44,6 +46,7 @@ public interface SysUserService extends IService<SysUser>{
 
     /**
      * 锁定/解锁用户
+     *
      * @param id
      * @return
      */
@@ -51,9 +54,18 @@ public interface SysUserService extends IService<SysUser>{
 
     /**
      * 导入用户
-     * @param userList  用户集合
+     *
+     * @param userList      用户集合
      * @param updateSupport 是否更新已存在的用户
      * @return
      */
     String importUser(List<SysUser> userList, boolean updateSupport);
+
+    /**
+     * 创建用户
+     *
+     * @param sysUser
+     * @return
+     */
+    Boolean saveUser(SysUser sysUser);
 }

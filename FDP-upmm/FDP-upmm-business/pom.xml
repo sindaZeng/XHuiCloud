@@ -58,7 +58,7 @@
         </dependency>
 
         <dependency>
-            <groupId>com.zsinda</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>FDP-common-logger</artifactId>
         </dependency>
 

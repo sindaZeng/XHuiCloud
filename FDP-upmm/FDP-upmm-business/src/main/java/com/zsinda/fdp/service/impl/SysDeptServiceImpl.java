@@ -26,4 +26,14 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
         return save(sysDept);
     }
 
+    @Override
+    public Boolean deleteDept(Integer id) {
+        return null;
+    }
+
+    @Override
+    public Boolean updateDept(SysDept sysDept) {
+        return null;
+    }
+
 }

@@ -42,4 +42,14 @@ public interface CommonConstants {
      * 内存reload 时间
      */
     String ROUTE_JVM_RELOAD_TOPIC = "gateway_jvm_route_reload_topic";
+
+    /**
+     * 请求头 中租户ID
+     */
+    String TENANT_ID = "tenant_id";
+
+    /**
+     * 默认租户ID
+     */
+    Integer DEFAULT_TENANT_ID = 1;
 }

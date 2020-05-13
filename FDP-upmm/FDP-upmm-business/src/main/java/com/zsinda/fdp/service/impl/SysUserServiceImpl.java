@@ -79,13 +79,13 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public Boolean updateUser(SysUser sysUser) {
         return updateById(sysUser);
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public Boolean deleteUser(Integer id) {
         SysUser sysUser = checkUserId(id);
         if (sysUser.getDelFlag() == 0) {
@@ -97,7 +97,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public Boolean lock(Integer id) {
         SysUser sysUser = checkUserId(id);
         if (sysUser.getLockFlag() == 0) {
@@ -108,6 +108,13 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         return updateById(sysUser);
     }
 
+    /**
+     * 此处不开启事务，能插入的都插入。不能插入的返回提示给前端
+     *
+     * @param userList      用户集合
+     * @param updateSupport 是否更新已存在的用户
+     * @return
+     */
     @Override
     public String importUser(List<SysUser> userList, boolean updateSupport) {
         if (CollectionUtils.isEmpty(userList)) {
@@ -135,14 +142,14 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         for (SysUser sysUser : userList) {
             try {
                 // 用户部门
-                List<Integer> deptIds = getDeptIds(allDeptIds, sysUser.getDeptIds(),sysConfigDept);
+                List<Integer> deptIds = getDeptIds(allDeptIds, sysUser.getDeptIds(), sysConfigDept);
                 // 用户角色
-                List<Integer> roleIds = getRoleIds(allRoleIds, sysUser.getRoleIds(),sysConfigRole);
+                List<Integer> roleIds = getRoleIds(allRoleIds, sysUser.getRoleIds(), sysConfigRole);
                 SysUser user = getOne(Wrappers.<SysUser>lambdaQuery().eq(SysUser::getUsername, sysUser.getUsername()));
                 if (ObjectUtils.isEmpty(user)) {
                     sysUser.setPassword(sysConfigPassWord.getConfigValue());
                     sysUser.setUserId(null);
-                    saveUserAndRoleAndDept(sysUser,deptIds,roleIds);
+                    saveUserAndRoleAndDept(sysUser, deptIds, roleIds);
                     successNum++;
                     successMsg.append("<br/>" + successNum + "、账号 " + sysUser.getUsername() + " 导入成功");
                 } else if (updateSupport) {
@@ -151,7 +158,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
                     sysUser.setUserId(user.getUserId());
                     // 创建时间不变
                     sysUser.setCreateTime(user.getCreateTime());
-                    updateUserAndRoleAndDept(sysUser,deptIds,roleIds);
+                    updateUserAndRoleAndDept(sysUser, deptIds, roleIds);
                     successNum++;
                     successMsg.append("<br/>" + successNum + "、账号 " + sysUser.getUsername() + " 更新成功");
                 } else {
@@ -174,20 +181,46 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         return successMsg.toString();
     }
 
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public Boolean saveUser(SysUser sysUser) {
+        // 设置默认密码
+        if (StringUtils.isBlank(sysUser.getPassword())) {
+            // 系统默认密码配置
+            SysConfig sysConfigPassWord = sysConfigService.getSysConfigByKey(SYS_USER_DEFAULT_PASSWORD);
+            sysUser.setPassword(sysConfigPassWord.getConfigValue());
+        }
+        // 所有的部门id
+        List<Integer> allDeptIds = sysDeptService.getAllDeptIds();
+        // 所有的角色id
+        List<Integer> allRoleIds = sysRoleService.getAllRoleIds();
+        // 系统默认角色配置
+        SysConfig sysConfigRole = sysConfigService.getSysConfigByKey(SYS_USER_DEFAULT_ROLE);
+        // 系统默认部门
+        SysConfig sysConfigDept = sysConfigService.getSysConfigByKey(SYS_USER_DEFAULT_ROLE);
+        // 用户部门
+        List<Integer> deptIds = getDeptIds(allDeptIds, sysUser.getDeptIds(), sysConfigDept);
+        // 用户角色
+        List<Integer> roleIds = getRoleIds(allRoleIds, sysUser.getRoleIds(), sysConfigRole);
+        saveUserAndRoleAndDept(sysUser,deptIds,roleIds);
+        return Boolean.TRUE;
+    }
+
     /**
      * 部门去重
      * 去无效部门
      * 如果为空 补充默认部门
+     *
      * @param allDeptIds
      * @param userDeptIds
      * @param sysConfigDept
      * @return
      */
     private List<Integer> getDeptIds(List<Integer> allDeptIds, List<Integer> userDeptIds, SysConfig sysConfigDept) {
-        if (CollectionUtil.isNotEmpty(userDeptIds)){
+        if (CollectionUtil.isNotEmpty(userDeptIds)) {
             return userDeptIds.stream()
-                    .distinct().filter(id-> allDeptIds.contains(id)).collect(Collectors.toList());
-        }else {
+                    .distinct().filter(id -> allDeptIds.contains(id)).collect(Collectors.toList());
+        } else {
             userDeptIds = new ArrayList();
             userDeptIds.add(Integer.valueOf(sysConfigDept.getConfigValue()));
             return userDeptIds;
@@ -198,16 +231,17 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
      * 角色去重
      * 去无效角色
      * 如果为空 补充默认角色
+     *
      * @param allRoleIds
      * @param userRoleIds
      * @param sysConfigRole
      * @return
      */
     private List<Integer> getRoleIds(List<Integer> allRoleIds, List<Integer> userRoleIds, SysConfig sysConfigRole) {
-        if (CollectionUtil.isNotEmpty(userRoleIds)){
+        if (CollectionUtil.isNotEmpty(userRoleIds)) {
             return userRoleIds.stream()
-                    .distinct().filter(id-> allRoleIds.contains(id)).collect(Collectors.toList());
-        }else {
+                    .distinct().filter(id -> allRoleIds.contains(id)).collect(Collectors.toList());
+        } else {
             userRoleIds = new ArrayList();
             userRoleIds.add(Integer.valueOf(sysConfigRole.getConfigValue()));
             return userRoleIds;
@@ -216,6 +250,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
     /**
      * 保存用户 角色 和 部门
+     *
      * @param sysUser
      * @param deptIds
      * @param roleIds
@@ -224,9 +259,9 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         // 新增用户
         baseMapper.insert(sysUser);
         // 新增用户角色
-        sysUserRoleService.saveUserRole(sysUser.getUserId(),roleIds);
+        sysUserRoleService.saveUserRole(sysUser.getUserId(), roleIds);
         // 新增用户部门
-        sysUserDeptService.saveUserDept(sysUser.getUserId(),deptIds);
+        sysUserDeptService.saveUserDept(sysUser.getUserId(), deptIds);
     }
 
 
@@ -234,13 +269,14 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         // 更新用户
         updateUser(sysUser);
         // 更新用户角色
-        sysUserRoleService.updateUserRole(sysUser.getUserId(),roleIds);
+        sysUserRoleService.updateUserRole(sysUser.getUserId(), roleIds);
         // 新增用户部门
-        sysUserDeptService.updateUserDept(sysUser.getUserId(),deptIds);
+        sysUserDeptService.updateUserDept(sysUser.getUserId(), deptIds);
     }
 
     /**
      * 校验用户id 是否存在
+     *
      * @param id
      * @return
      */

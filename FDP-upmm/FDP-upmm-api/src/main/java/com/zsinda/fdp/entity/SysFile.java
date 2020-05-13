@@ -11,9 +11,12 @@ import lombok.Data;
 import java.io.Serializable;
 import java.util.Date;
 
-@ApiModel(value = "com-zsinda-fdp-entity-SysFile")
+/**
+ * 文件表
+ */
 @Data
 @TableName(value = "sys_file")
+@ApiModel(value = "com-zsinda-fdp-entity-SysFile")
 public class SysFile implements Serializable {
     /**
      * 文件ID
@@ -91,6 +94,13 @@ public class SysFile implements Serializable {
     @TableField(value = "del_flag")
     @ApiModelProperty(value = "0: 禁用 1：启用")
     private Integer delFlag;
+
+    /**
+     * 租户id
+     */
+    @TableField(value = "tenant_id")
+    @ApiModelProperty(value = "租户id")
+    private Integer tenantId;
 
     private static final long serialVersionUID = 1L;
 }

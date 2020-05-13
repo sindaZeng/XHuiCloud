@@ -64,7 +64,9 @@ public class SysUserController {
     @Inner
     @GetMapping("/getSysUser/{userName}")
     public R getSysUser(@PathVariable String userName) {
-        SysUser user = sysUserService.getOne(Wrappers.<SysUser>query().lambda().eq(SysUser::getUsername, userName));
+        SysUser user = sysUserService.getOne(Wrappers.<SysUser>query().lambda()
+                .eq(SysUser::getUsername, userName)
+                .eq(SysUser::getDelFlag, 1));
         if (user == null) {
             return R.failed(null, String.format("用户信息为空 %s", userName));
         }
@@ -80,12 +82,13 @@ public class SysUserController {
     @PostMapping
     @PreAuthorize("@authorize.hasPermission('sys_add_user')")
     public R user(@Valid @RequestBody SysUser sysUser) {
-        return R.ok(sysUserService.save(sysUser));
+        return R.ok(sysUserService.saveUser(sysUser));
     }
 
     /**
      * 导入用户
-     * @param file 文件
+     *
+     * @param file          文件
      * @param updateSupport 是否更新已存在的用户
      * @return
      * @throws Exception
@@ -96,7 +99,7 @@ public class SysUserController {
     public R importUser(MultipartFile file, boolean updateSupport) throws Exception {
         ExcelUtil<SysUser> excelUtil = new ExcelUtil<>(SysUser.class);
         List<SysUser> userList = excelUtil.importExcel(file.getInputStream());
-        return R.ok(sysUserService.importUser(userList,updateSupport));
+        return R.ok(sysUserService.importUser(userList, updateSupport));
     }
 
     /**

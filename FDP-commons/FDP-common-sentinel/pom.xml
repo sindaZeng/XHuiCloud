@@ -20,7 +20,7 @@
             <artifactId>spring-cloud-starter-openfeign</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.zsinda</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>FDP-common-core</artifactId>
         </dependency>
     </dependencies>
