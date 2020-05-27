@@ -6,12 +6,14 @@ import com.zsinda.fdp.entity.SysDept;
 import com.zsinda.fdp.service.SysDeptService;
 import com.zsinda.fdp.utils.R;
 import com.zsinda.fdp.utils.TreeUtil;
+import com.zsinda.fdp.vo.DeptVo;
 import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * @program: FDPlatform
@@ -76,6 +78,16 @@ public class SysDeptController {
     @PreAuthorize("@authorize.hasPermission('sys_editor_dept')")
     public R update(@Valid @RequestBody SysDept sysDept) {
         return R.ok(sysDeptService.updateDept(sysDept));
+    }
+
+    /**
+     * 补全部门树
+     *
+     * @return
+     */
+    @PostMapping(value = "/tree")
+    public R getDeptTree(@RequestBody List<DeptVo> deptVos) {
+        return R.ok(sysDeptService.getDeptTree(deptVos));
     }
 
 }

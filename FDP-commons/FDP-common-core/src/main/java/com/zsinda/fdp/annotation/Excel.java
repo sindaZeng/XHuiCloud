@@ -1,7 +1,7 @@
 package com.zsinda.fdp.annotation;
 
-import com.zsinda.fdp.enums.ColumnType;
-import com.zsinda.fdp.enums.Type;
+import com.zsinda.fdp.enums.excel.ColumnType;
+import com.zsinda.fdp.enums.excel.Type;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

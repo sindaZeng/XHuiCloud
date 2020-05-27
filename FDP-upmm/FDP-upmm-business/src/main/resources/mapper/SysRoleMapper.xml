@@ -24,9 +24,10 @@
     sys_role r, sys_user_role ur WHERE r.role_id = ur.role_id AND r.del_flag = 1 and  ur.user_id IN (#{userId})
   </select>
 
-  <select id="listRolesNameByUserId" resultType="java.lang.String">
+  <select id="listRolesNameByUserId" resultType="com.zsinda.fdp.vo.RoleVo">
     SELECT
-    r.role_name
+    r.role_id roleId,
+    r.role_name roleName
     FROM
     sys_role r, sys_user_role ur WHERE r.role_id = ur.role_id AND r.del_flag = 1 and  ur.user_id IN (#{userId})
   </select>

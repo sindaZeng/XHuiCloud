@@ -86,15 +86,15 @@ public class UserVo implements Serializable {
     private Integer delFlag;
 
     /**
-     * 角色名称
+     * 角色集
      */
-    @ApiModelProperty(value = "角色名称")
-    private List<String> roleName;
+    @ApiModelProperty(value = "角色集")
+    private List<RoleVo> roleVos;
 
     /**
-     * 角色名称
+     * 部门集
      */
-    @ApiModelProperty(value = "部门名称")
-    private List<String> deptName;
+    @ApiModelProperty(value = "部门集")
+    private List<DeptVo> deptVos;
 
 }

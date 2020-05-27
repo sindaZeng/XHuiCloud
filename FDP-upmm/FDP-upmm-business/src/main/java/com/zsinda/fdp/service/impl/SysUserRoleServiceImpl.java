@@ -1,5 +1,6 @@
 package com.zsinda.fdp.service.impl;
 
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zsinda.fdp.entity.SysUserRole;
 import com.zsinda.fdp.mapper.SysUserRoleMapper;
@@ -31,7 +32,7 @@ public class SysUserRoleServiceImpl extends ServiceImpl<SysUserRoleMapper, SysUs
     @Override
     @Transactional
     public void updateUserRole(Integer userId, List<Integer> roleIds) {
-        baseMapper.deleteById(userId);
+        remove(Wrappers.<SysUserRole>lambdaQuery().eq(SysUserRole::getUserId,userId));
         saveUserRole(userId, roleIds);
     }
 }

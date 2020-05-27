@@ -81,7 +81,7 @@ public class SysUserController {
     @SysLog("添加用户")
     @PostMapping
     @PreAuthorize("@authorize.hasPermission('sys_add_user')")
-    public R user(@Valid @RequestBody SysUser sysUser) {
+    public R save(@Valid @RequestBody SysUser sysUser) {
         return R.ok(sysUserService.saveUser(sysUser));
     }
 
@@ -125,9 +125,6 @@ public class SysUserController {
     @DeleteMapping("/{id}")
     @PreAuthorize("@authorize.hasPermission('sys_delete_user')")
     public R delete(@PathVariable Integer id) {
-        for (int i = 0; i < 10; i++) {
-            continue;
-        }
         return R.ok(sysUserService.deleteUser(id));
     }
 

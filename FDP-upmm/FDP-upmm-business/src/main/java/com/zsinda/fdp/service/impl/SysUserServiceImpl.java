@@ -2,6 +2,7 @@ package com.zsinda.fdp.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.ArrayUtil;
+import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -76,12 +77,6 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     @Override
     public IPage userPage(Page page, UserDto userDto) {
         return baseMapper.userPage(page, userDto);
-    }
-
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public Boolean updateUser(SysUser sysUser) {
-        return updateById(sysUser);
     }
 
     @Override
@@ -179,6 +174,24 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
             successMsg.insert(0, "数据已全部导入成功！共 " + successNum + " 条，数据如下：");
         }
         return successMsg.toString();
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public Boolean updateUser(SysUser sysUser) {
+        SysUser user = getById(sysUser.getUserId());
+        if (ObjectUtil.isEmpty(user)){
+            throw SysException.sysFail(SysException.USER_NOT_EXIST_DATA_EXCEPTION);
+        }
+        if (CollectionUtil.isNotEmpty(sysUser.getDeptIds())){
+            //删除该用户下的所有部门，重新插入
+            sysUserDeptService.updateUserDept(user.getUserId(),sysUser.getDeptIds());
+        }
+        if (CollectionUtil.isNotEmpty(sysUser.getRoleIds())){
+            //删除该用户下的所有部门，重新插入
+            sysUserRoleService.updateUserRole(user.getUserId(),sysUser.getRoleIds());
+        }
+        return updateById(sysUser);
     }
 
     @Override
@@ -281,9 +294,9 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
      * @return
      */
     private SysUser checkUserId(Integer id) {
-        SysUser sysUser = getOne(Wrappers.<SysUser>lambdaQuery().eq(SysUser::getUserId, id));
+        SysUser sysUser = getById(id);
         if (sysUser == null) {
-            throw SysException.sysFail("没有此用户!");
+            throw SysException.sysFail(SysException.USER_NOT_EXIST_DATA_EXCEPTION);
         }
         return sysUser;
     }

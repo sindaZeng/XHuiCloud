@@ -15,25 +15,14 @@
         <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
         <result column="lock_flag" jdbcType="INTEGER" property="lockFlag"/>
         <result column="del_flag" jdbcType="INTEGER" property="delFlag"/>
-        <result column="tenant_id" jdbcType="INTEGER" property="tenantId" />
+        <result column="tenant_id" jdbcType="INTEGER" property="tenantId"/>
     </resultMap>
 
-    <resultMap id="BaseUserVoResultMap" type="com.zsinda.fdp.vo.UserVo">
-        <id column="user_id" property="userId"/>
-        <result column="username" property="username"/>
-        <result column="password" property="password"/>
-        <result column="phone" property="phone"/>
-        <result column="email" property="email"/>
-        <result column="sex" property="sex"/>
-        <result column="avatar" property="avatar"/>
-        <result column="create_time" property="createTime"/>
-        <result column="update_time" property="updateTime"/>
-        <result column="lock_flag" property="lockFlag"/>
-        <result column="del_flag" property="delFlag"/>
-        <collection property="roleName" ofType="java.lang.String"
+    <resultMap id="BaseUserVoResultMap" type="com.zsinda.fdp.vo.UserVo" extends="BaseResultMap">
+        <collection property="roleVos" ofType="java.util.List"
                     select="com.zsinda.fdp.mapper.SysRoleMapper.listRolesNameByUserId" column="user_id">
         </collection>
-        <collection property="deptName" ofType="java.lang.String"
+        <collection property="deptVos" ofType="java.util.List"
                     select="com.zsinda.fdp.mapper.SysDeptMapper.listDeptNameByUserId" column="user_id">
         </collection>
     </resultMap>

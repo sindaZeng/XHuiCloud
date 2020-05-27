@@ -85,7 +85,7 @@
 
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>FDP-common-Lock</artifactId>
+                <artifactId>FDP-common-lock</artifactId>
                 <version>${FDPlatform.version}</version>
             </dependency>
 

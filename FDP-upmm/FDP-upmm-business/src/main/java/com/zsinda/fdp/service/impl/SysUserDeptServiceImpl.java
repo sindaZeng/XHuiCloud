@@ -1,5 +1,6 @@
 package com.zsinda.fdp.service.impl;
 
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zsinda.fdp.entity.SysUserDept;
 import com.zsinda.fdp.mapper.SysUserDeptMapper;
@@ -31,7 +32,7 @@ public class SysUserDeptServiceImpl extends ServiceImpl<SysUserDeptMapper, SysUs
     @Override
     @Transactional
     public void updateUserDept(Integer userId, List<Integer> deptIds) {
-        baseMapper.deleteById(userId);
+        remove(Wrappers.<SysUserDept>lambdaQuery().eq(SysUserDept::getUserId,userId));
         saveUserDept(userId,deptIds);
     }
 }
