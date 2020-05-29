@@ -1,5 +1,7 @@
 package com.zsinda.fdp.vo;
 
+import com.zsinda.fdp.data.Scalpel;
+import com.zsinda.fdp.data.ScalpelTypeEnum;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -41,6 +43,7 @@ public class UserVo implements Serializable {
      * 头像
      */
     @ApiModelProperty(value = "头像")
+    @Scalpel(type = ScalpelTypeEnum.ADD_DOMAIN)
     private String avatar;
 
     /**

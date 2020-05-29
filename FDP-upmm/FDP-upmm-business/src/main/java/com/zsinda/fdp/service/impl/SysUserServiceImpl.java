@@ -9,7 +9,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zsinda.fdp.dto.UserDto;
 import com.zsinda.fdp.dto.UserInfo;
-import com.zsinda.fdp.entity.SysConfig;
+import com.zsinda.fdp.entity.SysParam;
 import com.zsinda.fdp.entity.SysRole;
 import com.zsinda.fdp.entity.SysUser;
 import com.zsinda.fdp.exception.SysException;
@@ -42,7 +42,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
     private final SysMenuService sysMenuService;
 
-    private final SysConfigService sysConfigService;
+    private final SysParamService sysConfigService;
 
     private final SysDeptService sysDeptService;
 
@@ -116,11 +116,11 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
             throw SysException.sysFail("导入用户数据不能为空!");
         }
         // 系统默认密码配置
-        SysConfig sysConfigPassWord = sysConfigService.getSysConfigByKey(SYS_USER_DEFAULT_PASSWORD);
+        SysParam sysParamPassWord = sysConfigService.getSysConfigByKey(SYS_USER_DEFAULT_PASSWORD);
         // 系统默认角色配置
-        SysConfig sysConfigRole = sysConfigService.getSysConfigByKey(SYS_USER_DEFAULT_ROLE);
+        SysParam sysParamRole = sysConfigService.getSysConfigByKey(SYS_USER_DEFAULT_ROLE);
         // 系统默认部门
-        SysConfig sysConfigDept = sysConfigService.getSysConfigByKey(SYS_USER_DEFAULT_ROLE);
+        SysParam sysParamDept = sysConfigService.getSysConfigByKey(SYS_USER_DEFAULT_ROLE);
         // 所有的部门id
         List<Integer> allDeptIds = sysDeptService.getAllDeptIds();
         // 所有的角色id
@@ -137,12 +137,12 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         for (SysUser sysUser : userList) {
             try {
                 // 用户部门
-                List<Integer> deptIds = getDeptIds(allDeptIds, sysUser.getDeptIds(), sysConfigDept);
+                List<Integer> deptIds = getDeptIds(allDeptIds, sysUser.getDeptIds(), sysParamDept);
                 // 用户角色
-                List<Integer> roleIds = getRoleIds(allRoleIds, sysUser.getRoleIds(), sysConfigRole);
+                List<Integer> roleIds = getRoleIds(allRoleIds, sysUser.getRoleIds(), sysParamRole);
                 SysUser user = getOne(Wrappers.<SysUser>lambdaQuery().eq(SysUser::getUsername, sysUser.getUsername()));
                 if (ObjectUtils.isEmpty(user)) {
-                    sysUser.setPassword(sysConfigPassWord.getConfigValue());
+                    sysUser.setPassword(sysParamPassWord.getConfigValue());
                     sysUser.setUserId(null);
                     saveUserAndRoleAndDept(sysUser, deptIds, roleIds);
                     successNum++;
@@ -200,21 +200,21 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         // 设置默认密码
         if (StringUtils.isBlank(sysUser.getPassword())) {
             // 系统默认密码配置
-            SysConfig sysConfigPassWord = sysConfigService.getSysConfigByKey(SYS_USER_DEFAULT_PASSWORD);
-            sysUser.setPassword(sysConfigPassWord.getConfigValue());
+            SysParam sysParamPassWord = sysConfigService.getSysConfigByKey(SYS_USER_DEFAULT_PASSWORD);
+            sysUser.setPassword(sysParamPassWord.getConfigValue());
         }
         // 所有的部门id
         List<Integer> allDeptIds = sysDeptService.getAllDeptIds();
         // 所有的角色id
         List<Integer> allRoleIds = sysRoleService.getAllRoleIds();
         // 系统默认角色配置
-        SysConfig sysConfigRole = sysConfigService.getSysConfigByKey(SYS_USER_DEFAULT_ROLE);
+        SysParam sysParamRole = sysConfigService.getSysConfigByKey(SYS_USER_DEFAULT_ROLE);
         // 系统默认部门
-        SysConfig sysConfigDept = sysConfigService.getSysConfigByKey(SYS_USER_DEFAULT_ROLE);
+        SysParam sysParamDept = sysConfigService.getSysConfigByKey(SYS_USER_DEFAULT_ROLE);
         // 用户部门
-        List<Integer> deptIds = getDeptIds(allDeptIds, sysUser.getDeptIds(), sysConfigDept);
+        List<Integer> deptIds = getDeptIds(allDeptIds, sysUser.getDeptIds(), sysParamDept);
         // 用户角色
-        List<Integer> roleIds = getRoleIds(allRoleIds, sysUser.getRoleIds(), sysConfigRole);
+        List<Integer> roleIds = getRoleIds(allRoleIds, sysUser.getRoleIds(), sysParamRole);
         saveUserAndRoleAndDept(sysUser,deptIds,roleIds);
         return Boolean.TRUE;
     }
@@ -226,16 +226,16 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
      *
      * @param allDeptIds
      * @param userDeptIds
-     * @param sysConfigDept
+     * @param sysParamDept
      * @return
      */
-    private List<Integer> getDeptIds(List<Integer> allDeptIds, List<Integer> userDeptIds, SysConfig sysConfigDept) {
+    private List<Integer> getDeptIds(List<Integer> allDeptIds, List<Integer> userDeptIds, SysParam sysParamDept) {
         if (CollectionUtil.isNotEmpty(userDeptIds)) {
             return userDeptIds.stream()
                     .distinct().filter(id -> allDeptIds.contains(id)).collect(Collectors.toList());
         } else {
             userDeptIds = new ArrayList();
-            userDeptIds.add(Integer.valueOf(sysConfigDept.getConfigValue()));
+            userDeptIds.add(Integer.valueOf(sysParamDept.getConfigValue()));
             return userDeptIds;
         }
     }
@@ -247,16 +247,16 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
      *
      * @param allRoleIds
      * @param userRoleIds
-     * @param sysConfigRole
+     * @param sysParamRole
      * @return
      */
-    private List<Integer> getRoleIds(List<Integer> allRoleIds, List<Integer> userRoleIds, SysConfig sysConfigRole) {
+    private List<Integer> getRoleIds(List<Integer> allRoleIds, List<Integer> userRoleIds, SysParam sysParamRole) {
         if (CollectionUtil.isNotEmpty(userRoleIds)) {
             return userRoleIds.stream()
                     .distinct().filter(id -> allRoleIds.contains(id)).collect(Collectors.toList());
         } else {
             userRoleIds = new ArrayList();
-            userRoleIds.add(Integer.valueOf(sysConfigRole.getConfigValue()));
+            userRoleIds.add(Integer.valueOf(sysParamRole.getConfigValue()));
             return userRoleIds;
         }
     }

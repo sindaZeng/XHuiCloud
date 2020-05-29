@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.zsinda.fdp.data.Scalpel;
+import com.zsinda.fdp.data.ScalpelTypeEnum;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -18,7 +20,7 @@ public class SysTenant implements Serializable {
     /**
      * 租户id
      */
-    @TableId(value = "id", type = IdType.INPUT)
+    @TableId(value = "id", type = IdType.AUTO)
     @ApiModelProperty(value="租户id")
     private Integer id;
 
@@ -48,6 +50,7 @@ public class SysTenant implements Serializable {
      */
     @TableField(value = "logo")
     @ApiModelProperty(value="logo地址")
+    @Scalpel(type = ScalpelTypeEnum.ADD_DOMAIN)
     private String logo;
 
     /**

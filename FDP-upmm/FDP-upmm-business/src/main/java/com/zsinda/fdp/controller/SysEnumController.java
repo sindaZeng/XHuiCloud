@@ -40,7 +40,7 @@ public class SysEnumController {
     @GetMapping("/{name}")
     public R<Map<Integer, String>> getEnums(@PathVariable String name) {
         if (allEnums.containsKey(name)) {
-            R.ok(allEnums.get(name));
+            return R.ok(allEnums.get(name));
         }
         return R.failed("无此枚举!");
     }

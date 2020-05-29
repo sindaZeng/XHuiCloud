@@ -2,8 +2,8 @@ package com.zsinda.fdp.controller;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.zsinda.fdp.entity.SysConfig;
-import com.zsinda.fdp.service.SysConfigService;
+import com.zsinda.fdp.entity.SysParam;
+import com.zsinda.fdp.service.SysParamService;
 import com.zsinda.fdp.utils.R;
 import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;
@@ -19,11 +19,11 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @AllArgsConstructor
-@RequestMapping("/config")
-@Api(value = "config", tags = "系统参数模块")
-public class SysConfigController {
+@RequestMapping("/param")
+@Api(value = "param", tags = "系统公共参数模块")
+public class SysParamController {
 
-    private final SysConfigService sysConfigService;
+    private final SysParamService sysConfigService;
 
     /**
      * 分页查询系统参数列表
@@ -32,7 +32,7 @@ public class SysConfigController {
      */
     @GetMapping("/page")
     public R page(Page page) {
-        return R.ok(sysConfigService.page(page,Wrappers.<SysConfig>lambdaQuery().eq(SysConfig::getDelFlag, 1)));
+        return R.ok(sysConfigService.page(page,Wrappers.<SysParam>lambdaQuery().eq(SysParam::getDelFlag, 1)));
     }
 
 }

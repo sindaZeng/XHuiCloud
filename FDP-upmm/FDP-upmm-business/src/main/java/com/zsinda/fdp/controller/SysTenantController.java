@@ -36,7 +36,8 @@ public class SysTenantController {
     @Inner(value = false)
     @GetMapping("/list")
     public R list() {
-        return R.ok(sysTenantService.list(Wrappers.emptyWrapper()));
+        return R.ok(sysTenantService.list(Wrappers.<SysTenant>lambdaQuery()
+                .eq(SysTenant::getState,1).eq(SysTenant::getDelFlag,1)));
     }
 
 
