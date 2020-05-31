@@ -23,11 +23,14 @@ public class TreeUtil {
 
     /**
      * 构建菜单树
+     *
+     *
+     * @param disabled
      * @param menus
      * @param root
      * @return
      */
-    public List<MenuTree> buildMenuTree(List<SysMenu> menus, int root) {
+    public List<MenuTree> buildMenuTree(Boolean disabled, List<SysMenu> menus, int root) {
         List<MenuTree> trees = new ArrayList<>();
         MenuTree node;
         for (SysMenu menu : menus) {
@@ -43,6 +46,8 @@ public class TreeUtil {
             node.setSort(menu.getSort());
             node.setType(menu.getType());
             node.setDelFlag(menu.getDelFlag());
+            if (disabled)
+            node.setDisabled(menu.getType() == 1);
             trees.add(node);
         }
         return TreeUtil.build(trees, root);
@@ -50,6 +55,7 @@ public class TreeUtil {
 
     /**
      * 构建部门树
+     *
      * @param depts
      * @param root
      * @return

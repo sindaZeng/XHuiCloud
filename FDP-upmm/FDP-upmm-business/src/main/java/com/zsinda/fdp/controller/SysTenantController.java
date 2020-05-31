@@ -37,7 +37,7 @@ public class SysTenantController {
     @GetMapping("/list")
     public R list() {
         return R.ok(sysTenantService.list(Wrappers.<SysTenant>lambdaQuery()
-                .eq(SysTenant::getState,1).eq(SysTenant::getDelFlag,1)));
+                .eq(SysTenant::getState, 1).eq(SysTenant::getDelFlag, 1)));
     }
 
 
@@ -48,8 +48,8 @@ public class SysTenantController {
      * @return
      */
     @GetMapping("/page")
-    public R page(Page page) {
-        return R.ok(sysTenantService.page(page, Wrappers.emptyWrapper()));
+    public R page(Page page, SysTenant sysTenant) {
+        return R.ok(sysTenantService.page(page,  Wrappers.query(sysTenant)));
     }
 
     /**

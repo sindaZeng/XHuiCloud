@@ -49,6 +49,11 @@ public class MenuTree extends TreeNode {
      */
     private Integer delFlag;
 
+    /**
+     * 当是按钮时，不允许拥有下级菜单
+     */
+    private Boolean disabled;
+
     public MenuTree() {
     }
 

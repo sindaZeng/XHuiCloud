@@ -32,7 +32,7 @@ public class SysParamController {
      */
     @GetMapping("/page")
     public R page(Page page) {
-        return R.ok(sysConfigService.page(page,Wrappers.<SysParam>lambdaQuery().eq(SysParam::getDelFlag, 1)));
+        return R.ok(sysConfigService.page(page,Wrappers.<SysParam>lambdaQuery()));
     }
 
 }

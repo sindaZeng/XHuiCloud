@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.zsinda.fdp.annotation.Excel;
+import com.zsinda.fdp.data.Scalpel;
+import com.zsinda.fdp.data.ScalpelTypeEnum;
 import com.zsinda.fdp.enums.excel.ColumnType;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -50,6 +52,7 @@ public class SysUser implements Serializable {
     @TableField(value = "avatar")
     @ApiModelProperty(value = "头像")
     @Excel(name = "用户头像")
+    @Scalpel(type = ScalpelTypeEnum.ADD_DOMAIN)
     private String avatar;
 
     /**

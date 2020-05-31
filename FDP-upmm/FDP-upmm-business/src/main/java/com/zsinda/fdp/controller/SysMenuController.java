@@ -70,8 +70,8 @@ public class SysMenuController {
      * @return
      */
     @GetMapping(value = "/tree")
-    public R getMenuTree() {
-        return R.ok(TreeUtil.buildMenuTree(sysMenuService
+    public R getMenuTree(@RequestParam Boolean disabled) {
+        return R.ok(TreeUtil.buildMenuTree(disabled,sysMenuService
                 .list(Wrappers.<SysMenu>lambdaQuery()
                         .orderByAsc(SysMenu::getSort)), 0));
     }
