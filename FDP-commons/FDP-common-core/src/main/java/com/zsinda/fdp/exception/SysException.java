@@ -14,6 +14,8 @@ public class SysException extends BaseRuntimeException {
 
     public static final String TENANT_NOT_EXIST_DATA_EXCEPTION="该租户不存在,数据出现错误!请联系管理员!";
 
+    public static final String PARAM_IS_EXIST_DATA_EXCEPTION="该参数已存在!";
+
     /**
      *  系统错误异常
      * @param message

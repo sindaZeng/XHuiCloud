@@ -1,7 +1,6 @@
 package com.zsinda.fdp.tenant;
 
 import com.zsinda.fdp.constant.CommonConstants;
-import com.zsinda.fdp.context.TenantHolder;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
 
@@ -14,8 +13,8 @@ import feign.RequestTemplate;
 public class FdpRequestInterceptor implements RequestInterceptor {
     @Override
     public void apply(RequestTemplate template) {
-        if (TenantHolder.getTenant() != null) {
-            template.header(CommonConstants.TENANT_ID, TenantHolder.getTenant().toString());
+        if (FdpTenantHolder.getTenant() != null) {
+            template.header(CommonConstants.TENANT_ID, FdpTenantHolder.getTenant().toString());
         }
     }
 }

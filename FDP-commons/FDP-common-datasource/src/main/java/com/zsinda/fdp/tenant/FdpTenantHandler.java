@@ -2,7 +2,6 @@ package com.zsinda.fdp.tenant;
 
 import com.baomidou.mybatisplus.extension.plugins.tenant.TenantHandler;
 import com.zsinda.fdp.constant.CommonConstants;
-import com.zsinda.fdp.context.TenantHolder;
 import com.zsinda.fdp.properties.TenantCoreProperties;
 import net.sf.jsqlparser.expression.Expression;
 import net.sf.jsqlparser.expression.LongValue;
@@ -30,7 +29,7 @@ public class FdpTenantHandler implements TenantHandler {
      */
     @Override
     public Expression getTenantId(boolean where) {
-        Integer tenantId = TenantHolder.getTenant();
+        Integer tenantId = FdpTenantHolder.getTenant();
         if (tenantId == null) {
             return new NullValue();
         }
@@ -55,8 +54,8 @@ public class FdpTenantHandler implements TenantHandler {
      */
     @Override
     public boolean doTableFilter(String tableName) {
-        return TenantHolder.getTenant() == null
-                || TenantHolder.getTenant() == Integer.valueOf(CommonConstants.DEFAULT_TENANT_ID)
+        return FdpTenantHolder.getTenant() == null
+                || FdpTenantHolder.getTenant() == Integer.valueOf(CommonConstants.DEFAULT_TENANT_ID)
                 || !tenantCoreProperties.getTalbe().contains(tableName);
     }
 }

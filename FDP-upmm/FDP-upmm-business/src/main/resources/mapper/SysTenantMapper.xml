@@ -9,7 +9,7 @@
     <result column="state" jdbcType="INTEGER" property="state" />
     <result column="expiration_time" jdbcType="TIMESTAMP" property="expirationTime" />
     <result column="logo" jdbcType="VARCHAR" property="logo" />
-    <result column="remake" jdbcType="LONGVARCHAR" property="remake" />
+    <result column="remake" jdbcType="LONGVARCHAR" property="remark" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="del_flag" jdbcType="INTEGER" property="delFlag" />

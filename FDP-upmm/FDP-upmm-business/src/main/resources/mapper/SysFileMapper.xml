@@ -1,25 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zsinda.fdp.mapper.SysFileMapper">
-  <resultMap id="BaseResultMap" type="com.zsinda.fdp.entity.SysFile">
-    <!--@mbg.generated-->
-    <!--@Table sys_file-->
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="url" jdbcType="LONGVARCHAR" property="url" />
-    <result column="file_name" jdbcType="VARCHAR" property="fileName" />
-    <result column="file_size" jdbcType="BIGINT" property="fileSize" />
-    <result column="file_type" jdbcType="VARCHAR" property="fileType" />
-    <result column="bucket_name" jdbcType="VARCHAR" property="bucketName" />
-    <result column="create_id" jdbcType="INTEGER" property="createId" />
-    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-    <result column="update_id" jdbcType="INTEGER" property="updateId" />
-    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
-    <result column="del_flag" jdbcType="INTEGER" property="delFlag" />
-    <result column="tenant_id" jdbcType="INTEGER" property="tenantId" />
-  </resultMap>
-  <sql id="Base_Column_List">
-    <!--@mbg.generated-->
-    id, url, file_name, file_size, file_type, bucket_name, create_id, create_time, update_id,
-    update_time, del_flag
-  </sql>
+    <resultMap id="BaseResultMap" type="com.zsinda.fdp.entity.SysFile">
+        <!--@mbg.generated-->
+        <!--@Table sys_file-->
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="url" jdbcType="LONGVARCHAR" property="url"/>
+        <result column="file_name" jdbcType="VARCHAR" property="fileName"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="file_size" jdbcType="BIGINT" property="fileSize"/>
+        <result column="file_type" jdbcType="VARCHAR" property="fileType"/>
+        <result column="bucket_name" jdbcType="VARCHAR" property="bucketName"/>
+        <result column="create_id" jdbcType="INTEGER" property="createId"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="tenant_id" jdbcType="INTEGER" property="tenantId"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        id, url, file_name, file_size, file_type, bucket_name, create_id, create_time, update_id,
+        update_time, del_flag
+    </sql>
+
+    <select id="detail" resultType="com.zsinda.fdp.vo.FileVo">
+        SELECT
+	        sf.*,
+	        su.username createName,
+	        st.NAME tenantName
+            FROM
+	        ( sys_file sf LEFT JOIN sys_user su ON sf.create_id = su.user_id )
+	        LEFT JOIN sys_tenant st ON sf.tenant_id = st.id
+            WHERE
+	        sf.id = #{param1}
+	        AND sf.tenant_id =#{param2}
+  </select>
 </mapper>

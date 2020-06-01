@@ -42,7 +42,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
     private final SysMenuService sysMenuService;
 
-    private final SysParamService sysConfigService;
+    private final SysParamService sysParamService;
 
     private final SysDeptService sysDeptService;
 
@@ -116,11 +116,11 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
             throw SysException.sysFail("导入用户数据不能为空!");
         }
         // 系统默认密码配置
-        SysParam sysParamPassWord = sysConfigService.getSysConfigByKey(SYS_USER_DEFAULT_PASSWORD);
+        SysParam sysParamPassWord = sysParamService.getSysConfigByKey(SYS_USER_DEFAULT_PASSWORD);
         // 系统默认角色配置
-        SysParam sysParamRole = sysConfigService.getSysConfigByKey(SYS_USER_DEFAULT_ROLE);
+        SysParam sysParamRole = sysParamService.getSysConfigByKey(SYS_USER_DEFAULT_ROLE);
         // 系统默认部门
-        SysParam sysParamDept = sysConfigService.getSysConfigByKey(SYS_USER_DEFAULT_ROLE);
+        SysParam sysParamDept = sysParamService.getSysConfigByKey(SYS_USER_DEFAULT_ROLE);
         // 所有的部门id
         List<Integer> allDeptIds = sysDeptService.getAllDeptIds();
         // 所有的角色id
@@ -142,7 +142,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
                 List<Integer> roleIds = getRoleIds(allRoleIds, sysUser.getRoleIds(), sysParamRole);
                 SysUser user = getOne(Wrappers.<SysUser>lambdaQuery().eq(SysUser::getUsername, sysUser.getUsername()));
                 if (ObjectUtils.isEmpty(user)) {
-                    sysUser.setPassword(sysParamPassWord.getConfigValue());
+                    sysUser.setPassword(sysParamPassWord.getParamValue());
                     sysUser.setUserId(null);
                     saveUserAndRoleAndDept(sysUser, deptIds, roleIds);
                     successNum++;
@@ -200,17 +200,17 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         // 设置默认密码
         if (StringUtils.isBlank(sysUser.getPassword())) {
             // 系统默认密码配置
-            SysParam sysParamPassWord = sysConfigService.getSysConfigByKey(SYS_USER_DEFAULT_PASSWORD);
-            sysUser.setPassword(sysParamPassWord.getConfigValue());
+            SysParam sysParamPassWord = sysParamService.getSysConfigByKey(SYS_USER_DEFAULT_PASSWORD);
+            sysUser.setPassword(sysParamPassWord.getParamValue());
         }
         // 所有的部门id
         List<Integer> allDeptIds = sysDeptService.getAllDeptIds();
         // 所有的角色id
         List<Integer> allRoleIds = sysRoleService.getAllRoleIds();
         // 系统默认角色配置
-        SysParam sysParamRole = sysConfigService.getSysConfigByKey(SYS_USER_DEFAULT_ROLE);
+        SysParam sysParamRole = sysParamService.getSysConfigByKey(SYS_USER_DEFAULT_ROLE);
         // 系统默认部门
-        SysParam sysParamDept = sysConfigService.getSysConfigByKey(SYS_USER_DEFAULT_ROLE);
+        SysParam sysParamDept = sysParamService.getSysConfigByKey(SYS_USER_DEFAULT_ROLE);
         // 用户部门
         List<Integer> deptIds = getDeptIds(allDeptIds, sysUser.getDeptIds(), sysParamDept);
         // 用户角色
@@ -235,7 +235,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
                     .distinct().filter(id -> allDeptIds.contains(id)).collect(Collectors.toList());
         } else {
             userDeptIds = new ArrayList();
-            userDeptIds.add(Integer.valueOf(sysParamDept.getConfigValue()));
+            userDeptIds.add(Integer.valueOf(sysParamDept.getParamValue()));
             return userDeptIds;
         }
     }
@@ -256,7 +256,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
                     .distinct().filter(id -> allRoleIds.contains(id)).collect(Collectors.toList());
         } else {
             userRoleIds = new ArrayList();
-            userRoleIds.add(Integer.valueOf(sysParamRole.getConfigValue()));
+            userRoleIds.add(Integer.valueOf(sysParamRole.getParamValue()));
             return userRoleIds;
         }
     }

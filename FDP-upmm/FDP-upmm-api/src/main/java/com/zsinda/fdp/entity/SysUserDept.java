@@ -1,5 +1,7 @@
 package com.zsinda.fdp.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -13,9 +15,11 @@ import java.io.Serializable;
 public class SysUserDept implements Serializable {
 
     @ApiModelProperty(value="用户Id")
+    @TableId(value = "user_id", type = IdType.INPUT)
     private Integer userId;
 
     @ApiModelProperty(value="部门Id")
+    @TableId(value = "dept_id", type = IdType.INPUT)
     private Integer deptId;
 
     private static final long serialVersionUID = 1L;

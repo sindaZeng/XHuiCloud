@@ -26,25 +26,25 @@ public class SysParam implements Serializable {
      * 参数名称
      */
     @ApiModelProperty(value = "参数名称")
-    private String configName;
+    private String paramName;
 
     /**
      * 参数键名
      */
     @ApiModelProperty(value = "参数键名")
-    private String configKey;
+    private String paramKey;
 
     /**
      * 参数键值
      */
     @ApiModelProperty(value = "参数键值")
-    private String configValue;
+    private String paramValue;
 
     /**
      * 0:系统参数  1:业务参数
      */
     @ApiModelProperty(value = "0:系统参数  1:业务参数")
-    private Integer configType;
+    private Integer paramType;
 
     /**
      * 备注

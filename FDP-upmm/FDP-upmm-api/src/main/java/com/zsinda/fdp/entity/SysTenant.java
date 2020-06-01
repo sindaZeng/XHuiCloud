@@ -1,7 +1,6 @@
 package com.zsinda.fdp.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.zsinda.fdp.data.Scalpel;
@@ -27,28 +26,24 @@ public class SysTenant implements Serializable {
     /**
      * 租户名称
      */
-    @TableField(value = "name")
     @ApiModelProperty(value="租户名称")
     private String name;
 
     /**
      * 状态 0:禁用; 1:正常;  2:待审核;  3:拒绝
      */
-    @TableField(value = "state")
     @ApiModelProperty(value="状态,0:禁用; 1:正常;  2:待审核;  3:拒绝")
     private Integer state;
 
     /**
      * 有效期
      */
-    @TableField(value = "expiration_time")
     @ApiModelProperty(value="有效期")
     private Date expirationTime;
 
     /**
      * logo地址
      */
-    @TableField(value = "logo")
     @ApiModelProperty(value="logo地址")
     @Scalpel(type = ScalpelTypeEnum.ADD_DOMAIN)
     private String logo;
@@ -56,28 +51,24 @@ public class SysTenant implements Serializable {
     /**
      * 租户描述
      */
-    @TableField(value = "remake")
     @ApiModelProperty(value="租户描述")
-    private String remake;
+    private String remark;
 
     /**
      * 创建时间
      */
-    @TableField(value = "create_time")
     @ApiModelProperty(value="创建时间")
     private Date createTime;
 
     /**
      * 更新时间
      */
-    @TableField(value = "update_time")
     @ApiModelProperty(value="更新时间")
     private Date updateTime;
 
     /**
      * 0: 禁用 1：启用
      */
-    @TableField(value = "del_flag")
     @ApiModelProperty(value="0: 禁用 1：启用")
     private Integer delFlag;
 

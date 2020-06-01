@@ -1,9 +1,5 @@
-package com.zsinda.fdp.entity;
+package com.zsinda.fdp.vo;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -11,24 +7,13 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * 文件表
+ * @program: FDPlatform
+ * @description: FileVo
+ * @author: Sinda
+ * @create: 2020-06-01 17:46
  */
 @Data
-@TableName(value = "sys_file")
-@ApiModel(value = "com-zsinda-fdp-entity-SysFile")
-public class SysFile implements Serializable {
-    /**
-     * 文件ID
-     */
-    @TableId(value = "id", type = IdType.AUTO)
-    @ApiModelProperty(value = "文件ID")
-    private Integer id;
-
-    /**
-     * 图片Url
-     */
-    @ApiModelProperty(value = "图片Url")
-    private String url;
+public class FileVo implements Serializable {
 
     /**
      * 桶内文件名称
@@ -61,10 +46,10 @@ public class SysFile implements Serializable {
     private String bucketName;
 
     /**
-     * 上传用户id
+     * 上传用户
      */
-    @ApiModelProperty(value = "上传用户id")
-    private Integer createId;
+    @ApiModelProperty(value = "上传用户")
+    private String createName;
 
     /**
      * 上传时间
@@ -75,8 +60,8 @@ public class SysFile implements Serializable {
     /**
      * 租户id
      */
-    @ApiModelProperty(value = "租户id")
-    private Integer tenantId;
+    @ApiModelProperty(value = "所属租户")
+    private String tenantName;
 
     private static final long serialVersionUID = 1L;
 }

@@ -2,7 +2,6 @@ package com.zsinda.fdp.tenant;
 
 import cn.hutool.core.util.StrUtil;
 import com.zsinda.fdp.constant.CommonConstants;
-import com.zsinda.fdp.context.TenantHolder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -30,11 +29,11 @@ public class FdpTenantFilter extends OncePerRequestFilter {
         String tenantId = httpServletRequest.getHeader(CommonConstants.TENANT_ID);
         log.debug("租户id为:[{}]", tenantId);
         if (StrUtil.isNotBlank(tenantId)) {
-            TenantHolder.setTenant(Integer.parseInt(tenantId));
+            FdpTenantHolder.setTenant(Integer.parseInt(tenantId));
         } else {
-            TenantHolder.setTenant(CommonConstants.DEFAULT_TENANT_ID);
+            FdpTenantHolder.setTenant(CommonConstants.DEFAULT_TENANT_ID);
         }
         filterChain.doFilter(httpServletRequest, httpServletResponse);
-        TenantHolder.removeTenant();
+        FdpTenantHolder.removeTenant();
     }
 }

@@ -49,6 +49,13 @@ public class SpringSecurityUtils {
 	}
 
 	/**
+	 * 获取用户Id
+	 */
+	public Integer getUserId() {
+		return getUser().getId();
+	}
+
+	/**
 	 * 获取用户角色信息
 	 *
 	 * @return 角色集合

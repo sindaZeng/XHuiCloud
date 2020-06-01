@@ -1,4 +1,4 @@
-package com.zsinda.fdp.context;
+package com.zsinda.fdp.tenant;
 
 import com.alibaba.ttl.TransmittableThreadLocal;
 
@@ -8,7 +8,7 @@ import com.alibaba.ttl.TransmittableThreadLocal;
  * @author: Sinda
  * @create: 2020-05-12 16:42
  */
-public class TenantHolder {
+public class FdpTenantHolder {
 
     /**
      * 创建本地线程共享对象  租户Id

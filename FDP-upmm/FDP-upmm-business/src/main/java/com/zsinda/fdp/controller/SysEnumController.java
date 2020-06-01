@@ -2,10 +2,10 @@ package com.zsinda.fdp.controller;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
+import com.zsinda.fdp.enums.tantent.ParamTypeEnum;
 import com.zsinda.fdp.enums.tantent.TantentStateEnum;
 import com.zsinda.fdp.utils.R;
 import io.swagger.annotations.Api;
-import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,7 +26,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 @RestController
 @RequestMapping("/enum")
-@AllArgsConstructor
 @Api(value = "enum", tags = "系统枚举管理模块")
 public class SysEnumController {
 
@@ -35,6 +34,8 @@ public class SysEnumController {
     static {
         allEnums.put(TantentStateEnum.class.getSimpleName(),
                 uniqueIndex(Arrays.asList(TantentStateEnum.values()), TantentStateEnum::getType, TantentStateEnum::getDescription));
+        allEnums.put(ParamTypeEnum.class.getSimpleName(),
+                uniqueIndex(Arrays.asList(ParamTypeEnum.values()), ParamTypeEnum::getType, ParamTypeEnum::getDescription));
     }
 
     @GetMapping("/{name}")
@@ -42,11 +43,13 @@ public class SysEnumController {
         if (allEnums.containsKey(name)) {
             return R.ok(allEnums.get(name));
         }
-        return R.failed("无此枚举!");
+        return R.failed("无此枚举!请检查枚举名称!");
     }
 
 
-    public static <K, V, M> ImmutableMap<K, M> uniqueIndex(Iterable<V> values, Function<? super V, K> keyFunction, Function<? super V, M> valueFunction) {
+    public static <K, V, M> ImmutableMap<K, M> uniqueIndex(Iterable<V> values,
+                                                           Function<? super V, K> keyFunction,
+                                                           Function<? super V, M> valueFunction) {
         Iterator<V> iterator = values.iterator();
         checkNotNull(keyFunction);
         checkNotNull(valueFunction);

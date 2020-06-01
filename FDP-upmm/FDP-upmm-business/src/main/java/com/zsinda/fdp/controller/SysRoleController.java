@@ -58,7 +58,7 @@ public class SysRoleController {
     @PostMapping("/save")
     @PreAuthorize("@authorize.hasPermission('sys_add_role')")
     public R save(@Valid @RequestBody SysRole sysRole) {
-        return R.ok(sysRoleService.getBaseMapper().insert(sysRole));
+        return R.ok(sysRoleService.save(sysRole));
     }
 
     /**

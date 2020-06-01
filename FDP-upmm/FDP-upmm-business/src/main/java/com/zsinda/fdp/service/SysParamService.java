@@ -7,4 +7,5 @@ public interface SysParamService extends IService<SysParam>{
 
     SysParam getSysConfigByKey(String sysUserDefaultPassword);
 
+    Boolean saveParam(SysParam sysParam);
 }

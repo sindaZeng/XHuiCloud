@@ -5,10 +5,10 @@
     <!--@mbg.generated-->
     <!--@Table sys_config-->
     <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="config_name" jdbcType="VARCHAR" property="configName" />
-    <result column="config_key" jdbcType="VARCHAR" property="configKey" />
-    <result column="config_value" jdbcType="VARCHAR" property="configValue" />
-    <result column="config_type" jdbcType="INTEGER" property="configType" />
+    <result column="config_name" jdbcType="VARCHAR" property="paramName" />
+    <result column="config_key" jdbcType="VARCHAR" property="paramKey" />
+    <result column="config_value" jdbcType="VARCHAR" property="paramValue" />
+    <result column="config_type" jdbcType="INTEGER" property="paramType" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="sort" jdbcType="INTEGER" property="sort" />
     <result column="create_id" jdbcType="INTEGER" property="createId" />
