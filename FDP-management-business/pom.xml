@@ -19,6 +19,7 @@
         <module>FDP-task</module>
         <module>FDP-logs</module>
         <module>FDP-generator</module>
+        <module>FDP-pay</module>
     </modules>
 
 

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zsinda.fdp.mapper.PayChannelMapper">
+  <resultMap id="BaseResultMap" type="com.zsinda.fdp.entity.PayChannel">
+    <!--@mbg.generated-->
+    <!--@Table pay_channel-->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="app_id" jdbcType="VARCHAR" property="appId" />
+    <result column="mch_id" jdbcType="VARCHAR" property="mchId" />
+    <result column="channel_id" jdbcType="VARCHAR" property="channelId" />
+    <result column="channel_name" jdbcType="VARCHAR" property="channelName" />
+    <result column="channel_mch_id" jdbcType="VARCHAR" property="channelMchId" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="del_flag" jdbcType="INTEGER" property="delFlag" />
+    <result column="tenant_id" jdbcType="INTEGER" property="tenantId" />
+    <result column="config" jdbcType="VARCHAR" property="config" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, app_id, mch_id, channel_id, channel_name, channel_mch_id, remark, create_time,
+    update_time, del_flag, tenant_id，config
+  </sql>
+</mapper>

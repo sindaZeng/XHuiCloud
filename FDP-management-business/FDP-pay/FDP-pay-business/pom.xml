@@ -3,18 +3,18 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>FDP-logs</artifactId>
+        <artifactId>FDP-pay</artifactId>
         <groupId>com.zsinda</groupId>
         <version>1.0.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>FDP-logs-business</artifactId>
+    <artifactId>FDP-pay-business</artifactId>
 
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>FDP-logs-api</artifactId>
+            <artifactId>FDP-common-security</artifactId>
         </dependency>
 
         <dependency>
@@ -24,7 +24,12 @@
 
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>FDP-common-security</artifactId>
+            <artifactId>FDP-pay-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>FDP-common-logger</artifactId>
         </dependency>
 
         <dependency>
@@ -43,8 +48,27 @@
         </dependency>
 
         <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>FDP-common-logger</artifactId>
+            <groupId>com.alipay.sdk</groupId>
+            <artifactId>alipay-sdk-java</artifactId>
+            <version>4.10.0.ALL</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.javen205</groupId>
+            <artifactId>IJPay</artifactId>
+            <version>1.2.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-freemarker</artifactId>
+        </dependency>
+
+        <!-- freemarker热启动 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <optional>true</optional>
         </dependency>
 
     </dependencies>
@@ -54,9 +78,11 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <fork>true</fork>
+                </configuration>
             </plugin>
         </plugins>
     </build>
-
 
 </project>

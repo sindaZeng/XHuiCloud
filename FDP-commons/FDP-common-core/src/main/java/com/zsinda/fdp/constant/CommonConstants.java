@@ -52,4 +52,14 @@ public interface CommonConstants {
      * 默认租户ID
      */
     Integer DEFAULT_TENANT_ID = 1;
+
+    /**
+     * 支付宝 ua
+     */
+    String ALIPAY = "Alipay";
+
+    /**
+     * 微信 ua
+     */
+    String MICRO_MESSENGER = "MicroMessenger";
 }

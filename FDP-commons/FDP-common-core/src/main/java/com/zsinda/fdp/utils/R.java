@@ -4,11 +4,9 @@ package com.zsinda.fdp.utils;
 import com.zsinda.fdp.constant.CommonConstants;
 import lombok.*;
 import lombok.experimental.Accessors;
-import org.springframework.lang.Nullable;
 import org.springframework.util.ObjectUtils;
 
 import java.io.Serializable;
-import java.util.Optional;
 
 @ToString
 @NoArgsConstructor
@@ -61,14 +59,12 @@ public class R<T> implements Serializable {
 		return restResult(data, CommonConstants.REQUEST_FAIL, msg);
 	}
 
-	public static boolean isSuccess(@Nullable R r) {
-		return Optional.ofNullable(r)
-				.map(x -> ObjectUtils.nullSafeEquals(CommonConstants.REQUEST_SUCCESS, x.code))
-				.orElse(Boolean.FALSE);
+	public boolean isSuccess() {
+		return ObjectUtils.nullSafeEquals(CommonConstants.REQUEST_SUCCESS, this.code);
 	}
 
-	public static boolean isNotSuccess(@Nullable R r) {
-		return !isSuccess(r);
+	public boolean isNotSuccess() {
+		return !this.isSuccess();
 	}
 
 	private static <T> R<T> restResult(T data, int code, String msg) {

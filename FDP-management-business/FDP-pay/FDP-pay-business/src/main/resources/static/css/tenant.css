@@ -1,0 +1,34 @@
+body, html {
+  height: 100%;
+  -webkit-tap-highlight-color: transparent;
+}
+.tenant-logo{
+  display:inline-block;
+  margin:20px auto auto 20px;
+  width:60px;
+  height:60px;
+  border-radius:100px;
+  -webkit-border-radius:100px;
+  -moz-border-radius:100px;
+  border:2px solid #fff;
+  box-shadow:0 0 4px #ccc;
+  overflow:hidden;
+}
+
+/*图片的样式*/
+.tenant-logo img{
+  width:100%;
+  min-height:100%;
+}
+.tenant-names{
+  display:inline-block;
+  margin:20px auto auto 20px;
+  width:80px;
+  height:80px;
+  /*border-radius:100px;*/
+  /*-webkit-border-radius:100px;*/
+  /*-moz-border-radius:100px;*/
+  /*border:2px solid #fff;*/
+  /*box-shadow:0 0 4px #ccc;*/
+  overflow:hidden;
+}

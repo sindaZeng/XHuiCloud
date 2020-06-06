@@ -11,6 +11,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Map;
 
 /**
  * @program: FDPlatform
@@ -27,12 +28,18 @@ public class FdpTenantFilter extends OncePerRequestFilter {
                                     HttpServletResponse httpServletResponse,
                                     FilterChain filterChain) throws ServletException, IOException {
         String tenantId = httpServletRequest.getHeader(CommonConstants.TENANT_ID);
-        log.debug("租户id为:[{}]", tenantId);
         if (StrUtil.isNotBlank(tenantId)) {
             FdpTenantHolder.setTenant(Integer.parseInt(tenantId));
         } else {
-            FdpTenantHolder.setTenant(CommonConstants.DEFAULT_TENANT_ID);
+            Map<String, String[]> parameterMap = httpServletRequest.getParameterMap();
+            tenantId = httpServletRequest.getParameter(CommonConstants.TENANT_ID);
+            if (StrUtil.isNotBlank(tenantId)) {
+                FdpTenantHolder.setTenant(Integer.parseInt(tenantId));
+            } else {
+                FdpTenantHolder.setTenant(CommonConstants.DEFAULT_TENANT_ID);
+            }
         }
+        log.debug("租户id为:[{}]", tenantId);
         filterChain.doFilter(httpServletRequest, httpServletResponse);
         FdpTenantHolder.removeTenant();
     }

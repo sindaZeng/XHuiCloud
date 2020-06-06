@@ -13,6 +13,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * @program: FDPlatform
@@ -35,11 +36,24 @@ public class SysTenantController {
      */
     @Inner(value = false)
     @GetMapping("/list")
-    public R list() {
+    public R<List<SysTenant>> list() {
         return R.ok(sysTenantService.list(Wrappers.<SysTenant>lambdaQuery()
                 .eq(SysTenant::getState, 1).eq(SysTenant::getDelFlag, 1)));
     }
 
+    /**
+     * 查询系统租户
+     *
+     * @return
+     */
+    @Inner(value = false)
+    @GetMapping("/get")
+    public R get(@RequestParam String tenantId) {
+        return R.ok(sysTenantService.getOne(Wrappers.<SysTenant>lambdaQuery()
+                .eq(SysTenant::getId, tenantId)
+                .eq(SysTenant::getState, 1)
+                .eq(SysTenant::getDelFlag, 1)));
+    }
 
     /**
      * 分页查询租户列表

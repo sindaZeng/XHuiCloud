@@ -15,7 +15,7 @@
         <druid.version>1.1.21</druid.version>
         <mysql.connector.version>8.0.15</mysql.connector.version>
         <oracle.version>11.2.0.3</oracle.version>
-        <hutool.version>5.0.5</hutool.version>
+        <hutool.version>5.3.5</hutool.version>
         <mybatis-plus.version>3.2.0</mybatis-plus.version>
         <jjwt.version>0.10.5</jjwt.version>
         <swagger.version>2.9.2</swagger.version>
@@ -110,6 +110,12 @@
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>FDP-common-zero</artifactId>
+                <version>${FDPlatform.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>FDP-pay-api</artifactId>
                 <version>${FDPlatform.version}</version>
             </dependency>
 
