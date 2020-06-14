@@ -37,5 +37,5 @@ security:
 fdp:
   zero:
     snowflake:
-      zk-address: 127.0.0.1
-      port: 19999
+      zk-address: ${ZK_HOST:localhost}
+      port: ${ZK_PORT:19999}
