@@ -28,6 +28,7 @@ import com.zsinda.fdp.util.RsaKit;
 import com.zsinda.fdp.utils.UserAgentUtil;
 import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -47,6 +48,7 @@ import static com.zsinda.fdp.constant.AuthorizationConstants.IS_COMMING_INNER_YE
  * @author: Sinda
  * @create: 2020-06-04 14:31
  */
+@Controller
 @RequestMapping("/route")
 @AllArgsConstructor
 @Api(value = "route", tags = "支付路由模块")
