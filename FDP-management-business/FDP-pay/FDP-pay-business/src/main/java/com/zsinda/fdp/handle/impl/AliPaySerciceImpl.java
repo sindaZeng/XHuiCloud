@@ -53,8 +53,8 @@ public class AliPaySerciceImpl implements PayService {
         try {
             String domain = sysParamServiceFeign.get(SysConfigConstants.SYS_DEFAULT_DOMAIN,
                     IS_COMMING_INNER_YES).getData().getParamValue();
-            String returnUrl = domain + "pay/notify/alipay/return_url";
-            String notifyUrl = domain + "pay/notify/alipay/notify_url";
+            String returnUrl = domain + "pay/notify/return_url";
+            String notifyUrl = domain + "pay/notify/notify_url";
             Integer tenantId = FdpTenantHolder.getTenant();
             AlipayTradeWapPayModel aliPayModel = new AlipayTradeWapPayModel();
             aliPayModel.setSubject(payOrderAll.getGoodsTitle());
