@@ -54,7 +54,7 @@ import static com.zsinda.fdp.constant.AuthorizationConstants.IS_COMMING_INNER_YE
 @Api(value = "route", tags = "支付路由模块")
 public class PayRouteController {
 
-    private final AliPaySerciceImpl aliPaySercice;
+    private final AliPaySerciceImpl aliPayService;
 
     private final SysParamServiceFeign sysParamServiceFeign;
 
@@ -104,7 +104,7 @@ public class PayRouteController {
                 modelAndView.setViewName("ftl/success");
             } else {
                 // 唤起支付宝
-                aliPaySercice.pay(payOrderDto);
+                aliPayService.pay(payOrderDto);
             }
         }
         return modelAndView;

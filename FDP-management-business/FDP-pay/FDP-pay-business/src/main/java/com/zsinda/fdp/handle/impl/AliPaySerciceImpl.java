@@ -5,9 +5,11 @@ import com.jpay.alipay.AliPayApi;
 import com.jpay.alipay.AliPayApiConfigKit;
 import com.zsinda.fdp.config.PayConfigInit;
 import com.zsinda.fdp.constant.CommonConstants;
+import com.zsinda.fdp.constant.SysConfigConstants;
 import com.zsinda.fdp.dto.PayOrderDto;
 import com.zsinda.fdp.entity.PayOrderAll;
 import com.zsinda.fdp.enums.pay.PayTypeEnum;
+import com.zsinda.fdp.feign.SysParamServiceFeign;
 import com.zsinda.fdp.handle.PayService;
 import com.zsinda.fdp.service.PayOrderAllService;
 import com.zsinda.fdp.tenant.FdpTenantHolder;
@@ -16,6 +18,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletResponse;
+
+import static com.zsinda.fdp.constant.AuthorizationConstants.IS_COMMING_INNER_YES;
 
 /**
  * @program: FDPlatform
@@ -32,6 +36,8 @@ public class AliPaySerciceImpl implements PayService {
 
     private final PayOrderAllService payOrderAllService;
 
+    private final SysParamServiceFeign sysParamServiceFeign;
+
     @Override
     public Object pay(PayOrderDto payOrderDto) {
         payOrderDto.setGoodsTitle(CommonConstants.SCAN_CODE_PAY);
@@ -45,6 +51,9 @@ public class AliPaySerciceImpl implements PayService {
 
     private void openAlipay(PayOrderDto payOrderDto, PayOrderAll payOrderAll) {
         try {
+            String returnUrl = sysParamServiceFeign.get(SysConfigConstants.SYS_DEFAULT_DOMAIN,
+                    IS_COMMING_INNER_YES).getData().getParamValue()
+                    + "/pay/notify/alipay/callback";
             Integer tenantId = FdpTenantHolder.getTenant();
             AlipayTradeWapPayModel aliPayModel = new AlipayTradeWapPayModel();
             aliPayModel.setSubject(payOrderAll.getGoodsTitle());
@@ -56,8 +65,8 @@ public class AliPaySerciceImpl implements PayService {
             aliPayModel.setQuitUrl(payOrderDto.getQuitUrl());//用户付款中途退出返回商户网站的地址
             // 根据租户 选择支付商户号
             AliPayApiConfigKit.setThreadLocalAppId(PayConfigInit.tenantIdAliPayAppIdMaps.get(tenantId));
-            AliPayApi.wapPay(response, aliPayModel, ""
-                    , "http://zsinda.cn:15000/pay/notify/alipay/callback");
+            AliPayApi.wapPay(response, aliPayModel, returnUrl
+                    , returnUrl);
         } catch (Exception e) {
             log.error("支付宝手机支付失败", e);
         }
