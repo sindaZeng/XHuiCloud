@@ -51,8 +51,9 @@ public class AliPaySerciceImpl implements PayService {
 
     private void openAlipay(PayOrderDto payOrderDto, PayOrderAll payOrderAll) {
         try {
-            String returnUrl = sysParamServiceFeign.get(SysConfigConstants.SYS_DEFAULT_DOMAIN,
-                    IS_COMMING_INNER_YES).getData().getParamValue()
+            String domain = sysParamServiceFeign.get(SysConfigConstants.SYS_DEFAULT_DOMAIN,
+                    IS_COMMING_INNER_YES).getData().getParamValue();
+            String returnUrl = domain
                     + "/pay/notify/alipay/callback";
             Integer tenantId = FdpTenantHolder.getTenant();
             AlipayTradeWapPayModel aliPayModel = new AlipayTradeWapPayModel();
@@ -65,7 +66,7 @@ public class AliPaySerciceImpl implements PayService {
             aliPayModel.setQuitUrl(payOrderDto.getQuitUrl());//用户付款中途退出返回商户网站的地址
             // 根据租户 选择支付商户号
             AliPayApiConfigKit.setThreadLocalAppId(PayConfigInit.tenantIdAliPayAppIdMaps.get(tenantId));
-            AliPayApi.wapPay(response, aliPayModel, returnUrl
+            AliPayApi.wapPay(response, aliPayModel, domain
                     , returnUrl);
         } catch (Exception e) {
             log.error("支付宝手机支付失败", e);
