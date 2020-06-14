@@ -6,6 +6,8 @@ import com.zsinda.fdp.utils.SpringSecurityUtils;
 import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.AuthorizationRequest;
@@ -41,7 +43,7 @@ public class AuthController {
 
 //    private final SysUserServiceFeign sysUserServiceFeign;
 
-//    private final RedisTemplate redisTemplate;
+    private final RedisTemplate redisTemplate;
 
 //    private final IDGenerate defaultSnowflakeIDGenerate;
 
@@ -104,11 +106,13 @@ public class AuthController {
         return R.ok(Boolean.TRUE);
     }
 
-    @GetMapping("/test/{id}")
+    @GetMapping("/test")
 //    @SysLog("测试111111")
 //    @FdpLock(value = "#id", isUserTryLock = true)
 //    @GlobalTransactional
-    public R user(@PathVariable Integer id) throws SQLException {
+//    @CacheEvict(value = , allEntries = true)
+    @CachePut(value = "CachePut")
+    public R user(@RequestParam(value = "id") Integer id,@RequestParam(value = "amount") Integer amount) throws SQLException {
         log.info("id+{}",id);
         //        long l = defaultSnowflakeIDGenerate.get();
 //        Object value = redisTemplate.opsForValue().get(id);

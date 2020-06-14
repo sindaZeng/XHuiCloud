@@ -6,7 +6,6 @@ import com.zsinda.fdp.utils.R;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -25,11 +24,4 @@ public interface SysTenantServiceFeign {
     @GetMapping("/tenant/list")
     R<List<SysTenant>> list(@RequestHeader(FROM) String from);
 
-    /**
-     * 查询系统租户
-     *
-     * @return
-     */
-    @GetMapping("/tenant/get")
-    R get(@RequestParam(value = "tenantId") String tenantId, @RequestHeader(FROM) String from);
 }

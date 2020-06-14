@@ -1,5 +1,7 @@
 package com.zsinda.fdp.handle;
 
+import com.zsinda.fdp.dto.PayOrderDto;
+
 /**
  * @program: FDPlatform
  * @description: PayService
@@ -10,7 +12,8 @@ public interface PayService {
 
     /**
      * 唤起支付渠道
+     *
      * @return
      */
-    Object pay();
+    Object pay(PayOrderDto payOrderDto);
 }

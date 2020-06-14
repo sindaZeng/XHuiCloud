@@ -152,8 +152,8 @@ $(function () {
     });
 
     $(".pay").click(function () {
-            location.href = '/FDP-pay-business/pay/createOrder?tenant_id=' +
-            ${tenant.id}+'&remark='+remark
+            location.href = '/pay/route/call?tenant_id=' +
+            ${tenant.id}+'&remark='+remark +'&amount='+$paymoney.val()
         }
     );
     var $prompt = $("#prompt")

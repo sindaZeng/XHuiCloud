@@ -34,3 +34,8 @@ security:
     client:
       client-id: U2hhcmVCQlM=
       client-secret: $2a$10$xP0Iv4Pd4kn.7msrJOCiC.ttRprLRk2fo3xbCdmPPLYuDo/H4gcdq
+fdp:
+  zero:
+    snowflake:
+      zk-address: 127.0.0.1
+      port: 19999

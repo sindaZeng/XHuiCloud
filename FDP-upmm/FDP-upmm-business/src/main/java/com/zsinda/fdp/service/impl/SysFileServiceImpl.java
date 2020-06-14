@@ -24,7 +24,6 @@ import com.zsinda.fdp.mapper.SysFileMapper;
 import com.zsinda.fdp.properties.BucketProperties;
 import com.zsinda.fdp.service.SysFileService;
 import com.zsinda.fdp.service.SysParamService;
-import com.zsinda.fdp.service.SysUserService;
 import com.zsinda.fdp.tenant.FdpTenantHolder;
 import com.zsinda.fdp.utils.SpringSecurityUtils;
 import com.zsinda.fdp.vo.FileVo;
@@ -52,9 +51,6 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impl
 
     @Autowired
     private SysParamService sysParamService;
-
-    @Autowired
-    private SysUserService sysUserService;
 
     SysFileServiceImpl(BucketProperties bucketProperties) {
         Configuration cfg = new Configuration(Region.region2());

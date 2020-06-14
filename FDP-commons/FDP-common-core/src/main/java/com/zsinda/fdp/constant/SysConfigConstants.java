@@ -28,5 +28,9 @@ public interface SysConfigConstants {
      */
     String SYS_CDN_DEFAULT_DOMAIN = "sys_cdn_default_domain";
 
+    /**
+     * 系统默认域名
+     */
+    String SYS_DEFAULT_DOMAIN = "sys_default_domain";
 
 }

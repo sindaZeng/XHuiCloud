@@ -16,4 +16,9 @@ public interface ServiceNameConstants {
      */
     String FDP_LOGS_BUSINESS = "FDP-logs-business";
 
+    /**
+     * 支付模块
+     */
+    String FDP_PAY_BUSINESS = "FDP-pay-business";
+
 }

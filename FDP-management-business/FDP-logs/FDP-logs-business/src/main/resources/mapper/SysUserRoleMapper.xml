@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zsinda.fdp.mapper.SysUserRoleMapper">
+  <resultMap id="BaseResultMap" type="com.zsinda.fdp.entity.SysUserRole">
+    <!--@mbg.generated-->
+    <!--@Table sys_user_role-->
+    <id column="sys_user_id" jdbcType="VARCHAR" property="sysUserId" />
+    <id column="sys_role_id" jdbcType="VARCHAR" property="sysRoleId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    sys_user_id, sys_role_id
+  </sql>
+</mapper>

@@ -4,9 +4,11 @@ import cn.hutool.core.util.CharsetUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.google.common.collect.Maps;
 import com.jpay.alipay.AliPayApiConfig;
 import com.jpay.alipay.AliPayApiConfigKit;
 import com.zsinda.fdp.entity.PayChannel;
+import com.zsinda.fdp.entity.SysTenant;
 import com.zsinda.fdp.enums.pay.PayTypeEnum;
 import com.zsinda.fdp.feign.SysTenantServiceFeign;
 import com.zsinda.fdp.service.PayChannelService;
@@ -22,6 +24,7 @@ import org.springframework.scheduling.annotation.Async;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import static com.zsinda.fdp.constant.AuthorizationConstants.IS_COMMING_INNER_YES;
 
@@ -40,6 +43,10 @@ public class PayConfigInit {
 
     private final PayChannelService payChannelService;
 
+    public final static Map<Integer,String> tenantIdAliPayAppIdMaps = Maps.newHashMap();
+
+    public final static Map<Integer, SysTenant> tenantMaps = Maps.newHashMap();
+
     @Async
     @Order
     @EventListener(WebServerInitializedEvent.class)
@@ -55,7 +62,11 @@ public class PayConfigInit {
                             .eq(PayChannel::getDelFlag, 1)
                             .eq(PayChannel::getTenantId, tenant.getId()));
             payChannels.addAll(payChannelList);
+            tenantMaps.put(tenant.getId(),tenant);
+        });
 
+        payChannels.forEach(payChannel -> {
+            tenantIdAliPayAppIdMaps.put(payChannel.getTenantId(),payChannel.getAppId());
         });
 
         payChannels.forEach(payChannel -> {

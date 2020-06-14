@@ -42,20 +42,6 @@ public class SysTenantController {
     }
 
     /**
-     * 查询系统租户
-     *
-     * @return
-     */
-    @Inner(value = false)
-    @GetMapping("/get")
-    public R get(@RequestParam String tenantId) {
-        return R.ok(sysTenantService.getOne(Wrappers.<SysTenant>lambdaQuery()
-                .eq(SysTenant::getId, tenantId)
-                .eq(SysTenant::getState, 1)
-                .eq(SysTenant::getDelFlag, 1)));
-    }
-
-    /**
      * 分页查询租户列表
      *
      * @param page

@@ -35,13 +35,14 @@ public class SwaggerProvider implements SwaggerResourcesProvider {
         List<RouteDefinitionVo> routeDefinitionVos = Lists.newArrayList();
         routeDefinitionRepository.getRouteDefinitions().subscribe(routes::add);
         BeanUtils.copyBeanList(routes,routeDefinitionVos,RouteDefinitionVo.class);
-        return routeDefinitionVos.stream().flatMap(routeDefinition -> routeDefinition.getPredicates().stream()
+        List<SwaggerResource> collect = routeDefinitionVos.stream().flatMap(routeDefinition -> routeDefinition.getPredicates().stream()
                 .filter(predicateDefinition -> "Path".equalsIgnoreCase(predicateDefinition.getName()))
                 .filter(predicateDefinition -> !filterIgnorePropertiesConfig.getSwaggerProviders().contains(routeDefinition.getId()))
                 .map(predicateDefinition ->
                         swaggerResource(routeDefinition.getRouteName(), predicateDefinition.getArgs().get(NameUtils.GENERATED_NAME_PREFIX + "0").replace("/**", API_URI))
                 )).sorted(Comparator.comparing(SwaggerResource::getName))
                 .collect(Collectors.toList());
+        return collect;
     }
 
     private static SwaggerResource swaggerResource(String name, String location) {

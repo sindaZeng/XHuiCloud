@@ -1,6 +1,7 @@
 package com.zsinda.fdp.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.zsinda.fdp.annotation.Inner;
 import com.zsinda.fdp.annotation.SysLog;
 import com.zsinda.fdp.entity.SysParam;
 import com.zsinda.fdp.service.SysParamService;
@@ -48,6 +49,17 @@ public class SysParamController {
     @PreAuthorize("@authorize.hasPermission('sys_add_param')")
     public R save(@Valid @RequestBody SysParam sysParam) {
         return R.ok(sysParamService.saveParam(sysParam));
+    }
+
+    /**
+     * 获取一个系统参数
+     *
+     * @return
+     */
+    @Inner(value = false)
+    @GetMapping("/get")
+    public R<SysParam> get(@RequestParam String key) {
+        return R.ok(sysParamService.getSysConfigByKey(key));
     }
 
     /**

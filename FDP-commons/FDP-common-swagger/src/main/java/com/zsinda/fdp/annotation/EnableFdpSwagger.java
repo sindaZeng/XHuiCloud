@@ -16,5 +16,5 @@ import java.lang.annotation.*;
 @Documented
 @Inherited
 @Import({SwaggerConfiguration.class})
-public @interface EnableSwagger {
+public @interface EnableFdpSwagger {
 }

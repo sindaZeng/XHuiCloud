@@ -33,6 +33,17 @@
         </dependency>
 
         <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>FDP-common-swagger</artifactId>
+        </dependency>
+
+        <!--        分布式发号器-->
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>FDP-common-zero</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
         </dependency>
