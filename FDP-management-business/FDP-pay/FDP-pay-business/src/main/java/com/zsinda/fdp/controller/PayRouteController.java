@@ -31,7 +31,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -48,7 +47,6 @@ import static com.zsinda.fdp.constant.AuthorizationConstants.IS_COMMING_INNER_YE
  * @author: Sinda
  * @create: 2020-06-04 14:31
  */
-@RestController
 @RequestMapping("/route")
 @AllArgsConstructor
 @Api(value = "route", tags = "支付路由模块")
