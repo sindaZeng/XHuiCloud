@@ -1,6 +1,10 @@
 package com.zsinda.fdp.controller;
 
+import com.alibaba.fastjson.JSON;
+import com.alipay.api.AlipayApiException;
+import com.alipay.api.internal.util.AlipaySignature;
 import com.jpay.alipay.AliPayApi;
+import com.jpay.alipay.AliPayApiConfigKit;
 import com.zsinda.fdp.annotation.Inner;
 import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;
@@ -48,14 +52,22 @@ public class PayNotifyRecordController {
     @RequestMapping(value = "/return_url")
     @ResponseBody
     public String certReturnUrl(HttpServletRequest request) {
-        // 获取支付宝GET过来反馈信息
-        Map<String, String> map = AliPayApi.toMap(request);
-        for (Map.Entry<String, String> entry : map.entrySet()) {
-            System.out.println(entry.getKey() + " = " + entry.getValue());
+        try {
+            // 获取支付宝GET过来反馈信息
+            Map<String, String> map = AliPayApi.toMap(request);
+            log.info(JSON.toJSONString(map));
+            String key = AliPayApiConfigKit.getApiConfig(map.get("app_id")).getAlipayPublicKey();
+            boolean verifyResult = AlipaySignature.rsaCheckV1(map, key
+                    , "UTF-8",
+                    "RSA2");
+            if (verifyResult) {
+                // TODO 支付成功
+                return "success";
+            }
+        } catch (AlipayApiException e) {
+            e.printStackTrace();
         }
-        // TODO 请在这里加上商户的业务逻辑程序代码
-        System.out.println("certReturnUrl 验证成功");
-        return "success";
+        return "fail";
     }
 
     @Inner(false)
