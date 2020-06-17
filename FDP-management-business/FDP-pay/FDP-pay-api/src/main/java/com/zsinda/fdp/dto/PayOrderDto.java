@@ -55,4 +55,16 @@ public class PayOrderDto {
     @ApiModelProperty(value = "第三方渠道名称")
     private String channelId;
 
+    /**
+     * 第三方渠道用户openId
+     */
+    @ApiModelProperty(value = "第三方渠道用户openId")
+    private String openId;
+
+    /**
+     * 预留字段:第三方授权码
+     */
+    @ApiModelProperty(value = "第三方授权码")
+    private String code;
+
 }

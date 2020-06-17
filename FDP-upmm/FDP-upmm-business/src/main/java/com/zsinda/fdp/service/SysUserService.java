@@ -17,7 +17,7 @@ public interface SysUserService extends IService<SysUser> {
      * @param sysUser 用户
      * @return userInfo
      */
-    UserInfo findUserInfo(SysUser sysUser);
+    UserInfo getSysUser(SysUser sysUser);
 
     /**
      * 分页查询用户信息
@@ -67,5 +67,5 @@ public interface SysUserService extends IService<SysUser> {
      * @param sysUser
      * @return
      */
-    Boolean saveUser(SysUser sysUser);
+    Integer saveUser(SysUser sysUser);
 }

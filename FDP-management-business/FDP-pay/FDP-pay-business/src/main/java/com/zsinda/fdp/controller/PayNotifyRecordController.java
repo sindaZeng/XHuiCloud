@@ -1,16 +1,17 @@
 package com.zsinda.fdp.controller;
 
-import com.alibaba.fastjson.JSON;
-import com.alipay.api.AlipayApiException;
 import com.alipay.api.internal.util.AlipaySignature;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.jpay.alipay.AliPayApi;
 import com.jpay.alipay.AliPayApiConfigKit;
 import com.zsinda.fdp.annotation.Inner;
+import com.zsinda.fdp.entity.PayOrderAll;
+import com.zsinda.fdp.service.PayOrderAllService;
+import com.zsinda.fdp.utils.OrderUtil;
 import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -32,56 +33,55 @@ import java.util.Map;
 @Api(value = "notify", tags = "异步回调管理")
 public class PayNotifyRecordController {
 
+    private final PayOrderAllService payOrderAllService;
+
     /**
-     * 支付宝渠道异步回调
+     * 同步 用于支付完成后返回的页面
      *
-     * @param request 渠道请求
+     * @param request
      * @return
      */
     @Inner(false)
     @SneakyThrows
-    @PostMapping("/alipay/callback")
-    public void aliCallbak(HttpServletRequest request, HttpServletResponse response) {
-        // 解析回调信息
-        Map<String, String> params = AliPayApi.toMap(request);
-        log.info("回调信息:{}", params);
-        response.getWriter().print("success");
-    }
-
-    @Inner(false)
-    @RequestMapping(value = "/return_url")
     @ResponseBody
-    public String certReturnUrl(HttpServletRequest request) {
-        try {
-            // 获取支付宝GET过来反馈信息
-            Map<String, String> map = AliPayApi.toMap(request);
-            log.info(JSON.toJSONString(map));
-            String key = AliPayApiConfigKit.getApiConfig(map.get("app_id")).getAlipayPublicKey();
-            boolean verifyResult = AlipaySignature.rsaCheckV1(map, key
-                    , "UTF-8",
-                    "RSA2");
-            if (verifyResult) {
-                // TODO 支付成功
-                return "success";
-            }
-        } catch (AlipayApiException e) {
-            e.printStackTrace();
+    @RequestMapping(value = "/alipay/return_url")
+    public String returnUrl(HttpServletRequest request, HttpServletResponse response) {
+        // 获取支付宝反馈信息
+        Map<String, String> map = AliPayApi.toMap(request);
+        if (AlipaySignature.rsaCheckV1(map,
+                AliPayApiConfigKit.getApiConfig(map.get("app_id")).getAlipayPublicKey()
+                , "UTF-8",
+                "RSA2")) {
+            // TODO 支付成功
+            response.getWriter().print("success");
         }
         return "fail";
     }
 
+    /**
+     * 异步
+     *
+     * @param request
+     * @return
+     */
     @Inner(false)
-    @RequestMapping(value = "/notify_url")
+    @SneakyThrows
     @ResponseBody
-    public String certNotifyUrl(HttpServletRequest request) {
+    @RequestMapping(value = "/alipay/notify_url")
+    public void notifyUrl(HttpServletRequest request) {
         // 获取支付宝POST过来反馈信息
-        Map<String, String> params = AliPayApi.toMap(request);
-        for (Map.Entry<String, String> entry : params.entrySet()) {
-            System.out.println(entry.getKey() + " = " + entry.getValue());
+        Map<String, String> map = AliPayApi.toMap(request);
+        if (AlipaySignature.rsaCheckV1(map, AliPayApiConfigKit.getApiConfig(map.get("app_id")).getAlipayPublicKey(), "UTF-8", "RSA2")) {
+            // TODO 请在这里加上商户的业务逻辑程序代码 异步通知可能出现订单重复通知 需要做去重处理
+
+            // 校验是否有这个订单
+            PayOrderAll payOrderAll = payOrderAllService.getOne(Wrappers.<PayOrderAll>lambdaQuery()
+                    .eq(PayOrderAll::getOrderNo, map.get("out_trade_no")));
+
+            OrderUtil.checkOrder(payOrderAll,map);
+
+
         }
-        // TODO 请在这里加上商户的业务逻辑程序代码 异步通知可能出现订单重复通知 需要做去重处理
-        System.out.println("certNotifyUrl 验证成功succcess");
-        return "success";
     }
 
 }

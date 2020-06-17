@@ -59,7 +59,7 @@ public class SysParamController {
     @Inner(value = false)
     @GetMapping("/get")
     public R<SysParam> get(@RequestParam String key) {
-        return R.ok(sysParamService.getSysConfigByKey(key));
+        return R.ok(sysParamService.getSysParamByKey(key));
     }
 
     /**

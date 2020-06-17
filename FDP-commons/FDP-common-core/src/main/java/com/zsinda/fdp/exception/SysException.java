@@ -23,7 +23,7 @@ public class SysException extends BaseRuntimeException {
      * @return
      */
     public static SysException sysFail(String message, Object... args) {
-        return new SysException(BASE_EXCEPTION_CODE, message, args);
+        return custom(BASE_EXCEPTION_CODE, message, args);
     }
 
     /**

@@ -34,8 +34,15 @@ security:
     client:
       client-id: U2hhcmVCQlM=
       client-secret: $2a$10$xP0Iv4Pd4kn.7msrJOCiC.ttRprLRk2fo3xbCdmPPLYuDo/H4gcdq
+# 发号器配置
 fdp:
   zero:
     snowflake:
-      zk-address: ${ZK_HOST:localhost}
-      port: ${ZK_PORT:19999}
+      zk-address: ${ZK_HOST:47.113.86.94}
+      port: ${ZK_PORT:2888}
+#支付配置
+pay:
+  domain: http://xhuicloud.com:15000/
+  alipay:
+    return-url: pay/notify/alipay/return_url
+    notify-url: pay/notify/alipay/notify_url

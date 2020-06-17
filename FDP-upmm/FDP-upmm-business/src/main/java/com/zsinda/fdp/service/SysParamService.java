@@ -5,7 +5,7 @@ import com.zsinda.fdp.entity.SysParam;
 
 public interface SysParamService extends IService<SysParam>{
 
-    SysParam getSysConfigByKey(String sysUserDefaultPassword);
+    SysParam getSysParamByKey(String sysUserDefaultPassword);
 
     Boolean saveParam(SysParam sysParam);
 }

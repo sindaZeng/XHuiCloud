@@ -69,6 +69,5 @@ public class PermitHavaInnerUrlProperties implements InitializingBean {
 					.ifPresent(inner -> info.getPatternsCondition().getPatterns()
 							.forEach(url -> ignoreUrls.add(ReUtil.replaceAll(url, PATTERN, StringPool.ASTERISK))));
 		});
-
 	}
 }

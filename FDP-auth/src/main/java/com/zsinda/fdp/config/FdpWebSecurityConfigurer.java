@@ -1,5 +1,7 @@
 package com.zsinda.fdp.config;
 
+import com.zsinda.fdp.handle.impl.SocialAuthenticationSuccessHandler;
+import com.zsinda.fdp.social.SocialSecurityConfigurer;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.context.annotation.Bean;
@@ -42,6 +44,17 @@ public class FdpWebSecurityConfigurer extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()//对请求授权
                 .antMatchers("/token/**", "/mobile/**").permitAll() //匹配这个url 放行
                 .anyRequest().authenticated()//任何请求都要授权
-                .and().csrf().disable();//跨站请求伪造攻击
+                .and().csrf().disable()//跨站请求伪造攻击
+                .apply(socialSecurityConfigurer());
+    }
+
+    @Bean
+    public SocialSecurityConfigurer socialSecurityConfigurer(){
+        return new SocialSecurityConfigurer();
+    }
+
+    @Bean
+    public SocialAuthenticationSuccessHandler socialAuthenticationSuccessHandler(){
+        return new SocialAuthenticationSuccessHandler();
     }
 }

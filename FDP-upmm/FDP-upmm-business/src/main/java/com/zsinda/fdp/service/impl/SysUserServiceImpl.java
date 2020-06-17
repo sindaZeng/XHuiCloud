@@ -49,7 +49,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     private final SysUserDeptService sysUserDeptService;
 
     @Override
-    public UserInfo findUserInfo(SysUser sysUser) {
+    public UserInfo getSysUser(SysUser sysUser) {
         UserInfo userInfo = new UserInfo();
         userInfo.setSysUser(sysUser);
         //查询该用户的角色
@@ -116,11 +116,11 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
             throw SysException.sysFail("导入用户数据不能为空!");
         }
         // 系统默认密码配置
-        SysParam sysParamPassWord = sysParamService.getSysConfigByKey(SYS_USER_DEFAULT_PASSWORD);
+        SysParam sysParamPassWord = sysParamService.getSysParamByKey(SYS_USER_DEFAULT_PASSWORD);
         // 系统默认角色配置
-        SysParam sysParamRole = sysParamService.getSysConfigByKey(SYS_USER_DEFAULT_ROLE);
+        SysParam sysParamRole = sysParamService.getSysParamByKey(SYS_USER_DEFAULT_ROLE);
         // 系统默认部门
-        SysParam sysParamDept = sysParamService.getSysConfigByKey(SYS_USER_DEFAULT_ROLE);
+        SysParam sysParamDept = sysParamService.getSysParamByKey(SYS_USER_DEFAULT_ROLE);
         // 所有的部门id
         List<Integer> allDeptIds = sysDeptService.getAllDeptIds();
         // 所有的角色id
@@ -143,7 +143,6 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
                 SysUser user = getOne(Wrappers.<SysUser>lambdaQuery().eq(SysUser::getUsername, sysUser.getUsername()));
                 if (ObjectUtils.isEmpty(user)) {
                     sysUser.setPassword(sysParamPassWord.getParamValue());
-                    sysUser.setUserId(null);
                     saveUserAndRoleAndDept(sysUser, deptIds, roleIds);
                     successNum++;
                     successMsg.append("<br/>" + successNum + "、账号 " + sysUser.getUsername() + " 导入成功");
@@ -180,27 +179,27 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     @Transactional(rollbackFor = Exception.class)
     public Boolean updateUser(SysUser sysUser) {
         SysUser user = getById(sysUser.getUserId());
-        if (ObjectUtil.isEmpty(user)){
+        if (ObjectUtil.isEmpty(user)) {
             throw SysException.sysFail(SysException.USER_NOT_EXIST_DATA_EXCEPTION);
         }
-        if (CollectionUtil.isNotEmpty(sysUser.getDeptIds())){
+        if (CollectionUtil.isNotEmpty(sysUser.getDeptIds())) {
             //删除该用户下的所有部门，重新插入
-            sysUserDeptService.updateUserDept(user.getUserId(),sysUser.getDeptIds());
+            sysUserDeptService.updateUserDept(user.getUserId(), sysUser.getDeptIds());
         }
-        if (CollectionUtil.isNotEmpty(sysUser.getRoleIds())){
+        if (CollectionUtil.isNotEmpty(sysUser.getRoleIds())) {
             //删除该用户下的所有部门，重新插入
-            sysUserRoleService.updateUserRole(user.getUserId(),sysUser.getRoleIds());
+            sysUserRoleService.updateUserRole(user.getUserId(), sysUser.getRoleIds());
         }
         return updateById(sysUser);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Boolean saveUser(SysUser sysUser) {
+    public Integer saveUser(SysUser sysUser) {
         // 设置默认密码
         if (StringUtils.isBlank(sysUser.getPassword())) {
             // 系统默认密码配置
-            SysParam sysParamPassWord = sysParamService.getSysConfigByKey(SYS_USER_DEFAULT_PASSWORD);
+            SysParam sysParamPassWord = sysParamService.getSysParamByKey(SYS_USER_DEFAULT_PASSWORD);
             sysUser.setPassword(sysParamPassWord.getParamValue());
         }
         // 所有的部门id
@@ -208,15 +207,14 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         // 所有的角色id
         List<Integer> allRoleIds = sysRoleService.getAllRoleIds();
         // 系统默认角色配置
-        SysParam sysParamRole = sysParamService.getSysConfigByKey(SYS_USER_DEFAULT_ROLE);
+        SysParam sysParamRole = sysParamService.getSysParamByKey(SYS_USER_DEFAULT_ROLE);
         // 系统默认部门
-        SysParam sysParamDept = sysParamService.getSysConfigByKey(SYS_USER_DEFAULT_ROLE);
+        SysParam sysParamDept = sysParamService.getSysParamByKey(SYS_USER_DEFAULT_ROLE);
         // 用户部门
         List<Integer> deptIds = getDeptIds(allDeptIds, sysUser.getDeptIds(), sysParamDept);
         // 用户角色
         List<Integer> roleIds = getRoleIds(allRoleIds, sysUser.getRoleIds(), sysParamRole);
-        saveUserAndRoleAndDept(sysUser,deptIds,roleIds);
-        return Boolean.TRUE;
+        return saveUserAndRoleAndDept(sysUser, deptIds, roleIds);
     }
 
     /**
@@ -234,7 +232,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
             return userDeptIds.stream()
                     .distinct().filter(id -> allDeptIds.contains(id)).collect(Collectors.toList());
         } else {
-            userDeptIds = new ArrayList();
+            userDeptIds = new ArrayList(1);
             userDeptIds.add(Integer.valueOf(sysParamDept.getParamValue()));
             return userDeptIds;
         }
@@ -255,7 +253,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
             return userRoleIds.stream()
                     .distinct().filter(id -> allRoleIds.contains(id)).collect(Collectors.toList());
         } else {
-            userRoleIds = new ArrayList();
+            userRoleIds = new ArrayList(1);
             userRoleIds.add(Integer.valueOf(sysParamRole.getParamValue()));
             return userRoleIds;
         }
@@ -268,13 +266,14 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
      * @param deptIds
      * @param roleIds
      */
-    private void saveUserAndRoleAndDept(SysUser sysUser, List<Integer> deptIds, List<Integer> roleIds) {
+    private Integer saveUserAndRoleAndDept(SysUser sysUser, List<Integer> deptIds, List<Integer> roleIds) {
         // 新增用户
         baseMapper.insert(sysUser);
         // 新增用户角色
         sysUserRoleService.saveUserRole(sysUser.getUserId(), roleIds);
         // 新增用户部门
         sysUserDeptService.saveUserDept(sysUser.getUserId(), deptIds);
+        return sysUser.getUserId();
     }
 
 

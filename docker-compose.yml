@@ -21,6 +21,13 @@ services:
     ports:
       - 6379:6379
 
+  fdp-zk:
+    image: zookeeper:3.4.11
+    restart: always
+    container_name: fdp-zk
+    ports:
+      - 2181:2181
+
   fdp-register:
     build:
       context: ./FDP-management-business/FDP-register
@@ -64,7 +71,7 @@ services:
     container_name: fdp-auth
     image: fdp-auth
 
-  FDP-upmm:
+  fdp-upmm:
     build:
       context: ./FDP-upmm/FDP-upmm-business
     environment:
@@ -79,3 +86,32 @@ services:
     container_name: fdp-upmm
     image: fdp-upmm
 
+  fdp-logs:
+    build:
+      context: ./FDP-management-business/FDP-logs/FDP-logs-business
+    environment:
+      - NACOS_HOST=fdp-register
+      - NACOS_PORT=13000
+      - MYSQL_HOST=fdp-mysql
+      - MYSQL_PORT=3306
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=root
+    restart: always
+    container_name: fdp-logs
+    image: fdp-logs
+
+  fdp-pay:
+    build:
+      context: ./FDP-management-business/FDP-pay/FDP-pay-business
+    environment:
+      - ZK_HOST=fdp-zk
+      - ZK_PORT=2181
+      - NACOS_HOST=fdp-register
+      - NACOS_PORT=13000
+      - MYSQL_HOST=fdp-mysql
+      - MYSQL_PORT=3306
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=root
+    restart: always
+    container_name: fdp-pay
+    image: fdp-pay

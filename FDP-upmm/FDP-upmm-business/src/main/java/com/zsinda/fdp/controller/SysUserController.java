@@ -52,7 +52,7 @@ public class SysUserController {
         if (user == null) {
             return R.failed(null, "获取当前用户信息失败");
         }
-        return R.ok(sysUserService.findUserInfo(user));
+        return R.ok(sysUserService.getSysUser(user));
     }
 
     /**
@@ -62,7 +62,7 @@ public class SysUserController {
      * @return
      */
     @Inner
-    @GetMapping("/getSysUser/{userName}")
+    @GetMapping("/{userName}")
     public R getSysUser(@PathVariable String userName) {
         SysUser user = sysUserService.getOne(Wrappers.<SysUser>query().lambda()
                 .eq(SysUser::getUsername, userName)
@@ -70,7 +70,7 @@ public class SysUserController {
         if (user == null) {
             return R.failed(null, String.format("用户信息为空 %s", userName));
         }
-        return R.ok(sysUserService.findUserInfo(user));
+        return R.ok(sysUserService.getSysUser(user));
     }
 
     /**

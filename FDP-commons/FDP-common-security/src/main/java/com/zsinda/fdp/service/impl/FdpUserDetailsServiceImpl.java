@@ -4,9 +4,9 @@ import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
 import com.zsinda.fdp.dto.UserInfo;
 import com.zsinda.fdp.entity.SysUser;
+import com.zsinda.fdp.feign.SysSocialServiceFeign;
 import com.zsinda.fdp.feign.SysUserServiceFeign;
 import com.zsinda.fdp.service.FdpUserDetailsService;
-import com.zsinda.fdp.utils.R;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -31,11 +31,30 @@ public class FdpUserDetailsServiceImpl implements FdpUserDetailsService {
 
     private final SysUserServiceFeign sysUserServiceFeign;
 
+    private final SysSocialServiceFeign sysSocialServiceFeign;
+
+    /**
+     * 用户名登录
+     *
+     * @param userName
+     * @return
+     * @throws UsernameNotFoundException
+     */
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
-        R<UserInfo> info = sysUserServiceFeign.getSysUser(userName,IS_COMMING_INNER_YES);
-        UserInfo userInfo = info.getData();
-        return getUserDetails(userInfo);
+        return getUserDetails(sysUserServiceFeign.getSysUser(userName, IS_COMMING_INNER_YES).getData());
+    }
+
+    /**
+     * 社交登录
+     *
+     * @param code
+     * @return
+     * @throws UsernameNotFoundException
+     */
+    @Override
+    public UserDetails loadUserBySocial(String code) throws UsernameNotFoundException {
+        return getUserDetails(sysSocialServiceFeign.getSysUser(code, IS_COMMING_INNER_YES).getData());
     }
 
     private UserDetails getUserDetails(UserInfo userInfo) {
@@ -53,14 +72,9 @@ public class FdpUserDetailsServiceImpl implements FdpUserDetailsService {
         Collection<? extends GrantedAuthority> authorities
                 = AuthorityUtils.createAuthorityList(dbAuthsSet.toArray(new String[0]));
         SysUser user = userInfo.getSysUser();
-        boolean enabled = StrUtil.equals(user.getLockFlag().toString(),USER_IS_LOCK);
+        boolean enabled = StrUtil.equals(user.getLockFlag().toString(), USER_IS_LOCK);
         // 构造security用户
         return new FdpUser(user.getUserId(), user.getUsername(), user.getPassword(), enabled,
                 true, true, !USER_IS_LOCK.equals(user.getLockFlag()), authorities);
-    }
-
-    @Override
-    public UserDetails loadUserBySocial(String code) throws UsernameNotFoundException {
-        return null;
     }
 }

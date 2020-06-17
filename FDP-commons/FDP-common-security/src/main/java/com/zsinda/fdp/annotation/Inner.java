@@ -8,7 +8,7 @@ import java.lang.annotation.*;
  * @author: Sinda
  * @create: 2019-12-27 00:10
  **/
-@Target({ElementType.METHOD})
+@Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 public @interface Inner {

@@ -28,7 +28,7 @@
             <span>${tenant.name!'请跟商家核对商户名'}</span>
         </div>
         <div style="height: 40%;font-size:12px">
-            <a id="prompt" href="avascript:void(0);">添加备注</a>
+            <a id="prompt" href="javascript:void(0);">添加备注</a>
         </div>
     </div>
 </div>
@@ -153,17 +153,17 @@ $(function () {
 
     $(".pay").click(function () {
             location.href = '/pay/route/call?tenant_id=' +
-            ${tenant.id}+'&remark='+remark +'&amount='+$paymoney.val()
+                ${tenant.id}+'&remark=' + remark + '&amount=' + $paymoney.val()
         }
     );
     var $prompt = $("#prompt")
-    $prompt.click(function (){
+    $prompt.click(function () {
         layer.prompt({title: '写点什么吧'}, function (value, index) {
             remark = value;
-            if (value.length>=4){
-                value=value.substring(0,4);
+            if (value.length >= 4) {
+                value = value.substring(0, 4);
             }
-            document.getElementById("prompt").innerText=value +'...'
+            document.getElementById("prompt").innerText = value + '...'
             layer.close(index);
         });
     });
@@ -178,6 +178,7 @@ $(function () {
             font-size: 120%;
             background-color: #1AAD19;
         }
+
         .pay:active {
             background-color: #179B16;
         }

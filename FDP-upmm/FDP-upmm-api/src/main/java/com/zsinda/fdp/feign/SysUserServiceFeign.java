@@ -16,7 +16,7 @@ public interface SysUserServiceFeign {
 
     String SYSUSERSERVICEFEIGN = "sysUserServiceFeign";
 
-    @GetMapping("/user/getSysUser/{userName}")
+    @GetMapping("/user/{userName}")
     R<UserInfo> getSysUser(@PathVariable("userName") String userName, @RequestHeader(FROM) String from);
 
     @PostMapping("/user")

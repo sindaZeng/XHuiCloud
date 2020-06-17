@@ -122,7 +122,7 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impl
             if (ObjectUtil.isNull(sysFile)) {
                 throw SysException.sysFail("下载文件错误，文件不存在!");
             }
-            SysParam sysConfigByKey = sysParamService.getSysConfigByKey(SysConfigConstants.SYS_CDN_DEFAULT_DOMAIN);
+            SysParam sysConfigByKey = sysParamService.getSysParamByKey(SysConfigConstants.SYS_CDN_DEFAULT_DOMAIN);
             HttpUtil.download(sysConfigByKey.getParamValue() + sysFile.getUrl(), response.getOutputStream(), true);
         } catch (IOException e) {
             log.error("文件下载异常: {}", e.getLocalizedMessage());
