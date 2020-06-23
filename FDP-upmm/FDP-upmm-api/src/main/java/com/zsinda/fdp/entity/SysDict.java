@@ -6,9 +6,10 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.io.Serializable;
-import java.util.Date;
 import lombok.Data;
+
+import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
     * 字典表
@@ -57,7 +58,7 @@ public class SysDict implements Serializable {
      */
     @TableField(value = "create_time")
     @ApiModelProperty(value="创建时间")
-    private Date createTime;
+    private LocalDateTime createTime;
 
     /**
      * 创建者id
@@ -71,7 +72,7 @@ public class SysDict implements Serializable {
      */
     @TableField(value = "update_time")
     @ApiModelProperty(value="更新时间")
-    private Date updateTime;
+    private LocalDateTime updateTime;
 
     /**
      * 更新者id

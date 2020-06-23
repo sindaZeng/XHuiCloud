@@ -70,7 +70,7 @@ public class SysFileController {
     @SysLog("删除文件")
     @DeleteMapping("/{id}")
     @PreAuthorize("@authorize.hasPermission('sys_delete_file')")
-    public R removeById(@PathVariable Integer id) {
+    public R delete(@PathVariable Integer id) {
         return R.ok(sysFileService.deleteFileById(id));
     }
 

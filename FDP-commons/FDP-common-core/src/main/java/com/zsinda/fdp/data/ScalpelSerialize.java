@@ -27,15 +27,14 @@ public class ScalpelSerialize extends JsonSerializer<String> implements Contextu
 
     private String domain;
 
+    private Scalpel scalpel;
+
     @Override
     public void serialize(String source, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {
         switch (type) {
-//            case USER_NAME:
-//                jsonGenerator.writeString(ScalpelUtil.userName(origin));
-//                break;
-//            case CUSTOMER:
-//                jsonGenerator.writeString(ScalpelUtil.desValue(origin, prefixNoMaskLen, suffixNoMaskLen, maskStr));
-//                break;
+            case MOSAIC:
+                jsonGenerator.writeString(ScalpelUtil.mosaic(source,scalpel));
+                break;
             case ADD_DOMAIN:
                 jsonGenerator.writeString(ScalpelUtil.addDomain(source, domain));
                 break;
@@ -53,7 +52,7 @@ public class ScalpelSerialize extends JsonSerializer<String> implements Contextu
                     scalpel = beanProperty.getContextAnnotation(Scalpel.class);
                 }
                 if (scalpel != null) {
-                    return new ScalpelSerialize(scalpel.type(),scalpel.domain());
+                    return new ScalpelSerialize(scalpel.type(),scalpel.domain(),scalpel);
                 }
             }
             return serializerProvider.findValueSerializer(beanProperty.getType(), beanProperty);

@@ -8,7 +8,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Data
 @ApiModel(value="商户渠道表")
@@ -61,13 +61,13 @@ public class PayChannel implements Serializable {
      * 创建时间
      */
     @ApiModelProperty(value="创建时间")
-    private Date createTime;
+    private LocalDateTime createTime;
 
     /**
      * 修改时间
      */
     @ApiModelProperty(value="修改时间")
-    private Date updateTime;
+    private LocalDateTime updateTime;
 
     /**
      * 0: 禁用 1：启用

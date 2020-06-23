@@ -13,9 +13,9 @@ public enum  ScalpelTypeEnum {
      */
     CUSTOMER,
     /**
-     * 用户名打码
+     * 打码
      */
-    USER_NAME,
+    MOSAIC,
     /**
      * 添加域名
      */

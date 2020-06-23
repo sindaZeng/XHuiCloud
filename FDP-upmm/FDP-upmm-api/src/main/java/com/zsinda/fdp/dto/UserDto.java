@@ -5,7 +5,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -30,7 +30,7 @@ public class UserDto implements Serializable {
     private Integer delFlag;
 
     @ApiModelProperty(value = "日期")
-    private Date date;
+    private LocalDateTime date;
 
     @ApiModelProperty(value = "部门ID集合")
     private List<Integer> deptIds;

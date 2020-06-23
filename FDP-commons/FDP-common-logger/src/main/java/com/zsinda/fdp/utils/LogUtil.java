@@ -1,4 +1,4 @@
-package com.zsinda.fdp.util;
+package com.zsinda.fdp.utils;
 
 import cn.hutool.core.util.URLUtil;
 import cn.hutool.extra.servlet.ServletUtil;

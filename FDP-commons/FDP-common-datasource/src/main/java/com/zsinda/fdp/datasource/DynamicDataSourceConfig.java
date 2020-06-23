@@ -17,7 +17,6 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 
-
 /**
  * @program: FDPlatform
  * @description: 多数据源配置
@@ -49,12 +48,9 @@ public class DynamicDataSourceConfig extends BaseDataSourceConfig {
         DynamicDataSource dynamicDataSource = new DynamicDataSource();
         Map<Object, Object> targetDataSources = new HashMap(datasources.size());
         for (Map.Entry<String, DataSource> entry : datasources.entrySet()) {
-            targetDataSources.put(entry.getKey(), entry.getValue());
-            log.info("初始化 -> {} 数据源",entry.getKey());
+            dynamicDataSource.putDataSourceMap(entry.getKey(), entry.getValue());
+            log.info("初始化 -> {} 数据源", entry.getKey());
         }
-        dynamicDataSource.setTargetDataSources(targetDataSources);
-        //默认数据源配置 第一个
-        dynamicDataSource.setDefaultTargetDataSource(datasources.get(datasources.keySet().iterator().next()));
         log.info("完毕 -> 初始化动态数据源,共计 {} 条", targetDataSources.size());
         return dynamicDataSource;
     }
@@ -66,6 +62,6 @@ public class DynamicDataSourceConfig extends BaseDataSourceConfig {
 
     public DynamicDataSourceConfig(DataSourceCoreProperties dataSourceCoreProperties, PaginationInterceptor paginationInterceptor) {
         super(dataSourceCoreProperties, paginationInterceptor);
-        this.dataSourceCoreProperties=dataSourceCoreProperties;
+        this.dataSourceCoreProperties = dataSourceCoreProperties;
     }
 }

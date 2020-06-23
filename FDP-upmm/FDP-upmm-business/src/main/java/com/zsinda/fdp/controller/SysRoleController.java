@@ -83,7 +83,7 @@ public class SysRoleController {
     @SysLog("删除角色")
     @PreAuthorize("@authorize.hasPermission('sys_delete_role')")
     @DeleteMapping("/{id}")
-    public R removeById(@PathVariable Integer id) {
+    public R delete(@PathVariable Integer id) {
         return R.ok(sysRoleService.deleteRoleById(id));
     }
 

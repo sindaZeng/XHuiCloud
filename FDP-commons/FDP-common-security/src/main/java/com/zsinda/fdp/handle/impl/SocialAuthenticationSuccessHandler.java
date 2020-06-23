@@ -5,12 +5,12 @@ import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.CharsetUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.common.exceptions.UnapprovedClientAuthenticationException;
 import org.springframework.security.oauth2.provider.*;
@@ -41,6 +41,8 @@ public class SocialAuthenticationSuccessHandler implements AuthenticationSuccess
     private AuthorizationServerTokenServices authorizationServerTokenServices;
     @Autowired
     private ObjectMapper objectMapper;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     private final static DefaultOAuth2RequestValidator defaultOAuth2RequestValidator=new DefaultOAuth2RequestValidator();
 
@@ -61,7 +63,7 @@ public class SocialAuthenticationSuccessHandler implements AuthenticationSuccess
         //校验secret
         if (clientDetails == null) {
             throw new UnapprovedClientAuthenticationException("clientId对应的配置信息不存在:" + clientId);
-        } else if (!StringUtils.equals(clientDetails.getClientSecret(), tokens[1])) {
+        } else if (!passwordEncoder.matches(tokens[1], clientDetails.getClientSecret())) {
             throw new UnapprovedClientAuthenticationException("clientSecret不匹配:" + clientId);
         }
 

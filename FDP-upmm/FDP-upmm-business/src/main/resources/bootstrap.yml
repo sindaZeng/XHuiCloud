@@ -9,7 +9,6 @@ spring:
     nacos:
       discovery:
         server-addr: ${NACOS_HOST:localhost}:${NACOS_PORT:13000}
-        heart-beat-timeout:
       config:
         server-addr: ${NACOS_HOST:localhost}:${NACOS_PORT:13000}
         #后缀 yml

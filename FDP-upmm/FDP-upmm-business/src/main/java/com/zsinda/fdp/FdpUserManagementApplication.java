@@ -13,6 +13,6 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 public class FdpUserManagementApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(FdpUserManagementApplication.class,args);
+        SpringApplication.run(FdpUserManagementApplication.class, args);
     }
 }

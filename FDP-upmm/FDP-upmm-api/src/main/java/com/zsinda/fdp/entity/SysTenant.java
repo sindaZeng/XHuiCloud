@@ -10,7 +10,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @ApiModel(value="com-zsinda-fdp-entity-SysTenant")
 @Data
@@ -39,7 +39,7 @@ public class SysTenant implements Serializable {
      * 有效期
      */
     @ApiModelProperty(value="有效期")
-    private Date expirationTime;
+    private LocalDateTime expirationTime;
 
     /**
      * logo地址
@@ -58,13 +58,13 @@ public class SysTenant implements Serializable {
      * 创建时间
      */
     @ApiModelProperty(value="创建时间")
-    private Date createTime;
+    private LocalDateTime createTime;
 
     /**
      * 更新时间
      */
     @ApiModelProperty(value="更新时间")
-    private Date updateTime;
+    private LocalDateTime updateTime;
 
     /**
      * 0: 禁用 1：启用

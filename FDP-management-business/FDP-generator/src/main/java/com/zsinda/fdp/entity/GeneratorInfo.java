@@ -2,6 +2,8 @@ package com.zsinda.fdp.entity;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 /**
  * @program: FDPlatform
  * @description: 生成信息
@@ -9,7 +11,8 @@ import lombok.Data;
  * @create: 2020-05-07 18:14
  */
 @Data
-public class GeneratorInfo {
+public class GeneratorInfo implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     /**
      * 包名

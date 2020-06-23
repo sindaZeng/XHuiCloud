@@ -4,7 +4,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * @program: FDPlatform
@@ -55,7 +55,7 @@ public class FileVo implements Serializable {
      * 上传时间
      */
     @ApiModelProperty(value = "上传时间")
-    private Date createTime;
+    private LocalDateTime createTime;
 
     /**
      * 租户id

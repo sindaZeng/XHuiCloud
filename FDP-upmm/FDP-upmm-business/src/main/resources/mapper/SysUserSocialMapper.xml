@@ -5,7 +5,7 @@
     <!--@mbg.generated-->
     <!--@Table sys_user_open_service-->
     <id column="user_id" jdbcType="INTEGER" property="userId" />
-    <id column="social_id" jdbcType="INTEGER" property="socialId" />
+    <id column="social_type" jdbcType="VARCHAR" property="socialType" />
     <result column="user_openid" jdbcType="VARCHAR" property="userOpenid" />
   </resultMap>
   <sql id="Base_Column_List">

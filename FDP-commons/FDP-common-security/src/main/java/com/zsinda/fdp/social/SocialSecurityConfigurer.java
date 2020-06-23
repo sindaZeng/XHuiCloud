@@ -1,5 +1,6 @@
 package com.zsinda.fdp.social;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zsinda.fdp.component.ResourceAuthExceptionEntryPoint;
 import com.zsinda.fdp.service.FdpUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,13 +20,12 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
  */
 
 public class SocialSecurityConfigurer extends SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity> {
-
+    @Autowired
+    private ObjectMapper objectMapper;
     @Autowired
     private AuthenticationEventPublisher defaultAuthenticationEventPublisher;
     @Autowired
     private AuthenticationSuccessHandler authenticationSuccessHandler;
-    @Autowired
-    protected ResourceAuthExceptionEntryPoint resourceAuthExceptionEntryPoint;
     @Autowired
     private FdpUserDetailsService userDetailsService;
 
@@ -35,7 +35,7 @@ public class SocialSecurityConfigurer extends SecurityConfigurerAdapter<DefaultS
         socialAuthenticationFilter.setAuthenticationManager(http.getSharedObject(AuthenticationManager.class));
         socialAuthenticationFilter.setAuthenticationSuccessHandler(authenticationSuccessHandler);
         socialAuthenticationFilter.setEventPublisher(defaultAuthenticationEventPublisher);
-        socialAuthenticationFilter.setAuthenticationEntryPoint(resourceAuthExceptionEntryPoint);
+        socialAuthenticationFilter.setAuthenticationEntryPoint(new ResourceAuthExceptionEntryPoint(objectMapper));
 
         SocialAuthenticationProvider socialAuthenticationProvider = new SocialAuthenticationProvider();
         socialAuthenticationProvider.setUserDetailsService(userDetailsService);

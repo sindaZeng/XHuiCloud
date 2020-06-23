@@ -3,7 +3,7 @@ package com.zsinda.fdp.aspect;
 
 import com.zsinda.fdp.annotation.SysLog;
 import com.zsinda.fdp.event.SysLogEvent;
-import com.zsinda.fdp.util.LogUtil;
+import com.zsinda.fdp.utils.LogUtil;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;

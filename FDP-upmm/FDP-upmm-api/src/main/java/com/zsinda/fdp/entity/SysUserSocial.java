@@ -14,7 +14,7 @@ public class SysUserSocial implements Serializable {
     /**
      * 开放平台表id
      */
-    private Integer socialId;
+    private String socialType;
 
     /**
      * 用户openid

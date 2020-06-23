@@ -12,6 +12,6 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 public class FdpLogsApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(FdpLogsApplication.class,args);
+        SpringApplication.run(FdpLogsApplication.class, args);
     }
 }

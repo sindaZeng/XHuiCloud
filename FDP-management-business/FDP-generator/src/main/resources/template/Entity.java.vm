@@ -1,0 +1,36 @@
+package ${package}.entity;
+
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+    #if(${hasBigDecimal})
+    import java.math.BigDecimal;
+    #end
+import java.io.Serializable;
+import java.time.LocalDateTime;
+
+/**
+ * @program: ${projectName}
+ * @description: ${tableComment}
+ * @author: ${author}
+ * @create: ${datetime}
+ */
+@Data
+@TableName("${tableName}")
+@ApiModel(value = "${tableComment}")
+public class ${ClassName} implements Serializable{
+private static final long serialVersionUID = 1L;
+
+#foreach ($column in $columns)
+    /**
+    * $column.columnComment
+    */
+    #if($column.columnKey == 'PRI')
+@TableId#if($column.extra == 'auto_increment')(value = "$column.columnName", type = IdType.AUTO)
+    #end#end
+@ApiModelProperty(value="$column.columnComment")
+    private $column.javaDataType $column.smallColumnName;
+#end
+}

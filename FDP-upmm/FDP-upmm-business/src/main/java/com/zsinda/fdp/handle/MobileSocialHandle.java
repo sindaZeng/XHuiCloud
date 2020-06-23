@@ -34,7 +34,7 @@ public class MobileSocialHandle extends AbstractSocialHandle {
         LambdaQueryWrapper<SysUser> queryWrapper = Wrappers.<SysUser>lambdaQuery().eq(SysUser::getPhone, mobile);
         SysUser user = sysUserService.getOne(queryWrapper);
         if (ObjectUtil.isNull(user)) {
-            sysUserService.saveUser(createDefaultUser(user));
+            sysUserService.saveUser(createDefaultUser(mobile));
             user = sysUserService.getOne(queryWrapper);
         }
         return sysUserService.getSysUser(user);

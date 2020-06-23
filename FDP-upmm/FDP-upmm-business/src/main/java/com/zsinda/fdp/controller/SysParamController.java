@@ -85,7 +85,7 @@ public class SysParamController {
     @SysLog("删除系统参数")
     @PreAuthorize("@authorize.hasPermission('sys_delete_param')")
     @DeleteMapping("/{id}")
-    public R removeById(@PathVariable Integer id) {
+    public R delete(@PathVariable Integer id) {
         return R.ok(sysParamService.removeById(id));
     }
 }

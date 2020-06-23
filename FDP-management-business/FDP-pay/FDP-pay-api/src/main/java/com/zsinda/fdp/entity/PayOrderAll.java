@@ -9,7 +9,7 @@ import lombok.Data;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * 订单表
@@ -113,25 +113,25 @@ public class PayOrderAll implements Serializable {
      * 下单时间
      */
     @ApiModelProperty(value = "下单时间")
-    private Date createTime;
+    private LocalDateTime createTime;
 
     /**
      * 支付时间
      */
     @ApiModelProperty(value = "支付时间")
-    private Date payTime;
+    private LocalDateTime payTime;
 
     /**
      * 退款时间
      */
     @ApiModelProperty(value = "退款时间")
-    private Date refTime;
+    private LocalDateTime refTime;
 
     /**
      * 完成时间
      */
     @ApiModelProperty(value = "完成时间")
-    private Date finishTime;
+    private LocalDateTime finishTime;
 
     private static final long serialVersionUID = 1L;
 }

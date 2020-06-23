@@ -13,7 +13,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -85,7 +85,7 @@ public class SysUser implements Serializable {
     @TableField(value = "create_time")
     @ApiModelProperty(value = "创建时间")
     @Excel(name = "创建时间", dateFormat = "yyyy-MM-dd HH:mm:ss")
-    private Date createTime;
+    private LocalDateTime createTime;
 
     /**
      * 修改时间
@@ -93,7 +93,7 @@ public class SysUser implements Serializable {
     @TableField(value = "update_time")
     @ApiModelProperty(value = "修改时间")
     @Excel(name = "更新时间", dateFormat = "yyyy-MM-dd HH:mm:ss")
-    private Date updateTime;
+    private LocalDateTime updateTime;
 
     /**
      * 0:账号被锁

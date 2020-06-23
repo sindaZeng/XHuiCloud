@@ -26,10 +26,7 @@
             <groupId>${project.groupId}</groupId>
             <artifactId>FDP-logs-api</artifactId>
         </dependency>
-
-
     </dependencies>
-
 
     <build>
         <resources>
@@ -45,6 +42,4 @@
             </resource>
         </resources>
     </build>
-
-
 </project>

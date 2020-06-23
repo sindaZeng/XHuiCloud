@@ -7,7 +7,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * 参数配置表
@@ -68,7 +68,7 @@ public class SysParam implements Serializable {
      * 创建时间
      */
     @ApiModelProperty(value = "创建时间")
-    private Date createTime;
+    private LocalDateTime createTime;
 
     /**
      * 更新者id
@@ -80,7 +80,7 @@ public class SysParam implements Serializable {
      * 更新时间
      */
     @ApiModelProperty(value = "更新时间")
-    private Date updateTime;
+    private LocalDateTime updateTime;
 
     /**
      * 0: 禁用 1：启用
