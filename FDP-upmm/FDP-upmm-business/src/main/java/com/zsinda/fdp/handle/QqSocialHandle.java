@@ -60,14 +60,18 @@ public class QqSocialHandle extends AbstractSocialHandle {
         sysUserSocial.setUserOpenid(param[2]);
         sysUserSocial.setSocialType(LoginTypeEnum.QQ.name());
         SysUserSocial userSocial = sysUserSocialMapper.selectOne(new QueryWrapper<>(sysUserSocial));
+        Integer userId;
         if (ObjectUtil.isNull(userSocial)) {
             String result = HttpUtil.get(String.format(ThirdLoginUrlConstants.getQqUserInfoUrl, param[0], param[1], param[2]));
             // 创建用户
             sysUserSocial.setUserId(sysUserService.saveUser(createDefaultUser(JSONUtil.parseObj(result))));
             // 绑定OpenId
             sysUserSocialMapper.insert(sysUserSocial);
+            userId = sysUserSocial.getUserId();
+        } else {
+            userId = userSocial.getUserId();
         }
-        SysUser user = sysUserService.getById(sysUserSocial.getUserId());
+        SysUser user = sysUserService.getById(userId);
         if (ObjectUtil.isNull(user)) {
             throw SysException.sysFail(SysException.USER_NOT_EXIST_DATA_EXCEPTION);
         }
