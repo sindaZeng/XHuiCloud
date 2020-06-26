@@ -9,6 +9,7 @@ import com.zsinda.fdp.mapper.GenDatasourceInfoMapper;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.http.HttpHeaders;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
@@ -36,6 +37,7 @@ public class CodeGeneratorController {
      */
     @SneakyThrows
     @PostMapping("/{dataSourceId}/generator")
+    @PreAuthorize("@authorize.hasPermission('sys_download_code')")
     public void generator(@PathVariable Integer dataSourceId,
                           @Valid @RequestBody GenCodeDto genCodeDto,
                           HttpServletResponse response) {

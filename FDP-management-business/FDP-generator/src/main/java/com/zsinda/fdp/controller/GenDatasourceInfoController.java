@@ -1,15 +1,14 @@
 package com.zsinda.fdp.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.zsinda.fdp.annotation.SysLog;
 import com.zsinda.fdp.entity.GenDatasourceInfo;
 import com.zsinda.fdp.handle.JdbcHandle;
 import com.zsinda.fdp.service.GenDatasourceInfoService;
 import com.zsinda.fdp.utils.R;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
@@ -65,14 +64,29 @@ public class GenDatasourceInfoController {
 
     /**
      * 保存
+     *
      * TODO 后面入参需要加密
      */
-    @GetMapping("/save")
+    @PostMapping("/save")
+    @PreAuthorize("@authorize.hasPermission('sys_add_dataSource')")
     public R save(GenDatasourceInfo datasourceInfo) {
         if (handle.get(datasourceInfo.getType()).test(datasourceInfo)) {
             return R.ok(genDatasourceInfoService.save(datasourceInfo));
         }
         return R.failed();
+    }
+
+    /**
+     * 删除
+     *
+     * @param id
+     * @return
+     */
+    @SysLog("删除")
+    @DeleteMapping("/{id}")
+    @PreAuthorize("@authorize.hasPermission('sys_delete_dataSource')")
+    public R delete(@PathVariable Integer id) {
+        return R.ok(genDatasourceInfoService.removeById(id));
     }
 
 }
