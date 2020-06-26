@@ -67,7 +67,7 @@ public class QqSocialHandle extends AbstractSocialHandle {
             // 绑定OpenId
             sysUserSocialMapper.insert(sysUserSocial);
         }
-        SysUser user = sysUserService.getById(userSocial.getUserId());
+        SysUser user = sysUserService.getById(sysUserSocial.getUserId());
         if (ObjectUtil.isNull(user)) {
             throw SysException.sysFail(SysException.USER_NOT_EXIST_DATA_EXCEPTION);
         }

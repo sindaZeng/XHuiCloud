@@ -22,6 +22,6 @@ public class SysSocialServiceImpl extends ServiceImpl<SysSocialMapper, SysSocial
     @Override
     public UserInfo getSysUser(String auth_code) {
         String[] inStrs = auth_code.split(StringPool.AT);
-        return handle.get(inStrs[0]).handle(inStrs[1]);
+        return handle.get(inStrs[0].toUpperCase()).handle(inStrs[1]);
     }
 }

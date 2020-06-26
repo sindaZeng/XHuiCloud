@@ -115,3 +115,17 @@ services:
     restart: always
     container_name: fdp-pay
     image: fdp-pay
+
+  fdp-gen:
+    build:
+      context: ./FDP-management-business/FDP-generator
+    environment:
+      - NACOS_HOST=fdp-register
+      - NACOS_PORT=13000
+      - MYSQL_HOST=fdp-mysql
+      - MYSQL_PORT=3306
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=root
+    restart: always
+    container_name: fdp-gen
+    image: fdp-gen
