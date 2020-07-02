@@ -13,7 +13,7 @@
         <FDPlatform.version>${project.version}</FDPlatform.version>
         <mybatis-plus.version>3.3.0</mybatis-plus.version>
         <druid.version>1.1.21</druid.version>
-        <mysql.connector.version>8.0.15</mysql.connector.version>
+        <mysql.connector.version>8.0.16</mysql.connector.version>
         <oracle.version>11.2.0.3</oracle.version>
         <hutool.version>5.3.5</hutool.version>
         <mybatis-plus.version>3.2.0</mybatis-plus.version>
