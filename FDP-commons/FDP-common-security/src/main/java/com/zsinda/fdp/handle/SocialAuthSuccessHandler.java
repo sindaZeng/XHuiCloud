@@ -1,4 +1,4 @@
-package com.zsinda.fdp.handle.impl;
+package com.zsinda.fdp.handle;
 
 import cn.hutool.core.codec.Base64;
 import cn.hutool.core.map.MapUtil;
@@ -30,7 +30,7 @@ import java.nio.charset.StandardCharsets;
  * @author: Sinda
  * @create: 2020-06-16 17:02
  */
-public class SocialAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
+public class SocialAuthSuccessHandler implements AuthenticationSuccessHandler {
 
     private static final String BASIC_ = "Basic ";
 

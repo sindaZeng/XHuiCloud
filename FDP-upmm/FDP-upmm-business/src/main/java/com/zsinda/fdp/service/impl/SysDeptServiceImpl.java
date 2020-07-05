@@ -1,18 +1,19 @@
 package com.zsinda.fdp.service.impl;
 
 
-import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.common.collect.Lists;
+import com.zsinda.fdp.constant.CacheConstants;
 import com.zsinda.fdp.entity.SysDept;
 import com.zsinda.fdp.mapper.SysDeptMapper;
 import com.zsinda.fdp.service.SysDeptService;
 import com.zsinda.fdp.vo.DeptVo;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,22 +22,26 @@ import java.util.stream.Collectors;
 public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> implements SysDeptService {
 
     @Override
+    @Cacheable(value = CacheConstants.SYSDEPTIDS, unless = "#result == null")
     public List<Integer> getAllDeptIds() {
         return list(Wrappers.emptyWrapper()).stream().map(SysDept::getDeptId).collect(Collectors.toList());
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
+    @CacheEvict(value = CacheConstants.SYSDEPTIDS, allEntries = true)
     public Boolean saveDept(SysDept sysDept) {
         return save(sysDept);
     }
 
     @Override
+    @CacheEvict(value = CacheConstants.SYSDEPTIDS, allEntries = true)
     public Boolean deleteDept(Integer id) {
         return null;
     }
 
     @Override
+    @CacheEvict(value = CacheConstants.SYSDEPTIDS, allEntries = true)
     public Boolean updateDept(SysDept sysDept) {
         return null;
     }

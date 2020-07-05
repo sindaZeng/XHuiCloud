@@ -19,6 +19,8 @@ import com.zsinda.fdp.vo.MenuVO;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
@@ -47,6 +49,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     private final SysDeptService sysDeptService;
 
     private final SysUserDeptService sysUserDeptService;
+
+    private static final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     @Override
     public UserInfo getSysUser(SysUser sysUser) {
@@ -196,25 +200,31 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Integer saveUser(SysUser sysUser) {
-        // 设置默认密码
-        if (StringUtils.isBlank(sysUser.getPassword())) {
-            // 系统默认密码配置
-            SysParam sysParamPassWord = sysParamService.getSysParamByKey(SYS_USER_DEFAULT_PASSWORD);
-            sysUser.setPassword(sysParamPassWord.getParamValue());
+        try {
+            // 设置默认密码
+            if (StringUtils.isBlank(sysUser.getPassword())) {
+                // 系统默认密码配置
+                SysParam sysParamPassWord = sysParamService.getSysParamByKey(SYS_USER_DEFAULT_PASSWORD);
+                sysUser.setPassword(sysParamPassWord.getParamValue());
+            } else {
+                sysUser.setPassword(passwordEncoder.encode(sysUser.getPassword()));
+            }
+            // 所有的部门id
+            List<Integer> allDeptIds = sysDeptService.getAllDeptIds();
+            // 所有的角色id
+            List<Integer> allRoleIds = sysRoleService.getAllRoleIds();
+            // 系统默认角色配置
+            SysParam sysParamRole = sysParamService.getSysParamByKey(SYS_USER_DEFAULT_ROLE);
+            // 系统默认部门
+            SysParam sysParamDept = sysParamService.getSysParamByKey(SYS_USER_DEFAULT_ROLE);
+            // 用户部门
+            List<Integer> deptIds = getDeptIds(allDeptIds, sysUser.getDeptIds(), sysParamDept);
+            // 用户角色
+            List<Integer> roleIds = getRoleIds(allRoleIds, sysUser.getRoleIds(), sysParamRole);
+            return saveUserAndRoleAndDept(sysUser, deptIds, roleIds);
+        }catch (Exception e){
+            throw SysException.sysFail(SysException.USER_IS_EXIST_EXCEPTION);
         }
-        // 所有的部门id
-        List<Integer> allDeptIds = sysDeptService.getAllDeptIds();
-        // 所有的角色id
-        List<Integer> allRoleIds = sysRoleService.getAllRoleIds();
-        // 系统默认角色配置
-        SysParam sysParamRole = sysParamService.getSysParamByKey(SYS_USER_DEFAULT_ROLE);
-        // 系统默认部门
-        SysParam sysParamDept = sysParamService.getSysParamByKey(SYS_USER_DEFAULT_ROLE);
-        // 用户部门
-        List<Integer> deptIds = getDeptIds(allDeptIds, sysUser.getDeptIds(), sysParamDept);
-        // 用户角色
-        List<Integer> roleIds = getRoleIds(allRoleIds, sysUser.getRoleIds(), sysParamRole);
-        return saveUserAndRoleAndDept(sysUser, deptIds, roleIds);
     }
 
     /**

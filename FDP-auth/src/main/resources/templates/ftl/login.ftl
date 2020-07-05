@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -16,11 +16,12 @@
 
 <body class="sign_body">
 <div class="container form-margin-top">
-    <form class="form-signin" action="/token/form" method="post">
+    <form class="form-signin" action="/token/form" method="post" name="f">
         <h2 class="form-signin-heading" align="center">统一认证系统</h2>
         <input type="text" name="username" class="form-control form-margin-top" placeholder="账号" required autofocus>
+        </br>
         <input type="password" name="password" class="form-control" placeholder="密码" required>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">sign in</button>
+        <button class="btn btn-lg btn-primary btn-block" onclick="">sign in</button>
         <#if error??>
             <span style="color: red; ">${error}</span>
         </#if>
@@ -31,4 +32,7 @@
     <p>email: <a href="mailto:sindazeng@gmain.com">sindazeng@gmain.com</a></p>
 </footer>
 </body>
+<script type="text/javascript">
+
+</script>
 </html>

@@ -4,7 +4,7 @@
 
 - [接口文档](http://127.0.0.1:15000/doc.html#/home)
 - [部署文档(编写中)]()
-- [在线预览](http://zsinda.cn:9527/) 
+- [在线预览](http://admin.xhuicloud.com/) 
 
 #### 目录结构
 ```lua
@@ -26,7 +26,9 @@ FDPlatform
 ├── FDP-dependencies-bom             -- 统一依赖管理
 ├── FDP-management-business          -- 系统管理业务模块
      ├── FDP-gateway                 -- Api网关[15000]
+     ├── FDP-generator               -- 开发平台[21000]
      ├── FDP-logs                    -- 日志服务器(18000)
+     ├── FDP-pay                     -- 支付中心(20000)
      ├── FDP-register                -- 注册中心(13000)
      ├── FDP-sentinel-dashboard      -- Sentinel监控模块(14000)
      ├── FDP-task                    -- 定时任务模块(8081)
@@ -40,8 +42,6 @@ FDPlatform
 yum install -y git java maven
 
 git clone https://github.com/sindaZeng/FDPlatform.git
-
-- [在线预览](http://zsinda.cn:9527/) 
 
 # 运行方式一:
 Docker

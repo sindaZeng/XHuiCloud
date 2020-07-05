@@ -13,4 +13,14 @@ public interface CacheConstants {
      */
     String SYSPARAM = "SYS:PARAM";
 
+    /**
+     * 部门
+     */
+    String SYSDEPTIDS = "SYS:DEPTIDS";
+
+    /**
+     * 角色
+     */
+    String SYSROLEIDS = "SYS:ROLEIDS";
+
 }

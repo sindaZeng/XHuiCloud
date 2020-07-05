@@ -2,12 +2,14 @@ package com.zsinda.fdp.service.impl;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.zsinda.fdp.constant.CacheConstants;
 import com.zsinda.fdp.entity.SysRole;
 import com.zsinda.fdp.entity.SysRoleMenu;
 import com.zsinda.fdp.mapper.SysRoleMapper;
 import com.zsinda.fdp.mapper.SysRoleMenuMapper;
 import com.zsinda.fdp.service.SysRoleService;
 import lombok.AllArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,6 +26,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     public List<SysRole> findRoleById(Integer userId) {
         return baseMapper.listRolesByUserId(userId);
     }
+
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Boolean deleteRoleById(Integer id) {
@@ -34,6 +37,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     }
 
     @Override
+    @Cacheable(value = CacheConstants.SYSROLEIDS, unless = "#result == null")
     public List<Integer> getAllRoleIds() {
         return list(Wrappers.emptyWrapper()).stream().map(SysRole::getRoleId).collect(Collectors.toList());
     }

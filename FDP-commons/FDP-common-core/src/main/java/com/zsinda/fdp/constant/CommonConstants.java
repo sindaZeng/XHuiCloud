@@ -31,17 +31,17 @@ public interface CommonConstants {
     /**
      * 路由key
      */
-    String ROUTE_KEY = "gateway_route_key";
+    String ROUTE_KEY = "gateway:route:key";
 
     /**
      * redis reload 事件
      */
-    String ROUTE_REDIS_RELOAD_TOPIC = "gateway_redis_route_reload_topic";
+    String ROUTE_RELOAD = "gateway:route:reload";
 
     /**
      * 内存reload 时间
      */
-    String ROUTE_JVM_RELOAD_TOPIC = "gateway_jvm_route_reload_topic";
+    String ROUTE_RELOAD_TIME = "gateway:route:reload:time";
 
     /**
      * 请求头 中租户ID

@@ -54,7 +54,7 @@ public class RedisRouteDefinitionWriter implements RouteDefinitionRepository {
 			log.info("保存路由信息{}", vo);
 			redisTemplate.setKeySerializer(new StringRedisSerializer());
 			redisTemplate.opsForHash().put(CommonConstants.ROUTE_KEY, r.getId(), vo);
-			redisTemplate.convertAndSend(CommonConstants.ROUTE_JVM_RELOAD_TOPIC, "新增路由信息,网关缓存更新");
+			redisTemplate.convertAndSend(CommonConstants.ROUTE_RELOAD_TIME, "新增路由信息,网关缓存更新");
 			return Mono.empty();
 		});
 	}
@@ -66,7 +66,7 @@ public class RedisRouteDefinitionWriter implements RouteDefinitionRepository {
 			redisTemplate.setKeySerializer(new StringRedisSerializer());
 			redisTemplate.opsForHash().delete(CommonConstants.ROUTE_KEY, id);
 		});
-		redisTemplate.convertAndSend(CommonConstants.ROUTE_JVM_RELOAD_TOPIC, "删除路由信息,网关缓存更新");
+		redisTemplate.convertAndSend(CommonConstants.ROUTE_RELOAD_TIME, "删除路由信息,网关缓存更新");
 		return Mono.empty();
 	}
 

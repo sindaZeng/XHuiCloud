@@ -42,7 +42,7 @@ fdp:
       port: ${ZK_PORT:2888}
 #支付配置
 pay:
-  domain: http://xhuicloud.com:15000/
+  domain: http://admin.xhuicloud.com/
   alipay:
     return-url: pay/notify/alipay/return_url
     notify-url: pay/notify/alipay/notify_url

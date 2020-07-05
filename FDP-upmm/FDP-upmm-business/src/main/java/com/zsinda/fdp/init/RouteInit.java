@@ -89,7 +89,7 @@ public class RouteInit {
         container.addMessageListener((message, bytes) -> {
             log.warn("接收到重新Redis 重新加载路由事件");
             init();
-        }, new ChannelTopic(CommonConstants.ROUTE_REDIS_RELOAD_TOPIC));
+        }, new ChannelTopic(CommonConstants.ROUTE_RELOAD));
         return container;
     }
 }

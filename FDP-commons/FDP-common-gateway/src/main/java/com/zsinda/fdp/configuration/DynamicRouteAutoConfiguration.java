@@ -41,7 +41,7 @@ public class DynamicRouteAutoConfiguration {
 		container.addMessageListener((message, bytes) -> {
 			log.warn("接收到重新JVM 重新加载路由事件");
 			RouteCacheHolder.removeRouteList();
-		}, new ChannelTopic(CommonConstants.ROUTE_JVM_RELOAD_TOPIC));
+		}, new ChannelTopic(CommonConstants.ROUTE_RELOAD_TIME));
 		return container;
 	}
 

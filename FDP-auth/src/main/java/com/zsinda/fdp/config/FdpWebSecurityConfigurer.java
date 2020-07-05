@@ -1,6 +1,7 @@
 package com.zsinda.fdp.config;
 
-import com.zsinda.fdp.handle.impl.SocialAuthenticationSuccessHandler;
+import com.zsinda.fdp.handle.FormAuthFailureHandler;
+import com.zsinda.fdp.handle.SocialAuthSuccessHandler;
 import com.zsinda.fdp.social.SocialSecurityConfigurer;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
@@ -11,6 +12,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 
 /**
  * @program: FDPlatform
@@ -21,6 +23,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 @AllArgsConstructor
 public class FdpWebSecurityConfigurer extends WebSecurityConfigurerAdapter {
+
+    @Bean
+    public AuthenticationFailureHandler authenticationFailureHandler() {
+        return new FormAuthFailureHandler();
+    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -40,6 +47,7 @@ public class FdpWebSecurityConfigurer extends WebSecurityConfigurerAdapter {
                 .formLogin()//表单登录
                 .loginPage("/token/login")
                 .loginProcessingUrl("/token/form")
+                .failureHandler(authenticationFailureHandler())
                 .and()
                 .authorizeRequests()//对请求授权
                 .antMatchers("/token/**", "/mobile/**").permitAll() //匹配这个url 放行
@@ -54,7 +62,7 @@ public class FdpWebSecurityConfigurer extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public SocialAuthenticationSuccessHandler socialAuthenticationSuccessHandler(){
-        return new SocialAuthenticationSuccessHandler();
+    public SocialAuthSuccessHandler socialAuthenticationSuccessHandler(){
+        return new SocialAuthSuccessHandler();
     }
 }

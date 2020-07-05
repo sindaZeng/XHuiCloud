@@ -14,6 +14,9 @@ spring:
         # 公共的配置文件
         shared-configs:
           - application-common.yml
+  datasource:
+    druid:
+      driver:
 security:
   oauth2:
     client:

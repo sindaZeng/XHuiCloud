@@ -4,6 +4,7 @@ package com.zsinda.fdp.controller;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zsinda.fdp.annotation.SysLog;
+import com.zsinda.fdp.constant.CacheConstants;
 import com.zsinda.fdp.dto.RoleDto;
 import com.zsinda.fdp.entity.SysRole;
 import com.zsinda.fdp.service.SysRoleMenuService;
@@ -11,6 +12,7 @@ import com.zsinda.fdp.service.SysRoleService;
 import com.zsinda.fdp.utils.R;
 import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -57,6 +59,7 @@ public class SysRoleController {
     @SysLog("新增角色")
     @PostMapping("/save")
     @PreAuthorize("@authorize.hasPermission('sys_add_role')")
+    @CacheEvict(value = CacheConstants.SYSROLEIDS, allEntries = true)
     public R save(@Valid @RequestBody SysRole sysRole) {
         return R.ok(sysRoleService.save(sysRole));
     }
@@ -70,6 +73,7 @@ public class SysRoleController {
     @SysLog("编辑角色")
     @PutMapping
     @PreAuthorize("@authorize.hasPermission('sys_editor_role')")
+    @CacheEvict(value = CacheConstants.SYSROLEIDS, allEntries = true)
     public R update(@Valid @RequestBody SysRole sysRole) {
         return R.ok(sysRoleService.updateById(sysRole));
     }
@@ -83,6 +87,7 @@ public class SysRoleController {
     @SysLog("删除角色")
     @PreAuthorize("@authorize.hasPermission('sys_delete_role')")
     @DeleteMapping("/{id}")
+    @CacheEvict(value = CacheConstants.SYSROLEIDS, allEntries = true)
     public R delete(@PathVariable Integer id) {
         return R.ok(sysRoleService.deleteRoleById(id));
     }
