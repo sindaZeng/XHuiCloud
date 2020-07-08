@@ -58,7 +58,7 @@ public class SysSocialController {
      * @return
      */
     @SysLog("新增社交")
-    @PostMapping("/save")
+    @PostMapping
     @PreAuthorize("@authorize.hasPermission('sys_add_social')")
     public R save(@Valid @RequestBody SysSocial sysSocial) {
         return R.ok(sysSocialService.save(sysSocial));

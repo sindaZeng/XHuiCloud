@@ -45,7 +45,7 @@ public class SysParamController {
      * @return
      */
     @SysLog("新增系统参数")
-    @PostMapping("/save")
+    @PostMapping
     @PreAuthorize("@authorize.hasPermission('sys_add_param')")
     public R save(@Valid @RequestBody SysParam sysParam) {
         return R.ok(sysParamService.saveParam(sysParam));

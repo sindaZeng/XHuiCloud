@@ -57,7 +57,7 @@ public class SysRoleController {
      * @return
      */
     @SysLog("新增角色")
-    @PostMapping("/save")
+    @PostMapping
     @PreAuthorize("@authorize.hasPermission('sys_add_role')")
     @CacheEvict(value = CacheConstants.SYSROLEIDS, allEntries = true)
     public R save(@Valid @RequestBody SysRole sysRole) {

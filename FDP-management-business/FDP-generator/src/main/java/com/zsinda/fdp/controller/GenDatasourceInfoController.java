@@ -67,7 +67,7 @@ public class GenDatasourceInfoController {
      *
      * TODO 后面入参需要加密
      */
-    @PostMapping("/save")
+    @PostMapping
     @PreAuthorize("@authorize.hasPermission('sys_add_dataSource')")
     public R save(GenDatasourceInfo datasourceInfo) {
         if (handle.get(datasourceInfo.getType()).test(datasourceInfo)) {

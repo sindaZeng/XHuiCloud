@@ -30,13 +30,14 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/menu")
 @AllArgsConstructor
-@Api(value = "menu",tags = "菜单管理模块")
+@Api(value = "menu", tags = "菜单管理模块")
 public class SysMenuController {
 
     private final SysMenuService sysMenuService;
 
     /**
      * 返回当前用户的树形菜单集合
+     *
      * @return 当前用户的树形菜单
      */
     @GetMapping
@@ -45,15 +46,16 @@ public class SysMenuController {
         SpringSecurityUtils.getRoles()
                 .forEach(roleId -> all.addAll(sysMenuService.findMenuByRoleId(roleId)));
         List<MenuTree> menuTreeList = all.stream()
-                .filter(menuVo -> 0==menuVo.getType())
+                .filter(menuVo -> 0 == menuVo.getType())
                 .map(MenuTree::new)
                 .sorted(Comparator.comparingInt(MenuTree::getSort))
                 .collect(Collectors.toList());
-        return R.ok(TreeUtil.build(menuTreeList,0));
+        return R.ok(TreeUtil.build(menuTreeList, 0));
     }
 
     /**
      * 返回角色的菜单集合
+     *
      * @param roleId
      * @return
      */
@@ -67,17 +69,19 @@ public class SysMenuController {
 
     /**
      * 树形菜单
+     *
      * @return
      */
     @GetMapping(value = "/tree")
     public R getMenuTree(@RequestParam Boolean disabled) {
-        return R.ok(TreeUtil.buildMenuTree(disabled,sysMenuService
+        return R.ok(TreeUtil.buildMenuTree(disabled, sysMenuService
                 .list(Wrappers.<SysMenu>lambdaQuery()
                         .orderByAsc(SysMenu::getSort)), 0));
     }
 
     /**
      * 新增菜单
+     *
      * @param sysMenu
      * @return
      */
@@ -90,6 +94,7 @@ public class SysMenuController {
 
     /**
      * 禁用，启用 菜单
+     *
      * @param id
      * @return
      */
@@ -100,6 +105,12 @@ public class SysMenuController {
         return R.ok(sysMenuService.deleteMenu(id));
     }
 
+    /**
+     * 编辑菜单
+     *
+     * @param sysMenu
+     * @return
+     */
     @SysLog("编辑菜单")
     @PutMapping
     @PreAuthorize("@authorize.hasPermission('sys_editor_menu')")
