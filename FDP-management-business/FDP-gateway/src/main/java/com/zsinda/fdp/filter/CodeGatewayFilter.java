@@ -60,8 +60,6 @@ public class CodeGatewayFilter extends AbstractGatewayFilterFactory {
                     if (StrUtil.containsAny(auth_code, LoginTypeEnum.SMS.getType())) {
                         //验证码登录 校验验证码
                         validateCode(request);
-                    }else {
-
                     }
                     return chain.filter(exchange);
                 }
