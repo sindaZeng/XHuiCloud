@@ -22,6 +22,14 @@ spring:
         dashboard: localhost:14000
         #监控此服务端口
         port: ${server.port}
+    gateway:
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowCredentials: true
+            allowedOrigins: "*"
+            allowedMethods: "*"
+            allowedHeaders: "*"
 ignore:
   swagger-providers:
     - FDP-auth

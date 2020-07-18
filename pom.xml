@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.zsinda</groupId>
     <artifactId>FDPlatform</artifactId>
-    <version>1.0.0</version>
+    <version>${revision}</version>
     <modules>
         <module>FDP-auth</module>
         <module>FDP-commons</module>
@@ -16,6 +16,7 @@
     <packaging>pom</packaging>
     <properties>
         <java.version>1.8</java.version>
+        <revision>1.0.0</revision>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.plugin.version>3.8.1</maven.compiler.plugin.version>
         <maven.resource.plugin.version>3.1.0</maven.resource.plugin.version>
@@ -75,7 +76,7 @@
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>FDP-dependencies-bom</artifactId>
-                <version>${FDPlatform.version}</version>
+                <version>${revision}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>

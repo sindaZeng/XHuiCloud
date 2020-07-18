@@ -7,10 +7,10 @@
     <artifactId>FDP-dependencies-bom</artifactId>
     <description>jar 依赖管理</description>
     <groupId>com.zsinda</groupId>
-    <version>1.0.0</version>
+    <version>${revision}</version>
     <name>${project.artifactId} ${description}</name>
     <properties>
-        <FDPlatform.version>${project.version}</FDPlatform.version>
+        <revision>1.0.0</revision>
         <mybatis-plus.version>3.3.0</mybatis-plus.version>
         <druid.version>1.1.21</druid.version>
         <mysql.connector.version>8.0.16</mysql.connector.version>
@@ -32,91 +32,97 @@
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>FDP-common-datasource</artifactId>
-                <version>${FDPlatform.version}</version>
+                <version>${revision}</version>
             </dependency>
 
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>FDP-common-data</artifactId>
-                <version>${FDPlatform.version}</version>
+                <version>${revision}</version>
             </dependency>
 
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>FDP-upmm-api</artifactId>
-                <version>${FDPlatform.version}</version>
+                <version>${revision}</version>
             </dependency>
 
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>FDP-common-swagger</artifactId>
-                <version>${FDPlatform.version}</version>
+                <version>${revision}</version>
             </dependency>
 
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>FDP-common-logger</artifactId>
-                <version>${FDPlatform.version}</version>
+                <version>${revision}</version>
             </dependency>
 
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>FDP-common-transaction</artifactId>
-                <version>${FDPlatform.version}</version>
+                <version>${revision}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>FDP-common-feign</artifactId>
+                <version>${revision}</version>
             </dependency>
 
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>FDP-common-security</artifactId>
-                <version>${FDPlatform.version}</version>
+                <version>${revision}</version>
             </dependency>
 
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>FDP-logs-api</artifactId>
-                <version>${FDPlatform.version}</version>
+                <version>${revision}</version>
             </dependency>
 
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>FDP-common-sentinel</artifactId>
-                <version>${FDPlatform.version}</version>
+                <version>${revision}</version>
             </dependency>
 
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>FDP-common-lock</artifactId>
-                <version>${FDPlatform.version}</version>
+                <version>${revision}</version>
             </dependency>
 
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>FDP-common-core</artifactId>
-                <version>${FDPlatform.version}</version>
+                <version>${revision}</version>
             </dependency>
 
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>FDP-common-gateway</artifactId>
-                <version>${FDPlatform.version}</version>
+                <version>${revision}</version>
             </dependency>
 
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>FDP-common-elasticJob</artifactId>
-                <version>${FDPlatform.version}</version>
+                <version>${revision}</version>
             </dependency>
 
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>FDP-common-zero</artifactId>
-                <version>${FDPlatform.version}</version>
+                <version>${revision}</version>
             </dependency>
 
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>FDP-pay-api</artifactId>
-                <version>${FDPlatform.version}</version>
+                <version>${revision}</version>
             </dependency>
 
             <dependency>

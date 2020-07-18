@@ -5,7 +5,7 @@
     <parent>
         <artifactId>FDPlatform</artifactId>
         <groupId>com.zsinda</groupId>
-        <version>1.0.0</version>
+        <version>${revision}</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>FDP-commons</artifactId>
@@ -24,6 +24,8 @@
         <module>FDP-common-gateway</module>
         <module>FDP-common-zero</module>
         <module>FDP-common-elasticJob</module>
+        <module>FDP-common-feign</module>
+        <module>FDP-common-gray</module>
     </modules>
 
 </project>

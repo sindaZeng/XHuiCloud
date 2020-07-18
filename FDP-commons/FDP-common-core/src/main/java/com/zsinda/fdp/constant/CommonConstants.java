@@ -49,6 +49,11 @@ public interface CommonConstants {
     String TENANT_ID = "tenant_id";
 
     /**
+     * 请求头 中租户ID
+     */
+    String VERSION = "version";
+
+    /**
      * 默认租户ID
      */
     Integer DEFAULT_TENANT_ID = 1;

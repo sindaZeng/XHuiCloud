@@ -21,6 +21,5 @@ import java.util.List;
 @ConditionalOnExpression("!'${ignore}'.isEmpty()")
 @ConfigurationProperties(prefix = "ignore")
 public class FilterIgnorePropertiesConfig {
-    private List<String> clients = new ArrayList<>();
     private List<String> swaggerProviders=new ArrayList<>();
 }
