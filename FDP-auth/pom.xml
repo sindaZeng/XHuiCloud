@@ -92,18 +92,6 @@
         <!--            <artifactId>spring-cloud-starter-zipkin</artifactId>-->
         <!--        </dependency>-->
 
-        <!--        分布式事务-->
-        <!--        <dependency>-->
-        <!--            <groupId>${project.groupId}</groupId>-->
-        <!--            <artifactId>FDP-common-transaction</artifactId>-->
-        <!--        </dependency>-->
-
-        <!--        分布式发号器-->
-        <!--        <dependency>-->
-        <!--            <groupId>${project.groupId}</groupId>-->
-        <!--            <artifactId>FDP-common-zero</artifactId>-->
-        <!--        </dependency>-->
-
     </dependencies>
 
     <build>

@@ -1,13 +1,14 @@
 spring:
   application:
-    name: FDP-upmm-business
+    name: @artifactId@
   profiles:
-    active: dev
+    active: @profiles.active@
   cloud:
     gateway:
       enabled: false
     nacos:
       discovery:
+        #nacos 地址
         server-addr: ${NACOS_HOST:localhost}:${NACOS_PORT:13000}
       config:
         server-addr: ${NACOS_HOST:localhost}:${NACOS_PORT:13000}
@@ -29,3 +30,6 @@ security:
     client:
       client-id: U2hhcmVCQlM=
       client-secret: $2a$10$xP0Iv4Pd4kn.7msrJOCiC.ttRprLRk2fo3xbCdmPPLYuDo/H4gcdq
+
+logging:
+  config: classpath:com/zsinda/fdp/logback/Fdp-defaults-log.xml

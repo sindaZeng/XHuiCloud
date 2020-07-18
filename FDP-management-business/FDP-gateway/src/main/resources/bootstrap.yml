@@ -7,6 +7,9 @@ spring:
     name: FDP-gateway
   cloud:
     nacos:
+      discovery:
+        #nacos 地址
+        server-addr: ${NACOS_HOST:localhost}:${NACOS_PORT:13000}
       config:
         server-addr: ${NACOS_HOST:localhost}:${NACOS_PORT:13000}
         #后缀 yml

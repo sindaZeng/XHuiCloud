@@ -20,11 +20,13 @@
         <maven.compiler.plugin.version>3.8.1</maven.compiler.plugin.version>
         <maven.resource.plugin.version>3.1.0</maven.resource.plugin.version>
         <FDPlatform.version>1.0.0</FDPlatform.version>
-        <spring-boot.version>2.2.4.RELEASE</spring-boot.version>
-        <spring-cloud.version>Hoxton.SR3</spring-cloud.version>
+        <spring-boot.version>2.3.1.RELEASE</spring-boot.version>
+        <spring-cloud.version>Hoxton.SR6</spring-cloud.version>
         <spring-cloud-alibaba-dependencies.version>2.2.1.RELEASE</spring-cloud-alibaba-dependencies.version>
         <seata.version>1.0.0</seata.version>
         <security.oauth.version>2.3.6.RELEASE</security.oauth.version>
+        <nacos.version>1.2.1</nacos.version>
+        <seata.version>1.1.0</seata.version>
     </properties>
 
     <!--    所有子项目默认依赖-->
@@ -117,22 +119,9 @@
             <url>https://oss.sonatype.org/content/groups/public</url>
         </repository>
     </repositories>
-    <distributionManagement>
-        <repository>
-            <id>repo.spring.io</id>
-            <name>Spring Release Repository</name>
-            <url>https://repo.spring.io/libs-release-local</url>
-        </repository>
-        <snapshotRepository>
-            <id>repo.spring.io</id>
-            <name>Spring Snapshot Repository</name>
-            <url>https://repo.spring.io/libs-snapshot-local</url>
-        </snapshotRepository>
-    </distributionManagement>
 
     <build>
         <finalName>${project.artifactId}</finalName>
-
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
@@ -193,5 +182,31 @@
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <properties>
+                <!-- 环境标识，需要与配置文件的名称相对应 -->
+                <profiles.active>dev</profiles.active>
+            </properties>
+            <activation>
+                <!-- 默认环境 -->
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+        <profile>
+            <id>test</id>
+            <properties>
+                <profiles.active>test</profiles.active>
+            </properties>
+        </profile>
+        <profile>
+            <id>prod</id>
+            <properties>
+                <profiles.active>prod</profiles.active>
+            </properties>
+        </profile>
+    </profiles>
 
 </project>

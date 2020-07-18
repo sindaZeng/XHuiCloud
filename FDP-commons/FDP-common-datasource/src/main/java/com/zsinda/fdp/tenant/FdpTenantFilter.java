@@ -31,7 +31,6 @@ public class FdpTenantFilter extends OncePerRequestFilter {
         if (StrUtil.isNotBlank(tenantId)) {
             FdpTenantHolder.setTenant(Integer.parseInt(tenantId));
         } else {
-            Map<String, String[]> parameterMap = httpServletRequest.getParameterMap();
             tenantId = httpServletRequest.getParameter(CommonConstants.TENANT_ID);
             if (StrUtil.isNotBlank(tenantId)) {
                 FdpTenantHolder.setTenant(Integer.parseInt(tenantId));

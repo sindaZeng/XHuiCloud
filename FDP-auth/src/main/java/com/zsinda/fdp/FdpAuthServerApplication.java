@@ -6,7 +6,6 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 
 @EnableFeignClients
 @SpringBootApplication
-//@EnableDynamicDataSource
 public class FdpAuthServerApplication {
     public static void main(String[] args) {
         SpringApplication.run(FdpAuthServerApplication.class,args);

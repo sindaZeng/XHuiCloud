@@ -1,11 +1,12 @@
 spring:
   application:
-    name: FDP-auth
+    name: @artifactId@
   profiles:
-    active: dev
+    active: @profiles.active@
   cloud:
     nacos:
       discovery:
+        #nacos 地址
         server-addr: ${NACOS_HOST:localhost}:${NACOS_PORT:13000}
       config:
         server-addr: ${NACOS_HOST:localhost}:${NACOS_PORT:13000}
@@ -14,6 +15,7 @@ spring:
         # 公共的配置文件
         shared-configs:
          - application-common.yml
+
   main:
     allow-bean-definition-overriding: true
 #  redis:

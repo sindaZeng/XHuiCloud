@@ -1,13 +1,12 @@
 package com.zsinda.fdp.controller;
 
 import cn.hutool.core.util.StrUtil;
+import com.zsinda.fdp.feign.SysUserServiceFeign;
 import com.zsinda.fdp.utils.R;
 import com.zsinda.fdp.utils.SpringSecurityUtils;
 import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.AuthorizationRequest;
@@ -19,10 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.sql.SQLException;
 import java.util.Map;
-
-//import com.zsinda.fdp.base.IDGenerate;
 
 /**
  * @program: FDPlatform
@@ -41,11 +37,7 @@ public class AuthController {
 
     private final ClientDetailsService clientDetailsService;
 
-//    private final SysUserServiceFeign sysUserServiceFeign;
-
-    private final RedisTemplate redisTemplate;
-
-//    private final IDGenerate defaultSnowflakeIDGenerate;
+    private final SysUserServiceFeign sysUserServiceFeign;
 
     /**
      * 认证页面
@@ -84,7 +76,6 @@ public class AuthController {
         return modelAndView;
     }
 
-
     /**
      * 退出登录
      */
@@ -105,30 +96,6 @@ public class AuthController {
         tokenStore.removeRefreshToken(accessToken.getRefreshToken());
         return R.ok(Boolean.TRUE);
     }
-
-    @GetMapping("/test")
-//    @SysLog("测试111111")
-//    @FdpLock(value = "#id", isUserTryLock = true)
-//    @GlobalTransactional
-//    @CacheEvict(value = , allEntries = true)
-    @CachePut(value = "CachePut")
-    public R user(@RequestParam(value = "id") Integer id,@RequestParam(value = "amount") Integer amount) throws SQLException {
-        log.info("id+{}",id);
-        //        long l = defaultSnowflakeIDGenerate.get();
-//        Object value = redisTemplate.opsForValue().get(id);
-//        if (null==value){
-//            redisTemplate.opsForValue().set(id,"123123123");
-//        }
-//        try {
-//            Thread.sleep(10000);
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
-//        sysUserServiceFeign.user(IS_COMMING_INNER_YES);
-//        return R.ok(1/0);
-        return R.ok(true);
-    }
-
 
 }
 

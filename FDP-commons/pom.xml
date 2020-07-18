@@ -11,7 +11,6 @@
     <artifactId>FDP-commons</artifactId>
     <packaging>pom</packaging>
 
-
     <modules>
         <module>FDP-common-datasource</module>
         <module>FDP-common-sentinel</module>
@@ -26,7 +25,5 @@
         <module>FDP-common-zero</module>
         <module>FDP-common-elasticJob</module>
     </modules>
-
-
 
 </project>
