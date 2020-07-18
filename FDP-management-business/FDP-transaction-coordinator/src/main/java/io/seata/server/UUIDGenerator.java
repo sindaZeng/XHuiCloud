@@ -15,13 +15,13 @@
  */
 package io.seata.server;
 
-import io.seata.common.exception.ShouldNeverHappenException;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.concurrent.atomic.AtomicLong;
+
+import io.seata.common.exception.ShouldNeverHappenException;
 
 /**
  * The type Uuid generator.

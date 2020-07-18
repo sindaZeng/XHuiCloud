@@ -13,22 +13,17 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package io.seata.server.event;
+package io.seata.server.coordinator;
 
-import io.seata.core.event.EventBus;
-import io.seata.core.event.GuavaEventBus;
+import io.seata.core.model.ResourceManagerOutbound;
+import io.seata.core.model.TransactionManager;
 
 /**
- * Manager hold the singleton event bus instance.
+ * receive inbound request from RM or TM.
  *
- * @author zhengyangyong
+ * @author zhangchenghui.dev@gmail.com
+ * @since 1.1.0
  */
-public class EventBusManager {
-    private static class SingletonHolder {
-        private static EventBus INSTANCE = new GuavaEventBus("tc");
-    }
+public interface TransactionCoordinatorInbound extends ResourceManagerOutbound, TransactionManager {
 
-    public static EventBus get() {
-        return SingletonHolder.INSTANCE;
-    }
 }

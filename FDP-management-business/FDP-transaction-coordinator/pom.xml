@@ -11,10 +11,6 @@
     <packaging>jar</packaging>
     <artifactId>FDP-transaction-coordinator</artifactId>
 
-    <properties>
-        <seata.version>1.0.0</seata.version>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>io.seata</groupId>
@@ -33,7 +29,7 @@
         </dependency>
         <dependency>
             <groupId>io.seata</groupId>
-            <artifactId>seata-codec-all</artifactId>
+            <artifactId>seata-serializer-all</artifactId>
             <version>${seata.version}</version>
         </dependency>
         <dependency>
@@ -47,7 +43,6 @@
             <artifactId>seata-metrics-all</artifactId>
             <version>${seata.version}</version>
         </dependency>
-
         <!-- for database -->
         <dependency>
             <groupId>com.alibaba</groupId>
@@ -69,13 +64,25 @@
             <artifactId>mysql-connector-java</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+        </dependency>
+        <dependency>
             <groupId>com.beust</groupId>
             <artifactId>jcommander</artifactId>
             <version>1.72</version>
         </dependency>
+        <!-- only for event bus -->
         <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-aop</artifactId>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>27.0.1-jre</version>
+        </dependency>
+
+        <!-- logback -->
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
         </dependency>
 
     </dependencies>

@@ -15,11 +15,11 @@
  */
 package io.seata.server.lock;
 
+import java.util.ArrayList;
+
 import io.seata.core.exception.TransactionException;
 import io.seata.server.session.BranchSession;
 import io.seata.server.session.GlobalSession;
-
-import java.util.ArrayList;
 
 /**
  * The type Default lock manager.

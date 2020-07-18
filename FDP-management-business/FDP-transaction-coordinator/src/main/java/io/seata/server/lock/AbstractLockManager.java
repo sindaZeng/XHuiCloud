@@ -15,6 +15,9 @@
  */
 package io.seata.server.lock;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import io.seata.common.XID;
 import io.seata.common.util.CollectionUtils;
 import io.seata.common.util.StringUtils;
@@ -24,9 +27,6 @@ import io.seata.core.lock.RowLock;
 import io.seata.server.session.BranchSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * The type Abstract lock manager.

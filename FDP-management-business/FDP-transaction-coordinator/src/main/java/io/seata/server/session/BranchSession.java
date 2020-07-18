@@ -15,22 +15,22 @@
  */
 package io.seata.server.session;
 
-import io.seata.common.util.CompressUtil;
-import io.seata.core.exception.TransactionException;
-import io.seata.core.model.BranchStatus;
-import io.seata.core.model.BranchType;
-import io.seata.server.lock.LockerFactory;
 import io.seata.server.lock.memory.MemoryLocker;
-import io.seata.server.store.SessionStorable;
-import io.seata.server.store.StoreConfig;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+
+import io.seata.common.util.CompressUtil;
+import io.seata.core.exception.TransactionException;
+import io.seata.core.model.BranchStatus;
+import io.seata.core.model.BranchType;
+import io.seata.server.lock.LockerFactory;
+import io.seata.server.store.SessionStorable;
+import io.seata.server.store.StoreConfig;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * The type Branch session.
@@ -256,7 +256,7 @@ public class BranchSession implements Lockable, Comparable<BranchSession>, Sessi
 
     @Override
     public int compareTo(BranchSession o) {
-        return this.branchId < o.branchId ? -1 : (this.branchId > o.branchId ? 1 : 0);
+        return Long.compare(this.branchId, o.branchId);
     }
 
     /**
@@ -270,12 +270,18 @@ public class BranchSession implements Lockable, Comparable<BranchSession>, Sessi
 
     @Override
     public boolean lock() throws TransactionException {
-        return LockerFactory.getLockManager().acquireLock(this);
+        if (this.getBranchType().equals(BranchType.AT)) {
+            return LockerFactory.getLockManager().acquireLock(this);
+        }
+        return true;
     }
 
     @Override
     public boolean unlock() throws TransactionException {
-        return LockerFactory.getLockManager().releaseLock(this);
+        if (this.getBranchType() == BranchType.AT) {
+            return LockerFactory.getLockManager().releaseLock(this);
+        }
+        return true;
     }
 
     @Override

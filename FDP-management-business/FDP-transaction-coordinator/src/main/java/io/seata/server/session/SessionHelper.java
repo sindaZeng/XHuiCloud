@@ -44,7 +44,7 @@ public class SessionHelper {
      * @return the branch session
      */
     public static BranchSession newBranchByGlobal(GlobalSession globalSession, BranchType branchType, String resourceId,
-                                                  String applicationData, String lockKeys, String clientId) {
+            String applicationData, String lockKeys, String clientId) {
         BranchSession branchSession = new BranchSession();
 
         branchSession.setXid(globalSession.getXid());
@@ -56,6 +56,26 @@ public class SessionHelper {
         branchSession.setClientId(clientId);
         branchSession.setApplicationData(applicationData);
 
+        return branchSession;
+    }
+
+    /**
+     * New branch
+     *
+     * @param branchType      the branch type
+     * @param xid             Transaction id.
+     * @param branchId        Branch id.
+     * @param resourceId      Resource id.
+     * @param applicationData Application data bind with this branch.
+     * @return the branch session
+     */
+    public static BranchSession newBranch(BranchType branchType, String xid, long branchId, String resourceId, String applicationData) {
+        BranchSession branchSession = new BranchSession();
+        branchSession.setXid(xid);
+        branchSession.setBranchId(branchId);
+        branchSession.setBranchType(branchType);
+        branchSession.setResourceId(resourceId);
+        branchSession.setApplicationData(applicationData);
         return branchSession;
     }
 

@@ -15,15 +15,15 @@
  */
 package io.seata.server.metrics;
 
-import com.google.common.eventbus.Subscribe;
-import io.seata.core.event.GlobalTransactionEvent;
-import io.seata.core.model.GlobalStatus;
-import io.seata.metrics.registry.Registry;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
+
+import com.google.common.eventbus.Subscribe;
+import io.seata.core.event.GlobalTransactionEvent;
+import io.seata.core.model.GlobalStatus;
+import io.seata.metrics.registry.Registry;
 
 /**
  * Event subscriber for metrics
