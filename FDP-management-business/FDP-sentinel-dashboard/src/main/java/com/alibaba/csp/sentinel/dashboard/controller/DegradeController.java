@@ -15,16 +15,20 @@
  */
 package com.alibaba.csp.sentinel.dashboard.controller;
 
-import com.alibaba.csp.sentinel.dashboard.auth.AuthService;
-import com.alibaba.csp.sentinel.dashboard.auth.AuthService.AuthUser;
-import com.alibaba.csp.sentinel.dashboard.auth.AuthService.PrivilegeType;
+import java.util.Date;
+import java.util.List;
+
+import com.alibaba.csp.sentinel.dashboard.auth.AuthAction;
 import com.alibaba.csp.sentinel.dashboard.client.SentinelApiClient;
-import com.alibaba.csp.sentinel.dashboard.datasource.entity.rule.DegradeRuleEntity;
 import com.alibaba.csp.sentinel.dashboard.discovery.MachineInfo;
-import com.alibaba.csp.sentinel.dashboard.domain.Result;
-import com.alibaba.csp.sentinel.dashboard.repository.rule.InMemDegradeRuleStore;
+import com.alibaba.csp.sentinel.dashboard.auth.AuthService.PrivilegeType;
 import com.alibaba.csp.sentinel.slots.block.RuleConstant;
 import com.alibaba.csp.sentinel.util.StringUtil;
+
+import com.alibaba.csp.sentinel.dashboard.datasource.entity.rule.DegradeRuleEntity;
+import com.alibaba.csp.sentinel.dashboard.domain.Result;
+import com.alibaba.csp.sentinel.dashboard.repository.rule.InMemDegradeRuleStore;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,10 +36,6 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import javax.servlet.http.HttpServletRequest;
-import java.util.Date;
-import java.util.List;
 
 /**
  * @author leyou
@@ -51,14 +51,10 @@ public class DegradeController {
     @Autowired
     private SentinelApiClient sentinelApiClient;
 
-    @Autowired
-    private AuthService<HttpServletRequest> authService;
-
     @ResponseBody
     @RequestMapping("/rules.json")
-    public Result<List<DegradeRuleEntity>> queryMachineRules(HttpServletRequest request, String app, String ip, Integer port) {
-        AuthUser authUser = authService.getAuthUser(request);
-        authUser.authTarget(app, PrivilegeType.READ_RULE);
+    @AuthAction(PrivilegeType.READ_RULE)
+    public Result<List<DegradeRuleEntity>> queryMachineRules(String app, String ip, Integer port) {
 
         if (StringUtil.isEmpty(app)) {
             return Result.ofFail(-1, "app can't be null or empty");
@@ -81,12 +77,9 @@ public class DegradeController {
 
     @ResponseBody
     @RequestMapping("/new.json")
-    public Result<DegradeRuleEntity> add(HttpServletRequest request,
-                                         String app, String ip, Integer port, String limitApp, String resource,
+    @AuthAction(PrivilegeType.WRITE_RULE)
+    public Result<DegradeRuleEntity> add(String app, String ip, Integer port, String limitApp, String resource,
                                          Double count, Integer timeWindow, Integer grade) {
-        AuthUser authUser = authService.getAuthUser(request);
-        authUser.authTarget(app, PrivilegeType.WRITE_RULE);
-
         if (StringUtil.isBlank(app)) {
             return Result.ofFail(-1, "app can't be null or empty");
         }
@@ -140,10 +133,9 @@ public class DegradeController {
 
     @ResponseBody
     @RequestMapping("/save.json")
-    public Result<DegradeRuleEntity> updateIfNotNull(HttpServletRequest request,
-                                                     Long id, String app, String limitApp, String resource,
+    @AuthAction(PrivilegeType.WRITE_RULE)
+    public Result<DegradeRuleEntity> updateIfNotNull(Long id, String app, String limitApp, String resource,
                                                      Double count, Integer timeWindow, Integer grade) {
-        AuthUser authUser = authService.getAuthUser(request);
         if (id == null) {
             return Result.ofFail(-1, "id can't be null");
         }
@@ -156,7 +148,7 @@ public class DegradeController {
         if (entity == null) {
             return Result.ofFail(-1, "id " + id + " dose not exist");
         }
-        authUser.authTarget(entity.getApp(), PrivilegeType.WRITE_RULE);
+
         if (StringUtil.isNotBlank(app)) {
             entity.setApp(app.trim());
         }
@@ -192,8 +184,8 @@ public class DegradeController {
 
     @ResponseBody
     @RequestMapping("/delete.json")
-    public Result<Long> delete(HttpServletRequest request, Long id) {
-        AuthUser authUser = authService.getAuthUser(request);
+    @AuthAction(PrivilegeType.DELETE_RULE)
+    public Result<Long> delete(Long id) {
         if (id == null) {
             return Result.ofFail(-1, "id can't be null");
         }
@@ -202,7 +194,7 @@ public class DegradeController {
         if (oldEntity == null) {
             return Result.ofSuccess(null);
         }
-        authUser.authTarget(oldEntity.getApp(), PrivilegeType.DELETE_RULE);
+
         try {
             repository.delete(id);
         } catch (Throwable throwable) {

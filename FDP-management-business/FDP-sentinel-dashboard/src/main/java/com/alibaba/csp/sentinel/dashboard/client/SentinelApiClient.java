@@ -15,23 +15,28 @@
  */
 package com.alibaba.csp.sentinel.dashboard.client;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Optional;
+import java.util.Set;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.stream.Collectors;
+
 import com.alibaba.csp.sentinel.adapter.gateway.common.rule.GatewayFlowRule;
 import com.alibaba.csp.sentinel.command.CommandConstants;
-import com.alibaba.csp.sentinel.command.vo.NodeVo;
 import com.alibaba.csp.sentinel.config.SentinelConfig;
-import com.alibaba.csp.sentinel.dashboard.datasource.entity.SentinelVersion;
+import com.alibaba.csp.sentinel.command.vo.NodeVo;
 import com.alibaba.csp.sentinel.dashboard.datasource.entity.gateway.ApiDefinitionEntity;
 import com.alibaba.csp.sentinel.dashboard.datasource.entity.gateway.GatewayFlowRuleEntity;
-import com.alibaba.csp.sentinel.dashboard.datasource.entity.rule.*;
-import com.alibaba.csp.sentinel.dashboard.discovery.AppManagement;
-import com.alibaba.csp.sentinel.dashboard.domain.cluster.ClusterClientInfoVO;
-import com.alibaba.csp.sentinel.dashboard.domain.cluster.config.ClusterClientConfig;
-import com.alibaba.csp.sentinel.dashboard.domain.cluster.config.ServerFlowConfig;
-import com.alibaba.csp.sentinel.dashboard.domain.cluster.config.ServerTransportConfig;
-import com.alibaba.csp.sentinel.dashboard.domain.cluster.state.ClusterServerStateVO;
-import com.alibaba.csp.sentinel.dashboard.domain.cluster.state.ClusterStateSimpleEntity;
 import com.alibaba.csp.sentinel.dashboard.util.AsyncUtils;
-import com.alibaba.csp.sentinel.dashboard.util.VersionUtils;
 import com.alibaba.csp.sentinel.slots.block.Rule;
 import com.alibaba.csp.sentinel.slots.block.authority.AuthorityRule;
 import com.alibaba.csp.sentinel.slots.block.degrade.DegradeRule;
@@ -41,6 +46,23 @@ import com.alibaba.csp.sentinel.slots.system.SystemRule;
 import com.alibaba.csp.sentinel.util.AssertUtil;
 import com.alibaba.csp.sentinel.util.StringUtil;
 import com.alibaba.fastjson.JSON;
+import com.alibaba.csp.sentinel.dashboard.datasource.entity.SentinelVersion;
+import com.alibaba.csp.sentinel.dashboard.datasource.entity.rule.AuthorityRuleEntity;
+import com.alibaba.csp.sentinel.dashboard.datasource.entity.rule.DegradeRuleEntity;
+import com.alibaba.csp.sentinel.dashboard.datasource.entity.rule.FlowRuleEntity;
+import com.alibaba.csp.sentinel.dashboard.datasource.entity.rule.ParamFlowRuleEntity;
+import com.alibaba.csp.sentinel.dashboard.datasource.entity.rule.RuleEntity;
+import com.alibaba.csp.sentinel.dashboard.datasource.entity.rule.SystemRuleEntity;
+import com.alibaba.csp.sentinel.dashboard.discovery.AppManagement;
+import com.alibaba.csp.sentinel.dashboard.domain.cluster.ClusterClientInfoVO;
+import com.alibaba.csp.sentinel.dashboard.domain.cluster.state.ClusterServerStateVO;
+import com.alibaba.csp.sentinel.dashboard.domain.cluster.state.ClusterStateSimpleEntity;
+import com.alibaba.csp.sentinel.dashboard.domain.cluster.config.ClusterClientConfig;
+import com.alibaba.csp.sentinel.dashboard.domain.cluster.config.ServerFlowConfig;
+import com.alibaba.csp.sentinel.dashboard.domain.cluster.config.ServerTransportConfig;
+import com.alibaba.csp.sentinel.dashboard.util.VersionUtils;
+
+import org.apache.http.Consts;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -60,15 +82,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
-
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.nio.charset.Charset;
-import java.util.*;
-import java.util.Map.Entry;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
-import java.util.stream.Collectors;
 
 /**
  * Communicate with Sentinel client.
@@ -93,12 +106,12 @@ public class SentinelApiClient {
     private static final String FETCH_CLUSTER_CLIENT_CONFIG_PATH = "cluster/client/fetchConfig";
     private static final String MODIFY_CLUSTER_CLIENT_CONFIG_PATH = "cluster/client/modifyConfig";
 
-    private static final String FETCH_CLUSTER_SERVER_ALL_CONFIG_PATH = "cluster/io.seata.server/fetchConfig";
-    private static final String FETCH_CLUSTER_SERVER_BASIC_INFO_PATH = "cluster/io.seata.server/info";
+    private static final String FETCH_CLUSTER_SERVER_ALL_CONFIG_PATH = "cluster/server/fetchConfig";
+    private static final String FETCH_CLUSTER_SERVER_BASIC_INFO_PATH = "cluster/server/info";
 
-    private static final String MODIFY_CLUSTER_SERVER_TRANSPORT_CONFIG_PATH = "cluster/io.seata.server/modifyTransportConfig";
-    private static final String MODIFY_CLUSTER_SERVER_FLOW_CONFIG_PATH = "cluster/io.seata.server/modifyFlowConfig";
-    private static final String MODIFY_CLUSTER_SERVER_NAMESPACE_SET_PATH = "cluster/io.seata.server/modifyNamespaceSet";
+    private static final String MODIFY_CLUSTER_SERVER_TRANSPORT_CONFIG_PATH = "cluster/server/modifyTransportConfig";
+    private static final String MODIFY_CLUSTER_SERVER_FLOW_CONFIG_PATH = "cluster/server/modifyFlowConfig";
+    private static final String MODIFY_CLUSTER_SERVER_NAMESPACE_SET_PATH = "cluster/server/modifyNamespaceSet";
 
     private static final String FETCH_GATEWAY_API_PATH = "gateway/getApiDefinitions";
     private static final String MODIFY_GATEWAY_API_PATH = "gateway/updateApiDefinitions";
@@ -114,7 +127,7 @@ public class SentinelApiClient {
     private CloseableHttpAsyncClient httpClient;
 
     private static final SentinelVersion version160 = new SentinelVersion(1, 6, 0);
-
+    
     @Autowired
     private AppManagement appManagement;
 
@@ -133,11 +146,11 @@ public class SentinelApiClient {
     private boolean isSuccess(int statusCode) {
         return statusCode >= 200 && statusCode < 300;
     }
-
+    
     private boolean isCommandNotFound(int statusCode, String body) {
         return statusCode == 400 && StringUtil.isNotEmpty(body) && body.contains(CommandConstants.MSG_UNKNOWN_COMMAND_PREFIX);
     }
-
+    
     private StringBuilder queryString(Map<String, String> params) {
         StringBuilder queryStringBuilder = new StringBuilder();
         for (Entry<String, String> entry : params.entrySet()) {
@@ -155,7 +168,7 @@ public class SentinelApiClient {
         }
         return queryStringBuilder;
     }
-
+    
     private HttpUriRequest postRequest(String url, Map<String, String> params) {
         HttpPost httpPost = new HttpPost(url);
         if (params != null && params.size() > 0) {
@@ -163,16 +176,11 @@ public class SentinelApiClient {
             for (Entry<String, String> entry : params.entrySet()) {
                 list.add(new BasicNameValuePair(entry.getKey(), entry.getValue()));
             }
-            try {
-                httpPost.setEntity(new UrlEncodedFormEntity(list));
-            } catch (UnsupportedEncodingException e) {
-                logger.warn("httpPostContent encode entity error: {}", params, e);
-                return null;
-            }
+            httpPost.setEntity(new UrlEncodedFormEntity(list, Consts.UTF_8));
         }
         return httpPost;
     }
-
+    
     private String urlEncode(String str) {
         try {
             return URLEncoder.encode(str, DEFAULT_CHARSET.name());
@@ -181,7 +189,7 @@ public class SentinelApiClient {
             return null;
         }
     }
-
+    
     private String getBody(HttpResponse response) throws Exception {
         Charset charset = null;
         try {
@@ -194,10 +202,10 @@ public class SentinelApiClient {
         }
         return EntityUtils.toString(response.getEntity(), charset != null ? charset : DEFAULT_CHARSET);
     }
-
+    
     /**
      * With no param
-     *
+     * 
      * @param ip
      * @param port
      * @param api
@@ -206,10 +214,10 @@ public class SentinelApiClient {
     private CompletableFuture<String> executeCommand(String ip, int port, String api, boolean useHttpPost) {
         return executeCommand(ip, port, api, null, useHttpPost);
     }
-
+    
     /**
      * No app specified, force to GET
-     *
+     * 
      * @param ip
      * @param port
      * @param api
@@ -222,7 +230,7 @@ public class SentinelApiClient {
 
     /**
      * Prefer to execute request using POST
-     *
+     * 
      * @param app
      * @param ip
      * @param port
@@ -263,7 +271,7 @@ public class SentinelApiClient {
             return executeCommand(postRequest(urlBuilder.toString(), params));
         }
     }
-
+    
     private CompletableFuture<String> executeCommand(HttpUriRequest request) {
         CompletableFuture<String> future = new CompletableFuture<>();
         httpClient.execute(request, new FutureCallback<HttpResponse>() {
@@ -301,11 +309,11 @@ public class SentinelApiClient {
         });
         return future;
     }
-
+    
     public void close() throws Exception {
         httpClient.close();
     }
-
+    
     @Nullable
     private <T> CompletableFuture<List<T>> fetchItemsAsync(String ip, int port, String api, String type, Class<T> ruleType) {
         AssertUtil.notEmpty(ip, "Bad machine IP");
@@ -318,7 +326,7 @@ public class SentinelApiClient {
         return executeCommand(ip, port, api, params, false)
                 .thenApply(json -> JSON.parseArray(json, ruleType));
     }
-
+    
     @Nullable
     private <T> List<T> fetchItems(String ip, int port, String api, String type, Class<T> ruleType) {
         try {
@@ -338,11 +346,11 @@ public class SentinelApiClient {
             return null;
         }
     }
-
+    
     private <T extends Rule> List<T> fetchRules(String ip, int port, String type, Class<T> ruleType) {
         return fetchItems(ip, port, GET_RULES_PATH, type, ruleType);
     }
-
+    
     private boolean setRules(String app, String ip, int port, String type, List<? extends RuleEntity> entities) {
         if (entities == null) {
             return true;
@@ -357,14 +365,41 @@ public class SentinelApiClient {
             params.put("type", type);
             params.put("data", data);
             String result = executeCommand(app, ip, port, SET_RULES_PATH, params, true).get();
-            logger.info("setRules: {}", result);
+            logger.info("setRules result: {}, type={}", result, type);
             return true;
-        } catch (InterruptedException | ExecutionException e) {
-            logger.warn("setRules api failed: {}", type, e);
+        } catch (InterruptedException e) {
+            logger.warn("setRules API failed: {}", type, e);
+            return false;
+        } catch (ExecutionException e) {
+            logger.warn("setRules API failed: {}", type, e.getCause());
             return false;
         } catch (Exception e) {
-            logger.warn("setRules failed", e);
+            logger.error("setRules API failed, type={}", type, e);
             return false;
+        }
+    }
+
+    private CompletableFuture<Void> setRulesAsync(String app, String ip, int port, String type, List<? extends RuleEntity> entities) {
+        try {
+            AssertUtil.notNull(entities, "rules cannot be null");
+            AssertUtil.notEmpty(app, "Bad app name");
+            AssertUtil.notEmpty(ip, "Bad machine IP");
+            AssertUtil.isTrue(port > 0, "Bad machine port");
+            String data = JSON.toJSONString(
+                entities.stream().map(r -> r.toRule()).collect(Collectors.toList()));
+            Map<String, String> params = new HashMap<>(2);
+            params.put("type", type);
+            params.put("data", data);
+            return executeCommand(app, ip, port, SET_RULES_PATH, params, true)
+                .thenCompose(r -> {
+                    if ("success".equalsIgnoreCase(r.trim())) {
+                        return CompletableFuture.completedFuture(null);
+                    }
+                    return AsyncUtils.newFailedFuture(new CommandFailedException(r));
+                });
+        } catch (Exception e) {
+            logger.error("setRulesAsync API failed, type={}", type, e);
+            return AsyncUtils.newFailedFuture(e);
         }
     }
 
@@ -381,7 +416,7 @@ public class SentinelApiClient {
      * @return
      */
     public List<NodeVo> fetchClusterNodeOfMachine(String ip, int port, boolean includeZero) {
-        String type = "noZero";
+        String type = "notZero";
         if (includeZero) {
             type = "zero";
         }
@@ -477,6 +512,10 @@ public class SentinelApiClient {
      */
     public boolean setFlowRuleOfMachine(String app, String ip, int port, List<FlowRuleEntity> rules) {
         return setRules(app, ip, port, FLOW_RULE_TYPE, rules);
+    }
+
+    public CompletableFuture<Void> setFlowRuleOfMachineAsync(String app, String ip, int port, List<FlowRuleEntity> rules) {
+        return setRulesAsync(app, ip, port, FLOW_RULE_TYPE, rules);
     }
 
     /**
@@ -623,12 +662,12 @@ public class SentinelApiClient {
                     if (CommandConstants.MSG_SUCCESS.equals(e)) {
                         return CompletableFuture.completedFuture(null);
                     } else {
-                        logger.warn("Error when modifying cluster io.seata.server flow config: " + e);
+                        logger.warn("Error when modifying cluster server flow config: " + e);
                         return AsyncUtils.newFailedFuture(new RuntimeException(e));
                     }
                 });
         } catch (Exception ex) {
-            logger.warn("Error when modifying cluster io.seata.server flow config", ex);
+            logger.warn("Error when modifying cluster server flow config", ex);
             return AsyncUtils.newFailedFuture(ex);
         }
     }
@@ -646,12 +685,12 @@ public class SentinelApiClient {
                     if (CommandConstants.MSG_SUCCESS.equals(e)) {
                         return CompletableFuture.completedFuture(null);
                     } else {
-                        logger.warn("Error when modifying cluster io.seata.server transport config: " + e);
+                        logger.warn("Error when modifying cluster server transport config: " + e);
                         return AsyncUtils.newFailedFuture(new RuntimeException(e));
                     }
                 });
         } catch (Exception ex) {
-            logger.warn("Error when modifying cluster io.seata.server transport config", ex);
+            logger.warn("Error when modifying cluster server transport config", ex);
             return AsyncUtils.newFailedFuture(ex);
         }
     }
@@ -668,12 +707,12 @@ public class SentinelApiClient {
                     if (CommandConstants.MSG_SUCCESS.equals(e)) {
                         return CompletableFuture.completedFuture(null);
                     } else {
-                        logger.warn("Error when modifying cluster io.seata.server NamespaceSet", e);
+                        logger.warn("Error when modifying cluster server NamespaceSet", e);
                         return AsyncUtils.newFailedFuture(new RuntimeException(e));
                     }
                 });
         } catch (Exception ex) {
-            logger.warn("Error when modifying cluster io.seata.server NamespaceSet", ex);
+            logger.warn("Error when modifying cluster server NamespaceSet", ex);
             return AsyncUtils.newFailedFuture(ex);
         }
     }

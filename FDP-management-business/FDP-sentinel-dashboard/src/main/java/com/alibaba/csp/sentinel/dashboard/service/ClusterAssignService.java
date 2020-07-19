@@ -15,11 +15,11 @@
  */
 package com.alibaba.csp.sentinel.dashboard.service;
 
-import com.alibaba.csp.sentinel.dashboard.domain.cluster.ClusterAppAssignResultVO;
-import com.alibaba.csp.sentinel.dashboard.domain.cluster.request.ClusterAppAssignMap;
-
 import java.util.List;
 import java.util.Set;
+
+import com.alibaba.csp.sentinel.dashboard.domain.cluster.ClusterAppAssignResultVO;
+import com.alibaba.csp.sentinel.dashboard.domain.cluster.request.ClusterAppAssignMap;
 
 /**
  * @author Eric Zhao
@@ -28,7 +28,7 @@ import java.util.Set;
 public interface ClusterAssignService {
 
     /**
-     * Unbind a specific cluster io.seata.server and its clients.
+     * Unbind a specific cluster server and its clients.
      *
      * @param app app name
      * @param machineId valid machine ID ({@code host@commandPort})
@@ -46,10 +46,10 @@ public interface ClusterAssignService {
     ClusterAppAssignResultVO unbindClusterServers(String app, Set<String> machineIdSet);
 
     /**
-     * Apply cluster io.seata.server and client assignment for provided app.
+     * Apply cluster server and client assignment for provided app.
      *
      * @param app app name
-     * @param clusterMap cluster assign map (io.seata.server -> clients)
+     * @param clusterMap cluster assign map (server -> clients)
      * @param remainingSet unassigned set of machine ID
      * @return assign result
      */

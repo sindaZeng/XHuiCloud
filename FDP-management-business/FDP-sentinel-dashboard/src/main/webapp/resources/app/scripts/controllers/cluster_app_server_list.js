@@ -252,7 +252,7 @@ app.controller('SentinelClusterAppServerListController', ['$scope', '$stateParam
                 }
             };
             $scope.serverAssignDialog = ngDialog.open({
-                template: '/app/views/dialog/cluster/cluster-io.seata.server-assign-dialog.html',
+                template: '/app/views/dialog/cluster/cluster-server-assign-dialog.html',
                 width: 1000,
                 overlay: true,
                 scope: $scope
@@ -293,7 +293,7 @@ app.controller('SentinelClusterAppServerListController', ['$scope', '$stateParam
                         $scope.serverAssignDialogData.serverData.maxAllowedQps = d.maxAllowedQps;
                     }
                     $scope.serverAssignDialog = ngDialog.open({
-                        template: '/app/views/dialog/cluster/cluster-io.seata.server-assign-dialog.html',
+                        template: '/app/views/dialog/cluster/cluster-server-assign-dialog.html',
                         width: 1000,
                         overlay: true,
                         scope: $scope
@@ -449,7 +449,7 @@ app.controller('SentinelClusterAppServerListController', ['$scope', '$stateParam
                 serverData: serverVO
             };
             $scope.connectionDetailDialog = ngDialog.open({
-                template: '/app/views/dialog/cluster/cluster-io.seata.server-connection-detail-dialog.html',
+                template: '/app/views/dialog/cluster/cluster-server-connection-detail-dialog.html',
                 width: 700,
                 overlay: true,
                 scope: $scope
@@ -523,7 +523,7 @@ app.controller('SentinelClusterAppServerListController', ['$scope', '$stateParam
             $scope.confirmDialog = {
                 title: '移除 Token Server',
                 type: 'unbind_token_server',
-                attentionTitle: '请确认是否移除以下 Token Server（该 io.seata.server 下的 client 也会解除分配）',
+                attentionTitle: '请确认是否移除以下 Token Server（该 server 下的 client 也会解除分配）',
                 attention: id + '',
                 confirmBtnText: '移除',
             };
@@ -564,7 +564,7 @@ app.controller('SentinelClusterAppServerListController', ['$scope', '$stateParam
             if ($scope.confirmDialog.type === 'unbind_token_server') {
                 apiUnbindServerAssign($scope.pendingUnbindIds);
             } else {
-                console.error('Error dialog when unbinding token io.seata.server');
+                console.error('Error dialog when unbinding token server');
             }
         };
     }]);

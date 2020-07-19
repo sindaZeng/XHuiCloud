@@ -264,7 +264,7 @@ app.controller('SentinelClusterAppAssignManageController', ['$scope', '$statePar
                     if (failedClientSet.length === 0 && failedServerSet.length === 0) {
                         alert('全部推送成功');
                     } else {
-                        alert('推送完毕。token io.seata.server 失败列表：' + JSON.stringify(failedServerSet) +
+                        alert('推送完毕。token server 失败列表：' + JSON.stringify(failedServerSet) +
                             '; token client 失败列表：' + JSON.stringify(failedClientSet));
                     }
 

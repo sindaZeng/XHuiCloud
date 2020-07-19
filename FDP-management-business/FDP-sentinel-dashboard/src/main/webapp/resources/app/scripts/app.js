@@ -173,7 +173,7 @@ angular
 
       .state('dashboard.clusterAppServerList', {
           templateUrl: 'app/views/cluster_app_server_list.html',
-          url: '/cluster/io.seata.server/:app',
+          url: '/cluster/server/:app',
           controller: 'SentinelClusterAppServerListController',
           resolve: {
               loadMyFiles: ['$ocLazyLoad', function ($ocLazyLoad) {
