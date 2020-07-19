@@ -1,8 +1,8 @@
 spring:
   application:
-    name: FDP-logs-business
+    name: @artifactId@
   profiles:
-    active: dev
+    active: @profiles.active@
   cloud:
     gateway:
       enabled: false

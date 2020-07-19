@@ -32,3 +32,5 @@ spring:
 #    snowflake:
 #      zk-address: 127.0.0.1
 #      port: 19999
+logging:
+  config: classpath:com/zsinda/fdp/logback/Fdp-defaults-log.xml

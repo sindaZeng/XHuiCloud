@@ -14,6 +14,11 @@
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
+            <artifactId>FDP-common-sentinel</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>${project.groupId}</groupId>
             <artifactId>FDP-logs-api</artifactId>
         </dependency>
 

@@ -1,8 +1,8 @@
 spring:
   application:
-    name: FDP-generator
+    name: @artifactId@
   profiles:
-    active: dev
+    active: @profiles.active@
   cloud:
     nacos:
       discovery:
@@ -25,3 +25,6 @@ security:
 mybatis-plus:
   global-config:
     banner: false
+
+logging:
+  config: classpath:com/zsinda/fdp/logback/Fdp-defaults-log.xml

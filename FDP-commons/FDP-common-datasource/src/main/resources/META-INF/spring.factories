@@ -1,3 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.zsinda.fdp.datasource.DefaultDataSourceConfig,\
-  com.zsinda.fdp.tenant.FdpFeignAutoConfiguration
+  com.zsinda.fdp.datasource.DefaultDataSourceConfig

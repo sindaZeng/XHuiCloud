@@ -1,8 +1,8 @@
 spring:
   application:
-    name: FDP-pay-business
+    name: @artifactId@
   profiles:
-    active: dev
+    active: @profiles.active@
   cloud:
     nacos:
       discovery:
@@ -46,3 +46,6 @@ pay:
   alipay:
     return-url: pay/notify/alipay/return_url
     notify-url: pay/notify/alipay/notify_url
+
+logging:
+  config: classpath:com/zsinda/fdp/logback/Fdp-defaults-log.xml

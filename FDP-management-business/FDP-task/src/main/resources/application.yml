@@ -1,6 +1,8 @@
 spring:
   application:
-    name: Fdp-task
+    name: @artifactId@
+  profiles:
+    active: @profiles.active@
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
