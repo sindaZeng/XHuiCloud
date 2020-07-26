@@ -1,15 +1,25 @@
 package com.zsinda.fdp.controller;
 
+import cn.hutool.core.codec.Base64;
+import cn.hutool.crypto.Mode;
+import cn.hutool.crypto.Padding;
+import cn.hutool.crypto.symmetric.AES;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zsinda.fdp.annotation.SysLog;
 import com.zsinda.fdp.entity.GenDatasourceInfo;
 import com.zsinda.fdp.handle.JdbcHandle;
 import com.zsinda.fdp.service.GenDatasourceInfoService;
+import com.zsinda.fdp.utils.AesUtil;
 import com.zsinda.fdp.utils.R;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.crypto.SecretKey;
+import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 /**
@@ -64,12 +74,15 @@ public class GenDatasourceInfoController {
 
     /**
      * 保存
-     *
+     * <p>
      * TODO 后面入参需要加密
      */
     @PostMapping
     @PreAuthorize("@authorize.hasPermission('sys_add_dataSource')")
-    public R save(GenDatasourceInfo datasourceInfo) {
+    public R save(@RequestBody GenDatasourceInfo datasourceInfo) throws Exception {
+        // 构建前端对应解密AES 因子
+        datasourceInfo.setPassword(AesUtil.decrypt(datasourceInfo.getPassword()));
+        datasourceInfo.setUsername(AesUtil.decrypt(datasourceInfo.getUsername()));
         if (handle.get(datasourceInfo.getType()).test(datasourceInfo)) {
             return R.ok(genDatasourceInfoService.save(datasourceInfo));
         }
