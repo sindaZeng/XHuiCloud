@@ -24,6 +24,7 @@ public class RestTemplateConfig {
 	@LoadBalanced
 	public RestTemplate lbRestTemplate() {
 		RestTemplate restTemplate = new RestTemplate();
+
 		restTemplate.setErrorHandler(new DefaultResponseErrorHandler() {
 			@Override
 			public void handleError(ClientHttpResponse response) throws IOException {

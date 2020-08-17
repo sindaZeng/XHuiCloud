@@ -25,7 +25,7 @@ import static org.springframework.cloud.gateway.support.ServerWebExchangeUtils.a
  */
 @Slf4j
 @Component
-public class  FdpGlobalGatewayFilter implements GlobalFilter, Ordered {
+public class FdpGlobalGatewayFilter implements GlobalFilter, Ordered {
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
@@ -44,7 +44,7 @@ public class  FdpGlobalGatewayFilter implements GlobalFilter, Ordered {
         exchange.getAttributes().put(GATEWAY_REQUEST_URL_ATTR, newRequest.getURI());
 
         return chain.filter(exchange.mutate().request(newRequest.mutate()
-                        .build()).build());
+                .build()).build());
     }
 
     @Override

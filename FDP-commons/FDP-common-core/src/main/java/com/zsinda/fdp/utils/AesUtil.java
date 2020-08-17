@@ -16,7 +16,7 @@ import java.nio.charset.StandardCharsets;
  */
 public class AesUtil {
 
-    private static String encodeKey = "KjQlbU1aVHJrli79";  //16位
+    private static String encodeKey = "KjQlb%1aV1Jrli79";  //16位
 
     private static String KEY_ALGORITHM = "AES";
 
