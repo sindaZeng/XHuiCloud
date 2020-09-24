@@ -1,4 +1,5 @@
-USE sys;
+USE xhuicloud_sys;
+
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 
@@ -7,6 +8,7 @@ SET FOREIGN_KEY_CHECKS = 0;
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_client_details`;
 CREATE TABLE `sys_client_details` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `client_id` varchar(256) NOT NULL,
   `resource_ids` varchar(256) DEFAULT NULL,
   `client_secret` varchar(256) DEFAULT NULL,
@@ -14,19 +16,21 @@ CREATE TABLE `sys_client_details` (
   `authorized_grant_types` varchar(256) DEFAULT NULL,
   `web_server_redirect_uri` varchar(256) DEFAULT NULL,
   `authorities` varchar(256) DEFAULT NULL,
-  `access_token_validity` int DEFAULT NULL,
-  `refresh_token_validity` int DEFAULT NULL,
-  `additional_information` varchar(4096) DEFAULT NULL,
+  `access_token_validity` int(11) DEFAULT NULL,
+  `refresh_token_validity` int(11) DEFAULT NULL,
+  `additional_information` varchar(1024) DEFAULT NULL,
   `autoapprove` varchar(256) DEFAULT NULL,
-  PRIMARY KEY (`client_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `is_del` tinyint(1) DEFAULT '0' COMMENT '0: 否 1：是',
+  `tenant_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COMMENT='终端信息';
 
 -- ----------------------------
 -- Records of sys_client_details
 -- ----------------------------
 BEGIN;
-INSERT INTO `sys_client_details` VALUES ('web', NULL, '$2a$10$IMcVKbShh6vwqHV6bJoZO.xgQ8wJXXRMqYvTczdkJVBjbaBkkC3da', 'all', 'password,authorization_code,refresh_token', 'https://www.baidu.com', NULL, 3600, NULL, '{\"home\":\"https://www.baidu.com\",\"name\":\"百度\"}', 'false');
-INSERT INTO `sys_client_details` VALUES ('WkRKV2FRJTNEJTNE', '', '$2a$10$xP0Iv4Pd4kn.7msrJOCiC.ttRprLRk2fo3xbCdmPPLYuDo/H4gcdq', 'all', 'password,authorization_code,refresh_token', 'https://www.baidu.com', NULL, 3600, NULL, '{\"home\":\"https://www.baidu.com\",\"name\":\"百度\"}', 'false');
+INSERT INTO `sys_client_details` VALUES (1, 'web', NULL, '{bcrypt}$2a$10$IMcVKbShh6vwqHV6bJoZO.xgQ8wJXXRMqYvTczdkJVBjbaBkkC3da', 'all', 'password,authorization_code,refresh_token', 'https://www.baidu.com', NULL, 3600, NULL, '{\"home\":\"https://www.baidu.com\",\"name\":\"百度\"}', 'false', 0, 0);
+INSERT INTO `sys_client_details` VALUES (2, 'WkRKV2FRJTNEJTNE', '', '{bcrypt}$2a$10$xP0Iv4Pd4kn.7msrJOCiC.ttRprLRk2fo3xbCdmPPLYuDo/H4gcdq', 'all', 'password,authorization_code,refresh_token', 'https://www.baidu.com', NULL, 3600, NULL, '{\"home\":\"https://www.baidu.com\",\"name\":\"百度\"}', 'false', 0, 0);
 COMMIT;
 
 -- ----------------------------
@@ -34,15 +38,15 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_dept`;
 CREATE TABLE `sys_dept` (
-  `dept_id` int NOT NULL COMMENT '部门id',
+  `dept_id` int(11) NOT NULL COMMENT '部门id',
   `name` varchar(50) NOT NULL COMMENT '部门名称',
   `address` varchar(100) DEFAULT NULL COMMENT '区域、地址、工位',
-  `parent_id` int NOT NULL DEFAULT '0' COMMENT '上级ID',
-  `sort` int DEFAULT '0' COMMENT '排序',
-  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `parent_id` int(11) NOT NULL DEFAULT '0' COMMENT '上级ID',
+  `sort` int(11) DEFAULT '0' COMMENT '排序',
+  `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-  `del_flag` int NOT NULL DEFAULT '1' COMMENT '0: 禁用 1：启用',
-  `tenant_id` int DEFAULT NULL COMMENT '租户id',
+  `is_del` tinyint(1) DEFAULT '0' COMMENT '0: 否 1：是',
+  `tenant_id` int(11) DEFAULT NULL COMMENT '租户id',
   PRIMARY KEY (`dept_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='部门';
 
@@ -77,17 +81,17 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_dict`;
 CREATE TABLE `sys_dict` (
-  `id` int NOT NULL COMMENT '字典项主键',
+  `id` int(11) NOT NULL COMMENT '字典项主键',
   `type` varchar(100) NOT NULL COMMENT '字典项类型',
   `description` varchar(200) NOT NULL COMMENT '字典项描述',
   `remark` varchar(255) DEFAULT NULL COMMENT '字典项备注',
-  `sort` int DEFAULT NULL COMMENT '排序',
+  `sort` int(11) DEFAULT NULL COMMENT '排序',
   `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `create_id` int NOT NULL COMMENT '创建者id',
+  `create_id` int(11) NOT NULL COMMENT '创建者id',
   `update_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-  `update_id` int DEFAULT NULL COMMENT '更新者id',
-  `del_flag` int NOT NULL DEFAULT '1' COMMENT '0: 禁用 1：启用',
-  `tenant_id` int DEFAULT NULL COMMENT '租户id',
+  `update_id` int(11) DEFAULT NULL COMMENT '更新者id',
+  `is_del` tinyint(1) DEFAULT '0' COMMENT '0: 否 1：是',
+  `tenant_id` int(11) DEFAULT NULL COMMENT '租户id',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE KEY `name` (`type`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='字典';
@@ -104,19 +108,19 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_dict_data`;
 CREATE TABLE `sys_dict_data` (
-  `id` int NOT NULL COMMENT '字典数据id',
-  `dict_id` int NOT NULL COMMENT '字典项id',
+  `id` int(11) NOT NULL COMMENT '字典数据id',
+  `dict_id` int(11) NOT NULL COMMENT '字典项id',
   `type` varchar(100) DEFAULT NULL COMMENT '字典项名称',
   `label` varchar(100) DEFAULT NULL COMMENT '字典标签',
   `value` varchar(100) DEFAULT NULL COMMENT '字典键值',
   `description` varchar(200) DEFAULT NULL COMMENT '字典描述',
   `remarks` varchar(255) DEFAULT NULL COMMENT '备注',
-  `sort` int DEFAULT NULL COMMENT '排序',
-  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `create_id` int NOT NULL COMMENT '创建者id',
+  `sort` int(11) DEFAULT NULL COMMENT '排序',
+  `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `create_id` int(11) NOT NULL COMMENT '创建者id',
   `update_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-  `update_id` int DEFAULT NULL COMMENT '更新者id',
-  `del_flag` int NOT NULL DEFAULT '1' COMMENT '0: 禁用 1：启用',
+  `update_id` int(11) DEFAULT NULL COMMENT '更新者id',
+  `is_del` tinyint(1) DEFAULT '0' COMMENT '0: 否 1：是',
   PRIMARY KEY (`id`,`dict_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='字典项';
 
@@ -132,69 +136,26 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_file`;
 CREATE TABLE `sys_file` (
-  `id` int NOT NULL AUTO_INCREMENT COMMENT '文件ID',
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '文件ID',
   `url` longtext NOT NULL COMMENT '图片Url',
   `file_name` varchar(100) NOT NULL COMMENT '桶内文件名称',
   `name` varchar(100) NOT NULL COMMENT '原本文件名称',
-  `file_size` bigint DEFAULT NULL COMMENT '文件大小',
+  `file_size` bigint(20) DEFAULT NULL COMMENT '文件大小',
   `file_type` varchar(50) DEFAULT NULL COMMENT '文件类型',
   `bucket_name` varchar(100) DEFAULT NULL COMMENT '桶名称',
-  `create_id` int NOT NULL COMMENT '上传用户id',
-  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '上传时间',
-  `tenant_id` int DEFAULT NULL COMMENT '租户id',
+  `create_id` int(11) NOT NULL COMMENT '上传用户id',
+  `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '上传时间',
+  `tenant_id` int(11) DEFAULT NULL COMMENT '租户id',
+  `is_del` tinyint(1) DEFAULT '0' COMMENT '0: 否 1：是',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=utf8mb4 COMMENT='文件';
-
--- ----------------------------
--- Records of sys_file
--- ----------------------------
-BEGIN;
-INSERT INTO `sys_file` VALUES (11, '', '22', '', 323, '2323', '323', 323, '2020-05-06 18:30:59', 1);
-INSERT INTO `sys_file` VALUES (12, 'fafbe92862934bfc80de5b7e73a49f62.gif', 'fafbe92862934bfc80de5b7e73a49f62.gif', '', 1151310, 'avatar', 'fdp', 1, '2020-05-07 22:33:28', 1);
-INSERT INTO `sys_file` VALUES (13, '1eaf80e8c6c348949df66d924574bb06.gif', '1eaf80e8c6c348949df66d924574bb06.gif', '', 957517, 'avatar', 'fdp', 1, '2020-05-08 15:51:53', 1);
-INSERT INTO `sys_file` VALUES (14, 'd1d5aae0adec46daa7ff33f167d19775.gif', 'd1d5aae0adec46daa7ff33f167d19775.gif', '', 1151310, 'avatar', 'fdp', 1, '2020-05-08 16:11:44', 1);
-INSERT INTO `sys_file` VALUES (15, 'd0b157e42cec4847b5c32b0b7e75bc7b.gif', 'd0b157e42cec4847b5c32b0b7e75bc7b.gif', '', 1151310, 'avatar', 'fdp', 1, '2020-05-08 17:00:49', 1);
-INSERT INTO `sys_file` VALUES (16, '35abd4312f2544efa81ff6bd82037b36.gif', '35abd4312f2544efa81ff6bd82037b36.gif', '', 1151310, 'avatar', 'fdp', 1, '2020-05-08 17:01:23', 1);
-INSERT INTO `sys_file` VALUES (17, '5ab9cbea72544930873043f2524fda32.gif', '5ab9cbea72544930873043f2524fda32.gif', '', 1151310, 'avatar', 'fdp', 1, '2020-05-08 17:12:10', 1);
-INSERT INTO `sys_file` VALUES (18, '4d3f068f6faf4971807348a3d610c986.gif', '4d3f068f6faf4971807348a3d610c986.gif', '', 1151310, 'avatar', 'fdp', 1, '2020-05-08 17:18:16', 1);
-INSERT INTO `sys_file` VALUES (19, '9b514383e5a34d27b556c4d3b2ddc853.gif', '9b514383e5a34d27b556c4d3b2ddc853.gif', '', 1151310, 'avatar', 'fdp', 1, '2020-05-08 17:27:33', 1);
-INSERT INTO `sys_file` VALUES (20, '82fc408d04244370aba02ab2da3d2332.gif', '82fc408d04244370aba02ab2da3d2332.gif', '', 1151310, 'avatar', 'fdp', 1, '2020-05-08 17:30:20', 1);
-INSERT INTO `sys_file` VALUES (21, '69394b3da72e4e20b54e83325e1c432f.gif', '69394b3da72e4e20b54e83325e1c432f.gif', '', 957517, 'avatar', 'fdp', 1, '2020-05-08 18:29:25', 1);
-INSERT INTO `sys_file` VALUES (22, 'ea14109e60b8482e8707e56f991040b4.gif', 'ea14109e60b8482e8707e56f991040b4.gif', '', 1151310, 'avatar', 'fdp', 1, '2020-05-08 18:31:06', 1);
-INSERT INTO `sys_file` VALUES (23, '3f3e0178080343a0a9505bd10e8482aa.gif', '3f3e0178080343a0a9505bd10e8482aa.gif', '', 1151310, 'avatar', 'fdp', 1, '2020-05-08 18:34:38', 1);
-INSERT INTO `sys_file` VALUES (24, '243a429eaafa4192b85631a488560fea.gif', '243a429eaafa4192b85631a488560fea.gif', '', 1151310, 'avatar', 'fdp', 1, '2020-05-09 10:17:45', 1);
-INSERT INTO `sys_file` VALUES (25, '62eb3ab4eca54b7499bd2b0c5d933094.gif', '62eb3ab4eca54b7499bd2b0c5d933094.gif', '', 1151310, 'avatar', 'fdp', 1, '2020-05-09 10:22:49', 1);
-INSERT INTO `sys_file` VALUES (26, 'a873057a9f7b4359a3eb15e58c3783c3.gif', 'a873057a9f7b4359a3eb15e58c3783c3.gif', '', 1151310, 'avatar', 'fdp', 1, '2020-05-09 10:33:02', 1);
-INSERT INTO `sys_file` VALUES (27, '4832f0f205a348da93cc4d5681e381c5.gif', '4832f0f205a348da93cc4d5681e381c5.gif', '', 1151310, 'avatar', 'fdp', 1, '2020-05-09 10:38:46', 1);
-INSERT INTO `sys_file` VALUES (28, 'b0560cefba56400391e8299878c37bc5.gif', 'b0560cefba56400391e8299878c37bc5.gif', '', 1151310, 'avatar', 'fdp', 1, '2020-05-09 10:42:26', 1);
-INSERT INTO `sys_file` VALUES (29, 'f77367dbe1234dd3b244b762a1171b98.gif', 'f77367dbe1234dd3b244b762a1171b98.gif', '', 1151310, 'avatar', 'fdp', 1, '2020-05-09 11:06:39', 1);
-INSERT INTO `sys_file` VALUES (30, 'c47dc011226c44baa992bc2563580880.gif', 'c47dc011226c44baa992bc2563580880.gif', '', 1151310, 'avatar', 'fdp', 1, '2020-05-09 16:24:57', 1);
-INSERT INTO `sys_file` VALUES (31, '14dd8508f41b4cb3af5b3540daccea2f.gif', '14dd8508f41b4cb3af5b3540daccea2f.gif', '', 957517, 'avatar', 'fdp', 1, '2020-05-09 16:25:06', 1);
-INSERT INTO `sys_file` VALUES (33, '4765cba65be743c280e30418c9c3ac5d.jpg', '4765cba65be743c280e30418c9c3ac5d.jpg', '', 8449, 'avatar', 'fdp', 1, '2020-05-29 14:48:38', 1);
-INSERT INTO `sys_file` VALUES (34, '6d4719df818b41f0afd71171a85788b3.jpg', '6d4719df818b41f0afd71171a85788b3.jpg', '', 8449, 'avatar', 'fdp', 1, '2020-05-29 16:16:58', 1);
-INSERT INTO `sys_file` VALUES (35, '7a187e5479c94f92917ef11180031cc6.jpg', '7a187e5479c94f92917ef11180031cc6.jpg', '', 8449, 'avatar', 'fdp', 1, '2020-05-29 16:17:13', 1);
-INSERT INTO `sys_file` VALUES (36, '23c7a38e414c4e888c9b48f761288efe.jpg', '23c7a38e414c4e888c9b48f761288efe.jpg', '', 8449, 'avatar', 'fdp', 1, '2020-05-29 16:18:39', 1);
-INSERT INTO `sys_file` VALUES (37, '9a1e2aa88d4b414f8a7b6338dc243c6a.jpg', '9a1e2aa88d4b414f8a7b6338dc243c6a.jpg', '', 8449, 'avatar', 'fdp', 1, '2020-05-29 16:18:59', 1);
-INSERT INTO `sys_file` VALUES (38, '51cee17471284c13a71a7a0db81c1822.jpg', '51cee17471284c13a71a7a0db81c1822.jpg', '', 8449, 'avatar', 'fdp', 1, '2020-05-29 16:19:28', 1);
-INSERT INTO `sys_file` VALUES (39, 'c9107f2ded6f46ad8288d3f38db1830a.jpg', 'c9107f2ded6f46ad8288d3f38db1830a.jpg', '', 8449, 'avatar', 'fdp', 1, '2020-05-29 16:23:34', 1);
-INSERT INTO `sys_file` VALUES (40, '69ecc740bab34609a8a8aad6f1094b86.jpg', '69ecc740bab34609a8a8aad6f1094b86.jpg', '', 8449, 'avatar', 'fdp', 1, '2020-05-29 16:34:23', 1);
-INSERT INTO `sys_file` VALUES (41, '11a0dd02bbdd48859d9e2e2d781d16bd.jpg', '11a0dd02bbdd48859d9e2e2d781d16bd.jpg', '', 8449, 'avatar', 'fdp', 1, '2020-05-29 16:34:32', 1);
-INSERT INTO `sys_file` VALUES (42, '179be63db5824c0b87c9f6d125cff7a1.jpg', '179be63db5824c0b87c9f6d125cff7a1.jpg', '', 8449, 'avatar', 'fdp', 1, '2020-05-29 16:37:07', 1);
-INSERT INTO `sys_file` VALUES (43, '8b9b2db0a67445c5b55428bf122ccaef.jpg', '8b9b2db0a67445c5b55428bf122ccaef.jpg', '', 30487, 'avatar', 'fdp', 1, '2020-05-29 18:01:48', 1);
-INSERT INTO `sys_file` VALUES (44, '7d5cb2b6c60b42a3a78592d434bd5dce.jpg', '7d5cb2b6c60b42a3a78592d434bd5dce.jpg', '', 8449, 'avatar', 'fdp', 1, '2020-05-29 18:02:25', 1);
-INSERT INTO `sys_file` VALUES (45, '932235ea685946fb963e4046243526fd.jpg', '932235ea685946fb963e4046243526fd.jpg', '', 40712, 'avatar', 'fdp', 1, '2020-05-29 22:43:24', 1);
-INSERT INTO `sys_file` VALUES (46, '876780536b8d4513850d5e1ebc052fc2.jpg', '876780536b8d4513850d5e1ebc052fc2.jpg', '', 27198, 'avatar', 'fdp', 1, '2020-05-29 22:43:39', 1);
-INSERT INTO `sys_file` VALUES (47, 'ad38adbbbdb7422baf3f8c602b8004a6.jpg', 'ad38adbbbdb7422baf3f8c602b8004a6.jpg', '', 40712, 'avatar', 'fdp', 1, '2020-05-29 22:43:52', 1);
-INSERT INTO `sys_file` VALUES (48, '2b89fa61812149f581e2adab5d9b0c36.jpg', '2b89fa61812149f581e2adab5d9b0c36.jpg', 'ceshi', 8449, 'avatar', 'fdp', 1, '2020-05-29 22:44:50', 1);
-INSERT INTO `sys_file` VALUES (49, '682df9ff82ba40af99c1179c913146e8.jpg', '682df9ff82ba40af99c1179c913146e8.jpg', '头像专用图.jpg', 10272, 'avatar', 'fdp', 1, '2020-06-26 13:16:27', NULL);
-COMMIT;
+) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=utf8mb4 COMMENT='文件';
 
 -- ----------------------------
 -- Table structure for sys_log
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_log`;
 CREATE TABLE `sys_log` (
-  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '编号',
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '编号',
   `request_ip` varchar(50) DEFAULT '' COMMENT '操作IP',
   `type` char(1) DEFAULT '0' COMMENT '日志类型\n#LogType{0:操作类型;1:异常类型}',
   `user_name` varchar(50) DEFAULT '' COMMENT '操作人',
@@ -209,10 +170,10 @@ CREATE TABLE `sys_log` (
   `ex_detail` longtext COMMENT '异常描述',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   `finish_time` datetime DEFAULT NULL COMMENT '结束时间',
-  `time` mediumtext CHARACTER SET utf8 COLLATE utf8_general_ci COMMENT '执行时间',
+  `time` mediumtext CHARACTER SET utf8 COMMENT '执行时间',
   `user_agent` varchar(1000) DEFAULT '' COMMENT '浏览器',
-  `del_flag` char(1) DEFAULT '1' COMMENT '0: 禁用 1：启用',
-  `tenant_id` int DEFAULT NULL COMMENT '租户id',
+  `is_del` tinyint(1) DEFAULT '0' COMMENT '0: 否 1：是',
+  `tenant_id` int(11) DEFAULT NULL COMMENT '租户id',
   PRIMARY KEY (`id`) USING BTREE,
   KEY `sys_log_create_by` (`user_name`) USING BTREE,
   KEY `sys_log_request_uri` (`request_uri`) USING BTREE,
@@ -224,14 +185,14 @@ CREATE TABLE `sys_log` (
 -- Records of sys_log
 -- ----------------------------
 BEGIN;
-INSERT INTO `sys_log` VALUES (5, '218.19.136.121', '0', 'admin', '上传文件', 'com.zsinda.fdp.service.impl.SysFileServiceImpl', 'upload', '/file/upload/avatar', 'POST', '[org.springframework.web.multipart.support.StandardMultipartHttpServletRequest$StandardMultipartFile@6e3e68c8, avatar]', NULL, NULL, NULL, '2020-06-26 13:16:27', '2020-06-26 13:16:27', '814', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4173.2 Safari/537.36', '1', NULL);
-INSERT INTO `sys_log` VALUES (6, '218.19.136.121', '0', 'admin', '上传文件', 'com.zsinda.fdp.controller.SysFileController', 'upload', '/file/upload/avatar', 'POST', '[org.springframework.web.multipart.support.StandardMultipartHttpServletRequest$StandardMultipartFile@6e3e68c8, avatar]', NULL, NULL, NULL, '2020-06-26 13:16:27', '2020-06-26 13:16:27', '841', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4173.2 Safari/537.36', '1', NULL);
-INSERT INTO `sys_log` VALUES (7, '218.19.136.121', '0', 'admin', '添加用户', 'com.zsinda.fdp.controller.SysUserController', 'save', '/user', 'POST', '[SysUser(userId=null, username=demo, password=, avatar=682df9ff82ba40af99c1179c913146e8.jpg, phone=13392222222, email=1692488900@qq.com, sex=1, createTime=null, updateTime=null, lockFlag=1, delFlag=1, tenantId=null, roleIds=[4], deptIds=[8, 9, 18])]', NULL, NULL, NULL, '2020-06-26 13:17:16', '2020-06-26 13:17:16', '90', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4173.2 Safari/537.36', '1', NULL);
-INSERT INTO `sys_log` VALUES (8, '218.19.136.121', '0', 'admin', '更新角色菜单', 'com.zsinda.fdp.controller.SysRoleController', 'saveRoleMenus', '/role/menus', 'POST', '[4, 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,30,31,32,33,34]', NULL, NULL, NULL, '2020-06-26 13:17:52', '2020-06-26 13:17:52', '95', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4173.2 Safari/537.36', '1', NULL);
-INSERT INTO `sys_log` VALUES (9, '218.19.136.121', '0', 'admin', '新增菜单', 'com.zsinda.fdp.controller.SysMenuController', 'save', '/menu', 'POST', '[SysMenu(menuId=null, name=新增数据源, permission=sys_add_dataSource, path=, redirect=null, icon=, createTime=null, updateTime=null, delFlag=null, parentId=34, sort=1, type=1)]', NULL, NULL, NULL, '2020-06-26 13:23:05', '2020-06-26 13:23:05', '15', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4173.2 Safari/537.36', '1', NULL);
-INSERT INTO `sys_log` VALUES (10, '218.19.136.121', '0', 'admin', '新增菜单', 'com.zsinda.fdp.controller.SysMenuController', 'save', '/menu', 'POST', '[SysMenu(menuId=null, name=批量生成, permission=sys_download_code, path=, redirect=null, icon=, createTime=null, updateTime=null, delFlag=null, parentId=34, sort=2, type=1)]', NULL, NULL, NULL, '2020-06-26 13:25:05', '2020-06-26 13:25:05', '18', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4173.2 Safari/537.36', '1', NULL);
-INSERT INTO `sys_log` VALUES (11, '218.19.136.121', '0', 'admin', '更新角色菜单', 'com.zsinda.fdp.controller.SysRoleController', 'saveRoleMenus', '/role/menus', 'POST', '[2, 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,30,31,32,33,34,35,36]', NULL, NULL, NULL, '2020-06-26 13:25:27', '2020-06-26 13:25:27', '83', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4173.2 Safari/537.36', '1', NULL);
-INSERT INTO `sys_log` VALUES (12, '218.19.136.121', '0', 'admin', '更新角色菜单', 'com.zsinda.fdp.controller.SysRoleController', 'saveRoleMenus', '/role/menus', 'POST', '[4, 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,30,31,32,33,34,35,36]', NULL, NULL, NULL, '2020-06-26 13:25:41', '2020-06-26 13:25:41', '77', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4173.2 Safari/537.36', '1', NULL);
+INSERT INTO `sys_log` VALUES (5, '218.19.136.121', '0', 'admin', '上传文件', 'com.xhuicloud.fdp.service.impl.SysFileServiceImpl', 'upload', '/file/upload/avatar', 'POST', '[org.springframework.web.multipart.support.StandardMultipartHttpServletRequest$StandardMultipartFile@6e3e68c8, avatar]', NULL, NULL, NULL, '2020-06-26 13:16:27', '2020-06-26 13:16:27', '814', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4173.2 Safari/537.36', 1, NULL);
+INSERT INTO `sys_log` VALUES (6, '218.19.136.121', '0', 'admin', '上传文件', 'com.xhuicloud.fdp.controller.SysFileController', 'upload', '/file/upload/avatar', 'POST', '[org.springframework.web.multipart.support.StandardMultipartHttpServletRequest$StandardMultipartFile@6e3e68c8, avatar]', NULL, NULL, NULL, '2020-06-26 13:16:27', '2020-06-26 13:16:27', '841', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4173.2 Safari/537.36', 1, NULL);
+INSERT INTO `sys_log` VALUES (7, '218.19.136.121', '0', 'admin', '添加用户', 'com.xhuicloud.fdp.controller.SysUserController', 'save', '/user', 'POST', '[SysUser(userId=null, username=demo, password=, avatar=682df9ff82ba40af99c1179c913146e8.jpg, phone=13392222222, email=1692488900@qq.com, sex=1, createTime=null, updateTime=null, lockFlag=1, delFlag=1, tenantId=null, roleIds=[4], deptIds=[8, 9, 18])]', NULL, NULL, NULL, '2020-06-26 13:17:16', '2020-06-26 13:17:16', '90', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4173.2 Safari/537.36', 1, NULL);
+INSERT INTO `sys_log` VALUES (8, '218.19.136.121', '0', 'admin', '更新角色菜单', 'com.xhuicloud.fdp.controller.SysRoleController', 'saveRoleMenus', '/role/menus', 'POST', '[4, 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,30,31,32,33,34]', NULL, NULL, NULL, '2020-06-26 13:17:52', '2020-06-26 13:17:52', '95', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4173.2 Safari/537.36', 1, NULL);
+INSERT INTO `sys_log` VALUES (9, '218.19.136.121', '0', 'admin', '新增菜单', 'com.xhuicloud.fdp.controller.SysMenuController', 'save', '/menu', 'POST', '[SysMenu(menuId=null, name=新增数据源, permission=sys_add_dataSource, path=, redirect=null, icon=, createTime=null, updateTime=null, delFlag=null, parentId=34, sort=1, type=1)]', NULL, NULL, NULL, '2020-06-26 13:23:05', '2020-06-26 13:23:05', '15', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4173.2 Safari/537.36', 1, NULL);
+INSERT INTO `sys_log` VALUES (10, '218.19.136.121', '0', 'admin', '新增菜单', 'com.xhuicloud.fdp.controller.SysMenuController', 'save', '/menu', 'POST', '[SysMenu(menuId=null, name=批量生成, permission=sys_download_code, path=, redirect=null, icon=, createTime=null, updateTime=null, delFlag=null, parentId=34, sort=2, type=1)]', NULL, NULL, NULL, '2020-06-26 13:25:05', '2020-06-26 13:25:05', '18', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4173.2 Safari/537.36', 1, NULL);
+INSERT INTO `sys_log` VALUES (11, '218.19.136.121', '0', 'admin', '更新角色菜单', 'com.xhuicloud.fdp.controller.SysRoleController', 'saveRoleMenus', '/role/menus', 'POST', '[2, 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,30,31,32,33,34,35,36]', NULL, NULL, NULL, '2020-06-26 13:25:27', '2020-06-26 13:25:27', '83', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4173.2 Safari/537.36', 1, NULL);
+INSERT INTO `sys_log` VALUES (12, '218.19.136.121', '0', 'admin', '更新角色菜单', 'com.xhuicloud.fdp.controller.SysRoleController', 'saveRoleMenus', '/role/menus', 'POST', '[4, 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,30,31,32,33,34,35,36]', NULL, NULL, NULL, '2020-06-26 13:25:41', '2020-06-26 13:25:41', '77', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4173.2 Safari/537.36', 1, NULL);
 COMMIT;
 
 -- ----------------------------
@@ -239,20 +200,20 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_menu`;
 CREATE TABLE `sys_menu` (
-  `menu_id` int NOT NULL AUTO_INCREMENT COMMENT '菜单id',
+  `menu_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '菜单id',
   `name` varchar(50) NOT NULL COMMENT '菜单名称',
   `permission` varchar(200) DEFAULT NULL COMMENT '权限',
   `path` varchar(200) DEFAULT NULL COMMENT '路径',
   `icon` varchar(200) DEFAULT NULL COMMENT '图标',
   `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
-  `parent_id` int NOT NULL DEFAULT '0' COMMENT '父级目录',
-  `sort` int DEFAULT NULL COMMENT '排序值',
-  `type` int DEFAULT '0' COMMENT '菜单类型:0菜单，1按钮，3其他',
+  `parent_id` int(11) NOT NULL DEFAULT '0' COMMENT '父级目录',
+  `sort` int(11) DEFAULT NULL COMMENT '排序值',
+  `type` int(11) DEFAULT '0' COMMENT '菜单类型:0菜单，1按钮，3其他',
   `redirect` varchar(200) NOT NULL DEFAULT '' COMMENT '重定向地址',
-  `del_flag` int DEFAULT '1' COMMENT '0: 禁用 1：启用',
+  `is_del` tinyint(1) DEFAULT '0' COMMENT '0: 否 1：是',
   PRIMARY KEY (`menu_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8mb4 COMMENT='系统菜单';
+) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8mb4 COMMENT='系统菜单';
 
 -- ----------------------------
 -- Records of sys_menu
@@ -290,9 +251,11 @@ INSERT INTO `sys_menu` VALUES (30, '删除文件', 'sys_delete_file', '', '', '2
 INSERT INTO `sys_menu` VALUES (31, '支付管理', '', '/pay', 'pay', '2020-06-01 16:17:11', NULL, 0, 3, 0, '', 1);
 INSERT INTO `sys_menu` VALUES (32, '聚合支付', '', '/pay/qrcode/index', 'QrCode', '2020-06-04 14:19:45', NULL, 31, 1, 0, '', 1);
 INSERT INTO `sys_menu` VALUES (33, '开发管理', '', '/dev', 'dev', '2020-06-23 20:34:42', NULL, 0, 4, 0, '', 1);
-INSERT INTO `sys_menu` VALUES (34, '数据源', '', '/dev/datasource/index', 'datasource', '2020-06-23 20:43:40', '2020-06-23 20:44:25', 33, 1, 0, '', 1);
+INSERT INTO `sys_menu` VALUES (34, '代码生成', '', '/dev/datasource/index', 'datasource', '2020-06-23 20:43:40', '2020-07-27 00:02:53', 33, 1, 0, '', 1);
 INSERT INTO `sys_menu` VALUES (35, '新增数据源', 'sys_add_dataSource', '', '', '2020-06-26 13:23:05', NULL, 34, 1, 1, '', 1);
 INSERT INTO `sys_menu` VALUES (36, '批量生成', 'sys_download_code', '', '', '2020-06-26 13:25:05', NULL, 34, 2, 1, '', 1);
+INSERT INTO `sys_menu` VALUES (37, '接口文档', '', 'http://127.0.0.1:15000/doc.html#/home', 'doc', '2020-06-27 16:28:06', '2020-06-27 17:26:46', 33, 2, 0, '', 1);
+INSERT INTO `sys_menu` VALUES (38, '系统监控', '', 'http://127.0.0.1:14000/#/login', 'sentinel', '2020-07-19 21:41:13', '2020-07-19 21:42:53', 33, 3, 0, '', 1);
 COMMIT;
 
 -- ----------------------------
@@ -300,18 +263,18 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_param`;
 CREATE TABLE `sys_param` (
-  `id` int NOT NULL AUTO_INCREMENT COMMENT '参数主键',
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '参数主键',
   `param_name` varchar(100) NOT NULL DEFAULT '' COMMENT '参数名称',
   `param_key` varchar(100) NOT NULL DEFAULT '' COMMENT '参数键名',
   `param_value` varchar(500) NOT NULL DEFAULT '' COMMENT '参数键值',
-  `param_type` int NOT NULL DEFAULT '0' COMMENT '0:系统参数  1:业务参数',
+  `param_type` int(11) NOT NULL DEFAULT '0' COMMENT '0:系统参数  1:业务参数',
   `remark` varchar(500) DEFAULT NULL COMMENT '备注',
-  `sort` int DEFAULT NULL COMMENT '排序',
-  `create_id` int NOT NULL COMMENT '创建者id',
-  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `update_id` int DEFAULT NULL COMMENT '更新者id',
+  `sort` int(11) DEFAULT NULL COMMENT '排序',
+  `create_id` int(11) NOT NULL COMMENT '创建者id',
+  `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_id` int(11) DEFAULT NULL COMMENT '更新者id',
   `update_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-  `del_flag` int NOT NULL DEFAULT '1' COMMENT '0: 禁用 1：启用',
+  `is_del` tinyint(1) DEFAULT '1' COMMENT '0:否 1:是',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE KEY `KEY` (`param_key`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COMMENT='参数配置';
@@ -332,16 +295,16 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_role`;
 CREATE TABLE `sys_role` (
-  `role_id` int NOT NULL AUTO_INCREMENT COMMENT '角色id',
+  `role_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '角色id',
   `role_code` varchar(50) NOT NULL COMMENT '角色标识',
   `role_name` varchar(255) NOT NULL COMMENT '角色名称',
   `role_desc` varchar(255) DEFAULT NULL COMMENT '角色描述',
   `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
-  `del_flag` int DEFAULT '1' COMMENT '0: 禁用 1：启用',
-  `tenant_id` int DEFAULT NULL COMMENT '租户id',
+  `is_del` tinyint(1) DEFAULT '1' COMMENT '0: 否 1：是',
+  `tenant_id` int(11) DEFAULT NULL COMMENT '租户id',
   PRIMARY KEY (`role_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=69 DEFAULT CHARSET=utf8mb4 COMMENT='系统角色';
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COMMENT='系统角色';
 
 -- ----------------------------
 -- Records of sys_role
@@ -358,8 +321,8 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_role_menu`;
 CREATE TABLE `sys_role_menu` (
-  `role_id` int NOT NULL COMMENT '角色id',
-  `menu_id` int NOT NULL COMMENT '菜单id',
+  `role_id` int(11) NOT NULL COMMENT '角色id',
+  `menu_id` int(11) NOT NULL COMMENT '菜单id',
   PRIMARY KEY (`role_id`,`menu_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='系统角色菜单';
 
@@ -369,9 +332,41 @@ CREATE TABLE `sys_role_menu` (
 BEGIN;
 INSERT INTO `sys_role_menu` VALUES (1, 1);
 INSERT INTO `sys_role_menu` VALUES (1, 2);
+INSERT INTO `sys_role_menu` VALUES (1, 3);
+INSERT INTO `sys_role_menu` VALUES (1, 4);
+INSERT INTO `sys_role_menu` VALUES (1, 5);
 INSERT INTO `sys_role_menu` VALUES (1, 6);
 INSERT INTO `sys_role_menu` VALUES (1, 7);
+INSERT INTO `sys_role_menu` VALUES (1, 8);
+INSERT INTO `sys_role_menu` VALUES (1, 9);
 INSERT INTO `sys_role_menu` VALUES (1, 10);
+INSERT INTO `sys_role_menu` VALUES (1, 11);
+INSERT INTO `sys_role_menu` VALUES (1, 12);
+INSERT INTO `sys_role_menu` VALUES (1, 13);
+INSERT INTO `sys_role_menu` VALUES (1, 14);
+INSERT INTO `sys_role_menu` VALUES (1, 15);
+INSERT INTO `sys_role_menu` VALUES (1, 16);
+INSERT INTO `sys_role_menu` VALUES (1, 17);
+INSERT INTO `sys_role_menu` VALUES (1, 18);
+INSERT INTO `sys_role_menu` VALUES (1, 19);
+INSERT INTO `sys_role_menu` VALUES (1, 20);
+INSERT INTO `sys_role_menu` VALUES (1, 21);
+INSERT INTO `sys_role_menu` VALUES (1, 22);
+INSERT INTO `sys_role_menu` VALUES (1, 23);
+INSERT INTO `sys_role_menu` VALUES (1, 24);
+INSERT INTO `sys_role_menu` VALUES (1, 25);
+INSERT INTO `sys_role_menu` VALUES (1, 26);
+INSERT INTO `sys_role_menu` VALUES (1, 27);
+INSERT INTO `sys_role_menu` VALUES (1, 28);
+INSERT INTO `sys_role_menu` VALUES (1, 30);
+INSERT INTO `sys_role_menu` VALUES (1, 31);
+INSERT INTO `sys_role_menu` VALUES (1, 32);
+INSERT INTO `sys_role_menu` VALUES (1, 33);
+INSERT INTO `sys_role_menu` VALUES (1, 34);
+INSERT INTO `sys_role_menu` VALUES (1, 35);
+INSERT INTO `sys_role_menu` VALUES (1, 36);
+INSERT INTO `sys_role_menu` VALUES (1, 37);
+INSERT INTO `sys_role_menu` VALUES (1, 38);
 INSERT INTO `sys_role_menu` VALUES (2, 1);
 INSERT INTO `sys_role_menu` VALUES (2, 2);
 INSERT INTO `sys_role_menu` VALUES (2, 3);
@@ -407,6 +402,45 @@ INSERT INTO `sys_role_menu` VALUES (2, 33);
 INSERT INTO `sys_role_menu` VALUES (2, 34);
 INSERT INTO `sys_role_menu` VALUES (2, 35);
 INSERT INTO `sys_role_menu` VALUES (2, 36);
+INSERT INTO `sys_role_menu` VALUES (2, 37);
+INSERT INTO `sys_role_menu` VALUES (2, 38);
+INSERT INTO `sys_role_menu` VALUES (3, 1);
+INSERT INTO `sys_role_menu` VALUES (3, 2);
+INSERT INTO `sys_role_menu` VALUES (3, 3);
+INSERT INTO `sys_role_menu` VALUES (3, 4);
+INSERT INTO `sys_role_menu` VALUES (3, 5);
+INSERT INTO `sys_role_menu` VALUES (3, 6);
+INSERT INTO `sys_role_menu` VALUES (3, 7);
+INSERT INTO `sys_role_menu` VALUES (3, 8);
+INSERT INTO `sys_role_menu` VALUES (3, 9);
+INSERT INTO `sys_role_menu` VALUES (3, 10);
+INSERT INTO `sys_role_menu` VALUES (3, 11);
+INSERT INTO `sys_role_menu` VALUES (3, 12);
+INSERT INTO `sys_role_menu` VALUES (3, 13);
+INSERT INTO `sys_role_menu` VALUES (3, 14);
+INSERT INTO `sys_role_menu` VALUES (3, 15);
+INSERT INTO `sys_role_menu` VALUES (3, 16);
+INSERT INTO `sys_role_menu` VALUES (3, 17);
+INSERT INTO `sys_role_menu` VALUES (3, 18);
+INSERT INTO `sys_role_menu` VALUES (3, 19);
+INSERT INTO `sys_role_menu` VALUES (3, 20);
+INSERT INTO `sys_role_menu` VALUES (3, 21);
+INSERT INTO `sys_role_menu` VALUES (3, 22);
+INSERT INTO `sys_role_menu` VALUES (3, 23);
+INSERT INTO `sys_role_menu` VALUES (3, 24);
+INSERT INTO `sys_role_menu` VALUES (3, 25);
+INSERT INTO `sys_role_menu` VALUES (3, 26);
+INSERT INTO `sys_role_menu` VALUES (3, 27);
+INSERT INTO `sys_role_menu` VALUES (3, 28);
+INSERT INTO `sys_role_menu` VALUES (3, 30);
+INSERT INTO `sys_role_menu` VALUES (3, 31);
+INSERT INTO `sys_role_menu` VALUES (3, 32);
+INSERT INTO `sys_role_menu` VALUES (3, 33);
+INSERT INTO `sys_role_menu` VALUES (3, 34);
+INSERT INTO `sys_role_menu` VALUES (3, 35);
+INSERT INTO `sys_role_menu` VALUES (3, 36);
+INSERT INTO `sys_role_menu` VALUES (3, 37);
+INSERT INTO `sys_role_menu` VALUES (3, 38);
 INSERT INTO `sys_role_menu` VALUES (4, 1);
 INSERT INTO `sys_role_menu` VALUES (4, 2);
 INSERT INTO `sys_role_menu` VALUES (4, 3);
@@ -442,6 +476,8 @@ INSERT INTO `sys_role_menu` VALUES (4, 33);
 INSERT INTO `sys_role_menu` VALUES (4, 34);
 INSERT INTO `sys_role_menu` VALUES (4, 35);
 INSERT INTO `sys_role_menu` VALUES (4, 36);
+INSERT INTO `sys_role_menu` VALUES (4, 37);
+INSERT INTO `sys_role_menu` VALUES (4, 38);
 COMMIT;
 
 -- ----------------------------
@@ -449,16 +485,16 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_route_conf`;
 CREATE TABLE `sys_route_conf` (
-  `id` int NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
   `route_name` varchar(30) DEFAULT NULL COMMENT '路由名称',
   `route_id` varchar(30) DEFAULT NULL COMMENT '路由id',
   `predicates` json DEFAULT NULL COMMENT '谓词/断言',
   `filters` json DEFAULT NULL COMMENT '过滤器',
   `uri` varchar(100) DEFAULT NULL,
-  `sort` int DEFAULT '0' COMMENT '排序',
-  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `sort` int(11) DEFAULT '0' COMMENT '排序',
+  `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
-  `del_flag` char(1) DEFAULT '1' COMMENT '0: 禁用 1：启用',
+  `is_del` tinyint(1) DEFAULT '0' COMMENT '0:否 1:是',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COMMENT='全局路由';
 
@@ -466,10 +502,10 @@ CREATE TABLE `sys_route_conf` (
 -- Records of sys_route_conf
 -- ----------------------------
 BEGIN;
-INSERT INTO `sys_route_conf` VALUES (1, '认证中心', 'FDP-auth', '[{\"args\": {\"_genkey_0\": \"/auth/**\", \"_genkey_1\": \"/token/**\"}, \"name\": \"Path\"}]', '[{\"args\": {}, \"name\": \"CodeGatewayFilter\"}]', 'lb://FDP-auth', 1, '2020-03-02 16:21:24', '2020-06-18 18:11:57', '1');
-INSERT INTO `sys_route_conf` VALUES (2, '用户中心', 'FDP-upmm-business', '[{\"args\": {\"_genkey_0\": \"/admin/**\"}, \"name\": \"Path\"}]', '[]', 'lb://FDP-upmm-business', 2, '2020-03-03 11:28:42', '2020-06-09 16:26:07', '1');
-INSERT INTO `sys_route_conf` VALUES (3, '支付中心', 'FDP-pay-business', '[{\"args\": {\"_genkey_0\": \"/pay/**\"}, \"name\": \"Path\"}]', '[]', 'lb://FDP-pay-business', 3, '2020-06-09 16:21:26', '2020-06-09 16:26:08', '1');
-INSERT INTO `sys_route_conf` VALUES (4, '开发管理', 'FDP-generator', '[{\"args\": {\"_genkey_0\": \"/dev/**\"}, \"name\": \"Path\"}]', '[]', 'lb://FDP-generator', 4, '2020-06-23 22:26:55', '2020-06-23 22:27:42', '1');
+INSERT INTO `sys_route_conf` VALUES (1, '认证中心', 'XHuiCloud-auth', '[{\"args\": {\"_genkey_0\": \"/auth/**\", \"_genkey_1\": \"/token/**\"}, \"name\": \"Path\"}]', '[{\"args\": {}, \"name\": \"CodeGatewayFilter\"}]', 'lb://XHuiCloud-auth', 1, '2020-03-02 16:21:24', '2020-06-18 18:11:57', 1);
+INSERT INTO `sys_route_conf` VALUES (2, '用户中心', 'XHuiCloud-upmm-business', '[{\"args\": {\"_genkey_0\": \"/admin/**\"}, \"name\": \"Path\"}]', '[]', 'lb://XHuiCloud-upmm-business', 2, '2020-03-03 11:28:42', '2020-06-09 16:26:07', 1);
+INSERT INTO `sys_route_conf` VALUES (3, '支付中心', 'XHuiCloud-pay-business', '[{\"args\": {\"_genkey_0\": \"/pay/**\"}, \"name\": \"Path\"}]', '[]', 'lb://XHuiCloud-pay-business', 3, '2020-06-09 16:21:26', '2020-06-09 16:26:08', 1);
+INSERT INTO `sys_route_conf` VALUES (4, '开发管理', 'XHuiCloud-generator', '[{\"args\": {\"_genkey_0\": \"/dev/**\"}, \"name\": \"Path\"}]', '[]', 'lb://XHuiCloud-generator', 4, '2020-06-23 22:26:55', '2020-06-23 22:27:42', 1);
 COMMIT;
 
 -- ----------------------------
@@ -477,15 +513,15 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_social`;
 CREATE TABLE `sys_social` (
-  `id` int NOT NULL COMMENT 'id',
+  `id` int(11) NOT NULL COMMENT 'id',
   `type` varchar(10) DEFAULT NULL COMMENT '类型',
   `app_id` varchar(100) NOT NULL COMMENT '开放平台id',
   `app_ secret` varchar(255) NOT NULL COMMENT '开放平台密钥',
   `app_desc` varchar(255) DEFAULT NULL COMMENT '开放平台描述',
   `redirect_url` varchar(255) DEFAULT NULL COMMENT '重定向url',
-  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
-  `del_flag` int DEFAULT '1' COMMENT '0: 禁用 1：启用',
+  `is_del` tinyint(1) DEFAULT '1' COMMENT '0: 否 1：是',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='系统开放平台';
 
@@ -501,15 +537,15 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_tenant`;
 CREATE TABLE `sys_tenant` (
-  `id` int NOT NULL AUTO_INCREMENT COMMENT '租户id',
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '租户id',
   `name` varchar(255) NOT NULL COMMENT '租户名称',
-  `state` int DEFAULT '2' COMMENT '状态\n0:禁用; 1:正常;  2:待审核;  3:拒绝',
+  `state` int(11) DEFAULT '2' COMMENT '状态\n0:禁用; 1:正常;  2:待审核;  3:拒绝',
   `expiration_time` datetime DEFAULT NULL COMMENT '有效期',
   `logo` varchar(255) DEFAULT '' COMMENT 'logo地址',
   `remark` text COMMENT '租户描述',
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-  `del_flag` int DEFAULT '1' COMMENT '0: 禁用 1：启用',
+  `is_del` tinyint(1) DEFAULT '0' COMMENT '0: 否 1：是',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COMMENT='系统租户';
 
@@ -529,30 +565,32 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_user`;
 CREATE TABLE `sys_user` (
-  `user_id` int NOT NULL AUTO_INCREMENT COMMENT '用户id',
+  `user_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '用户id',
   `username` varchar(50) NOT NULL COMMENT '用户名',
   `password` varchar(255) NOT NULL COMMENT '密码',
   `avatar` varchar(255) DEFAULT NULL COMMENT '头像',
   `phone` varchar(11) DEFAULT NULL COMMENT '手机号码',
   `email` varchar(255) DEFAULT NULL COMMENT '邮箱',
-  `sex` int NOT NULL DEFAULT '1' COMMENT '性别:0 女、1  男、2  其他',
-  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `sex` int(11) DEFAULT '1' COMMENT '性别:0 女、1  男、2  其他',
+  `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
-  `lock_flag` int DEFAULT '1' COMMENT '0:账号被锁',
-  `del_flag` int DEFAULT '1' COMMENT '0: 禁用 1：启用',
-  `tenant_id` int DEFAULT NULL COMMENT '租户id',
+  `lock_flag` tinyint(1) DEFAULT '1' COMMENT '0: 否 1：是',
+  `is_del` int(1) DEFAULT '1' COMMENT '0: 否 1：是',
+  `tenant_id` int(11) DEFAULT NULL COMMENT '租户id',
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `username` (`username`),
   UNIQUE KEY `phone` (`phone`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8mb4 COMMENT='系统用户';
+) ENGINE=InnoDB AUTO_INCREMENT=48 DEFAULT CHARSET=utf8mb4 COMMENT='系统用户';
 
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
 BEGIN;
-INSERT INTO `sys_user` VALUES (1, 'admin', '$2a$10$F85EXBqBGSdq0HrAhYwK5eXqRUPSaD9ko1SQBODKmnYV9KfdDngtu', '2b89fa61812149f581e2adab5d9b0c36.jpg', '13333323333', 'sindazeng@gmail.com', 1, '2020-01-13 13:48:46', '2020-06-26 14:05:47', 1, 1, 1);
-INSERT INTO `sys_user` VALUES (2, 'root', '$2a$10$BL2.s4TnW9Es2kVm5hqvlOvd7aVo0CM1xjvGRDwoTbsJm1gvnlScm', 'cat2.gif', '123123123', '12332@ee.com', 0, '2020-02-15 10:01:19', '2020-05-29 17:54:23', 1, 1, 1);
-INSERT INTO `sys_user` VALUES (43, 'demo', '$2a$10$BL2.s4TnW9Es2kVm5hqvlOvd7aVo0CM1xjvGRDwoTbsJm1gvnlScm', '682df9ff82ba40af99c1179c913146e8.jpg', '13392222222', '1692488900@qq.com', 1, '2020-06-26 13:17:15', NULL, 1, 1, NULL);
+INSERT INTO `sys_user` VALUES (1, 'admin', '{bcrypt}$2a$10$frK41VHpk6iLItk3dfEW/OZTMnjpXEjAaEjG22jRjh5hffpgdBETu', '2b89fa61812149f581e2adab5d9b0c36.jpg', '13333323333', 'sindazeng@gmail.com', 1, '2020-01-13 13:48:46', '2020-08-18 16:36:43', 1, 1, 1);
+INSERT INTO `sys_user` VALUES (2, 'root', '{bcrypt}$2a$10$frK41VHpk6iLItk3dfEW/OZTMnjpXEjAaEjG22jRjh5hffpgdBETu', 'cat2.gif', '123123123', '12332@ee.com', 0, '2020-02-15 10:01:19', '2020-08-18 16:36:44', 1, 1, 1);
+INSERT INTO `sys_user` VALUES (43, 'demo', '{bcrypt}$2a$10$frK41VHpk6iLItk3dfEW/OZTMnjpXEjAaEjG22jRjh5hffpgdBETu', '682df9ff82ba40af99c1179c913146e8.jpg', '13392222222', '1692488900@qq.com', 1, '2020-06-26 13:17:15', '2020-08-18 16:36:46', 1, 1, NULL);
+INSERT INTO `sys_user` VALUES (44, 'test', '{bcrypt}$2a$10$frK41VHpk6iLItk3dfEW/OZTMnjpXEjAaEjG22jRjh5hffpgdBETu', '01aab11220e3432589028c8744dc3605.jpg', '13398888888', '1692488900@qq.com', 0, '2020-06-26 20:15:29', '2020-08-18 16:36:48', 1, 1, NULL);
+INSERT INTO `sys_user` VALUES (47, 'test1', '{bcrypt}$2a$10$frK41VHpk6iLItk3dfEW/OZTMnjpXEjAaEjG22jRjh5hffpgdBETu', '2698f179163443e0852cf470be40f01c.jpg', '13332323333', '1323@qq.com', 0, '2020-06-26 20:22:09', '2020-08-18 16:36:49', 1, 1, NULL);
 COMMIT;
 
 -- ----------------------------
@@ -560,8 +598,8 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_user_dept`;
 CREATE TABLE `sys_user_dept` (
-  `user_id` int NOT NULL,
-  `dept_id` int NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `dept_id` int(11) NOT NULL,
   PRIMARY KEY (`user_id`,`dept_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户部门';
 
@@ -575,6 +613,12 @@ INSERT INTO `sys_user_dept` VALUES (2, 11);
 INSERT INTO `sys_user_dept` VALUES (43, 8);
 INSERT INTO `sys_user_dept` VALUES (43, 9);
 INSERT INTO `sys_user_dept` VALUES (43, 18);
+INSERT INTO `sys_user_dept` VALUES (44, 8);
+INSERT INTO `sys_user_dept` VALUES (44, 9);
+INSERT INTO `sys_user_dept` VALUES (44, 18);
+INSERT INTO `sys_user_dept` VALUES (47, 4);
+INSERT INTO `sys_user_dept` VALUES (47, 5);
+INSERT INTO `sys_user_dept` VALUES (47, 13);
 COMMIT;
 
 -- ----------------------------
@@ -582,8 +626,8 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_user_role`;
 CREATE TABLE `sys_user_role` (
-  `user_id` int NOT NULL COMMENT '用户id',
-  `role_id` int NOT NULL COMMENT '角色id',
+  `user_id` int(11) NOT NULL COMMENT '用户id',
+  `role_id` int(11) NOT NULL COMMENT '角色id',
   PRIMARY KEY (`user_id`,`role_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户角色';
 
@@ -592,8 +636,11 @@ CREATE TABLE `sys_user_role` (
 -- ----------------------------
 BEGIN;
 INSERT INTO `sys_user_role` VALUES (1, 2);
+INSERT INTO `sys_user_role` VALUES (1, 6);
 INSERT INTO `sys_user_role` VALUES (2, 2);
 INSERT INTO `sys_user_role` VALUES (43, 4);
+INSERT INTO `sys_user_role` VALUES (44, 4);
+INSERT INTO `sys_user_role` VALUES (47, 4);
 COMMIT;
 
 -- ----------------------------
@@ -601,9 +648,9 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_user_social`;
 CREATE TABLE `sys_user_social` (
-  `user_id` int NOT NULL COMMENT '用户id',
+  `user_id` int(11) NOT NULL COMMENT '用户id',
   `social_type` varchar(10) NOT NULL COMMENT '开放平台类型',
-  `user_openid` varchar(200) NOT NULL COMMENT '用户openid',
+  `user_openid` varchar(64) NOT NULL COMMENT '用户openid',
   PRIMARY KEY (`user_id`,`user_openid`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户社交';
 
@@ -612,12 +659,12 @@ CREATE TABLE `sys_user_social` (
 -- ----------------------------
 DROP TABLE IF EXISTS `undo_log`;
 CREATE TABLE `undo_log` (
-  `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'increment id',
-  `branch_id` bigint NOT NULL COMMENT 'branch transaction id',
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'increment id',
+  `branch_id` bigint(20) NOT NULL COMMENT 'branch transaction id',
   `xid` varchar(100) NOT NULL COMMENT 'global transaction id',
   `context` varchar(128) NOT NULL COMMENT 'undo_log context,such as serialization',
   `rollback_info` longblob NOT NULL COMMENT 'rollback info',
-  `log_status` int NOT NULL COMMENT '0:normal status,1:defense status',
+  `log_status` int(11) NOT NULL COMMENT '0:normal status,1:defense status',
   `log_created` datetime NOT NULL COMMENT 'create datetime',
   `log_modified` datetime NOT NULL COMMENT 'modify datetime',
   PRIMARY KEY (`id`),

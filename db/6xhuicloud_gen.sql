@@ -1,4 +1,4 @@
-USE sys_generator;
+USE xhuicloud_gen;
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
@@ -15,6 +15,7 @@ CREATE TABLE `gen_datasource_Info` (
   `port` varchar(5) NOT NULL COMMENT '数据库端口',
   `username` varchar(255) NOT NULL COMMENT '用户名',
   `password` varchar(255) NOT NULL COMMENT '密码',
+  `is_del` tinyint(1) DEFAULT '0' COMMENT '0 否 1是',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
 
