@@ -2,7 +2,7 @@ version: '2'
 services:
   fdp-mysql:
     build:
-      context: ./db
+      context: doc/db
     environment:
       MYSQL_ROOT_PASSWORD: root
     restart: always

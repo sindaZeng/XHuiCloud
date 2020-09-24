@@ -1,4 +1,4 @@
-package com.zsinda.fdp.config;
+package com.xhuicloud.auth.config;
 
 import com.zsinda.fdp.handle.FormAuthFailureHandler;
 import com.zsinda.fdp.handle.SocialAuthSuccessHandler;
@@ -25,7 +25,7 @@ import org.springframework.security.web.authentication.AuthenticationFailureHand
  **/
 @Configuration
 @AllArgsConstructor
-public class FdpWebSecurityConfigurer extends WebSecurityConfigurerAdapter {
+public class XHuiWebSecurityConfigurer extends WebSecurityConfigurerAdapter {
 
     @Bean
     public AuthenticationFailureHandler authenticationFailureHandler() {

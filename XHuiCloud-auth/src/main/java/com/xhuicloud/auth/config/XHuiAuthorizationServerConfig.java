@@ -1,4 +1,4 @@
-package com.zsinda.fdp.config;
+package com.xhuicloud.auth.config;
 
 import com.zsinda.fdp.component.FdpWebResponseExceptionTranslator;
 import com.zsinda.fdp.constant.AuthorizationConstants;
@@ -30,7 +30,7 @@ import javax.sql.DataSource;
 @Configuration
 @EnableAuthorizationServer
 @AllArgsConstructor
-public class FdpAuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
+public class XHuiAuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 
     private final AuthenticationManager authenticationManager;
 

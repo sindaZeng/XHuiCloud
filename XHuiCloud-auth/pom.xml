@@ -3,13 +3,13 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>FDPlatform</artifactId>
-        <groupId>com.zsinda</groupId>
+        <artifactId>XHuiCloud</artifactId>
+        <groupId>com.xhuicloud</groupId>
         <version>${revision}</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <packaging>jar</packaging>
-    <artifactId>FDP-auth</artifactId>
+    <artifactId>XHuiCloud-auth</artifactId>
 
     <dependencies>
 
@@ -30,27 +30,27 @@
 
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>FDP-upmm-api</artifactId>
+            <artifactId>XHuiCloud-upms-api</artifactId>
         </dependency>
 
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>FDP-common-swagger</artifactId>
+            <artifactId>XHuiCloud-common-swagger</artifactId>
         </dependency>
 
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>FDP-common-security</artifactId>
+            <artifactId>XHuiCloud-common-security</artifactId>
         </dependency>
 
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>FDP-common-logger</artifactId>
+            <artifactId>XHuiCloud-common-log</artifactId>
         </dependency>
 
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>FDP-common-datasource</artifactId>
+            <artifactId>XHuiCloud-common-datasource</artifactId>
         </dependency>
 
         <dependency>
@@ -58,7 +58,6 @@
             <artifactId>spring-boot-starter-freemarker</artifactId>
         </dependency>
 
-        <!--        redis 响应式编程-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis-reactive</artifactId>
@@ -69,21 +68,20 @@
             <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
 
-        <!--        数据缓存-->
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>FDP-common-data</artifactId>
+            <artifactId>XHuiCloud-common-data</artifactId>
         </dependency>
 
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>FDP-common-sentinel</artifactId>
+            <artifactId>XHuiCloud-common-sentinel</artifactId>
         </dependency>
 
         <!--        分布式锁-->
         <!--        <dependency>-->
         <!--            <groupId>${project.groupId}</groupId>-->
-        <!--            <artifactId>FDP-common-Lock</artifactId>-->
+        <!--            <artifactId>XHuiCloud-common-lock</artifactId>-->
         <!--        </dependency>-->
 
         <!--        调用链监控-->
@@ -99,6 +97,11 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <layers>
+                        <enabled>true</enabled>
+                    </layers>
+                </configuration>
             </plugin>
         </plugins>
     </build>

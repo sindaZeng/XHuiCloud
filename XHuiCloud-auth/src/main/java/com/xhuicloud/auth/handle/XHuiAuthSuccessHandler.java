@@ -1,5 +1,6 @@
-package com.zsinda.fdp.handle;
+package com.xhuicloud.auth.handle;
 
+import com.zsinda.fdp.handle.AbstractAuthenticationSuccessEventHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
@@ -15,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 @Slf4j
 @Component
-public class FdpAuthSuccessHandler extends AbstractAuthenticationSuccessEventHandler {
+public class XHuiAuthSuccessHandler extends AbstractAuthenticationSuccessEventHandler {
 
     @Override
     public void handle(Authentication authentication, HttpServletRequest request, HttpServletResponse response) {

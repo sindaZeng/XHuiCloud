@@ -1,4 +1,4 @@
-package com.zsinda.fdp.controller;
+package com.xhuicloud.auth.controller;
 
 import cn.hutool.core.util.StrUtil;
 import com.zsinda.fdp.feign.SysUserServiceFeign;
