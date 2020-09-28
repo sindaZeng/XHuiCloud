@@ -1,0 +1,4 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.xhuicloud.common.lock.config.RedissonAutoConfiguration
+org.springframework.boot.context.properties.EnableConfigurationProperties=\
+  com.xhuicloud.common.lock.properties.XHuiRedisProperties

@@ -1,0 +1,15 @@
+${AnsiColor.BRIGHT_YELLOW}
+
+                #     #    #     #              #####
+                 #   #     #     # #    # #    #     # #       ####  #    # #####
+                  # #      #     # #    # #    #       #      #    # #    # #    #
+                   #       ####### #    # #    #       #      #    # #    # #    #
+                  # #      #     # #    # #    #       #      #    # #    # #    #
+                 #   #     #     # #    # #    #     # #      #    # #    # #    #
+                #     #    #     #  ####  #     #####  ######  ####   ####  #####
+
+
+Application-name : ${spring.application.name}
+Application-Version     : @project.version@
+Spring Boot Version: ${spring-boot.version}
+${AnsiColor.DEFAULT}

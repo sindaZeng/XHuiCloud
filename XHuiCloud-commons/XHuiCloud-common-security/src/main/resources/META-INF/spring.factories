@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+         com.xhuicloud.common.security.component.XHuiTokenEnhancer,\
+  com.xhuicloud.common.security.component.GlobalExceptionHandlerResolver
