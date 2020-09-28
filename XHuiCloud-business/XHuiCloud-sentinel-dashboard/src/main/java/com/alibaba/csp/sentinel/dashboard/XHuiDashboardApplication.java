@@ -26,11 +26,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author Carpenter Lee
  */
 @SpringBootApplication
-public class FdpDashboardApplication {
+public class XHuiDashboardApplication {
 
     public static void main(String[] args) {
         triggerSentinelInit();
-        SpringApplication.run(FdpDashboardApplication.class, args);
+        SpringApplication.run(XHuiDashboardApplication.class, args);
     }
 
     private static void triggerSentinelInit() {
