@@ -1,0 +1,48 @@
+spring:
+  application:
+    name: @artifactId@
+  profiles:
+    active: @profiles.active@
+  cloud:
+    nacos:
+      discovery:
+        server-addr: ${NACOS_HOST:localhost}:${NACOS_PORT:13000}
+      config:
+        server-addr: ${NACOS_HOST:localhost}:${NACOS_PORT:13000}
+        #后缀 yml
+        file-extension: yml
+        # 公共的配置文件
+        shared-configs:
+          - application-common.yml
+  freemarker:
+    allow-request-override: false
+    allow-session-override: false
+    # 关闭缓存 方便热启动
+    cache: false
+    charset: UTF-8
+    check-template-location: true
+    content-type: text/html
+    enabled: true
+    expose-request-attributes: false
+    expose-session-attributes: false
+    expose-spring-macro-helpers: true
+    prefer-file-system-access: true
+    suffix: .ftl
+    template-loader-path: classpath:/templates/
+security:
+  oauth2:
+    client:
+      client-id: U2hhcmVCQlM=
+      client-secret: $2a$10$xP0Iv4Pd4kn.7msrJOCiC.ttRprLRk2fo3xbCdmPPLYuDo/H4gcdq
+# 发号器配置
+xhuicloud:
+  zero:
+    snowflake:
+      zk-address: ${ZK_HOST:47.113.86.94}
+      port: ${ZK_PORT:2888}
+#支付配置
+pay:
+  domain: http://admin.xhuicloud.com/
+  alipay:
+    return-url: pay/notify/alipay/return_url
+    notify-url: pay/notify/alipay/notify_url
