@@ -1,10 +1,10 @@
-package com.zsinda.fdp.rule;
+package com.xhuicloud.gateway.rule;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.RandomUtil;
 import com.google.common.collect.Lists;
-import com.zsinda.fdp.constant.CommonConstants;
+import com.xhuicloud.common.core.constant.CommonConstants;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @program: FDPlatform
+ * @program: XHuiCloud
  * @description:
  * @author: Sinda
  * @create: 2020/7/18 10:40 下午
@@ -60,7 +60,6 @@ public class VersionGlobalGrayLoadBalancer implements GlobalGrayLoadBalancer {
             }
 
         }
-        //TODO 如果没有携带版本,自定义自己的规则。此处是写明，可用实例中随机挑选 ——Sinda
         return reachableServers.get(RandomUtil.randomInt(reachableServers.size()));
     }
 }

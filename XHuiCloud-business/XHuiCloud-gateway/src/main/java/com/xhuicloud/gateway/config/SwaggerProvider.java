@@ -1,8 +1,8 @@
-package com.zsinda.fdp.config;
+package com.xhuicloud.gateway.config;
 
 import com.google.common.collect.Lists;
-import com.zsinda.fdp.utils.BeanUtils;
-import com.zsinda.fdp.vo.RouteDefinitionVo;
+import com.xhuicloud.common.core.utils.BeanUtils;
+import com.xhuicloud.common.gateway.vo.RouteDefinitionVo;
 import lombok.AllArgsConstructor;
 import org.springframework.cloud.gateway.route.RouteDefinitionRepository;
 import org.springframework.cloud.gateway.support.NameUtils;
@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * @program: FDPlatform
+ * @program: XHuiCloud
  * @description: SwaggerProvider
  * @author: Sinda
  * @create: 2020-02-21 14:06

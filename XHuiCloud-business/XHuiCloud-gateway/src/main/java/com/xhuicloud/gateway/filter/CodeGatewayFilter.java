@@ -1,12 +1,12 @@
-package com.zsinda.fdp.filter;
+package com.xhuicloud.gateway.filter;
 
 import cn.hutool.core.util.StrUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.zsinda.fdp.constant.SecurityConstants;
-import com.zsinda.fdp.enums.login.LoginTypeEnum;
-import com.zsinda.fdp.exception.ValidateCodeException;
-import com.zsinda.fdp.utils.R;
+import com.xhuicloud.common.core.constant.SecurityConstants;
+import com.xhuicloud.common.core.enums.login.LoginTypeEnum;
+import com.xhuicloud.common.core.exception.ValidateCodeException;
+import com.xhuicloud.common.core.utils.R;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -22,7 +22,7 @@ import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 
 /**
- * @program: FDPlatform
+ * @program: XHuiCloud
  * @description: 验证码校验
  * @author: Sinda
  * @create: 2020-06-17 09:24

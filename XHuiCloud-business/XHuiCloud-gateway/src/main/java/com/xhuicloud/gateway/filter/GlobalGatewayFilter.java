@@ -1,4 +1,4 @@
-package com.zsinda.fdp.filter;
+package com.xhuicloud.gateway.filter;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
@@ -13,19 +13,19 @@ import reactor.core.publisher.Mono;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
-import static com.zsinda.fdp.constant.AuthorizationConstants.FROM;
+import static com.xhuicloud.common.core.constant.AuthorizationConstants.FROM;
 import static org.springframework.cloud.gateway.support.ServerWebExchangeUtils.GATEWAY_REQUEST_URL_ATTR;
 import static org.springframework.cloud.gateway.support.ServerWebExchangeUtils.addOriginalRequestUrl;
 
 /**
- * @program: FDPlatform
+ * @program: XHuiCloud
  * @description:
  * @author: Sinda
  * @create: 2020-01-11 19:59
  */
 @Slf4j
 @Component
-public class FdpGlobalGatewayFilter implements GlobalFilter, Ordered {
+public class GlobalGatewayFilter implements GlobalFilter, Ordered {
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {

@@ -1,6 +1,6 @@
-package com.zsinda.fdp.filter;
+package com.xhuicloud.gateway.filter;
 
-import com.zsinda.fdp.rule.GlobalGrayLoadBalancer;
+import com.xhuicloud.gateway.rule.GlobalGrayLoadBalancer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.loadbalancer.DefaultResponse;
@@ -20,7 +20,7 @@ import static org.springframework.cloud.gateway.support.ServerWebExchangeUtils.*
 import static org.springframework.cloud.gateway.support.ServerWebExchangeUtils.GATEWAY_REQUEST_URL_ATTR;
 
 /**
- * @program: FDPlatform
+ * @program: XHuiCloud
  * @description:
  * @author: Sinda
  * @create: 2020/7/18 10:41 下午

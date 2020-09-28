@@ -1,8 +1,8 @@
-package com.zsinda.fdp.config;
+package com.xhuicloud.gateway.config;
 
-import com.zsinda.fdp.handler.SwaggerResourceHandler;
-import com.zsinda.fdp.handler.SwaggerSecurityHandler;
-import com.zsinda.fdp.handler.SwaggerUiHandler;
+import com.xhuicloud.gateway.handler.SwaggerResourceHandler;
+import com.xhuicloud.gateway.handler.SwaggerSecurityHandler;
+import com.xhuicloud.gateway.handler.SwaggerUiHandler;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
@@ -13,7 +13,7 @@ import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.RouterFunctions;
 
 /**
- * @program: FDPlatform
+ * @program: XHuiCloud
  * @description: RouterFunctionConfiguration
  * @author: Sinda
  * @create: 2020-02-20 15:05

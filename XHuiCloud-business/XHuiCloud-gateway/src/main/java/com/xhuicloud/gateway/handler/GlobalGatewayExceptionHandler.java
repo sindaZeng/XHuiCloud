@@ -1,8 +1,8 @@
-package com.zsinda.fdp.handler;
+package com.xhuicloud.gateway.handler;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.zsinda.fdp.utils.R;
+import com.xhuicloud.common.core.utils.R;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.web.reactive.error.ErrorWebExceptionHandler;
@@ -16,7 +16,7 @@ import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
 /**
- * @program: FDPlatform
+ * @program: XHuiCloud
  * @description:
  * @author: Sinda
  * @create: 2020/7/18 10:43 下午

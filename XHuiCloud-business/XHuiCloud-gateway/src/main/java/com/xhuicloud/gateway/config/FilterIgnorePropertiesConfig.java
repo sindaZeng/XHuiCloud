@@ -1,4 +1,4 @@
-package com.zsinda.fdp.config;
+package com.xhuicloud.gateway.config;
 
 import lombok.Data;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @program: FDPlatform
+ * @program: XHuiCloud
  * @description: FilterIgnorePropertiesConfig
  * @author: Sinda
  * @create: 2020-02-21 14:07

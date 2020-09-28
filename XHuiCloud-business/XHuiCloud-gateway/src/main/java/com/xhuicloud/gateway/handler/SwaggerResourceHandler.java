@@ -1,4 +1,4 @@
-package com.zsinda.fdp.handler;
+package com.xhuicloud.gateway.handler;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,7 +13,7 @@ import reactor.core.publisher.Mono;
 import springfox.documentation.swagger.web.SwaggerResourcesProvider;
 
 /**
- * @program: FDPlatform
+ * @program: XHuiCloud
  * @description: SwaggerResourceHandler
  * @author: Sinda
  * @create: 2020-02-20 15:06

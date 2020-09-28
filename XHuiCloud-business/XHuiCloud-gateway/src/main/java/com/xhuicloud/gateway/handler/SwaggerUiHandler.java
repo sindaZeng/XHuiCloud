@@ -1,4 +1,4 @@
-package com.zsinda.fdp.handler;
+package com.xhuicloud.gateway.handler;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +16,7 @@ import springfox.documentation.swagger.web.UiConfigurationBuilder;
 import java.util.Optional;
 
 /**
- * @program: FDPlatform
+ * @program: XHuiCloud
  * @description: SwaggerUiHandler
  * @author: Sinda
  * @create: 2020-02-21 14:03
@@ -27,12 +27,6 @@ public class SwaggerUiHandler implements HandlerFunction<ServerResponse> {
     @Autowired(required = false)
     private UiConfiguration uiConfiguration;
 
-    /**
-     * Handle the given request.
-     *
-     * @param request the request to handler
-     * @return the response
-     */
     @Override
     public Mono<ServerResponse> handle(ServerRequest request) {
         return ServerResponse.status(HttpStatus.OK)

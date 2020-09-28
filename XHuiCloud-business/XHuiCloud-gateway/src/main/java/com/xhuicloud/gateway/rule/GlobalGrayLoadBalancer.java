@@ -1,10 +1,10 @@
-package com.zsinda.fdp.rule;
+package com.xhuicloud.gateway.rule;
 
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 
 /**
- * @program: FDPlatform
+ * @program: XHuiCloud
  * @description:
  * @author: Sinda
  * @create: 2020/7/18 10:39 下午

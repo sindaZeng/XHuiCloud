@@ -1,8 +1,8 @@
-package com.zsinda.fdp.config;
+package com.xhuicloud.gateway.config;
 
-import com.zsinda.fdp.filter.GlobalGrayReactiveLoadBalancerClientFilter;
-import com.zsinda.fdp.rule.GlobalGrayLoadBalancer;
-import com.zsinda.fdp.rule.VersionGlobalGrayLoadBalancer;
+import com.xhuicloud.gateway.filter.GlobalGrayReactiveLoadBalancerClientFilter;
+import com.xhuicloud.gateway.rule.GlobalGrayLoadBalancer;
+import com.xhuicloud.gateway.rule.VersionGlobalGrayLoadBalancer;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
@@ -15,7 +15,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * @program: FDPlatform
+ * @program: XHuiCloud
  * @description:
  * @author: Sinda
  * @create: 2020/7/18 10:38 下午

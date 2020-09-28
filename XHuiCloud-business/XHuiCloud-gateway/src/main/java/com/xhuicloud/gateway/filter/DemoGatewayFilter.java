@@ -1,4 +1,4 @@
-package com.zsinda.fdp.filter;
+package com.xhuicloud.gateway.filter;
 
 import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -11,7 +11,7 @@ import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
 
 /**
- * @program: FDPlatform
+ * @program: XHuiCloud
  * @description: DemoGatewayFilter
  * @author: Sinda
  * @create: 2020-04-21 11:38
