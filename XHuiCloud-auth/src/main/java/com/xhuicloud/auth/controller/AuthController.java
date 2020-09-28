@@ -1,9 +1,8 @@
 package com.xhuicloud.auth.controller;
 
 import cn.hutool.core.util.StrUtil;
-import com.zsinda.fdp.feign.SysUserServiceFeign;
-import com.zsinda.fdp.utils.R;
-import com.zsinda.fdp.utils.SpringSecurityUtils;
+import com.xhuicloud.common.core.utils.R;
+import com.xhuicloud.common.security.utils.SecurityHolder;
 import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +20,7 @@ import javax.servlet.http.HttpSession;
 import java.util.Map;
 
 /**
- * @program: FDPlatform
+ * @program: XHuiCloud
  * @description: AuthController
  * @author: Sinda
  * @create: 2019-12-25 23:56
@@ -36,8 +35,6 @@ public class AuthController {
     private final TokenStore tokenStore;
 
     private final ClientDetailsService clientDetailsService;
-
-    private final SysUserServiceFeign sysUserServiceFeign;
 
     /**
      * 认证页面
@@ -70,7 +67,7 @@ public class AuthController {
             AuthorizationRequest authorizationRequest = (AuthorizationRequest) auth;
             ClientDetails clientDetails = clientDetailsService.loadClientByClientId(authorizationRequest.getClientId());
             modelAndView.addObject("app", clientDetails.getAdditionalInformation());
-            modelAndView.addObject("user", SpringSecurityUtils.getUser());
+            modelAndView.addObject("user", SecurityHolder.getUser());
         }
         modelAndView.setViewName("ftl/confirm");
         return modelAndView;

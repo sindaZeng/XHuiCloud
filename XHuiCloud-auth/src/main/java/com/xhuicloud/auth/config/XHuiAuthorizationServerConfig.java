@@ -1,8 +1,8 @@
 package com.xhuicloud.auth.config;
 
-import com.zsinda.fdp.component.FdpWebResponseExceptionTranslator;
-import com.zsinda.fdp.constant.AuthorizationConstants;
-import com.zsinda.fdp.service.FdpUserDetailsService;
+import com.xhuicloud.common.core.constant.AuthorizationConstants;
+import com.xhuicloud.common.security.component.XHuiWebResponseExceptionTranslator;
+import com.xhuicloud.common.security.service.XHuiUserDetailsService;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,6 +14,7 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.A
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenStore;
@@ -22,7 +23,7 @@ import org.springframework.security.oauth2.provider.token.store.redis.RedisToken
 import javax.sql.DataSource;
 
 /**
- * @program: FDPlatform
+ * @program: XHuiCloud
  * @description: AuthorizationServerConfig
  * @author: Sinda
  * @create: 2019-12-27 22:26
@@ -34,9 +35,9 @@ public class XHuiAuthorizationServerConfig extends AuthorizationServerConfigurer
 
     private final AuthenticationManager authenticationManager;
 
-    private final FdpUserDetailsService fdpUserDetailsService;
+    private final ClientDetailsService XHuiTenantClientDetailsServiceImpl;
 
-    private final DataSource dataSource;
+    private final XHuiUserDetailsService XHuiUserDetailsService;
 
     private final RedisConnectionFactory redisConnectionFactory;
 
@@ -49,10 +50,7 @@ public class XHuiAuthorizationServerConfig extends AuthorizationServerConfigurer
      */
     @Override
     public void configure(ClientDetailsServiceConfigurer clientDetailsServiceConfigurer) throws Exception {
-        JdbcClientDetailsService jdbcClientDetailsService = new JdbcClientDetailsService(dataSource);
-        jdbcClientDetailsService.setSelectClientDetailsSql(AuthorizationConstants.DEFAULT_SELECT_STATEMENT);
-        jdbcClientDetailsService.setFindClientDetailsSql(AuthorizationConstants.DEFAULT_FIND_STATEMENT);
-        clientDetailsServiceConfigurer.withClientDetails(jdbcClientDetailsService);
+        clientDetailsServiceConfigurer.withClientDetails(XHuiTenantClientDetailsServiceImpl);
     }
 
     @Bean
@@ -87,10 +85,10 @@ public class XHuiAuthorizationServerConfig extends AuthorizationServerConfigurer
                 .allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST)
                 .tokenStore(tokenStore())
                 .tokenEnhancer(fdpTokenEnhancer)
-                .userDetailsService(fdpUserDetailsService)
+                .userDetailsService(XHuiUserDetailsService)
                 .authenticationManager(authenticationManager)//校验用户信息是否合法
                 .reuseRefreshTokens(false)
                 .pathMapping("/oauth/confirm_access", "/token/confirm_access")//设置成自己的授权页面
-                .exceptionTranslator(new FdpWebResponseExceptionTranslator()); //修改Oauth2定义的错误信息 为我们定义的错误信息
+                .exceptionTranslator(new XHuiWebResponseExceptionTranslator()); //修改Oauth2定义的错误信息 为我们定义的错误信息
     }
 }

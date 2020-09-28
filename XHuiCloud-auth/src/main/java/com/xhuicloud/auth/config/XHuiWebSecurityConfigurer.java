@@ -1,8 +1,8 @@
 package com.xhuicloud.auth.config;
 
-import com.zsinda.fdp.handle.FormAuthFailureHandler;
-import com.zsinda.fdp.handle.SocialAuthSuccessHandler;
-import com.zsinda.fdp.social.SocialSecurityConfigurer;
+import com.xhuicloud.common.security.handle.FormAuthFailureHandler;
+import com.xhuicloud.common.security.handle.SocialAuthSuccessHandler;
+import com.xhuicloud.common.security.social.SocialSecurityConfigurer;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.context.annotation.Bean;
@@ -12,13 +12,12 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 
 /**
- * @program: FDPlatform
+ * @program: XHuiCloud
  * @description: SecurityConfig
  * @author: Sinda
  * @create: 2019-12-25 23:49

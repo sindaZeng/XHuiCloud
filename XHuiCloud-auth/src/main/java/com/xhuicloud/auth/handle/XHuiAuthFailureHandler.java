@@ -1,6 +1,6 @@
 package com.xhuicloud.auth.handle;
 
-import com.zsinda.fdp.handle.AbstractAuthenticationFailureEvenHandler;
+import com.xhuicloud.common.security.handle.AbstractAuthenticationFailureEvenHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * @program: FDPlatform
+ * @program: XHuiCloud
  * @description: 登录失败处理器
  * @author: Sinda
  * @create: 2020-01-11 16:46

@@ -7,9 +7,9 @@ spring:
     nacos:
       discovery:
         #nacos 地址
-        server-addr: ${NACOS_HOST:xhuicloud_register}:${NACOS_PORT:13000}
+        server-addr: ${NACOS_HOST:xhuicloud-register}:${NACOS_PORT:13000}
       config:
-        server-addr: ${NACOS_HOST:xhuicloud_register}:${NACOS_PORT:13000}
+        server-addr: ${NACOS_HOST:xhuicloud-register}:${NACOS_PORT:13000}
         #后缀 yml
         file-extension: yml
         # 公共的配置文件
@@ -24,11 +24,5 @@ spring:
 #    lock:
 #      enable: true #需要分布式锁的话，请打开
 #    type: CLUSTER
-
-#fdp:
-#  zero:
-#    snowflake:
-#      zk-address: 127.0.0.1
-#      port: 19999
-logging:
-  config: classpath:com/zsinda/fdp/logback/Fdp-defaults-log.xml
+server:
+  port: 16000
