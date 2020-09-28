@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xhuicloud.upms.mapper.SysTenantMapper">
+  <resultMap id="BaseResultMap" type="com.xhuicloud.upms.entity.SysTenant">
+    <!--@mbg.generated-->
+    <!--@Table sys_tenant-->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="state" jdbcType="INTEGER" property="state" />
+    <result column="expiration_time" jdbcType="TIMESTAMP" property="expirationTime" />
+    <result column="logo" jdbcType="VARCHAR" property="logo" />
+    <result column="remake" jdbcType="LONGVARCHAR" property="remark" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="is_del" jdbcType="INTEGER" property="isDel" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, `name`, `state`, expiration_time, logo, `remake`, create_time, update_time,
+    is_del
+  </sql>
+</mapper>

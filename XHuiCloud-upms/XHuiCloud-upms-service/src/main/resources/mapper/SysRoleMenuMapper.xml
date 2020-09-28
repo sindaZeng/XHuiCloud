@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xhuicloud.upms.mapper.SysRoleMenuMapper">
+  <resultMap id="BaseResultMap" type="com.xhuicloud.upms.entity.SysRoleMenu">
+    <!--@mbg.generated-->
+    <!--@Table sys_role_menu-->
+    <id column="role_id" jdbcType="INTEGER" property="roleId" />
+    <id column="menu_id" jdbcType="INTEGER" property="menuId" />
+  </resultMap>
+    <delete id="deleteRoleMenus">
+      DELETE FROM sys_role_menu
+      <where>
+        menu_id in
+        <foreach collection="ids" item="item" open="(" close=")" separator=",">
+          #{item}
+        </foreach>
+      </where>
+    </delete>
+</mapper>

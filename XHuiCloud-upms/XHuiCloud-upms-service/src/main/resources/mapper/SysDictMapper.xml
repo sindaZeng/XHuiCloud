@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xhuicloud.upms.mapper.SysDictMapper">
+  <resultMap id="BaseResultMap" type="com.xhuicloud.upms.entity.SysDict">
+    <!--@mbg.generated-->
+    <!--@Table sys_dict-->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="sort" jdbcType="INTEGER" property="sort" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="create_id" jdbcType="INTEGER" property="createId" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="update_id" jdbcType="INTEGER" property="updateId" />
+    <result column="is_del" jdbcType="INTEGER" property="isDel" />
+    <result column="tenant_id" jdbcType="INTEGER" property="tenantId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, `type`, description, remark, sort, create_time, create_id, update_time, update_id,
+    is_del, tenant_id
+  </sql>
+</mapper>

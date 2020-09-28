@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xhuicloud.upms.mapper.SysUserMapper">
+    <resultMap id="BaseResultMap" type="com.xhuicloud.upms.entity.SysUser">
+        <!--@mbg.generated-->
+        <!--@Table sys_user-->
+        <id column="user_id" jdbcType="INTEGER" property="userId"/>
+        <result column="username" jdbcType="VARCHAR" property="username"/>
+        <result column="password" jdbcType="VARCHAR" property="password"/>
+        <result column="avatar" jdbcType="VARCHAR" property="avatar"/>
+        <result column="phone" jdbcType="VARCHAR" property="phone"/>
+        <result column="email" jdbcType="VARCHAR" property="email"/>
+        <result column="sex" jdbcType="INTEGER" property="sex"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="lock_flag" jdbcType="INTEGER" property="lockFlag"/>
+        <result column="is_del" jdbcType="INTEGER" property="isDel"/>
+        <result column="tenant_id" jdbcType="INTEGER" property="tenantId"/>
+    </resultMap>
+
+    <resultMap id="BaseUserVoResultMap" type="com.xhuicloud.upms.vo.UserVo" extends="BaseResultMap">
+        <collection property="roleVos" ofType="java.util.List"
+                    select="com.xhuicloud.upms.mapper.SysRoleMapper.listRolesNameByUserId" column="user_id">
+        </collection>
+        <collection property="deptVos" ofType="java.util.List"
+                    select="com.xhuicloud.upms.mapper.SysDeptMapper.listDeptNameByUserId" column="user_id">
+        </collection>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        user_id, username, `password`, avatar, phone, email, sex, create_time, update_time, lock_flag,
+        is_del, tenant_id
+    </sql>
+
+    <sql id="userPageDto">
+      u.user_id,
+      u.username,
+      u.avatar,
+      u.phone,
+      u.sex,
+      u.email,
+      u.create_time,
+      u.update_time,
+      u.is_del,
+      u.lock_flag
+    </sql>
+
+
+    <select id="userPage" resultMap="BaseUserVoResultMap">
+        SELECT
+        <include refid="userPageDto"/>
+        FROM
+        sys_user u
+        <where>
+            <!--      角色筛选条件      -->
+            u.user_id in (
+            SELECT
+            user_id
+            FROM
+            sys_user_role
+            WHERE
+            role_id IN ( SELECT role_id FROM ( SELECT role_id FROM sys_role sr WHERE 1 = 1
+            <if test="query.roleName != null and query.roleName != ''">
+                AND sr.role_name LIKE CONCAT( '%', #{query.roleName}, '%' )
+            </if>
+            ) sr )
+            GROUP BY
+            user_id
+            )
+            <!--      部门筛选条件     -->
+            <if test="query.deptIds.size()>0">
+                AND
+                u.user_id in (
+                SELECT
+                user_id
+                FROM
+                sys_user_dept
+                WHERE
+                1=1 AND
+                dept_id IN
+                <foreach collection="query.deptIds" item="item" open="(" close=")" separator=",">
+                    #{item}
+                </foreach>
+                )
+            </if>
+            <if test="query.text != null and query.text != ''">
+                AND CONCAT(u.username,u.phone,u.email) LIKE CONCAT('%',#{query.text},'%')
+            </if>
+            <if test="query.isDel != 2 and query.isDel != null and query.isDel != ''">
+                AND u.is_del = #{query.isDel}
+            </if>
+        </where>
+        ORDER BY u.create_time DESC
+    </select>
+
+</mapper>

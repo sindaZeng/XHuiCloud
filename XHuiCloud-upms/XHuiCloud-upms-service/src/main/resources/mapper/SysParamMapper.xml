@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xhuicloud.upms.mapper.SysParamMapper">
+  <resultMap id="BaseResultMap" type="com.xhuicloud.upms.entity.SysParam">
+    <!--@mbg.generated-->
+    <!--@Table sys_config-->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="config_name" jdbcType="VARCHAR" property="paramName" />
+    <result column="config_key" jdbcType="VARCHAR" property="paramKey" />
+    <result column="config_value" jdbcType="VARCHAR" property="paramValue" />
+    <result column="config_type" jdbcType="INTEGER" property="paramType" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="sort" jdbcType="INTEGER" property="sort" />
+    <result column="create_id" jdbcType="INTEGER" property="createId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_id" jdbcType="INTEGER" property="updateId" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="is_del" jdbcType="INTEGER" property="isDel" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, config_name, config_key, config_value, config_type, remark, sort, create_id,
+    create_time, update_id, update_time, is_del
+  </sql>
+</mapper>
