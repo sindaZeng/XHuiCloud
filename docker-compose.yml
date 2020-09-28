@@ -1,131 +1,131 @@
 version: '2'
 services:
-  fdp-mysql:
+  xhuicloud-mysql:
     build:
       context: doc/db
     environment:
       MYSQL_ROOT_PASSWORD: root
     restart: always
-    container_name: fdp-mysql
-    image: fdp-mysql
+    container_name: xhuicloud-mysql
+    image: xhuicloud-mysql
     ports:
       - 3306:3306
     volumes:
-      - ./fdp-mysql:/var/lib/mysql
+      - ./xhuicloud-mysql:/var/lib/mysql
     command: --lower_case_table_names=1
 
-  fdp-redis:
-    container_name: fdp-redis
+  xhuicloud-redis:
+    container_name: xhuicloud-redis
     image: redis:5.0.7
     restart: always
     ports:
       - 6379:6379
 
-  fdp-zk:
+  xhuicloud-zk:
     image: zookeeper:3.4.11
     restart: always
-    container_name: fdp-zk
+    container_name: xhuicloud-zk
     ports:
       - 2181:2181
 
-  fdp-register:
+  xhuicloud-register:
     build:
       context: ./FDP-management-business/FDP-register
     environment:
-      - REDIS_HOST=fdp-redis
-      - MYSQL_HOST=fdp-mysql
+      - REDIS_HOST=xhuicloud-redis
+      - MYSQL_HOST=xhuicloud-mysql
       - MYSQL_PORT=3306
       - MYSQL_USER=root
       - MYSQL_PASSWORD=root
     restart: always
-    container_name: fdp-register
-    image: fdp-register
+    container_name: xhuicloud-register
+    image: xhuicloud-register
     ports:
       - 13000:13000
 
-  fdp-gateway:
+  xhuicloud-gateway:
     build:
-      context: ./FDP-management-business/FDP-gateway
+      context: ./FDP-management-business/XHuiCloud-gateway
     environment:
-      - REDIS_HOST=fdp-redis
-      - NACOS_HOST=fdp-register
+      - REDIS_HOST=xhuicloud-redis
+      - NACOS_HOST=xhuicloud-register
       - NACOS_PORT=13000
     restart: always
-    container_name: fdp-gateway
-    image: fdp-gateway
+    container_name: xhuicloud-gateway
+    image: xhuicloud-gateway
     ports:
       - 15000:15000
 
-  fdp-auth:
+  xhuicloud-auth:
     build:
       context: ./FDP-auth
     environment:
-      - REDIS_HOST=fdp-redis
-      - NACOS_HOST=fdp-register
+      - REDIS_HOST=xhuicloud-redis
+      - NACOS_HOST=xhuicloud-register
       - NACOS_PORT=13000
-      - MYSQL_HOST=fdp-mysql
+      - MYSQL_HOST=xhuicloud-mysql
       - MYSQL_PORT=3306
       - MYSQL_USER=root
       - MYSQL_PASSWORD=root
     restart: always
-    container_name: fdp-auth
-    image: fdp-auth
+    container_name: xhuicloud-auth
+    image: xhuicloud-auth
 
-  fdp-upmm:
+  xhuicloud-upmm:
     build:
       context: ./FDP-upmm/FDP-upmm-business
     environment:
-      - REDIS_HOST=fdp-redis
-      - NACOS_HOST=fdp-register
+      - REDIS_HOST=xhuicloud-redis
+      - NACOS_HOST=xhuicloud-register
       - NACOS_PORT=13000
-      - MYSQL_HOST=fdp-mysql
+      - MYSQL_HOST=xhuicloud-mysql
       - MYSQL_PORT=3306
       - MYSQL_USER=root
       - MYSQL_PASSWORD=root
     restart: always
-    container_name: fdp-upmm
-    image: fdp-upmm
+    container_name: xhuicloud-upmm
+    image: xhuicloud-upmm
 
-  fdp-logs:
+  xhuicloud-logs:
     build:
       context: ./FDP-management-business/FDP-logs/FDP-logs-business
     environment:
-      - NACOS_HOST=fdp-register
+      - NACOS_HOST=xhuicloud-register
       - NACOS_PORT=13000
-      - MYSQL_HOST=fdp-mysql
+      - MYSQL_HOST=xhuicloud-mysql
       - MYSQL_PORT=3306
       - MYSQL_USER=root
       - MYSQL_PASSWORD=root
     restart: always
-    container_name: fdp-logs
-    image: fdp-logs
+    container_name: xhuicloud-logs
+    image: xhuicloud-logs
 
-  fdp-pay:
+  xhuicloud-pay:
     build:
       context: ./FDP-management-business/FDP-pay/FDP-pay-business
     environment:
-      - ZK_HOST=fdp-zk
+      - ZK_HOST=xhuicloud-zk
       - ZK_PORT=2181
-      - NACOS_HOST=fdp-register
+      - NACOS_HOST=xhuicloud-register
       - NACOS_PORT=13000
-      - MYSQL_HOST=fdp-mysql
+      - MYSQL_HOST=xhuicloud-mysql
       - MYSQL_PORT=3306
       - MYSQL_USER=root
       - MYSQL_PASSWORD=root
     restart: always
-    container_name: fdp-pay
-    image: fdp-pay
+    container_name: xhuicloud-pay
+    image: xhuicloud-pay
 
-  fdp-gen:
+  xhuicloud-gen:
     build:
       context: ./FDP-management-business/FDP-generator
     environment:
-      - NACOS_HOST=fdp-register
+      - NACOS_HOST=xhuicloud-register
       - NACOS_PORT=13000
-      - MYSQL_HOST=fdp-mysql
+      - MYSQL_HOST=xhuicloud-mysql
       - MYSQL_PORT=3306
       - MYSQL_USER=root
       - MYSQL_PASSWORD=root
     restart: always
-    container_name: fdp-gen
-    image: fdp-gen
+    container_name: xhuicloud-gen
+    image: xhuicloud-gen

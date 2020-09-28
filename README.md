@@ -1,4 +1,4 @@
-- 基于 Spring Cloud、Spring Boot、OAuth2 的RBAC权限管理系统
+- 基于 Spring Cloud Hoxton、Spring Boot、OAuth2 的RBAC权限管理系统
 - 提供对 Docker、Kubernetes、Rancher2 容器化支持
 
 
@@ -8,40 +8,40 @@
 
 #### 目录结构
 ```lua
-FDPlatform
-├── FDP-auth                         -- 认证服务器[16000]
-└── FDP-commons                      -- 公共模块 
-     ├── FDP-common-core             -- 公共核心模块
-     ├── FDP-common-data             -- 数据缓存模块
-     ├── FDP-common-datasource       -- 动态数据源模块
-     ├── FDP-common-elasticJob       -- elasticJob自动配置模块
-     ├── FDP-common-gateway          -- 网关核心模块
-     ├── FDP-common-lock             -- 分布式锁模块
-     ├── FDP-common-logger           -- 统一日志核心模块
-     ├── FDP-common-security         -- 安全模块
-     ├── FDP-common-sentinel         -- 高可用的保证,限流降级模块
-     ├── FDP-common-swagger          -- 接口文档模块
-     ├── FDP-common-transaction      -- 分布式事务模块
-     └── FDP-common-zero             -- 分布式发号器
-├── FDP-dependencies-bom             -- 统一依赖管理
-├── FDP-management-business          -- 系统管理业务模块
-     ├── FDP-gateway                 -- Api网关[15000]
-     ├── FDP-generator               -- 开发平台[21000]
-     ├── FDP-logs                    -- 日志服务器(18000)
-     ├── FDP-pay                     -- 支付中心(20000)
-     ├── FDP-register                -- 注册中心(13000)
-     ├── FDP-sentinel-dashboard      -- Sentinel监控模块(14000)
-     ├── FDP-task                    -- 定时任务模块(8081)
-     └── FDP-transaction-coordinator -- 事务管理模块(8091)
-└── FDP-upmm                         -- 权限管理模块
-     └── FDP-upmm-api                -- 系统权限管理公共api模块
-     └── FDP-upmm-business           -- 系统权限管理业务处理模块[17000]
+XHuiCloud
+├── XHuiCloud-auth                         -- 认证服务器[16000]
+└── XHuiCloud-commons                      -- 公共模块 
+     ├── XHuiCloud-common-core             -- 公共核心模块
+     ├── XHuiCloud-common-data             -- 数据缓存模块
+     ├── XHuiCloud-common-datasource       -- 动态数据源模块
+     ├── XHuiCloud-common-elasticJob       -- elasticJob自动配置模块
+     ├── XHuiCloud-common-gateway          -- 网关核心模块
+     ├── XHuiCloud-common-lock             -- 分布式锁模块
+     ├── XHuiCloud-common-logger           -- 统一日志核心模块
+     ├── XHuiCloud-common-security         -- 安全模块
+     ├── XHuiCloud-common-sentinel         -- 高可用的保证,限流降级模块
+     ├── XHuiCloud-common-swagger          -- 接口文档模块
+     ├── XHuiCloud-common-transaction      -- 分布式事务模块
+     └── XHuiCloud-common-zero             -- 分布式发号器
+├── XHuiCloud-dependencies-bom             -- 统一依赖管理
+├── XHuiCloud-management-business          -- 系统管理业务模块
+     ├── XHuiCloud-gateway                 -- Api网关[15000]
+     ├── XHuiCloud-generator               -- 开发平台[21000]
+     ├── XHuiCloud-logs                    -- 日志服务器(18000)
+     ├── XHuiCloud-pay                     -- 支付中心(20000)
+     ├── XHuiCloud-register                -- 注册中心(13000)
+     ├── XHuiCloud-sentinel-dashboard      -- Sentinel监控模块(14000)
+     ├── XHuiCloud-task                    -- 定时任务模块(8081)
+     └── XHuiCloud-transaction-coordinator -- 事务管理模块(8091)
+└── XHuiCloud-upmm                         -- 权限管理模块
+     └── XHuiCloud-upmm-api                -- 系统权限管理公共api模块
+     └── XHuiCloud-upmm-business           -- 系统权限管理业务处理模块[17000]
 ```
 
 环境准备:
 yum install -y git java maven
 
-git clone https://github.com/sindaZeng/FDPlatform.git
+git clone https://github.com/sindaZeng/XHuiCloud.git
 
 # 运行方式一:
 Docker
@@ -51,7 +51,7 @@ Docker
 - docker-compose build
 - docker-compose up -d
 
-等待执行完毕,编译打包[FDP-UI 前端](https://github.com/sindaZeng/Fdp-ui)
+等待执行完毕,编译打包[XHuiCloud-UI 前端](https://github.com/sindaZeng/Fdp-ui)
 访问  http://localhost:9527/ 
 
 即可愉快玩耍啦~
