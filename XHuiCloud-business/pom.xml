@@ -3,24 +3,22 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>FDPlatform</artifactId>
-        <groupId>com.zsinda</groupId>
+        <artifactId>XHuiCloud</artifactId>
+        <groupId>com.xhuicloud</groupId>
         <version>${revision}</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <packaging>pom</packaging>
-    <artifactId>FDP-management-business</artifactId>
+    <artifactId>XHuiCloud-business</artifactId>
     <description>公共管理业务模块</description>
     <modules>
-        <module>FDP-sentinel-dashboard</module>
-        <module>FDP-gateway</module>
-        <module>FDP-register</module>
-        <module>FDP-transaction-coordinator</module>
-        <module>FDP-task</module>
-        <module>FDP-logs</module>
-        <module>FDP-generator</module>
-        <module>FDP-pay</module>
+        <module>XHuiCloud-sentinel-dashboard</module>
+        <module>XHuiCloud-gateway</module>
+        <module>XHuiCloud-register</module>
+        <module>XHuiCloud-transaction</module>
+        <module>XHuiCloud-task</module>
+        <module>XHuiCloud-logs</module>
+        <module>XHuiCloud-generator</module>
+        <module>XHuiCloud-pay</module>
     </modules>
-
-
 </project>
