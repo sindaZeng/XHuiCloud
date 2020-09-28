@@ -64,8 +64,7 @@ public class SysUserController {
     @GetMapping("/{userName}")
     public R getSysUser(@PathVariable String userName) {
         SysUser user = sysUserService.getOne(Wrappers.<SysUser>query().lambda()
-                .eq(SysUser::getUsername, userName)
-                .eq(SysUser::getIsDel, 1));
+                .eq(SysUser::getUsername, userName));
         if (user == null) {
             return R.failed(null, String.format("用户信息为空 %s", userName));
         }

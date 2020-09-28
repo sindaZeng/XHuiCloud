@@ -1,6 +1,5 @@
 package com.xhuicloud.upms.service.impl;
 
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xhuicloud.upms.entity.SysRouteConf;
 import com.xhuicloud.upms.mapper.SysRouteConfMapper;
@@ -14,7 +13,7 @@ public class SysRouteConfServiceImpl extends ServiceImpl<SysRouteConfMapper, Sys
 
     @Override
     public List<SysRouteConf> getRoutes() {
-        return list(Wrappers.<SysRouteConf>lambdaQuery().eq(SysRouteConf::getIsDel,1));
+        return list();
     }
 
 }

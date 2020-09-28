@@ -24,6 +24,7 @@ import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.net.URI;
 import java.util.List;
@@ -40,6 +41,7 @@ import java.util.List;
 public class RouteInit {
 
     private final RedisTemplate redisTemplate;
+
     private final SysRouteConfService sysRouteConfService;
 
     @Async

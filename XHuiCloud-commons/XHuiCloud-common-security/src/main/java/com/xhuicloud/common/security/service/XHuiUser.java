@@ -3,6 +3,7 @@ package com.xhuicloud.common.security.service;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.SpringSecurityCoreVersion;
 import org.springframework.security.core.userdetails.User;
 
 import java.util.Collection;
@@ -14,6 +15,8 @@ import java.util.Collection;
  * @create: 2019-12-26 00:52
  **/
 public class XHuiUser extends User {
+
+    private static final long serialVersionUID = SpringSecurityCoreVersion.SERIAL_VERSION_UID;
 
     /**
      * 用户ID

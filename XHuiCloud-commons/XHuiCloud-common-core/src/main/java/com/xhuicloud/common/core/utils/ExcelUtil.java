@@ -4,7 +4,7 @@ import cn.hutool.core.convert.Convert;
 import com.xhuicloud.common.core.annotation.Excel;
 import com.xhuicloud.common.core.annotation.Excels;
 import com.xhuicloud.common.core.enums.excel.ColumnType;
-import com.xhuicloud.common.core.enums.excel.type;
+import com.xhuicloud.common.core.enums.excel.ExcelType;
 import com.xhuicloud.common.core.exception.SysException;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -44,7 +44,7 @@ public class ExcelUtil<T> {
     /**
      * 导出类型（EXPORT:导出数据；IMPORT：导入模板）
      */
-    private type type;
+    private ExcelType type;
 
     /**
      * 工作薄对象
@@ -80,7 +80,7 @@ public class ExcelUtil<T> {
         this.clazz = clazz;
     }
 
-    public void init(List<T> list, String sheetName, type type) {
+    public void init(List<T> list, String sheetName, ExcelType type) {
         if (list == null) {
             list = new ArrayList<T>();
         }
@@ -239,7 +239,7 @@ public class ExcelUtil<T> {
                     Excel excel = (Excel) os[1];
                     this.createCell(excel, row, column++);
                 }
-                if (type.EXPORT.equals(type)) {
+                if (ExcelType.EXPORT.equals(type)) {
                     fillExcelData(index, row);
                 }
             }

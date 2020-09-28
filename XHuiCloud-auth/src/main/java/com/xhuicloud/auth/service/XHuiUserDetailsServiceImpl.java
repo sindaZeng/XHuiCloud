@@ -46,7 +46,8 @@ public class XHuiUserDetailsServiceImpl implements XHuiUserDetailsService {
      */
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
-        return getUserDetails(sysUserServiceFeign.getSysUser(userName, IS_COMMING_INNER_YES).getData());
+        UserDetails userDetails = getUserDetails(sysUserServiceFeign.getSysUser(userName, IS_COMMING_INNER_YES).getData());
+        return userDetails;
     }
 
     /**

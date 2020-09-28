@@ -6,11 +6,11 @@ package com.xhuicloud.common.core.enums.excel;
  * @author: Sinda
  * @create: 2020-03-22 16:54
  */
-public enum type {
+public enum ExcelType {
     ALL(0), EXPORT(1), IMPORT(2);
     private final int value;
 
-    type(int value)
+    ExcelType(int value)
     {
         this.value = value;
     }

@@ -5,14 +5,13 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
  * @program: XHuiCloud
- * @description: FdpTaskApplication
+ * @description: XHuiTaskApplication
  * @author: Sinda
  * @create: 2020-03-05 23:15
  */
-
 @SpringBootApplication
-public class FdpTaskApplication {
+public class XHuiTaskApplication {
     public static void main(String[] args) {
-        SpringApplication.run(FdpTaskApplication.class, args);
+        SpringApplication.run(XHuiTaskApplication.class, args);
     }
 }

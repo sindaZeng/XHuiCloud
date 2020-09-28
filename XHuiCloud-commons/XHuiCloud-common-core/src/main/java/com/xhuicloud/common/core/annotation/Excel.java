@@ -1,7 +1,7 @@
 package com.xhuicloud.common.core.annotation;
 
 import com.xhuicloud.common.core.enums.excel.ColumnType;
-import com.xhuicloud.common.core.enums.excel.type;
+import com.xhuicloud.common.core.enums.excel.ExcelType;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -80,5 +80,5 @@ public @interface Excel {
     /**
      * 字段类型（0：导出导入；1：仅导出；2：仅导入）
      */
-    type type() default type.ALL;
+    ExcelType type() default ExcelType.ALL;
 }

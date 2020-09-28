@@ -41,12 +41,12 @@
             sys_menu
             LEFT JOIN sys_role_menu ON sys_menu.menu_id = sys_role_menu.menu_id
             WHERE
-            sys_menu.is_del = 1
+            sys_menu.is_del = 0
             AND sys_role_menu.role_id = #{roleId}
     </select>
 
     <update id="deleteMenu">
-        UPDATE sys_menu SET is_del = 0 WHERE menu_id in
+        UPDATE sys_menu SET is_del = 1 WHERE menu_id in
             <foreach collection="ids" item="item" open="(" close=")" separator=",">
                 #{item}
             </foreach>
