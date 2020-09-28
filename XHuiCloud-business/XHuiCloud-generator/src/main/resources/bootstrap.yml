@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: @artifactId@
+  profiles:
+    active: @profiles.active@
+  cloud:
+    nacos:
+      discovery:
+        server-addr: ${NACOS_HOST:xhuicloud-register}:${NACOS_PORT:13000}
+      config:
+        server-addr: ${NACOS_HOST:xhuicloud-register}:${NACOS_PORT:13000}
+        #后缀 yml
+        file-extension: yml
+        # 公共的配置文件
+        shared-configs:
+          - application-common.yml
+security:
+  oauth2:
+    client:
+      client-id: U2hhcmVCQlM=
+      client-secret: $2a$10$xP0Iv4Pd4kn.7msrJOCiC.ttRprLRk2fo3xbCdmPPLYuDo/H4gcdq
