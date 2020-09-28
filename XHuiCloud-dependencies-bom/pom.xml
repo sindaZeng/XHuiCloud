@@ -4,26 +4,26 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <packaging>pom</packaging>
-    <artifactId>FDP-dependencies-bom</artifactId>
+    <artifactId>XHuiCloud-dependencies-bom</artifactId>
     <description>jar 依赖管理</description>
-    <groupId>com.zsinda</groupId>
+    <groupId>com.xhuicloud</groupId>
     <version>${revision}</version>
     <name>${project.artifactId} ${project.description}</name>
 
     <properties>
         <revision>1.0.0</revision>
-        <mybatis-plus.version>3.3.0</mybatis-plus.version>
+        <mybatis-plus.version>3.4.0</mybatis-plus.version>
         <druid.version>1.1.21</druid.version>
         <mysql.connector.version>8.0.16</mysql.connector.version>
         <oracle.version>11.2.0.3</oracle.version>
         <hutool.version>5.3.10</hutool.version>
-        <mybatis-plus.version>3.2.0</mybatis-plus.version>
         <jjwt.version>0.10.5</jjwt.version>
         <swagger.version>2.9.2</swagger.version>
         <swagger.core.version>1.5.22</swagger.core.version>
         <knife4j.version>2.0.1</knife4j.version>
         <redisson.version>3.12.1</redisson.version>
         <ttl.version>2.11.2</ttl.version>
+        <security.oauth.version>2.3.6.RELEASE</security.oauth.version>
     </properties>
 
     <dependencyManagement>
@@ -31,97 +31,103 @@
 
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>FDP-common-datasource</artifactId>
+                <artifactId>XHuiCloud-common-datasource</artifactId>
                 <version>${revision}</version>
             </dependency>
 
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>FDP-common-data</artifactId>
+                <artifactId>XHuiCloud-common-data</artifactId>
                 <version>${revision}</version>
             </dependency>
 
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>FDP-upmm-api</artifactId>
+                <artifactId>XHuiCloud-upms-api</artifactId>
                 <version>${revision}</version>
             </dependency>
 
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>FDP-common-swagger</artifactId>
+                <artifactId>XHuiCloud-common-swagger</artifactId>
                 <version>${revision}</version>
             </dependency>
 
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>FDP-common-logger</artifactId>
+                <artifactId>XHuiCloud-common-log</artifactId>
                 <version>${revision}</version>
             </dependency>
 
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>FDP-common-transaction</artifactId>
+                <artifactId>XHuiCloud-common-transaction</artifactId>
                 <version>${revision}</version>
             </dependency>
 
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>FDP-common-feign</artifactId>
+                <artifactId>XHuiCloud-common-feign</artifactId>
                 <version>${revision}</version>
             </dependency>
 
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>FDP-common-security</artifactId>
+                <artifactId>XHuiCloud-common-security</artifactId>
                 <version>${revision}</version>
             </dependency>
 
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>FDP-logs-api</artifactId>
+                <artifactId>XHuiCloud-common-gray</artifactId>
                 <version>${revision}</version>
             </dependency>
 
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>FDP-common-sentinel</artifactId>
+                <artifactId>XHuiCloud-logs-api</artifactId>
                 <version>${revision}</version>
             </dependency>
 
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>FDP-common-lock</artifactId>
+                <artifactId>XHuiCloud-common-sentinel</artifactId>
                 <version>${revision}</version>
             </dependency>
 
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>FDP-common-core</artifactId>
+                <artifactId>XHuiCloud-common-lock</artifactId>
                 <version>${revision}</version>
             </dependency>
 
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>FDP-common-gateway</artifactId>
+                <artifactId>XHuiCloud-common-core</artifactId>
                 <version>${revision}</version>
             </dependency>
 
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>FDP-common-elasticJob</artifactId>
+                <artifactId>XHuiCloud-common-gateway</artifactId>
                 <version>${revision}</version>
             </dependency>
 
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>FDP-common-zero</artifactId>
+                <artifactId>XHuiCloud-common-elasticJob</artifactId>
                 <version>${revision}</version>
             </dependency>
 
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>FDP-pay-api</artifactId>
+                <artifactId>XHuiCloud-common-zero</artifactId>
+                <version>${revision}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>XHuiCloud-pay-api</artifactId>
                 <version>${revision}</version>
             </dependency>
 
@@ -231,6 +237,12 @@
                 <groupId>org.redisson</groupId>
                 <artifactId>redisson</artifactId>
                 <version>${redisson.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.security.oauth</groupId>
+                <artifactId>spring-security-oauth2</artifactId>
+                <version>${security.oauth.version}</version>
             </dependency>
 
         </dependencies>
