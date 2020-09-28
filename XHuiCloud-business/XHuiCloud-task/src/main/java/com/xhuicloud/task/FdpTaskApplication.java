@@ -1,10 +1,10 @@
-package com.zsinda.fdp;
+package com.xhuicloud.task;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
- * @program: FDPlatform
+ * @program: XHuiCloud
  * @description: FdpTaskApplication
  * @author: Sinda
  * @create: 2020-03-05 23:15

@@ -10,7 +10,7 @@ spring:
       url: jdbc:mysql://localhost:3306/sys_job?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Asia/Shanghai&allowMultiQueries=true&allowPublicKeyRetrieval=true
       username: root
       password: root
-fdp:
+xhuicloud:
 #  elasticjob:
 #    zookeeper:
 #      namespace: FDP-task

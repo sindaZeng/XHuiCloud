@@ -1,10 +1,10 @@
-//package com.zsinda.fdp.listener;
+//package com.zsinda.xhuicloud.listener;
 //
 //import com.dangdang.ddframe.job.executor.ShardingContexts;
 //import com.dangdang.ddframe.job.lite.api.listener.ElasticJobListener;
 //
 ///**
-// * @program: FDPlatform
+// * @program: XHuiCloud
 // * @description: CustomListener
 // * @author: Sinda
 // * @create: 2020-03-10 14:14

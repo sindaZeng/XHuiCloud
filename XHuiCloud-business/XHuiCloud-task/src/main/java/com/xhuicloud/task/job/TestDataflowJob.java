@@ -1,4 +1,4 @@
-//package com.zsinda.fdp.job;
+//package com.zsinda.xhuicloud.job;
 //
 //import com.dangdang.ddframe.job.api.ShardingContext;
 //import com.dangdang.ddframe.job.api.dataflow.DataflowJob;
@@ -7,7 +7,7 @@
 //import java.util.List;
 //
 ///**
-// * @program: FDPlatform
+// * @program: XHuiCloud
 // * @description: 流式任务
 // * @author: Sinda
 // * @create: 2020-03-08 19:44

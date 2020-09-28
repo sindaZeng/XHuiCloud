@@ -1,13 +1,11 @@
-//package com.zsinda.fdp.job;
+//package com.zsinda.xhuicloud.job;
 //
 //import com.dangdang.ddframe.job.api.JobType;
 //import com.dangdang.ddframe.job.api.ShardingContext;
 //import com.dangdang.ddframe.job.api.simple.SimpleJob;
-//import com.zsinda.fdp.annotation.EnableElasticJob;
-//import com.zsinda.fdp.listener.CustomListener;
 //
 ///**
-// * @program: FDPlatform
+// * @program: XHuiCloud
 // * @description: TestSimpleJob
 // * @author: Sinda
 // * @create: 2020-03-06 11:11
