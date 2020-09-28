@@ -34,6 +34,11 @@
 
         <dependency>
             <groupId>${project.groupId}</groupId>
+            <artifactId>XHuiCloud-upms-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>${project.groupId}</groupId>
             <artifactId>XHuiCloud-common-log</artifactId>
         </dependency>
 

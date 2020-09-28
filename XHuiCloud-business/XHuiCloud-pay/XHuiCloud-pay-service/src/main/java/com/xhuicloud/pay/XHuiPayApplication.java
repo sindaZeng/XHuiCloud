@@ -16,10 +16,10 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 @EnableFeignClients
 @EnableXHuiResourceServer
 @EnableXHuiSwagger
-public class FdpPayApplication {
+public class XHuiPayApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(FdpPayApplication.class, args);
+        SpringApplication.run(XHuiPayApplication.class, args);
     }
 
 }
