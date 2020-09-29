@@ -38,7 +38,7 @@ public class SocialAuthSuccessHandler implements AuthenticationSuccessHandler {
     private ClientDetailsService clientDetailsService;
 
     @Autowired
-    private AuthorizationServerTokenServices authorizationServerTokenServices;
+    private AuthorizationServerTokenServices xHuiDefaultTokenServices;
     @Autowired
     private ObjectMapper objectMapper;
     @Autowired
@@ -74,7 +74,7 @@ public class SocialAuthSuccessHandler implements AuthenticationSuccessHandler {
         OAuth2Request oAuth2Request = tokenRequest.createOAuth2Request(clientDetails);
         OAuth2Authentication oAuth2Authentication = new OAuth2Authentication(oAuth2Request, authentication);
 
-        OAuth2AccessToken token = authorizationServerTokenServices.createAccessToken(oAuth2Authentication);
+        OAuth2AccessToken token = xHuiDefaultTokenServices.createAccessToken(oAuth2Authentication);
         response.setCharacterEncoding(CharsetUtil.UTF_8);
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.getWriter().write(objectMapper.writeValueAsString(token));

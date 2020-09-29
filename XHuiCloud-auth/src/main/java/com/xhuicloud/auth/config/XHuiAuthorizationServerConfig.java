@@ -1,9 +1,13 @@
 package com.xhuicloud.auth.config;
 
+import com.xhuicloud.auth.service.XHuiDefaultTokenServices;
+import com.xhuicloud.auth.service.XHuiRedisTokenStore;
 import com.xhuicloud.common.core.constant.AuthorizationConstants;
 import com.xhuicloud.common.security.component.XHuiWebResponseExceptionTranslator;
 import com.xhuicloud.common.security.service.XHuiUserDetailsService;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
@@ -16,6 +20,8 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
+import org.springframework.security.oauth2.provider.token.AuthorizationServerTokenServices;
+import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
@@ -30,7 +36,7 @@ import javax.sql.DataSource;
  **/
 @Configuration
 @EnableAuthorizationServer
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class XHuiAuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 
     private final AuthenticationManager authenticationManager;
@@ -41,10 +47,14 @@ public class XHuiAuthorizationServerConfig extends AuthorizationServerConfigurer
 
     private final RedisConnectionFactory redisConnectionFactory;
 
-    private final TokenEnhancer fdpTokenEnhancer;
+    private final TokenEnhancer xhuiTokenEnhancer;
+
+    @Value("${xhui.one.login:true}")
+    private Boolean oneLogin;
 
     /**
      * 配置客户端信息
+     *
      * @param clientDetailsServiceConfigurer
      * @throws Exception
      */
@@ -55,8 +65,7 @@ public class XHuiAuthorizationServerConfig extends AuthorizationServerConfigurer
 
     @Bean
     public TokenStore tokenStore() {
-        RedisTokenStore tokenStore = new RedisTokenStore(redisConnectionFactory);
-        return tokenStore;
+        return new XHuiRedisTokenStore(redisConnectionFactory);
     }
 
     @Override
@@ -65,16 +74,15 @@ public class XHuiAuthorizationServerConfig extends AuthorizationServerConfigurer
                 .checkTokenAccess("isAuthenticated()");
     }
 
-//    public DefaultTokenServices defaultTokenServices() {
-//        DefaultTokenServices tokenServices = new DefaultTokenServices();
-//        tokenServices.setTokenStore(tokenStore());
-//        tokenServices.setSupportRefreshToken(true);
-//        // token有效期自定义设置，90天
-//        tokenServices.setAccessTokenValiditySeconds(60 * 60 * 24 * 900);
-//        // refresh_token 90天
-//        tokenServices.setRefreshTokenValiditySeconds(60 * 60 * 24 * 900);
-//        return tokenServices;
-//    }
+    public AuthorizationServerTokenServices xHuiDefaultTokenServices() {
+        XHuiDefaultTokenServices xHuiDefaultTokenServices = new XHuiDefaultTokenServices();
+        xHuiDefaultTokenServices.setTokenEnhancer(xhuiTokenEnhancer);
+        xHuiDefaultTokenServices.setTokenStore(tokenStore());
+        xHuiDefaultTokenServices.setAuthenticationManager(authenticationManager);
+        xHuiDefaultTokenServices.setClientDetailsService(XHuiTenantClientDetailsServiceImpl);
+        xHuiDefaultTokenServices.setOneLogin(oneLogin);
+        return xHuiDefaultTokenServices;
+    }
 
     /**
      * 配置有哪些用户可以来访问认证服务器
@@ -84,9 +92,10 @@ public class XHuiAuthorizationServerConfig extends AuthorizationServerConfigurer
         endpoints
                 .allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST)
                 .tokenStore(tokenStore())
-                .tokenEnhancer(fdpTokenEnhancer)
+                .tokenEnhancer(xhuiTokenEnhancer)
                 .userDetailsService(XHuiUserDetailsService)
                 .authenticationManager(authenticationManager)//校验用户信息是否合法
+                .tokenServices(xHuiDefaultTokenServices())
                 .reuseRefreshTokens(false)
                 .pathMapping("/oauth/confirm_access", "/token/confirm_access")//设置成自己的授权页面
                 .exceptionTranslator(new XHuiWebResponseExceptionTranslator()); //修改Oauth2定义的错误信息 为我们定义的错误信息
