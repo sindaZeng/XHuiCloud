@@ -49,7 +49,7 @@ public class XHuiAuthorizationServerConfig extends AuthorizationServerConfigurer
 
     private final TokenEnhancer xhuiTokenEnhancer;
 
-    @Value("${xhui.one.login:true}")
+    @Value("${xhui.one.login.enable:true}")
     private Boolean oneLogin;
 
     /**

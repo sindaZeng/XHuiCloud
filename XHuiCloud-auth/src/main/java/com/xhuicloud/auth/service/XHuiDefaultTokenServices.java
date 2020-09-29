@@ -1,10 +1,8 @@
 package com.xhuicloud.auth.service;
 
 import cn.hutool.core.util.ObjectUtil;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.context.annotation.Primary;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
