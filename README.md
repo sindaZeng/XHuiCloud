@@ -15,24 +15,29 @@ XHuiCloud
      ├── XHuiCloud-common-data             -- 数据缓存模块
      ├── XHuiCloud-common-datasource       -- 动态数据源模块
      ├── XHuiCloud-common-elasticJob       -- elasticJob自动配置模块
+     ├── XHuiCloud-common-feign            -- 公共feign
      ├── XHuiCloud-common-gateway          -- 网关核心模块
+     ├── XHuiCloud-common-gray             -- 灰度发布
      ├── XHuiCloud-common-lock             -- 分布式锁模块
-     ├── XHuiCloud-common-logger           -- 统一日志核心模块
+     ├── XHuiCloud-common-log              -- 公共日志核心
+     ├── XHuiCloud-common-rabbitMq         -- rabbitMqp配置模块
      ├── XHuiCloud-common-security         -- 安全模块
      ├── XHuiCloud-common-sentinel         -- 高可用的保证,限流降级模块
      ├── XHuiCloud-common-swagger          -- 接口文档模块
      ├── XHuiCloud-common-transaction      -- 分布式事务模块
+     ├── XHuiCloud-common-xxl              -- XXL-JOB配置模块
      └── XHuiCloud-common-zero             -- 分布式发号器
 ├── XHuiCloud-dependencies-bom             -- 统一依赖管理
 ├── XHuiCloud-management-business          -- 系统管理业务模块
      ├── XHuiCloud-gateway                 -- Api网关[15000]
      ├── XHuiCloud-generator               -- 开发平台[21000]
      ├── XHuiCloud-logs                    -- 日志服务器(18000)
-     ├── XHuiCloud-pay                     -- 支付中心(20000)
+     ├── XHuiCloud-pay                     -- 支付中心(23000)
+     ├── XHuiCloud-push                    -- 统一推送中心(22000)
      ├── XHuiCloud-register                -- 注册中心(13000)
      ├── XHuiCloud-sentinel-dashboard      -- Sentinel监控模块(14000)
-     ├── XHuiCloud-task                    -- 定时任务模块(8081)
-     └── XHuiCloud-transaction-coordinator -- 事务管理模块(8091)
+     ├── XHuiCloud-transaction             -- 事务管理模块(8091)
+     └── XHuiCloud-xxl-admin               -- 事务管理模块(20000)
 └── XHuiCloud-upmm                         -- 权限管理模块
      └── XHuiCloud-upmm-api                -- 系统权限管理公共api模块
      └── XHuiCloud-upmm-business           -- 系统权限管理业务处理模块[17000]
@@ -51,7 +56,7 @@ Docker
 - docker-compose build
 - docker-compose up -d
 
-等待执行完毕,编译打包[XHuiCloud-UI 前端](https://github.com/sindaZeng/Fdp-ui)
+等待执行完毕,编译打包[XHuiCloud-UI 前端](https://github.com/sindaZeng/xhuicloud-ui)
 访问  http://localhost:9527/ 
 
 即可愉快玩耍啦~

@@ -13,19 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.alibaba.nacos.controller;
 
-import com.alibaba.nacos.common.model.RestResult;
-import com.alibaba.nacos.core.auth.ActionTypes;
-import com.alibaba.nacos.core.auth.Secured;
-import com.alibaba.nacos.nacos.NacosAuthConfig;
-import com.alibaba.nacos.nacos.roles.NacosRoleServiceImpl;
+import com.alibaba.nacos.auth.annotation.Secured;
+import com.alibaba.nacos.auth.common.ActionTypes;
+import com.alibaba.nacos.common.model.RestResultUtils;
+import com.alibaba.nacos.security.nacos.NacosAuthConfig;
+import com.alibaba.nacos.security.nacos.roles.NacosRoleServiceImpl;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * Permission operation controller
+ * Permission operation controller.
  *
  * @author nkorange
  * @since 1.2.0
@@ -38,7 +39,7 @@ public class PermissionController {
 	private NacosRoleServiceImpl nacosRoleService;
 
 	/**
-	 * Query permissions of a role
+	 * Query permissions of a role.
 	 * @param role the role
 	 * @param pageNo page index
 	 * @param pageSize page size
@@ -47,12 +48,12 @@ public class PermissionController {
 	@GetMapping
 	@Secured(resource = NacosAuthConfig.CONSOLE_RESOURCE_NAME_PREFIX + "permissions", action = ActionTypes.READ)
 	public Object getPermissions(@RequestParam int pageNo, @RequestParam int pageSize,
-                                 @RequestParam(name = "role", defaultValue = StringUtils.EMPTY) String role) {
+			@RequestParam(name = "role", defaultValue = StringUtils.EMPTY) String role) {
 		return nacosRoleService.getPermissionsFromDatabase(role, pageNo, pageSize);
 	}
 
 	/**
-	 * Add a permission to a role
+	 * Add a permission to a role.
 	 * @param role the role
 	 * @param resource the related resource
 	 * @param action the related action
@@ -62,11 +63,11 @@ public class PermissionController {
 	@Secured(resource = NacosAuthConfig.CONSOLE_RESOURCE_NAME_PREFIX + "permissions", action = ActionTypes.WRITE)
 	public Object addPermission(@RequestParam String role, @RequestParam String resource, @RequestParam String action) {
 		nacosRoleService.addPermission(role, resource, action);
-		return new RestResult<>(200, "add permission ok!");
+		return RestResultUtils.success("add permission ok!");
 	}
 
 	/**
-	 * Delete a permission from a role
+	 * Delete a permission from a role.
 	 * @param role the role
 	 * @param resource the related resource
 	 * @param action the related action
@@ -75,9 +76,9 @@ public class PermissionController {
 	@DeleteMapping
 	@Secured(resource = NacosAuthConfig.CONSOLE_RESOURCE_NAME_PREFIX + "permissions", action = ActionTypes.WRITE)
 	public Object deletePermission(@RequestParam String role, @RequestParam String resource,
-                                   @RequestParam String action) {
+			@RequestParam String action) {
 		nacosRoleService.deletePermission(role, resource, action);
-		return new RestResult<>(200, "delete permission ok!");
+		return RestResultUtils.success("delete permission ok!");
 	}
 
 }

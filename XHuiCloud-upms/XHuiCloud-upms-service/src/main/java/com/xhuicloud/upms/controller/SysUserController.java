@@ -3,9 +3,9 @@ package com.xhuicloud.upms.controller;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xhuicloud.common.core.utils.ExcelUtil;
-import com.xhuicloud.common.core.utils.R;
+import com.xhuicloud.common.core.utils.Response;
 import com.xhuicloud.common.log.annotation.SysLog;
-import com.xhuicloud.common.security.annotation.Inner;
+import com.xhuicloud.common.security.annotation.NoAuth;
 import com.xhuicloud.common.security.utils.SecurityHolder;
 import com.xhuicloud.upms.dto.UserDto;
 import com.xhuicloud.upms.entity.SysUser;
@@ -34,8 +34,8 @@ public class SysUserController {
      * @return
      */
     @GetMapping("/page")
-    public R page(Page page, UserDto userDto) {
-        return R.ok(sysUserService.userPage(page, userDto));
+    public Response page(Page page, UserDto userDto) {
+        return Response.success(sysUserService.userPage(page, userDto));
     }
 
     /**
@@ -44,14 +44,14 @@ public class SysUserController {
      * @return
      */
     @GetMapping("/info")
-    public R info() {
+    public Response info() {
         String username = SecurityHolder.getUser().getUsername();
         SysUser user = sysUserService.getOne(Wrappers.<SysUser>query()
                 .lambda().eq(SysUser::getUsername, username));
         if (user == null) {
-            return R.failed(null, "获取当前用户信息失败");
+            return Response.failed(null, "获取当前用户信息失败");
         }
-        return R.ok(sysUserService.getSysUser(user));
+        return Response.success(sysUserService.getSysUser(user));
     }
 
     /**
@@ -60,15 +60,15 @@ public class SysUserController {
      * @param userName
      * @return
      */
-    @Inner
-    @GetMapping("/{userName}")
-    public R getSysUser(@PathVariable String userName) {
+    @NoAuth
+    @GetMapping("/info/{userName}")
+    public Response getSysUser(@PathVariable String userName) {
         SysUser user = sysUserService.getOne(Wrappers.<SysUser>query().lambda()
                 .eq(SysUser::getUsername, userName));
         if (user == null) {
-            return R.failed(null, String.format("用户信息为空 %s", userName));
+            return Response.failed(null, String.format("用户信息为空 %s", userName));
         }
-        return R.ok(sysUserService.getSysUser(user));
+        return Response.success(sysUserService.getSysUser(user));
     }
 
     /**
@@ -79,8 +79,8 @@ public class SysUserController {
     @SysLog("添加用户")
     @PostMapping
     @PreAuthorize("@authorize.hasPermission('sys_add_user')")
-    public R save(@Valid @RequestBody SysUser sysUser) {
-        return R.ok(sysUserService.saveUser(sysUser));
+    public Response save(@Valid @RequestBody SysUser sysUser) {
+        return Response.success(sysUserService.saveUser(sysUser));
     }
 
     /**
@@ -94,10 +94,10 @@ public class SysUserController {
     @SysLog("导入用户")
     @PostMapping("/import")
     @PreAuthorize("@authorize.hasPermission('sys_import_user')")
-    public R importUser(MultipartFile file, boolean updateSupport) throws Exception {
+    public Response importUser(MultipartFile file, boolean updateSupport) throws Exception {
         ExcelUtil<SysUser> excelUtil = new ExcelUtil<>(SysUser.class);
         List<SysUser> userList = excelUtil.importExcel(file.getInputStream());
-        return R.ok(sysUserService.importUser(userList, updateSupport));
+        return Response.success(sysUserService.importUser(userList, updateSupport));
     }
 
     /**
@@ -109,8 +109,8 @@ public class SysUserController {
     @SysLog("编辑用户")
     @PutMapping
     @PreAuthorize("@authorize.hasPermission('sys_editor_user')")
-    public R update(@Valid @RequestBody SysUser sysUser) {
-        return R.ok(sysUserService.updateUser(sysUser));
+    public Response update(@Valid @RequestBody SysUser sysUser) {
+        return Response.success(sysUserService.updateUser(sysUser));
     }
 
     /**
@@ -122,8 +122,8 @@ public class SysUserController {
     @SysLog("开启/禁用用户")
     @DeleteMapping("/{id}")
     @PreAuthorize("@authorize.hasPermission('sys_delete_user')")
-    public R delete(@PathVariable Integer id) {
-        return R.ok(sysUserService.deleteUser(id));
+    public Response delete(@PathVariable Integer id) {
+        return Response.success(sysUserService.deleteUser(id));
     }
 
     /**
@@ -135,7 +135,7 @@ public class SysUserController {
     @SysLog("锁定/解锁用户")
     @PostMapping("/{id}")
     @PreAuthorize("@authorize.hasPermission('sys_ban_user')")
-    public R lock(@PathVariable Integer id) {
-        return R.ok(sysUserService.lock(id));
+    public Response lock(@PathVariable Integer id) {
+        return Response.success(sysUserService.lock(id));
     }
 }

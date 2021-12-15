@@ -58,7 +58,7 @@ public class PayChannel implements Serializable {
     /**
      * 创建时间
      */
-    @ApiModelProperty(value="创建时间")
+    @ApiModelProperty(value = "创建时间", hidden = true)
     private LocalDateTime createTime;
 
     /**

@@ -54,6 +54,12 @@
         </filter>
     </appender>
 
+    <!-- ELK 输出到logstash-->
+    <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+        <destination>120.77.221.194:4560</destination>
+        <encoder charset="UTF-8" class="net.logstash.logback.encoder.LogstashEncoder"/>
+    </appender>
+
     <!-- 全环境 屏蔽 nacos 心跳 INFO -->
     <logger name="com.alibaba.nacos" level="OFF">
         <appender-ref ref="error"/>

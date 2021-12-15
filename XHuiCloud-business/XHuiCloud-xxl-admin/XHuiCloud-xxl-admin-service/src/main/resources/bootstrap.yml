@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: @artifactId@
+  profiles:
+    active: @profiles.active@
+  cloud:
+    nacos:
+      discovery:
+        #nacos 地址
+        server-addr: ${NACOS_HOST:xhuicloud-register}:${NACOS_PORT:13000}
+      config:
+        server-addr: ${NACOS_HOST:xhuicloud-register}:${NACOS_PORT:13000}
+        #后缀 yml
+        file-extension: yml
+server:
+  port: 20000

@@ -58,18 +58,18 @@ public class SecurityHolder {
 	 *
 	 * @return 角色集合
 	 */
-	public List<Integer> getRoles() {
+	public List<String> getRoles() {
 		Authentication authentication = getAuthentication();
 		Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
 
-		List<Integer> roleIds = new ArrayList<>();
+		List<String> roleCodes = new ArrayList<>();
 		authorities.stream()
 				.filter(granted -> StrUtil.startWith(granted.getAuthority(), ROLE_PREFIX))
 				.forEach(granted -> {
-					String id = StrUtil.removePrefix(granted.getAuthority(), ROLE_PREFIX);
-					roleIds.add(Integer.parseInt(id));
+					String code = StrUtil.removePrefix(granted.getAuthority(), ROLE_PREFIX);
+					roleCodes.add(code);
 				});
-		return roleIds;
+		return roleCodes;
 	}
 
 }

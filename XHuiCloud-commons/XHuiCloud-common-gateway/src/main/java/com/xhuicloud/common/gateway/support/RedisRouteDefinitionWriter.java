@@ -21,6 +21,7 @@ import java.util.List;
 @Component
 @AllArgsConstructor
 public class RedisRouteDefinitionWriter implements RouteDefinitionRepository {
+
 	private final RedisTemplate redisTemplate;
 
 	@Override

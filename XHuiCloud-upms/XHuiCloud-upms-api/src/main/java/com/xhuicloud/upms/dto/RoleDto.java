@@ -24,6 +24,6 @@ public class RoleDto {
 
     public RoleDto(SysRole sysRole) {
         this.label = sysRole.getRoleName();
-        this.value = sysRole.getRoleId();
+        this.value = sysRole.getId();
     }
 }

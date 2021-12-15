@@ -30,6 +30,11 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     }
 
     @Override
+    public List<MenuVO> findMenuByRoleCode(String roleCode) {
+        return baseMapper.listMenusByRoleCode(roleCode);
+    }
+
+    @Override
     @Transactional(rollbackFor = Exception.class)
     public Boolean saveMenu(SysMenu sysMenu) {
         if (sysMenu.getType() == 0 && StringUtils.isEmpty(sysMenu.getPath())) {
@@ -47,11 +52,11 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     public Boolean deleteMenu(Integer id) {
         // 查询当前节点的节点
         SysMenu sysMenu = getOne(Wrappers.<SysMenu>query()
-                .lambda().eq(SysMenu::getMenuId, id));
+                .lambda().eq(SysMenu::getId, id));
         if (ObjectUtils.isNotEmpty(sysMenu)) {
             List<Integer> ids = Lists.newArrayList();
             if (sysMenu.getIsDel() == 1) {
-                ids.add(sysMenu.getMenuId());
+                ids.add(sysMenu.getId());
                 // 禁用逻辑
                 // 查询当前节点的子节点 孙子节点 等等
                 getChildMenus(ids, id);
@@ -84,7 +89,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
      */
     private void getChildMenus(List<Integer> menuList, Integer id) {
         List<Integer> childMenuList = list(Wrappers.<SysMenu>query()
-                .lambda().eq(SysMenu::getParentId, id)).stream().map(SysMenu::getMenuId).collect(Collectors.toList());
+                .lambda().eq(SysMenu::getParentId, id)).stream().map(SysMenu::getId).collect(Collectors.toList());
         menuList.addAll(childMenuList);
         childMenuList.forEach(menu -> {
             getChildMenus(menuList, menu);

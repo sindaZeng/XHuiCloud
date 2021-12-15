@@ -1,13 +1,15 @@
 package com.xhuicloud.upms.entity;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.extension.activerecord.Model;
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
@@ -15,12 +17,12 @@ import java.time.LocalDateTime;
  */
 @Data
 @ApiModel(value = "菜单")
-public class SysMenu implements Serializable {
+public class SysMenu extends Model<SysMenu> {
     /**
      * 菜单id
      */
     @TableId(type = IdType.AUTO)
-    private Integer menuId;
+    private Integer id;
 
     /**
      * 菜单名称
@@ -49,20 +51,6 @@ public class SysMenu implements Serializable {
      */
     private String icon;
 
-    /**
-     * 创建时间
-     */
-    private LocalDateTime createTime;
-
-    /**
-     * 修改时间
-     */
-    private LocalDateTime updateTime;
-
-    /**
-     * 0:否 1:是
-     */
-    private Integer isDel;
 
     /**
      * 父菜单ID
@@ -81,5 +69,36 @@ public class SysMenu implements Serializable {
     @NotNull(message = "菜单类型不能为空")
     private Integer type;
 
-    private static final long serialVersionUID = 1L;
+    /**
+     * 创建时间
+     */
+    @ApiModelProperty(value = "创建时间", hidden = true)
+    private LocalDateTime createTime;
+
+    /**
+     * 创建者id
+     */
+    @ApiModelProperty(value = "创建者id", hidden = true)
+    @TableField(fill = FieldFill.INSERT)
+    private Integer createId;
+
+    /**
+     * 更新时间
+     */
+    @ApiModelProperty(value = "更新时间", hidden = true)
+    private LocalDateTime updateTime;
+
+    /**
+     * 更新者id
+     */
+    @ApiModelProperty(value = "更新者id", hidden = true)
+    @TableField(fill = FieldFill.UPDATE)
+    private Integer updateId;
+
+    /**
+     * 0:否 1:是
+     */
+    @ApiModelProperty(value="0:否 1:是")
+    private Integer isDel;
+
 }

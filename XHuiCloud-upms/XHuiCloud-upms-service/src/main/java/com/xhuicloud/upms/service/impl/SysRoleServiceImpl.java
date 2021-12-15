@@ -37,9 +37,9 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     }
 
     @Override
-    @Cacheable(value = CacheConstants.SYS_ROLE_IDS, unless = "#result == null")
+    @Cacheable(value = CacheConstants.SYS_ROLE, unless = "#result == null")
     public List<Integer> getAllRoleIds() {
-        return list(Wrappers.emptyWrapper()).stream().map(SysRole::getRoleId).collect(Collectors.toList());
+        return list(Wrappers.emptyWrapper()).stream().map(SysRole::getId).collect(Collectors.toList());
     }
 
 }

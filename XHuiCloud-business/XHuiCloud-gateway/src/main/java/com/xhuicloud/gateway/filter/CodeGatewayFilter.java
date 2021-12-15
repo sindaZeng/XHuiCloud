@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xhuicloud.common.core.constant.SecurityConstants;
 import com.xhuicloud.common.core.enums.login.LoginTypeEnum;
 import com.xhuicloud.common.core.exception.ValidateCodeException;
-import com.xhuicloud.common.core.utils.R;
+import com.xhuicloud.common.core.utils.Response;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -72,7 +72,7 @@ public class CodeGatewayFilter extends AbstractGatewayFilterFactory {
                 try {
                     return response.writeWith(Mono.just(response.bufferFactory()
                             .wrap(objectMapper.writeValueAsBytes(
-                                    R.failed(e.getMessage())))));
+                                    Response.failed(e.getMessage())))));
                 } catch (JsonProcessingException e1) {
                     log.error("对象输出异常", e1);
                 }

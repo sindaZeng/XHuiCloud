@@ -1,9 +1,9 @@
 package com.xhuicloud.logs.controller;
 
-import com.xhuicloud.common.security.annotation.Inner;
+import com.xhuicloud.common.security.annotation.NoAuth;
 import com.xhuicloud.logs.entity.SysLog;
 import com.xhuicloud.logs.service.SysLogService;
-import com.xhuicloud.common.core.utils.R;
+import com.xhuicloud.common.core.utils.Response;
 import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,10 +25,10 @@ public class SysLogController {
 
     private final SysLogService sysLogService;
 
-    @Inner
+    @NoAuth
     @PostMapping("save")
-    public R save(@RequestBody SysLog sysLog) {
-        return R.ok(sysLogService.save(sysLog));
+    public Response save(@RequestBody SysLog sysLog) {
+        return Response.success(sysLogService.save(sysLog));
     }
 
 }

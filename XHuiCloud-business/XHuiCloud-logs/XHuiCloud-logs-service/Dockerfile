@@ -6,12 +6,12 @@ ENV TZ=Asia/Shanghai
 
 RUN ln -sf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
-RUN mkdir -p /FDP-logs-business
+RUN mkdir -p /XHuicloud-logs-service
 
-WORKDIR /FDP-logs-business
+WORKDIR /XHuicloud-logs-service
 
 EXPOSE 18000
 
-ADD ./target/FDP-logs-business.jar ./
+ADD ./target/XHuiCloud-logs-service.jar ./
 
-CMD sleep 120;java -Xms128m -Xmx256m -jar FDP-logs-business.jar
+CMD sleep 60;java -Xms256m -Xmx512m -Djava.security.egd=file:/dev/./urandom -jar XHuiCloud-logs-service.jar

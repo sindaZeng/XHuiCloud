@@ -10,7 +10,7 @@ import com.jpay.alipay.AliPayApiConfigKit;
 import com.xhuicloud.common.core.enums.pay.PayTypeEnum;
 import com.xhuicloud.pay.entity.PayChannel;
 import com.xhuicloud.pay.service.PayChannelService;
-import com.xhuicloud.common.datasource.tenant.XHuiTenantHolder;
+import com.xhuicloud.common.data.tenant.XHuiTenantHolder;
 import com.xhuicloud.upms.entity.SysTenant;
 import com.xhuicloud.upms.feign.SysTenantServiceFeign;
 import lombok.AllArgsConstructor;

@@ -20,12 +20,13 @@ public abstract class AbstractAuthenticationSuccessEventHandler implements Appli
 
     @Override
     public void onApplicationEvent(AuthenticationSuccessEvent event) {
+        Authentication authentication = (Authentication) event.getSource();
+
         ServletRequestAttributes requestAttributes = (ServletRequestAttributes)
                 RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = requestAttributes.getRequest();
         HttpServletResponse response = requestAttributes.getResponse();
 
-        Authentication authentication = (Authentication) event.getSource();
         if (CollUtil.isNotEmpty(authentication.getAuthorities())) {
             handle(authentication, request, response);
         }

@@ -16,6 +16,8 @@
         <result column="lock_flag" jdbcType="INTEGER" property="lockFlag"/>
         <result column="is_del" jdbcType="INTEGER" property="isDel"/>
         <result column="tenant_id" jdbcType="INTEGER" property="tenantId"/>
+        <result column="create_id" jdbcType="INTEGER" property="createId" />
+        <result column="update_id" jdbcType="INTEGER" property="updateId" />
     </resultMap>
 
     <resultMap id="BaseUserVoResultMap" type="com.xhuicloud.upms.vo.UserVo" extends="BaseResultMap">
@@ -30,7 +32,7 @@
     <sql id="Base_Column_List">
         <!--@mbg.generated-->
         user_id, username, `password`, avatar, phone, email, sex, create_time, update_time, lock_flag,
-        is_del, tenant_id
+        is_del, tenant_id, create_id, update_id
     </sql>
 
     <sql id="userPageDto">
@@ -69,7 +71,7 @@
             user_id
             )
             <!--      部门筛选条件     -->
-            <if test="query.deptIds.size()>0">
+            <if test="null != query.deptIds and query.deptIds.size() >0">
                 AND
                 u.user_id in (
                 SELECT

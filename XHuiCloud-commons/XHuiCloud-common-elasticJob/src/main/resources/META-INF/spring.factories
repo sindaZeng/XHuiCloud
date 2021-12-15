@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-com.xhuicloud.common.elasticJob.configuration.ElasticJobAutoConfiguration
+com.xhuicloud.common.elasticJob.XHuiElasticJobAutoConfiguration

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xhuicloud.push.mapper.PushTemplateMapper">
+  <resultMap id="BaseResultMap" type="com.xhuicloud.push.entity.PushTemplate">
+    <!--@mbg.generated-->
+    <!--@Table push_template-->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="tenant_id" jdbcType="INTEGER" property="tenantId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="is_del" jdbcType="BOOLEAN" property="isDel" />
+    <result column="create_id" jdbcType="INTEGER" property="createId" />
+    <result column="update_id" jdbcType="INTEGER" property="updateId" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="channel" jdbcType="VARCHAR" property="channel" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="status" jdbcType="BOOLEAN" property="status" />
+    <result column="kv" jdbcType="VARCHAR" property="kv" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, tenant_id, create_time, update_time, is_del, create_id, update_id, remark, channel, 
+    content, `status`, kv
+  </sql>
+</mapper>

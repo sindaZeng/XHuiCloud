@@ -8,9 +8,9 @@
     <meta content="telephone=no" name="format-detection">
     <meta content="email=no" name="format-detection">
     <link rel="stylesheet" href="https://act.weixin.qq.com/static/cdn/css/wepayui/0.1.1/wepayui.min.css">
-    <link rel="stylesheet" href="/FDP-pay-business/css/pay.css">
-    <link rel="stylesheet" href="/FDP-pay-business/css/keyboard.css">
-    <link rel="stylesheet" href="/FDP-pay-business/css/tenant.css">
+    <link rel="stylesheet" href="/XHuiCloud-pay-service/css/pay.css">
+    <link rel="stylesheet" href="/XHuiCloud-pay-service/css/keyboard.css">
+    <link rel="stylesheet" href="/XHuiCloud-pay-service/css/tenant.css">
     <title>商户收款</title>
 </head>
 <!--

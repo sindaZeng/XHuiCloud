@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.xhuicloud.common.gray.GlobalGrayRibbonLoadBalancerConfiguration
+  com.xhuicloud.common.gray.GrayLoadBalancerAutoConfiguration

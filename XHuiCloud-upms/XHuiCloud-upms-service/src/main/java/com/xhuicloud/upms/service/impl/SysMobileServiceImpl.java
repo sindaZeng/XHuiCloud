@@ -2,7 +2,7 @@ package com.xhuicloud.upms.service.impl;
 
 import cn.hutool.core.util.RandomUtil;
 import com.xhuicloud.common.core.constant.SecurityConstants;
-import com.xhuicloud.common.core.utils.R;
+import com.xhuicloud.common.core.utils.Response;
 import com.xhuicloud.upms.service.SysMobileService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,12 +30,12 @@ public class SysMobileServiceImpl implements SysMobileService {
      * @return code
      */
     @Override
-    public R<Boolean> sendSmsCode(String mobile) {
+    public Response<Boolean> sendSmsCode(String mobile) {
 
         Object codeObj = redisTemplate.opsForValue().get(SecurityConstants.CODE_KEY + mobile);
         if (codeObj != null) {
             log.info("验证码未过期:{}，{}", mobile, codeObj);
-            return R.ok(Boolean.FALSE, "验证码发送过频繁");
+            return Response.success(Boolean.FALSE, "验证码发送过频繁");
         }
 
         String code = RandomUtil.randomNumbers(6);
@@ -43,6 +43,6 @@ public class SysMobileServiceImpl implements SysMobileService {
         redisTemplate.opsForValue().set(
                 SecurityConstants.CODE_KEY + mobile
                 , code, SecurityConstants.CODE_TIME, TimeUnit.SECONDS);
-        return R.ok(Boolean.TRUE);
+        return Response.success(Boolean.TRUE);
     }
 }

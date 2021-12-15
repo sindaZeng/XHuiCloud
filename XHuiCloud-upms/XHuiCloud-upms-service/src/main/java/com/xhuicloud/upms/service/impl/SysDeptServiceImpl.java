@@ -22,26 +22,26 @@ import java.util.stream.Collectors;
 public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> implements SysDeptService {
 
     @Override
-    @Cacheable(value = CacheConstants.SYS_DEPT_IDS, unless = "#result == null")
+    @Cacheable(value = CacheConstants.SYS_DEPT, unless = "#result == null")
     public List<Integer> getAllDeptIds() {
-        return list(Wrappers.emptyWrapper()).stream().map(SysDept::getDeptId).collect(Collectors.toList());
+        return list(Wrappers.emptyWrapper()).stream().map(SysDept::getId).collect(Collectors.toList());
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    @CacheEvict(value = CacheConstants.SYS_DEPT_IDS, allEntries = true)
+    @CacheEvict(value = CacheConstants.SYS_DEPT, allEntries = true)
     public Boolean saveDept(SysDept sysDept) {
         return save(sysDept);
     }
 
     @Override
-    @CacheEvict(value = CacheConstants.SYS_DEPT_IDS, allEntries = true)
+    @CacheEvict(value = CacheConstants.SYS_DEPT, allEntries = true)
     public Boolean deleteDept(Integer id) {
         return null;
     }
 
     @Override
-    @CacheEvict(value = CacheConstants.SYS_DEPT_IDS, allEntries = true)
+    @CacheEvict(value = CacheConstants.SYS_DEPT, allEntries = true)
     public Boolean updateDept(SysDept sysDept) {
         return null;
     }
@@ -52,7 +52,7 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
         List<List<Integer>> depts = Lists.newArrayList();
         for (DeptVo deptVo : deptVos) {
             List<Integer> oneDepts = Lists.newArrayList();
-            completeDepts(sysDepts, deptVo.getDeptId(), oneDepts);
+            completeDepts(sysDepts, deptVo.getId(), oneDepts);
             Collections.sort(oneDepts);
             depts.add(oneDepts);
         }
@@ -67,7 +67,7 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
      */
     private void completeDepts(List<SysDept> sysDepts, Integer deptId, List<Integer> oneDepts) {
         for (SysDept sysDept : sysDepts) {
-            if (deptId == sysDept.getDeptId()) {
+            if (deptId == sysDept.getId()) {
                 oneDepts.add(deptId);
                 if (sysDept.getParentId() != 0 ){
                     completeDepts(sysDepts, sysDept.getParentId(), oneDepts);

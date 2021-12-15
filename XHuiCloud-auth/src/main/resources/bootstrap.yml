@@ -14,15 +14,7 @@ spring:
         file-extension: yml
         # 公共的配置文件
         shared-configs:
-         - application-common.yml
+          - application-common-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
 
-#  redis:
-#    password: 123456
-#    cluster:
-#      nodes: 192.168.0.103:7000,192.168.0.103:7001,192.168.0.103:7002,192.168.0.103:7003,192.168.0.103:7004,192.168.0.103:7005
-#      max-redirects: 3
-#    lock:
-#      enable: true #需要分布式锁的话，请打开
-#    type: CLUSTER
 server:
   port: 16000

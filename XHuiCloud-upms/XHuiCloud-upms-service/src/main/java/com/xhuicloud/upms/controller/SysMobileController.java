@@ -1,9 +1,12 @@
 package com.xhuicloud.upms.controller;
 
-import com.xhuicloud.common.core.utils.R;
-import com.xhuicloud.common.security.annotation.Inner;
+import com.xhuicloud.common.core.utils.Response;
+import com.xhuicloud.common.security.annotation.NoAuth;
 import com.xhuicloud.upms.service.SysMobileService;
+import com.xxl.job.admin.api.entity.XxlJobInfo;
+import com.xxl.job.admin.api.feign.JobInfoFeign;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,9 +27,19 @@ public class SysMobileController {
 
     private final SysMobileService mobileService;
 
-    @Inner(false)
+    private final JobInfoFeign jobInfoFeign;
+
+    @NoAuth(false)
     @GetMapping("/{mobile}")
-    public R sendSmsCode(@PathVariable String mobile) {
+    public Response sendSmsCode(@PathVariable String mobile) {
         return mobileService.sendSmsCode(mobile);
+    }
+
+    @NoAuth(false)
+    @GetMapping("/timing/{mobile}")
+    @ApiOperation(value = "定时发送短信", notes = "分页查询字典列表")
+    public Response timingSendSms(@PathVariable String mobile, XxlJobInfo xxlJobInfo) {
+        String add = jobInfoFeign.add("XXL_JOB_LOGIN_IDENTITY=XXXXXXXX", xxlJobInfo);
+        return Response.success();
     }
 }

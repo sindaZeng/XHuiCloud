@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.xhuicloud.common.zero.configuration.ZeroAutoConfiguration
+  com.xhuicloud.common.zero.XHuiZeroAutoConfiguration

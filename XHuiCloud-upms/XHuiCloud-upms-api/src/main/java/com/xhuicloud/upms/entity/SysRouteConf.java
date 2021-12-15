@@ -1,12 +1,13 @@
 package com.xhuicloud.upms.entity;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.extension.activerecord.Model;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-
-import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
@@ -14,11 +15,11 @@ import java.time.LocalDateTime;
  */
 @Data
 @ApiModel(value="路由")
-public class SysRouteConf implements Serializable {
+public class SysRouteConf extends Model<SysRouteConf> {
     /**
      * 主键
      */
-    @TableId(value = "id", type = IdType.AUTO)
+    @TableId(type = IdType.AUTO)
     @ApiModelProperty(value="主键")
     private Integer id;
 
@@ -61,19 +62,33 @@ public class SysRouteConf implements Serializable {
     /**
      * 创建时间
      */
-    @ApiModelProperty(value="创建时间")
+    @ApiModelProperty(value = "创建时间", hidden = true)
     private LocalDateTime createTime;
 
     /**
-     * 修改时间
+     * 创建者id
      */
-    @ApiModelProperty(value="修改时间")
+    @ApiModelProperty(value = "创建者id", hidden = true)
+    @TableField(fill = FieldFill.INSERT)
+    private Integer createId;
+
+    /**
+     * 更新时间
+     */
+    @ApiModelProperty(value = "更新时间", hidden = true)
     private LocalDateTime updateTime;
+
+    /**
+     * 更新者id
+     */
+    @ApiModelProperty(value = "更新者id", hidden = true)
+    @TableField(fill = FieldFill.UPDATE)
+    private Integer updateId;
 
     /**
      * 0:否 1:是
      */
-    @ApiModelProperty(value="0:否 1:是")
+    @ApiModelProperty(value = "0:否 1:是")
     private Integer isDel;
 
 }

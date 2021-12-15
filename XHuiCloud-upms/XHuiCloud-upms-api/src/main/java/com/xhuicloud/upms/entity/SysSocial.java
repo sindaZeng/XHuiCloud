@@ -1,9 +1,12 @@
 package com.xhuicloud.upms.entity;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.extension.activerecord.Model;
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -14,11 +17,12 @@ import java.time.LocalDateTime;
  */
 @Data
 @ApiModel(value="社交")
-public class SysSocial implements Serializable {
+public class SysSocial extends Model<SysSocial> {
+
     /**
      * id
      */
-    @TableId(value = "id", type = IdType.INPUT)
+    @TableId(type = IdType.AUTO)
     private Integer id;
 
     /**
@@ -54,20 +58,32 @@ public class SysSocial implements Serializable {
     /**
      * 创建时间
      */
-    @TableField(value = "create_time")
+    @ApiModelProperty(value = "创建时间", hidden = true)
     private LocalDateTime createTime;
 
     /**
-     * 修改时间
+     * 创建者id
      */
-    @TableField(value = "update_time")
+    @ApiModelProperty(value = "创建者id", hidden = true)
+    @TableField(fill = FieldFill.INSERT)
+    private Integer createId;
+
+    /**
+     * 更新时间
+     */
+    @ApiModelProperty(value = "更新时间", hidden = true)
     private LocalDateTime updateTime;
 
     /**
-     *  0:已删除
+     * 更新者id
      */
-    @TableField(value = "is_del")
-    private Integer isDel;
+    @ApiModelProperty(value = "更新者id", hidden = true)
+    @TableField(fill = FieldFill.UPDATE)
+    private Integer updateId;
 
-    private static final long serialVersionUID = 1L;
+    /**
+     * 0:否 1:是
+     */
+    @ApiModelProperty(value = "0:否 1:是")
+    private Integer isDel;
 }

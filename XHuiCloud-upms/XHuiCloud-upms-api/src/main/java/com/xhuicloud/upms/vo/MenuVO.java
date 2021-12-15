@@ -19,7 +19,7 @@ public class MenuVO implements Serializable {
     /**
      * 菜单ID
      */
-    private Integer menuId;
+    private Integer id;
     /**
      * 菜单名称
      */

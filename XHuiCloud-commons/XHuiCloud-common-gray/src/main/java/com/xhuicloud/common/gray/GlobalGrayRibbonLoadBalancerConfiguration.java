@@ -1,11 +1,12 @@
 package com.xhuicloud.common.gray;
 
-import com.xhuicloud.common.gray.interceptor.GlobalGrayFeignRequestInterceptor;
 import com.xhuicloud.common.gray.rule.GlobalGrayRibbonLoadBalancerRule;
-import feign.RequestInterceptor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.cloud.loadbalancer.annotation.LoadBalancerClientConfiguration;
+import org.springframework.cloud.loadbalancer.core.ServiceInstanceListSupplier;
+import org.springframework.cloud.loadbalancer.support.LoadBalancerClientFactory;
 import org.springframework.context.annotation.Bean;
+import org.springframework.core.env.Environment;
 
 /**
  * @program: XHuiCloud
@@ -13,17 +14,16 @@ import org.springframework.context.annotation.Bean;
  * @author: Sinda
  * @create: 2020/7/18 9:56 下午
  */
-@ConditionalOnProperty(value = "gray.enabled", havingValue = "true")
-public class GlobalGrayRibbonLoadBalancerConfiguration {
+public class GlobalGrayRibbonLoadBalancerConfiguration extends LoadBalancerClientConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public GlobalGrayRibbonLoadBalancerRule globalGrayRibbonLoadBalancerRule() {
-        return new GlobalGrayRibbonLoadBalancerRule();
+    public GlobalGrayRibbonLoadBalancerRule globalGrayRibbonLoadBalancerRule(Environment environment,
+                                                                             LoadBalancerClientFactory loadBalancerClientFactory) {
+        String name = environment.getProperty(LoadBalancerClientFactory.PROPERTY_NAME);
+        return new GlobalGrayRibbonLoadBalancerRule(
+                loadBalancerClientFactory.getLazyProvider(name, ServiceInstanceListSupplier.class), name);
     }
 
-    @Bean
-    public RequestInterceptor globalGrayFeignRequestInterceptor() {
-        return new GlobalGrayFeignRequestInterceptor();
-    }
+
 }

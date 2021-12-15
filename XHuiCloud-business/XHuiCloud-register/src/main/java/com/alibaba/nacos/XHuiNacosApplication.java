@@ -16,22 +16,27 @@
 
 package com.alibaba.nacos;
 
+import com.alibaba.nacos.config.ConfigConstants;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 /**
+ * Nacos starter.
+ *
  * @author nacos
  */
-@SpringBootApplication(scanBasePackages = "com.alibaba.nacos")
-@ServletComponentScan
+@Slf4j
 @EnableScheduling
+@SpringBootApplication
 public class XHuiNacosApplication {
 
-	public static void main(String[] args) {
-		System.setProperty("nacos.standalone", "true");
-		SpringApplication.run(XHuiNacosApplication.class, args);
-	}
+    public static void main(String[] args) {
+        System.setProperty(ConfigConstants.STANDALONE_MODE, "true");
+        System.setProperty(ConfigConstants.AUTH_ENABLED, "false");
+        System.setProperty(ConfigConstants.LOG_BASEDIR, "logs");
+        SpringApplication.run(XHuiNacosApplication.class, args);
+    }
 
 }

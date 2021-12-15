@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xhuicloud.common.log.annotation.SysLog;
 import com.xhuicloud.pay.entity.PayChannel;
 import com.xhuicloud.pay.service.PayChannelService;
-import com.xhuicloud.common.core.utils.R;
+import com.xhuicloud.common.core.utils.Response;
 import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -32,8 +32,8 @@ public class PayChannelController {
      * @return
      */
     @GetMapping("/page")
-    public R page(Page page) {
-        return R.ok(payChannelService.page(page));
+    public Response page(Page page) {
+        return Response.success(payChannelService.page(page));
     }
 
     /**
@@ -44,8 +44,8 @@ public class PayChannelController {
     @SysLog("添加商户渠道")
     @PostMapping
     @PreAuthorize("@authorize.hasPermission('sys_add_channel')")
-    public R save(@RequestBody PayChannel payChannel) {
-        return R.ok(payChannelService.save(payChannel));
+    public Response save(@RequestBody PayChannel payChannel) {
+        return Response.success(payChannelService.save(payChannel));
     }
 
     /**
@@ -57,7 +57,7 @@ public class PayChannelController {
     @SysLog("编辑商户渠道")
     @PutMapping
     @PreAuthorize("@authorize.hasPermission('sys_editor_user')")
-    public R update(@RequestBody PayChannel payChannel) {
-        return R.ok(payChannelService.updateById(payChannel));
+    public Response update(@RequestBody PayChannel payChannel) {
+        return Response.success(payChannelService.updateById(payChannel));
     }
 }

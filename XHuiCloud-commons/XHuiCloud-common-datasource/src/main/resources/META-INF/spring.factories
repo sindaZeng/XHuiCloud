@@ -1,6 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-    com.xhuicloud.common.datasource.properties.TenantCoreProperties,\
-  com.xhuicloud.common.datasource.source.DefaultDataSourceConfig,\
-  com.xhuicloud.common.datasource.tenant.XHuiTenantConfiguration,\
-  com.xhuicloud.common.datasource.tenant.XHuiTenantFilter,\
-  com.xhuicloud.common.datasource.source.MybatisPlusConfig
+  com.xhuicloud.common.datasource.mybatis.XHuiMybatisPlusConfig

@@ -14,7 +14,7 @@ import java.util.List;
 @Mapper
 public interface SysUserMapper extends BaseMapper<SysUser> {
 
-    IPage<List<UserVo>> userPage(Page page, @Param("query") UserDto userDto);
+    IPage<UserVo> userPage(Page page, @Param("query") UserDto userDto);
 
 
 }

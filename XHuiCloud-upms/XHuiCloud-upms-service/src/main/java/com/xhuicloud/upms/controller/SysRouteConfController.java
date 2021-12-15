@@ -1,6 +1,6 @@
 package com.xhuicloud.upms.controller;
 
-import com.xhuicloud.common.core.utils.R;
+import com.xhuicloud.common.core.utils.Response;
 import com.xhuicloud.upms.entity.SysRouteConf;
 import com.xhuicloud.upms.service.SysRouteConfService;
 import io.swagger.annotations.Api;
@@ -30,8 +30,8 @@ public class SysRouteConfController {
      * @return
      */
     @GetMapping("/listRoutes")
-    public R<List<SysRouteConf>> listRoutes() {
-        return R.ok(sysRouteConfService.getRoutes());
+    public Response<List<SysRouteConf>> listRoutes() {
+        return Response.success(sysRouteConfService.getRoutes());
     }
 
 

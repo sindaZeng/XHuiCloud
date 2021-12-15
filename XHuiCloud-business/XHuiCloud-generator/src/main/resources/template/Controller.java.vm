@@ -2,7 +2,7 @@ package ${package}.controller;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.xhuicloud.common.core.utils.R;
+import com.xhuicloud.common.core.utils.Response;
 import com.xhuicloud.common.log.annotation.SysLog;
 import ${package}.entity.${ClassName};
 import ${package}.service.${ClassName}Service;
@@ -36,8 +36,8 @@ public class ${ClassName}Controller {
      */
     @ApiOperation(value = "分页查询", notes = "分页查询")
     @GetMapping("/page" )
-    public R page(Page page, ${ClassName} ${className}) {
-        return R.ok(${className}Service.page(page, Wrappers.query(${className})));
+    public Response page(Page page, ${ClassName} ${className}) {
+        return Response.success(${className}Service.page(page, Wrappers.query(${className})));
     }
 
 
@@ -48,8 +48,8 @@ public class ${ClassName}Controller {
      */
     @ApiOperation(value = "通过id查询${tableComment}", notes = "通过id查询${tableComment}")
     @GetMapping("/{id}")
-    public R getById(@PathVariable Integer id) {
-        return R.ok(${className}Service.getById(id));
+    public Response getById(@PathVariable Integer id) {
+        return Response.success(${className}Service.getById(id));
     }
 
     /**
@@ -62,8 +62,8 @@ public class ${ClassName}Controller {
     @SysLog("新增${tableComment}" )
     @PostMapping
     @PreAuthorize("@authorize.hasPermission('sys_add_${pathName}')" )
-    public R save(@RequestBody ${ClassName} ${className}) {
-        return R.ok(${className}Service.save(${className}));
+    public Response save(@RequestBody ${ClassName} ${className}) {
+        return Response.success(${className}Service.save(${className}));
     }
 
     /**
@@ -76,8 +76,8 @@ public class ${ClassName}Controller {
     @SysLog("编辑${tableComment}" )
     @PutMapping
     @PreAuthorize("@authorize.hasPermission('sys_editor_${pathName}')" )
-    public R update(@RequestBody ${ClassName} ${className}) {
-        return R.ok(${className}Service.updateById(${className}));
+    public Response update(@RequestBody ${ClassName} ${className}) {
+        return Response.success(${className}Service.updateById(${className}));
     }
 
     /**
@@ -90,8 +90,8 @@ public class ${ClassName}Controller {
     @SysLog("通过id删除${tableComment}" )
     @DeleteMapping("/{id}" )
     @PreAuthorize("@authorize.hasPermission('sys_delete_${pathName}')" )
-    public R delete(@PathVariable Integer id) {
-        return R.ok(${className}Service.removeById(id));
+    public Response delete(@PathVariable Integer id) {
+        return Response.success(${className}Service.removeById(id));
     }
 
 }

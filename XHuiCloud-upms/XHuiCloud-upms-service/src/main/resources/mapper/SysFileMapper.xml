@@ -11,10 +11,12 @@
         <result column="file_size" jdbcType="BIGINT" property="fileSize"/>
         <result column="file_type" jdbcType="VARCHAR" property="fileType"/>
         <result column="bucket_name" jdbcType="VARCHAR" property="bucketName"/>
-        <result column="create_id" jdbcType="INTEGER" property="createId"/>
-        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
-        <result column="tenant_id" jdbcType="INTEGER" property="tenantId"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="create_id" jdbcType="INTEGER" property="createId" />
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+        <result column="update_id" jdbcType="INTEGER" property="updateId" />
         <result column="is_del" jdbcType="INTEGER" property="isDel" />
+        <result column="tenant_id" jdbcType="INTEGER" property="tenantId" />
     </resultMap>
     <sql id="Base_Column_List">
         <!--@mbg.generated-->

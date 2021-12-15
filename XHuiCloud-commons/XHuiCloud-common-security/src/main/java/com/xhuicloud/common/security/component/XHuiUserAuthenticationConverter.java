@@ -49,7 +49,8 @@ public class XHuiUserAuthenticationConverter implements UserAuthenticationConver
             Integer tenantId = MapUtil.getInt(map, CommonConstants.USER_TENANT_ID);
             String phone = MapUtil.getStr(map, CommonConstants.USER_PHONE);
 
-            XHuiUser user = new XHuiUser(id, phone, tenantId, username, "N_A", true, true, true, true,
+            XHuiUser user = new XHuiUser(id, phone, tenantId, username,
+                    "N_A", true, true, true, true,
                     authorities);
             return new UsernamePasswordAuthenticationToken(user, "N_A", authorities);
         }
@@ -57,7 +58,7 @@ public class XHuiUserAuthenticationConverter implements UserAuthenticationConver
     }
 
     private void checkTenant(Map<String,?> map) {
-        String headerValue = getCurrentTenantId();
+        String headerValue = getTenantId();
         Integer userValue = MapUtil.getInt(map, CommonConstants.USER_TENANT_ID);
         if (StrUtil.isNotBlank(headerValue) && !userValue.toString().equals(headerValue)) {
             throw new XHuiOAuth2Exception(SecurityMessageUtil.getAccessor().getMessage(
@@ -85,7 +86,7 @@ public class XHuiUserAuthenticationConverter implements UserAuthenticationConver
                 .map(ServletRequestAttributes::getRequest);
     }
 
-    private String getCurrentTenantId() {
+    private String getTenantId() {
         return getCurrentHttpRequest()
                 .map(httpServletRequest -> httpServletRequest.getHeader(CommonConstants.TENANT_ID)).orElse(null);
     }

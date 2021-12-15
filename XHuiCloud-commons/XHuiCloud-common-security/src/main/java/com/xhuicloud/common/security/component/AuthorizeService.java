@@ -35,9 +35,7 @@ public class AuthorizeService {
             return false;
         }
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-        return authorities.stream()
-                .map(GrantedAuthority::getAuthority)
-                .filter(StringUtils::hasText)
+        return authorities.stream().map(GrantedAuthority::getAuthority).filter(StringUtils::hasText)
                 .anyMatch(x -> PatternMatchUtils.simpleMatch(permissions, x));
     }
 }

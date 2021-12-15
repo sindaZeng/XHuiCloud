@@ -2,25 +2,25 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.xhuicloud.upms.mapper.SysDeptMapper">
   <resultMap id="BaseResultMap" type="com.xhuicloud.upms.entity.SysDept">
-    <!--@mbg.generated-->
-    <!--@Table sys_dept-->
-    <id column="dept_id" jdbcType="INTEGER" property="deptId" />
+    <id column="id" jdbcType="INTEGER" property="id" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="address" jdbcType="VARCHAR" property="address" />
     <result column="parent_id" jdbcType="INTEGER" property="parentId" />
     <result column="sort" jdbcType="INTEGER" property="sort" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="create_id" jdbcType="INTEGER" property="createId" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="update_id" jdbcType="INTEGER" property="updateId" />
     <result column="is_del" jdbcType="INTEGER" property="isDel" />
     <result column="tenant_id" jdbcType="INTEGER" property="tenantId" />
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
-    dept_id, `name`, address, parent_id, sort, create_time, update_time, is_del, tenant_id
+    id, `name`, address, parent_id, sort, create_time, create_id, update_time, update_id, is_del, tenant_id
   </sql>
     <select id="listDeptNameByUserId" resultType="com.xhuicloud.upms.vo.DeptVo">
       SELECT
-      d.dept_id deptId,
+      d.id,
       d.name deptName
       FROM
       sys_dept d, sys_user_dept ud WHERE d.dept_id = ud.dept_id AND d.is_del = 1 and  ud.user_id IN (#{userId})

@@ -11,12 +11,14 @@
     <result column="logo" jdbcType="VARCHAR" property="logo" />
     <result column="remake" jdbcType="LONGVARCHAR" property="remark" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="create_id" jdbcType="INTEGER" property="createId" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="update_id" jdbcType="INTEGER" property="updateId" />
     <result column="is_del" jdbcType="INTEGER" property="isDel" />
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
-    id, `name`, `state`, expiration_time, logo, `remake`, create_time, update_time,
+    id, `name`, `state`, expiration_time, logo, `remake`, create_time, create_id, update_time, update_id,
     is_del
   </sql>
 </mapper>

@@ -2,7 +2,7 @@ package com.xhuicloud.upms.feign;
 
 import com.xhuicloud.common.core.constant.ServiceNameConstants;
 import com.xhuicloud.upms.dto.UserInfo;
-import com.xhuicloud.common.core.utils.R;
+import com.xhuicloud.common.core.utils.Response;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,6 +22,6 @@ public interface SysSocialServiceFeign {
     String SYSSOCIALSERVICEFEIGN = "sysSocialServiceFeign";
 
     @GetMapping("/social/{auth_code}")
-    R<UserInfo> getSysUser(@PathVariable(value = "auth_code") String auth_code, @RequestHeader(FROM) String from);
+    Response<UserInfo> getSysUser(@PathVariable(value = "auth_code") String auth_code, @RequestHeader(FROM) String from);
 
 }

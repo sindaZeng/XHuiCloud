@@ -13,9 +13,10 @@ spring:
         file-extension: yml
         # 公共的配置文件
         shared-configs:
-          - application-common.yml
+          - application-common-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
 security:
   oauth2:
     client:
-      client-id: U2hhcmVCQlM=
-      client-secret: $2a$10$xP0Iv4Pd4kn.7msrJOCiC.ttRprLRk2fo3xbCdmPPLYuDo/H4gcdq
+      client-id: test
+      client-secret: test
+      scope: server

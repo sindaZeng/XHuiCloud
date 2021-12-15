@@ -1,12 +1,16 @@
 package com.xhuicloud.auth.config;
 
 import com.xhuicloud.common.security.handle.FormAuthFailureHandler;
-import com.xhuicloud.common.security.handle.SocialAuthSuccessHandler;
+import com.xhuicloud.common.security.handle.MobileAuthSuccessHandler;
+import com.xhuicloud.common.security.handle.XHuiLogoutSuccessHandler;
+import com.xhuicloud.common.security.handle.XHuiSimpleUrlAuthenticationSuccessHandler;
 import com.xhuicloud.common.security.social.SocialSecurityConfigurer;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -15,6 +19,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 
 /**
  * @program: XHuiCloud
@@ -22,8 +28,9 @@ import org.springframework.security.web.authentication.AuthenticationFailureHand
  * @author: Sinda
  * @create: 2019-12-25 23:49
  **/
+@Primary
+@Order(80)
 @Configuration
-@AllArgsConstructor
 public class XHuiWebSecurityConfigurer extends WebSecurityConfigurerAdapter {
 
     @Bean
@@ -45,20 +52,20 @@ public class XHuiWebSecurityConfigurer extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
-                .formLogin()//表单登录
+        http.formLogin()//表单登录
                 .loginPage("/token/login")
                 .loginProcessingUrl("/token/form")
+                .successHandler(xHuiSimpleUrlAuthenticationSuccessHandler())
                 .failureHandler(authenticationFailureHandler())
                 .and()
                 .logout()
-                .logoutSuccessHandler((request, response, authentication) -> {
-                    String referer = request.getHeader(HttpHeaders.REFERER);
-                    response.sendRedirect(referer);
-                }).deleteCookies("JSESSIONID").invalidateHttpSession(true)
+                .logoutSuccessHandler(xHuiLogoutSuccessHandler())
+                .deleteCookies("JSESSIONID")
+                .invalidateHttpSession(true)
                 .and()
                 .authorizeRequests()//对请求授权
-                .antMatchers("/token/**", "/mobile/**", "/actuator/**").permitAll() //匹配这个url 放行
+                .antMatchers("/token/**", "/mobile/**", "/actuator/**")
+                .permitAll() //匹配这个url 放行
                 .anyRequest().authenticated()//任何请求都要授权
                 .and().csrf().disable()//跨站请求伪造攻击
                 .apply(socialSecurityConfigurer());
@@ -71,7 +78,7 @@ public class XHuiWebSecurityConfigurer extends WebSecurityConfigurerAdapter {
      */
     @Override
     public void configure(WebSecurity web) {
-        web.ignoring().antMatchers("/css/**");
+        web.ignoring().antMatchers("/favicon.ico", "/css/**", "/error");
     }
 
     @Bean
@@ -80,7 +87,17 @@ public class XHuiWebSecurityConfigurer extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public SocialAuthSuccessHandler socialAuthenticationSuccessHandler() {
-        return new SocialAuthSuccessHandler();
+    public MobileAuthSuccessHandler mobileAuthSuccessHandler() {
+        return new MobileAuthSuccessHandler();
+    }
+
+    @Bean
+    public AuthenticationSuccessHandler xHuiSimpleUrlAuthenticationSuccessHandler() {
+        return new XHuiSimpleUrlAuthenticationSuccessHandler();
+    }
+
+    @Bean
+    public LogoutSuccessHandler xHuiLogoutSuccessHandler() {
+        return new XHuiLogoutSuccessHandler();
     }
 }

@@ -11,18 +11,19 @@
     <name>${project.artifactId} ${project.description}</name>
 
     <properties>
-        <revision>1.0.0</revision>
-        <mybatis-plus.version>3.4.0</mybatis-plus.version>
-        <druid.version>1.1.21</druid.version>
-        <mysql.connector.version>8.0.16</mysql.connector.version>
+        <revision>2.0.0</revision>
+        <mybatis-plus.version>3.4.3</mybatis-plus.version>
+        <druid.version>1.2.8</druid.version>
+        <dds.version>3.4.1</dds.version>
+        <mysql.connector.version>8.0.27</mysql.connector.version>
         <oracle.version>11.2.0.3</oracle.version>
-        <hutool.version>5.3.10</hutool.version>
-        <jjwt.version>0.10.5</jjwt.version>
-        <swagger.version>2.9.2</swagger.version>
+        <swagger.version>3.0.0</swagger.version>
+        <logstash.version>5.3</logstash.version>
         <swagger.core.version>1.5.22</swagger.core.version>
-        <knife4j.version>2.0.1</knife4j.version>
+        <knife4j.version>2.0.9</knife4j.version>
         <redisson.version>3.12.1</redisson.version>
         <ttl.version>2.11.2</ttl.version>
+        <xxl.job.version>2.3.0</xxl.job.version>
         <security.oauth.version>2.3.6.RELEASE</security.oauth.version>
     </properties>
 
@@ -44,6 +45,24 @@
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>XHuiCloud-upms-api</artifactId>
+                <version>${revision}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>XHuiCloud-push-api</artifactId>
+                <version>${revision}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>XHuiCloud-xxl-admin-api</artifactId>
+                <version>${revision}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>XHuiCloud-common-rabbitMq</artifactId>
                 <version>${revision}</version>
             </dependency>
 
@@ -121,6 +140,18 @@
 
             <dependency>
                 <groupId>${project.groupId}</groupId>
+                <artifactId>XHuiCloud-common-xxl</artifactId>
+                <version>${revision}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.xuxueli</groupId>
+                <artifactId>xxl-job-core</artifactId>
+                <version>${xxl.job.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>${project.groupId}</groupId>
                 <artifactId>XHuiCloud-common-zero</artifactId>
                 <version>${revision}</version>
             </dependency>
@@ -129,6 +160,12 @@
                 <groupId>${project.groupId}</groupId>
                 <artifactId>XHuiCloud-pay-api</artifactId>
                 <version>${revision}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>net.logstash.logback</groupId>
+                <artifactId>logstash-logback-encoder</artifactId>
+                <version>${logstash.version}</version>
             </dependency>
 
             <dependency>
@@ -154,6 +191,11 @@
                 <artifactId>springfox-swagger2</artifactId>
                 <version>${swagger.version}</version>
             </dependency>
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-oas</artifactId>
+                <version>${swagger.version}</version>
+            </dependency>
 
             <dependency>
                 <groupId>com.github.xiaoymin</groupId>
@@ -167,17 +209,15 @@
                 <version>${knife4j.version}</version>
             </dependency>
 
-            <!--mybatis-->
-            <dependency>
-                <groupId>com.baomidou</groupId>
-                <artifactId>mybatis-plus-boot-starter</artifactId>
-                <version>${mybatis-plus.version}</version>
-            </dependency>
-
             <!-- druid 连接池 -->
             <dependency>
                 <groupId>com.alibaba</groupId>
                 <artifactId>druid-spring-boot-starter</artifactId>
+                <version>${druid.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid</artifactId>
                 <version>${druid.version}</version>
             </dependency>
 
@@ -195,12 +235,7 @@
                 <version>${oracle.version}</version>
             </dependency>
 
-            <dependency>
-                <groupId>cn.hutool</groupId>
-                <artifactId>hutool-all</artifactId>
-                <version>${hutool.version}</version>
-            </dependency>
-
+            <!--mybatis-->
             <dependency>
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus-extension</artifactId>
@@ -208,29 +243,20 @@
             </dependency>
 
             <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-boot-starter</artifactId>
+                <version>${mybatis-plus.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>dynamic-datasource-spring-boot-starter</artifactId>
+                <version>${dds.version}</version>
+            </dependency>
+
+            <dependency>
                 <groupId>com.alibaba</groupId>
                 <artifactId>transmittable-thread-local</artifactId>
                 <version>${ttl.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>io.jsonwebtoken</groupId>
-                <artifactId>jjwt-api</artifactId>
-                <version>${jjwt.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>io.jsonwebtoken</groupId>
-                <artifactId>jjwt-impl</artifactId>
-                <version>${jjwt.version}</version>
-                <scope>runtime</scope>
-            </dependency>
-
-            <dependency>
-                <groupId>io.jsonwebtoken</groupId>
-                <artifactId>jjwt-jackson</artifactId>
-                <version>${jjwt.version}</version>
-                <scope>runtime</scope>
             </dependency>
 
             <dependency>
@@ -244,7 +270,6 @@
                 <artifactId>spring-security-oauth2</artifactId>
                 <version>${security.oauth.version}</version>
             </dependency>
-
         </dependencies>
     </dependencyManagement>
 

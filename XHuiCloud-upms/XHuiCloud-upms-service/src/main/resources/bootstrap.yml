@@ -16,20 +16,24 @@ spring:
         file-extension: yml
         # 公共的配置文件
         shared-configs:
-          - application-common.yml
+          - application-common-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
   autoconfigure:
-    exclude:
-      - org.springframework.cloud.gateway.config.GatewayAutoConfiguration
-      - org.springframework.cloud.gateway.config.GatewayClassPathWarningAutoConfiguration
-  servlet:
-    multipart:
-      max-file-size: 2MB
-      max-request-size: 50MB
+    exclude: org.springframework.cloud.gateway.config.GatewayAutoConfiguration,org.springframework.cloud.gateway.config.GatewayClassPathWarningAutoConfiguration
+
 security:
   oauth2:
     client:
-      client-id: XHUICLOUD
-      client-secret: WEhVSUNMT1VE
+      client-id: test
+      client-secret: test
+      scope: server
+      ignore-urls:
+        - /error
+        - /druid/**
+        - /actuator/**
+        - /v2/api-docs
 
 server:
   port: 17000
+
+mysql:
+  scheme: xhuicloud_sys

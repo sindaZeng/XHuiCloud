@@ -6,7 +6,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 /**
  * @program: XHuiCloud
- * @description: FdpUserDetailsService
+ * @description: XHuiUserDetailsService
  * @author: Sinda
  * @create: 2019-12-26 00:11
  **/

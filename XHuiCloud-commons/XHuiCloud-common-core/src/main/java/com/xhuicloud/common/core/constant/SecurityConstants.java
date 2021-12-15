@@ -11,7 +11,7 @@ public interface SecurityConstants {
     /**
      * 验证码前缀
      */
-    String CODE_KEY = "FDP_SMS_CODE_KEY";
+    String CODE_KEY = "XHUI_SMS_CODE_KEY";
 
     /**
      * 验证码有效期
@@ -37,4 +37,20 @@ public interface SecurityConstants {
      * 用户信息
      */
     String USER_INFO = "user_info";
+
+    /**
+     * 前缀
+     */
+    String XHUI_PREFIX = "xhui_";
+
+    /**
+     * oauth 相关前缀
+     */
+    String OAUTH_PREFIX = "oauth:";
+
+    /**
+     * oauth 相关前缀
+     */
+    String OAUTH_CODE_PREFIX = "oauth:code:";
+
 }

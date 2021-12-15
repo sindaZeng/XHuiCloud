@@ -1,7 +1,7 @@
 package com.xhuicloud.upms.feign;
 
 import com.xhuicloud.common.core.constant.ServiceNameConstants;
-import com.xhuicloud.common.core.utils.R;
+import com.xhuicloud.common.core.utils.Response;
 import com.xhuicloud.upms.entity.SysTenant;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +22,6 @@ public interface SysTenantServiceFeign {
      * @return
      */
     @GetMapping("/tenant/list")
-    R<List<SysTenant>> list(@RequestHeader(FROM) String from);
+    Response<List<SysTenant>> list(@RequestHeader(FROM) String from);
 
 }

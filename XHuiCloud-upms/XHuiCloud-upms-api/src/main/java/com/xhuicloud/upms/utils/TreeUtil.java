@@ -35,9 +35,9 @@ public class TreeUtil {
         MenuTree node;
         for (SysMenu menu : menus) {
             node = new MenuTree();
-            node.setId(menu.getMenuId());
+            node.setId(menu.getId());
             node.setParentId(menu.getParentId());
-            node.setValue(menu.getMenuId());
+            node.setValue(menu.getId());
             node.setName(menu.getName());
             node.setLabel(menu.getName());
             node.setPath(menu.getPath());
@@ -62,12 +62,12 @@ public class TreeUtil {
      */
     public List<DeptTree> buildDeptTree(List<SysDept> depts, int root) {
         List<DeptTree> deptTrees = depts.stream()
-                .filter(dept -> !dept.getDeptId().equals(dept.getParentId()))
+                .filter(dept -> !dept.getId().equals(dept.getParentId()))
                 .sorted(Comparator.comparingInt(SysDept::getSort))
                 .map(dept -> {
                     DeptTree node = new DeptTree();
-                    node.setId(dept.getDeptId());
-                    node.setValue(dept.getDeptId());
+                    node.setId(dept.getId());
+                    node.setValue(dept.getId());
                     node.setParentId(dept.getParentId());
                     node.setAddress(dept.getAddress());
                     node.setName(dept.getName());

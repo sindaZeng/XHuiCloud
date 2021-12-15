@@ -12,7 +12,6 @@ import org.springframework.stereotype.Component;
  * @create: 2020-03-04 17:46
  */
 @Data
-@Component
 @ConfigurationProperties(prefix = "xhuicloud.zero.snowflake")
 public class DefaultSnowflakeProperties  {
 

@@ -6,14 +6,14 @@ ENV TZ=Asia/Shanghai
 
 RUN ln -sf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
-RUN mkdir -p /XHuiCloud-upmm-business
+RUN mkdir -p /XHuiCloud-upms-service
 
-WORKDIR /XHuiCloud-upmm-business
+WORKDIR /XHuiCloud-upms-service
 
 EXPOSE 17000
 
-ADD ./target/XHuiCloud-upmm-business.jar ./
+ADD ./target/XHuiCloud-upms-service.jar ./
 
-CMD sleep 50;java -Xms128m -Xmx256m -Djava.security.egd=file:/dev/./urandom -jar XHuiCloud-upmm-business.jar
+CMD sleep 50;java -Xms128m -Xmx256m -Djava.security.egd=file:/dev/./urandom -jar XHuiCloud-upms-service.jar
 
 

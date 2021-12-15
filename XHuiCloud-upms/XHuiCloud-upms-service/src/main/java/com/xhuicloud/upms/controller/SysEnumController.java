@@ -4,7 +4,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import com.xhuicloud.common.core.enums.base.ParamTypeEnum;
 import com.xhuicloud.common.core.enums.base.AuditStateEnum;
-import com.xhuicloud.common.core.utils.R;
+import com.xhuicloud.common.core.utils.Response;
 import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -39,11 +39,11 @@ public class SysEnumController {
     }
 
     @GetMapping("/{name}")
-    public R<Map<Integer, String>> getEnums(@PathVariable String name) {
+    public Response<Map<Integer, String>> getEnums(@PathVariable String name) {
         if (allEnums.containsKey(name)) {
-            return R.ok(allEnums.get(name));
+            return Response.success(allEnums.get(name));
         }
-        return R.failed("无此枚举!请检查枚举名称!");
+        return Response.failed("无此枚举!请检查枚举名称!");
     }
 
 

@@ -202,7 +202,7 @@ public class ExcelUtil<T> {
      * @param sheetName 工作表的名称
      * @return 结果
      */
-    public R exportExcel(List<T> list, String sheetName) {
+    public Response exportExcel(List<T> list, String sheetName) {
         this.init(list, sheetName, type.EXPORT);
         return exportExcel();
     }
@@ -213,7 +213,7 @@ public class ExcelUtil<T> {
      * @param sheetName 工作表的名称
      * @return 结果
      */
-    public R importTemplateExcel(String sheetName) {
+    public Response importTemplateExcel(String sheetName) {
         this.init(null, sheetName, type.IMPORT);
         return exportExcel();
     }
@@ -223,7 +223,7 @@ public class ExcelUtil<T> {
      *
      * @return 结果
      */
-    public R exportExcel() {
+    public Response exportExcel() {
         OutputStream out = null;
         try {
             // 取出一共有多少个sheet.
@@ -246,7 +246,7 @@ public class ExcelUtil<T> {
             String filename = encodingFilename(sheetName);
             out = new FileOutputStream(getAbsoluteFile(filename));
             wb.write(out);
-            return R.ok(filename);
+            return Response.success(filename);
         } catch (Exception e) {
             log.error("导出Excel异常{}", e.getMessage());
             throw new SysException(500, "导出Excel失败，请联系管理员！");

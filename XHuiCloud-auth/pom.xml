@@ -30,27 +30,12 @@
 
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>XHuiCloud-upms-api</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>XHuiCloud-common-swagger</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>${project.groupId}</groupId>
             <artifactId>XHuiCloud-common-security</artifactId>
         </dependency>
 
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>XHuiCloud-common-log</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>XHuiCloud-common-datasource</artifactId>
         </dependency>
 
         <dependency>
@@ -92,11 +77,6 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <layers>
-                        <enabled>true</enabled>
-                    </layers>
-                </configuration>
             </plugin>
         </plugins>
     </build>

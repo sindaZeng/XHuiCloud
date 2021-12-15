@@ -1,5 +1,6 @@
 package com.xhuicloud.upms.entity;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -74,9 +75,16 @@ public class SysUser implements Serializable {
     /**
      * 创建时间
      */
-    @ApiModelProperty(value = "创建时间")
+    @ApiModelProperty(value = "创建时间", hidden = true)
     @Excel(name = "创建时间", dateFormat = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createTime;
+
+    /**
+     * 创建者id
+     */
+    @ApiModelProperty(value = "创建者id", hidden = true)
+    @TableField(fill = FieldFill.INSERT)
+    private Integer createId;
 
     /**
      * 修改时间
@@ -84,6 +92,13 @@ public class SysUser implements Serializable {
     @ApiModelProperty(value = "修改时间")
     @Excel(name = "更新时间", dateFormat = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime updateTime;
+
+    /**
+     * 更新者id
+     */
+    @ApiModelProperty(value = "更新者id", hidden = true)
+    @TableField(fill = FieldFill.UPDATE)
+    private Integer updateId;
 
     /**
      * 0:账号被锁

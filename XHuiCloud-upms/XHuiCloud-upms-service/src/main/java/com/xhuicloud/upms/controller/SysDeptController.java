@@ -1,7 +1,7 @@
 package com.xhuicloud.upms.controller;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.xhuicloud.common.core.utils.R;
+import com.xhuicloud.common.core.utils.Response;
 import com.xhuicloud.common.log.annotation.SysLog;
 import com.xhuicloud.upms.entity.SysDept;
 import com.xhuicloud.upms.service.SysDeptService;
@@ -35,8 +35,8 @@ public class SysDeptController {
      * @return
      */
     @GetMapping(value = "/tree")
-    public R getDeptTree() {
-        return R.ok(TreeUtil.buildDeptTree(sysDeptService
+    public Response getDeptTree() {
+        return Response.success(TreeUtil.buildDeptTree(sysDeptService
                 .list(Wrappers.<SysDept>lambdaQuery()
                         .orderByAsc(SysDept::getSort)), 0));
     }
@@ -50,8 +50,8 @@ public class SysDeptController {
     @SysLog("新增部门")
     @PostMapping
     @PreAuthorize("@authorize.hasPermission('sys_add_dept')")
-    public R save(@Valid @RequestBody SysDept sysDept) {
-        return R.ok(sysDeptService.saveDept(sysDept));
+    public Response save(@Valid @RequestBody SysDept sysDept) {
+        return Response.success(sysDeptService.saveDept(sysDept));
     }
 
     /**
@@ -63,8 +63,8 @@ public class SysDeptController {
     @SysLog("开启禁用部门")
     @DeleteMapping("/{id}")
     @PreAuthorize("@authorize.hasPermission('sys_delete_dept')")
-    public R delete(@PathVariable Integer id) {
-        return R.ok(sysDeptService.deleteDept(id));
+    public Response delete(@PathVariable Integer id) {
+        return Response.success(sysDeptService.deleteDept(id));
     }
 
     /**
@@ -76,8 +76,8 @@ public class SysDeptController {
     @SysLog("编辑部门")
     @PutMapping
     @PreAuthorize("@authorize.hasPermission('sys_editor_dept')")
-    public R update(@Valid @RequestBody SysDept sysDept) {
-        return R.ok(sysDeptService.updateDept(sysDept));
+    public Response update(@Valid @RequestBody SysDept sysDept) {
+        return Response.success(sysDeptService.updateDept(sysDept));
     }
 
     /**
@@ -86,8 +86,8 @@ public class SysDeptController {
      * @return
      */
     @PostMapping(value = "/tree")
-    public R getDeptTree(@RequestBody List<DeptVo> deptVos) {
-        return R.ok(sysDeptService.getDeptTree(deptVos));
+    public Response getDeptTree(@RequestBody List<DeptVo> deptVos) {
+        return Response.success(sysDeptService.getDeptTree(deptVos));
     }
 
 }

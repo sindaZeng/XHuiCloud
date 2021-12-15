@@ -35,8 +35,11 @@ import java.util.Map;
 @ConditionalOnMissingBean({CacheManager.class})
 @EnableConfigurationProperties(CacheProperties.class)
 public class RedisCacheAutoConfiguration {
+
     private final CacheProperties cacheProperties;
+
     private final CacheManagerCustomizers customizerInvoker;
+
     @Nullable
     private final RedisCacheConfiguration redisCacheConfiguration;
 
@@ -62,22 +65,24 @@ public class RedisCacheAutoConfiguration {
         RedisCacheManager cacheManager = new RedisCacheManager(redisCacheWriter, cacheConfiguration,
                 initialCaches, true);
         cacheManager.setTransactionAware(false);
-        return this.customizerInvoker.customize(cacheManager);
+        return customizerInvoker.customize(cacheManager);
     }
 
     private RedisCacheConfiguration determineConfiguration(ClassLoader classLoader) {
         if (this.redisCacheConfiguration != null) {
             return this.redisCacheConfiguration;
-        } else {
+        }
+        else {
             CacheProperties.Redis redisProperties = this.cacheProperties.getRedis();
             RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig();
-            config = config.serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new JdkSerializationRedisSerializer(classLoader)));
+            config = config.serializeValuesWith(RedisSerializationContext.SerializationPair
+                    .fromSerializer(new JdkSerializationRedisSerializer(classLoader)));
             if (redisProperties.getTimeToLive() != null) {
                 config = config.entryTtl(redisProperties.getTimeToLive());
             }
 
             if (redisProperties.getKeyPrefix() != null) {
-                config = config.prefixKeysWith(redisProperties.getKeyPrefix());
+                config = config.prefixCacheNameWith(redisProperties.getKeyPrefix());
             }
 
             if (!redisProperties.isCacheNullValues()) {

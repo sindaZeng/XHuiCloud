@@ -7,7 +7,7 @@ import com.xhuicloud.pay.dto.PayOrderDto;
 import com.xhuicloud.pay.entity.PayOrderAll;
 import com.xhuicloud.pay.mapper.PayOrderAllMapper;
 import com.xhuicloud.pay.service.PayOrderAllService;
-import com.xhuicloud.common.datasource.tenant.XHuiTenantHolder;
+import com.xhuicloud.common.data.tenant.XHuiTenantHolder;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

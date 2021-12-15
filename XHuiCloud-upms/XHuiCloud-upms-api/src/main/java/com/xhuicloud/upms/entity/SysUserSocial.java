@@ -1,5 +1,6 @@
 package com.xhuicloud.upms.entity;
 
+import com.baomidou.mybatisplus.extension.activerecord.Model;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -8,7 +9,7 @@ import java.io.Serializable;
 
 @Data
 @ApiModel(value="用户社交")
-public class SysUserSocial implements Serializable {
+public class SysUserSocial extends Model<SysUserSocial> {
     /**
      * 用户id
      */
@@ -27,5 +28,4 @@ public class SysUserSocial implements Serializable {
     @ApiModelProperty(value="用户openid")
     private String userOpenid;
 
-    private static final long serialVersionUID = 1L;
 }

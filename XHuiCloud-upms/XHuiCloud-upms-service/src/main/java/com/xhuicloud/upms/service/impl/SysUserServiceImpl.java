@@ -31,7 +31,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static com.xhuicloud.common.core.constant.SysConfigConstants.*;
+import static com.xhuicloud.common.core.constant.SysParamConstants.*;
 
 @Service
 @AllArgsConstructor
@@ -57,10 +57,12 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         userInfo.setSysUser(sysUser);
         //查询该用户的角色
         List<SysRole> sysRoles = sysRoleService.findRoleById(sysUser.getUserId());
-        List<Integer> roleIds = sysRoles.stream().map(SysRole::getRoleId)
+        List<Integer> roleIds = sysRoles.stream().map(SysRole::getId)
+                .collect(Collectors.toList());
+        List<String> roleCodes = sysRoles.stream().map(SysRole::getRoleCode)
                 .collect(Collectors.toList());
 
-        userInfo.setRoles(ArrayUtil.toArray(roleIds, Integer.class));
+        userInfo.setRoles(ArrayUtil.toArray(roleCodes, String.class));
 
         //设置权限列表（menu.permission）
         Set<String> permissions = new HashSet<>();

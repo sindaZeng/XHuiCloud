@@ -1,4 +1,8 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
   com.xhuicloud.common.data.cache.RedisTemplateConfig,\
   com.xhuicloud.common.data.cache.RedisCacheManagerConfig,\
-  com.xhuicloud.common.data.cache.RedisCacheAutoConfiguration
+  com.xhuicloud.common.data.cache.RedisCacheAutoConfiguration,\
+  com.xhuicloud.common.data.tenant.TenantCoreProperties,\
+  com.xhuicloud.common.data.tenant.XHuiTenantFilter,\
+  com.xhuicloud.common.data.tenant.XHuiTenantConfiguration,\
+  com.xhuicloud.common.data.resolver.TenantKeyResolver

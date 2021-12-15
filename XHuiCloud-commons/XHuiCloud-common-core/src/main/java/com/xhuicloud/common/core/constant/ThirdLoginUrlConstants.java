@@ -23,4 +23,9 @@ public interface ThirdLoginUrlConstants {
      */
     String getQqUserInfoUrl = "https://graph.qq.com/user/get_user_info?access_token=%s&oauth_consumer_key=%s&openid=%s";
 
+    /**
+     * 获取小程序/公众号 token
+     */
+    String MINI_WECHAT_ACCESS_TOKEN = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=%s&secret=%s";
+
 }

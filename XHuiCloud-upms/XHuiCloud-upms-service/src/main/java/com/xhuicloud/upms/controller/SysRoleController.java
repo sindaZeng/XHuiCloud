@@ -2,7 +2,7 @@ package com.xhuicloud.upms.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xhuicloud.common.core.constant.CacheConstants;
-import com.xhuicloud.common.core.utils.R;
+import com.xhuicloud.common.core.utils.Response;
 import com.xhuicloud.common.log.annotation.SysLog;
 import com.xhuicloud.upms.dto.RoleDto;
 import com.xhuicloud.upms.entity.SysRole;
@@ -36,8 +36,8 @@ public class SysRoleController {
      */
     @GetMapping("/page")
     @ApiOperation(value = "分页查询角色列表", notes = "分页查询角色列表")
-    public R page(Page page) {
-        return R.ok(sysRoleService.page(page));
+    public Response page(Page page) {
+        return Response.success(sysRoleService.page(page));
     }
 
     /**
@@ -47,8 +47,8 @@ public class SysRoleController {
      */
     @ApiOperation(value = "查询角色列表", notes = "查询角色列表")
     @GetMapping("/list")
-    public R list() {
-        return R.ok(sysRoleService.list()
+    public Response list() {
+        return Response.success(sysRoleService.list()
                 .stream().map(RoleDto::new).collect(Collectors.toList()));
     }
 
@@ -61,10 +61,10 @@ public class SysRoleController {
     @SysLog("新增角色")
     @PostMapping
     @PreAuthorize("@authorize.hasPermission('sys_add_role')")
-    @CacheEvict(value = CacheConstants.SYS_ROLE_IDS, allEntries = true)
+    @CacheEvict(value = CacheConstants.SYS_ROLE, allEntries = true)
     @ApiOperation(value = "新增角色", notes = "新增角色")
-    public R save(@Valid @RequestBody SysRole sysRole) {
-        return R.ok(sysRoleService.save(sysRole));
+    public Response save(@Valid @RequestBody SysRole sysRole) {
+        return Response.success(sysRoleService.save(sysRole));
     }
 
     /**
@@ -76,10 +76,10 @@ public class SysRoleController {
     @SysLog("编辑角色")
     @PutMapping
     @PreAuthorize("@authorize.hasPermission('sys_editor_role')")
-    @CacheEvict(value = CacheConstants.SYS_ROLE_IDS, allEntries = true)
+    @CacheEvict(value = CacheConstants.SYS_ROLE, allEntries = true)
     @ApiOperation(value = "编辑角色", notes = "编辑角色")
-    public R update(@Valid @RequestBody SysRole sysRole) {
-        return R.ok(sysRoleService.updateById(sysRole));
+    public Response update(@Valid @RequestBody SysRole sysRole) {
+        return Response.success(sysRoleService.updateById(sysRole));
     }
 
     /**
@@ -91,10 +91,10 @@ public class SysRoleController {
     @SysLog("删除角色")
     @PreAuthorize("@authorize.hasPermission('sys_delete_role')")
     @DeleteMapping("/{id}")
-    @CacheEvict(value = CacheConstants.SYS_ROLE_IDS, allEntries = true)
+    @CacheEvict(value = CacheConstants.SYS_ROLE, allEntries = true)
     @ApiOperation(value = "删除角色", notes = "删除角色")
-    public R delete(@PathVariable Integer id) {
-        return R.ok(sysRoleService.deleteRoleById(id));
+    public Response delete(@PathVariable Integer id) {
+        return Response.success(sysRoleService.deleteRoleById(id));
     }
 
     /**
@@ -104,8 +104,8 @@ public class SysRoleController {
      * @return
      */
     @GetMapping("/{id}")
-    public R getById(@PathVariable Integer id) {
-        return R.ok(sysRoleService.getById(id));
+    public Response getById(@PathVariable Integer id) {
+        return Response.success(sysRoleService.getById(id));
     }
 
     /**
@@ -118,8 +118,8 @@ public class SysRoleController {
     @SysLog("更新角色菜单")
     @PreAuthorize("@authorize.hasPermission('sys_permission_role')")
     @PostMapping("/menus")
-    public R saveRoleMenus(Integer roleId, @RequestParam(value = "menuIds", required = false) String menuIds) {
-        return R.ok(sysRoleMenuService.saveRoleMenus(roleId, menuIds));
+    public Response saveRoleMenus(Integer roleId, @RequestParam(value = "menuIds", required = false) String menuIds) {
+        return Response.success(sysRoleMenuService.saveRoleMenus(roleId, menuIds));
     }
 
 }

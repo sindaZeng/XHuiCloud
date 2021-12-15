@@ -2,9 +2,9 @@ package com.xhuicloud.upms.controller;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.xhuicloud.common.core.utils.R;
+import com.xhuicloud.common.core.utils.Response;
 import com.xhuicloud.common.log.annotation.SysLog;
-import com.xhuicloud.common.security.annotation.Inner;
+import com.xhuicloud.common.security.annotation.NoAuth;
 import com.xhuicloud.upms.entity.SysTenant;
 import com.xhuicloud.upms.service.SysTenantService;
 import io.swagger.annotations.Api;
@@ -34,10 +34,10 @@ public class SysTenantController {
      *
      * @return
      */
-    @Inner(value = false)
+    @NoAuth(value = false)
     @GetMapping("/list")
-    public R<List<SysTenant>> list() {
-        return R.ok(sysTenantService.list(Wrappers.<SysTenant>lambdaQuery()
+    public Response<List<SysTenant>> list() {
+        return Response.success(sysTenantService.list(Wrappers.<SysTenant>lambdaQuery()
                 .eq(SysTenant::getState, 1).eq(SysTenant::getIsDel, 1)));
     }
 
@@ -48,8 +48,8 @@ public class SysTenantController {
      * @return
      */
     @GetMapping("/page")
-    public R page(Page page, SysTenant sysTenant) {
-        return R.ok(sysTenantService.page(page,  Wrappers.query(sysTenant)));
+    public Response page(Page page, SysTenant sysTenant) {
+        return Response.success(sysTenantService.page(page,  Wrappers.query(sysTenant)));
     }
 
     /**
@@ -60,8 +60,8 @@ public class SysTenantController {
     @SysLog("添加租户")
     @PostMapping
     @PreAuthorize("@authorize.hasPermission('sys_add_tenant')")
-    public R save(@Valid @RequestBody SysTenant sysTenant) {
-        return R.ok(sysTenantService.save(sysTenant));
+    public Response save(@Valid @RequestBody SysTenant sysTenant) {
+        return Response.success(sysTenantService.save(sysTenant));
     }
 
     /**
@@ -72,8 +72,8 @@ public class SysTenantController {
     @SysLog("编辑租户")
     @PutMapping
     @PreAuthorize("@authorize.hasPermission('sys_editor_tenant')")
-    public R update(@Valid @RequestBody SysTenant sysTenant) {
-        return R.ok(sysTenantService.updateById(sysTenant));
+    public Response update(@Valid @RequestBody SysTenant sysTenant) {
+        return Response.success(sysTenantService.updateById(sysTenant));
     }
 
     /**
@@ -85,8 +85,8 @@ public class SysTenantController {
     @SysLog("开启/禁用租户")
     @DeleteMapping("/{id}")
     @PreAuthorize("@authorize.hasPermission('sys_delete_tenant')")
-    public R delete(@PathVariable Integer id) {
-        return R.ok(sysTenantService.deleteTenant(id));
+    public Response delete(@PathVariable Integer id) {
+        return Response.success(sysTenantService.deleteTenant(id));
     }
 
     /**
@@ -98,8 +98,8 @@ public class SysTenantController {
     @SysLog("改变租户状态")
     @GetMapping("/state")
     @PreAuthorize("@authorize.hasPermission('sys_delete_tenant')")
-    public R state(@RequestParam(value = "id") Integer id, @RequestParam(value = "state") Integer state) {
-        return R.ok(sysTenantService.state(id, state));
+    public Response state(@RequestParam(value = "id") Integer id, @RequestParam(value = "state") Integer state) {
+        return Response.success(sysTenantService.state(id, state));
     }
 
 }

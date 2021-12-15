@@ -25,7 +25,7 @@ public class SocialSecurityConfigurer extends SecurityConfigurerAdapter<DefaultS
     @Autowired
     private AuthenticationEventPublisher defaultAuthenticationEventPublisher;
     @Autowired
-    private AuthenticationSuccessHandler authenticationSuccessHandler;
+    private AuthenticationSuccessHandler mobileAuthSuccessHandler;
     @Autowired
     private XHuiUserDetailsService userDetailsService;
 
@@ -33,7 +33,7 @@ public class SocialSecurityConfigurer extends SecurityConfigurerAdapter<DefaultS
     public void configure(HttpSecurity http) {
         SocialAuthenticationFilter socialAuthenticationFilter = new SocialAuthenticationFilter();
         socialAuthenticationFilter.setAuthenticationManager(http.getSharedObject(AuthenticationManager.class));
-        socialAuthenticationFilter.setAuthenticationSuccessHandler(authenticationSuccessHandler);
+        socialAuthenticationFilter.setAuthenticationSuccessHandler(mobileAuthSuccessHandler);
         socialAuthenticationFilter.setEventPublisher(defaultAuthenticationEventPublisher);
         socialAuthenticationFilter.setAuthenticationEntryPoint(new ResourceAuthExceptionEntryPoint(objectMapper));
 

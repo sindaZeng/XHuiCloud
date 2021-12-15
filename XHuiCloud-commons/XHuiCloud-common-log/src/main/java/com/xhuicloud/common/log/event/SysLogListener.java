@@ -29,7 +29,7 @@ public class SysLogListener {
     @EventListener(SysLogEvent.class)
     public void saveSysLog(SysLogEvent sysLogEvent) {
         SysLog sysLog = sysLogEvent.getSysLog();
-        sysLogServiceFeign.save(sysLog, IS_COMMING_INNER_YES);
+//        sysLogServiceFeign.save(sysLog, IS_COMMING_INNER_YES);
     }
 
 }

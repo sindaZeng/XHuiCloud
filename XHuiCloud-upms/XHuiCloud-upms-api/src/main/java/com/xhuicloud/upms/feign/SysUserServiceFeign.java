@@ -2,7 +2,7 @@ package com.xhuicloud.upms.feign;
 
 import com.xhuicloud.common.core.constant.ServiceNameConstants;
 import com.xhuicloud.upms.dto.UserInfo;
-import com.xhuicloud.common.core.utils.R;
+import com.xhuicloud.common.core.utils.Response;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,10 +16,10 @@ public interface SysUserServiceFeign {
 
     String SYSUSERSERVICEFEIGN = "sysUserServiceFeign";
 
-    @GetMapping("/user/{userName}")
-    R<UserInfo> getSysUser(@PathVariable("userName") String userName, @RequestHeader(FROM) String from);
+    @GetMapping("/user/info/{userName}")
+    Response<UserInfo> getSysUser(@PathVariable("userName") String userName, @RequestHeader(FROM) String from);
 
     @PostMapping("/user")
-    R user(@RequestHeader(FROM) String from);
+    Response user(@RequestHeader(FROM) String from);
 
 }

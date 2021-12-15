@@ -1,7 +1,7 @@
 package com.xhuicloud.auth.controller;
 
 import cn.hutool.core.util.StrUtil;
-import com.xhuicloud.common.core.utils.R;
+import com.xhuicloud.common.core.utils.Response;
 import com.xhuicloud.common.security.utils.SecurityHolder;
 import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;
@@ -77,21 +77,21 @@ public class AuthController {
      * 退出登录
      */
     @PostMapping("/logout")
-    public R logout(@RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String authorization) {
+    public Response logout(@RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String authorization) {
         if (StrUtil.isBlank(authorization)) {
-            return R.ok(Boolean.FALSE, "退出失败,未找到此token!");
+            return Response.success(Boolean.FALSE, "退出失败,未找到此token!");
         }
         String tokenValue = authorization.replace(OAuth2AccessToken.BEARER_TYPE, StrUtil.EMPTY).trim();
 
         OAuth2AccessToken accessToken = tokenStore.readAccessToken(tokenValue);
         if (accessToken == null || StrUtil.isBlank(accessToken.getValue())) {
-            return R.ok(Boolean.TRUE, "退出失败,未找到此token!");
+            return Response.success(Boolean.TRUE, "退出失败,未找到此token!");
         }
         // 清空access token
         tokenStore.removeAccessToken(accessToken);
         // 清空 refresh token
         tokenStore.removeRefreshToken(accessToken.getRefreshToken());
-        return R.ok(Boolean.TRUE);
+        return Response.success(Boolean.TRUE);
     }
 
 }

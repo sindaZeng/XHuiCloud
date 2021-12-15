@@ -1,19 +1,28 @@
 package com.xhuicloud.upms.entity;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.extension.activerecord.Model;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
-import java.io.Serializable;
+import lombok.NoArgsConstructor;
+
 import java.time.LocalDateTime;
 
 /**
  * 参数配置表
  */
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @ApiModel(value = "参数配置")
-public class SysParam implements Serializable {
+public class SysParam extends Model<SysParam> {
     /**
      * 参数主键
      */
@@ -60,25 +69,27 @@ public class SysParam implements Serializable {
     /**
      * 创建者id
      */
-    @ApiModelProperty(value = "创建者id")
+    @ApiModelProperty(value = "创建者id", hidden = true)
+    @TableField(fill = FieldFill.INSERT)
     private Integer createId;
 
     /**
      * 创建时间
      */
-    @ApiModelProperty(value = "创建时间")
+    @ApiModelProperty(value = "创建时间", hidden = true)
     private LocalDateTime createTime;
 
     /**
      * 更新者id
      */
-    @ApiModelProperty(value = "更新者id")
+    @ApiModelProperty(value = "更新者id", hidden = true)
+    @TableField(fill = FieldFill.UPDATE)
     private Integer updateId;
 
     /**
      * 更新时间
      */
-    @ApiModelProperty(value = "更新时间")
+    @ApiModelProperty(value = "更新时间", hidden = true)
     private LocalDateTime updateTime;
 
     /**
@@ -87,5 +98,4 @@ public class SysParam implements Serializable {
     @ApiModelProperty(value = "0:否 1:是")
     private Integer isDel;
 
-    private static final long serialVersionUID = 1L;
 }

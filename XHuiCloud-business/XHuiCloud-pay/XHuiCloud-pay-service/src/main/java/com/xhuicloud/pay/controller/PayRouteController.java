@@ -1,7 +1,7 @@
 package com.xhuicloud.pay.controller;
 
 import cn.hutool.core.util.ObjectUtil;
-import com.xhuicloud.common.security.annotation.Inner;
+import com.xhuicloud.common.security.annotation.NoAuth;
 import com.xhuicloud.common.core.constant.CommonConstants;
 import com.xhuicloud.common.core.enums.pay.PayTypeEnum;
 import com.xhuicloud.common.core.exception.SysException;
@@ -9,7 +9,7 @@ import com.xhuicloud.pay.config.PayConfigInit;
 import com.xhuicloud.pay.dto.PayOrderDto;
 import com.xhuicloud.pay.handle.impl.AliPayServiceImpl;
 import com.xhuicloud.pay.properties.PayProperties;
-import com.xhuicloud.common.datasource.tenant.XHuiTenantHolder;
+import com.xhuicloud.common.data.tenant.XHuiTenantHolder;
 import com.xhuicloud.pay.utils.UserAgentUtil;
 import com.xhuicloud.upms.entity.SysTenant;
 import io.swagger.annotations.Api;
@@ -48,7 +48,7 @@ public class PayRouteController {
      */
     @SneakyThrows
     @GetMapping
-    @Inner(value = false)
+    @NoAuth(value = false)
     public ModelAndView toPay(ModelAndView modelAndView,
                               HttpServletRequest request) {
         SysTenant sysTenant = getTenant(XHuiTenantHolder.getTenant());
@@ -88,7 +88,7 @@ public class PayRouteController {
      */
     @SneakyThrows
     @GetMapping("/call")
-    @Inner(value = false)
+    @NoAuth(value = false)
     public ModelAndView call(PayOrderDto payOrderDto,
                              HttpServletRequest request,
                              ModelAndView modelAndView) {

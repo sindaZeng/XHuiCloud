@@ -1,16 +1,15 @@
 package com.xhuicloud.upms.entity;
 
+import com.baomidou.mybatisplus.extension.activerecord.Model;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
-
-import java.io.Serializable;
 
 /**
  * 角色菜单表
  */
 @Data
 @ApiModel(value = "角色菜单")
-public class SysRoleMenu implements Serializable {
+public class SysRoleMenu extends Model<SysRoleMenu> {
     /**
      * 角色id
      */
@@ -21,5 +20,4 @@ public class SysRoleMenu implements Serializable {
      */
     private Integer menuId;
 
-    private static final long serialVersionUID = 1L;
 }

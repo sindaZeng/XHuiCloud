@@ -1,10 +1,8 @@
 package com.xhuicloud.upms.controller;
 
-import cn.hutool.core.util.StrUtil;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.xhuicloud.common.core.utils.R;
+import com.xhuicloud.common.core.utils.Response;
 import com.xhuicloud.common.log.annotation.SysLog;
 import com.xhuicloud.upms.entity.SysFile;
 import com.xhuicloud.upms.service.SysFileService;
@@ -37,8 +35,8 @@ public class SysFileController {
      * @return
      */
     @GetMapping("/page")
-    public R page(Page page, SysFile sysFile) {
-        return R.ok(sysFileService.page(page,
+    public Response page(Page page, SysFile sysFile) {
+        return Response.success(sysFileService.page(page,
                 Wrappers.lambdaQuery(sysFile)));
     }
 
@@ -51,8 +49,8 @@ public class SysFileController {
     @SysLog("上传文件")
     @PostMapping("/upload/{fileType}")
     @PreAuthorize("@authorize.hasPermission('sys_upload_file')")
-    public R upload(@RequestParam("file") MultipartFile file, @PathVariable("fileType") String fileType) {
-        return R.ok(sysFileService.upload(file, fileType));
+    public Response upload(@RequestParam("file") MultipartFile file, @PathVariable("fileType") String fileType) {
+        return Response.success(sysFileService.upload(file, fileType));
     }
 
     /**
@@ -64,8 +62,8 @@ public class SysFileController {
     @SysLog("删除文件")
     @DeleteMapping("/{id}")
     @PreAuthorize("@authorize.hasPermission('sys_delete_file')")
-    public R delete(@PathVariable Integer id) {
-        return R.ok(sysFileService.deleteFileById(id));
+    public Response delete(@PathVariable Integer id) {
+        return Response.success(sysFileService.deleteFileById(id));
     }
 
     /**
@@ -85,8 +83,8 @@ public class SysFileController {
      * @param id
      */
     @GetMapping("/detail/{id}")
-    public R detail(@PathVariable Integer id) {
-       return R.ok(sysFileService.detail(id));
+    public Response detail(@PathVariable Integer id) {
+       return Response.success(sysFileService.detail(id));
     }
 
 }

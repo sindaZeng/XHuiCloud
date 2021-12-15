@@ -55,7 +55,7 @@ public class XHuiWebResponseExceptionTranslator implements WebResponseExceptionT
         if (ase != null) {
             String msg = SecurityMessageUtil.getAccessor().getMessage(
                     "AbstractUserDetailsAuthenticationProvider.badCredentials", ase.getMessage(), Locale.CHINA);
-            return handleOAuth2Exception(new InvalidException(ase.getMessage(), ase));
+            return handleOAuth2Exception(new InvalidException(msg, ase));
         }
 
         ase = (HttpRequestMethodNotSupportedException) throwableAnalyzer
@@ -76,21 +76,12 @@ public class XHuiWebResponseExceptionTranslator implements WebResponseExceptionT
     }
 
     private ResponseEntity<OAuth2Exception> handleOAuth2Exception(OAuth2Exception e) {
-
         int status = e.getHttpErrorCode();
-        HttpHeaders headers = new HttpHeaders();
-        headers.set(HttpHeaders.CACHE_CONTROL, "no-store");
-        headers.set(HttpHeaders.PRAGMA, "no-cache");
-        if (status == HttpStatus.UNAUTHORIZED.value() || (e instanceof InsufficientScopeException)) {
-            headers.set(HttpHeaders.WWW_AUTHENTICATE, String.format("%s %s", OAuth2AccessToken.BEARER_TYPE, e.getSummary()));
-        }
-
         // 客户端异常直接返回客户端,不然无法解析
         if (e instanceof ClientAuthenticationException) {
-            return new ResponseEntity<>(e, headers,
-                    HttpStatus.valueOf(status));
+            return new ResponseEntity<>(e, HttpStatus.valueOf(status));
         }
-        return new ResponseEntity<>(new XHuiOAuth2Exception(e.getMessage(), e.getOAuth2ErrorCode()), headers,
+        return new ResponseEntity<>(new XHuiOAuth2Exception(e.getMessage(), e.getOAuth2ErrorCode()),
                 HttpStatus.valueOf(status));
 
     }

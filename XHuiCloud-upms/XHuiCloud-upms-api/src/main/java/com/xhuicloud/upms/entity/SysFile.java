@@ -1,11 +1,13 @@
 package com.xhuicloud.upms.entity;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.extension.activerecord.Model;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
@@ -13,13 +15,7 @@ import java.time.LocalDateTime;
  */
 @Data
 @ApiModel(value = "文件")
-public class SysFile implements Serializable {
-    /**
-     * 文件ID
-     */
-    @TableId(type = IdType.AUTO)
-    @ApiModelProperty(value = "文件ID")
-    private Integer id;
+public class SysFile extends Model<SysFile> {
 
     /**
      * 图片Url
@@ -58,16 +54,37 @@ public class SysFile implements Serializable {
     private String bucketName;
 
     /**
-     * 上传用户id
+     * 文件ID
      */
-    @ApiModelProperty(value = "上传用户id")
+    @TableId(type = IdType.AUTO)
+    @ApiModelProperty(value = "文件ID")
+    private Integer id;
+
+    /**
+     * 创建时间
+     */
+    @ApiModelProperty(value = "创建时间", hidden = true)
+    private LocalDateTime createTime;
+
+    /**
+     * 创建者id
+     */
+    @ApiModelProperty(value = "创建者id", hidden = true)
+    @TableField(fill = FieldFill.INSERT)
     private Integer createId;
 
     /**
-     * 上传时间
+     * 更新时间
      */
-    @ApiModelProperty(value = "上传时间")
-    private LocalDateTime createTime;
+    @ApiModelProperty(value = "更新时间", hidden = true)
+    private LocalDateTime updateTime;
+
+    /**
+     * 更新者id
+     */
+    @ApiModelProperty(value = "更新者id", hidden = true)
+    @TableField(fill = FieldFill.UPDATE)
+    private Integer updateId;
 
     /**
      * 0:否 1:是
@@ -81,5 +98,4 @@ public class SysFile implements Serializable {
     @ApiModelProperty(value = "租户id")
     private Integer tenantId;
 
-    private static final long serialVersionUID = 1L;
 }

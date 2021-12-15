@@ -6,14 +6,14 @@ ENV TZ=Asia/Shanghai
 
 RUN ln -sf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
-RUN mkdir -p /FDP-pay-business
+RUN mkdir -p /XHuiCloud-pay-service
 
-WORKDIR /FDP-pay-business
+WORKDIR /XHuiCloud-pay-service
 
-EXPOSE 20000
+EXPOSE 23000
 
-ADD ./target/FDP-pay-business.jar ./
+ADD ./target/XHuiCloud-pay-service.jar ./
 
-CMD sleep 120;java -Xms128m -Xmx256m -jar FDP-pay-business.jar
+CMD sleep 120;java -Xms256m -Xmx512m -Djava.security.egd=file:/dev/./urandom -jar XHuiCloud-pay-service.jar
 
 

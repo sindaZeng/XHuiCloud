@@ -1,7 +1,7 @@
 package com.xhuicloud.upms.controller;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.xhuicloud.common.core.utils.R;
+import com.xhuicloud.common.core.utils.Response;
 import com.xhuicloud.common.log.annotation.SysLog;
 import com.xhuicloud.common.security.utils.SecurityHolder;
 import com.xhuicloud.upms.dto.MenuTree;
@@ -41,16 +41,16 @@ public class SysMenuController {
      * @return 当前用户的树形菜单
      */
     @GetMapping
-    public R getUserMenu() {
+    public Response getUserMenu() {
         Set<MenuVO> all = new HashSet<>();
         SecurityHolder.getRoles()
-                .forEach(roleId -> all.addAll(sysMenuService.findMenuByRoleId(roleId)));
+                .forEach(roleCode -> all.addAll(sysMenuService.findMenuByRoleCode(roleCode)));
         List<MenuTree> menuTreeList = all.stream()
                 .filter(menuVo -> 0 == menuVo.getType())
                 .map(MenuTree::new)
                 .sorted(Comparator.comparingInt(MenuTree::getSort))
                 .collect(Collectors.toList());
-        return R.ok(TreeUtil.build(menuTreeList, 0));
+        return Response.success(TreeUtil.build(menuTreeList, 0));
     }
 
     /**
@@ -60,10 +60,10 @@ public class SysMenuController {
      * @return
      */
     @GetMapping("/tree/{roleId}")
-    public R getRoleTree(@PathVariable Integer roleId) {
-        return R.ok(sysMenuService.findMenuByRoleId(roleId)
+    public Response getRoleTree(@PathVariable Integer roleId) {
+        return Response.success(sysMenuService.findMenuByRoleId(roleId)
                 .stream()
-                .map(MenuVO::getMenuId)
+                .map(MenuVO::getId)
                 .collect(Collectors.toList()));
     }
 
@@ -73,8 +73,8 @@ public class SysMenuController {
      * @return
      */
     @GetMapping(value = "/tree")
-    public R getMenuTree(@RequestParam Boolean disabled) {
-        return R.ok(TreeUtil.buildMenuTree(disabled, sysMenuService
+    public Response getMenuTree(@RequestParam Boolean disabled) {
+        return Response.success(TreeUtil.buildMenuTree(disabled, sysMenuService
                 .list(Wrappers.<SysMenu>lambdaQuery()
                         .orderByAsc(SysMenu::getSort)), 0));
     }
@@ -88,8 +88,8 @@ public class SysMenuController {
     @SysLog("新增菜单")
     @PostMapping
     @PreAuthorize("@authorize.hasPermission('sys_add_menu')")
-    public R save(@Valid @RequestBody SysMenu sysMenu) {
-        return R.ok(sysMenuService.saveMenu(sysMenu));
+    public Response save(@Valid @RequestBody SysMenu sysMenu) {
+        return Response.success(sysMenuService.saveMenu(sysMenu));
     }
 
     /**
@@ -101,8 +101,8 @@ public class SysMenuController {
     @SysLog("开启禁用菜单")
     @DeleteMapping("/{id}")
     @PreAuthorize("@authorize.hasPermission('sys_delete_menu')")
-    public R delete(@PathVariable Integer id) {
-        return R.ok(sysMenuService.deleteMenu(id));
+    public Response delete(@PathVariable Integer id) {
+        return Response.success(sysMenuService.deleteMenu(id));
     }
 
     /**
@@ -114,7 +114,7 @@ public class SysMenuController {
     @SysLog("编辑菜单")
     @PutMapping
     @PreAuthorize("@authorize.hasPermission('sys_editor_menu')")
-    public R update(@Valid @RequestBody SysMenu sysMenu) {
-        return R.ok(sysMenuService.updateMenu(sysMenu));
+    public Response update(@Valid @RequestBody SysMenu sysMenu) {
+        return Response.success(sysMenuService.updateMenu(sysMenu));
     }
 }

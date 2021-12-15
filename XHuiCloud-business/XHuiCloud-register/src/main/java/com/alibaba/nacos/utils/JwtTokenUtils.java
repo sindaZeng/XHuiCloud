@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.alibaba.nacos.utils;
 
 import io.jsonwebtoken.*;
@@ -33,7 +34,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Jwt token tool
+ * Jwt token tool.
  *
  * @author wfnuser
  */
@@ -45,31 +46,34 @@ public class JwtTokenUtils {
 	private static final String AUTHORITIES_KEY = "auth";
 
 	/**
-	 * minimum SHA_256 secretKey string length
+	 * minimum SHA_256 secretKey string length.
 	 */
 	private static final int SHA_256_SECRET_CHAR_SIZE = 256 / 8;
 
 	/**
-	 * default SHA_256 secretKey flag
+	 * default SHA_256 secretKey flag.
 	 */
 	private static final String DEFAULT_SECRET_FLAG = "default";
 
 	/**
-	 * custom SHA_256 secretKey from config property
+	 * custom SHA_256 secretKey from config property.
 	 */
 	@Value("${nacos.security.token.secret-key:default}")
 	private String customSecretKeyStr;
 
 	/**
-	 * secret key
+	 * secret key.
 	 */
 	private SecretKey secretKey;
 
 	/**
-	 * Token validity time(ms)
+	 * Token validity time(ms).
 	 */
 	private long tokenValidityInMilliseconds;
 
+	/**
+	 * Init.
+	 */
 	@PostConstruct
 	public void init() {
 		// use default secretKey for SHA-256
@@ -96,37 +100,27 @@ public class JwtTokenUtils {
 	}
 
 	/**
-	 * Create token
+	 * Create token.
 	 * @param authentication auth info
 	 * @return token
 	 */
 	public String createToken(Authentication authentication) {
-		/**
-		 * Current time
-		 */
-		long now = (new Date()).getTime();
-		/**
-		 * Validity date
-		 */
-		Date validity;
-		validity = new Date(now + this.tokenValidityInMilliseconds);
 
-		/**
-		 * create token
-		 */
+		long now = System.currentTimeMillis();
+
+		Date validity = new Date(now + this.tokenValidityInMilliseconds);
+
 		return Jwts.builder().setSubject(authentication.getName()).claim(AUTHORITIES_KEY, "").setExpiration(validity)
 				.signWith(secretKey, SignatureAlgorithm.HS256).compact();
 	}
 
 	/**
-	 * Get auth Info
+	 * Get auth Info.
 	 * @param token token
 	 * @return auth info
 	 */
 	public Authentication getAuthentication(String token) {
-		/**
-		 * parse the payload of token
-		 */
+
 		Claims claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody();
 
 		List<GrantedAuthority> authorities = AuthorityUtils
@@ -137,7 +131,7 @@ public class JwtTokenUtils {
 	}
 
 	/**
-	 * validate token
+	 * validate token.
 	 * @param token token
 	 * @return whether valid
 	 */

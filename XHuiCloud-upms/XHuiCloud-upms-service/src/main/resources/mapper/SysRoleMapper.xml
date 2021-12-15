@@ -4,31 +4,34 @@
   <resultMap id="BaseResultMap" type="com.xhuicloud.upms.entity.SysRole">
     <!--@mbg.generated-->
     <!--@Table sys_role-->
-    <id column="role_id" jdbcType="INTEGER" property="roleId" />
+    <id column="id" jdbcType="INTEGER" property="id" />
     <id column="role_code" jdbcType="INTEGER" property="roleCode" />
     <result column="role_name" jdbcType="VARCHAR" property="roleName" />
     <result column="role_desc" jdbcType="VARCHAR" property="roleDesc" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="create_id" jdbcType="INTEGER" property="createId" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="update_id" jdbcType="INTEGER" property="updateId" />
     <result column="is_del" jdbcType="INTEGER" property="isDel" />
+    <result column="tenant_id" jdbcType="INTEGER" property="tenantId" />
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
-    role_id, role_code, role_name, role_desc, create_time, update_time, is_del
+    id, role_code, role_name, role_desc, create_time, create_id, update_time, update_id, is_del, tenant_id
   </sql>
 
   <select id="listRolesByUserId" resultMap="BaseResultMap">
     SELECT
     r.*
     FROM
-    sys_role r, sys_user_role ur WHERE r.role_id = ur.role_id AND r.is_del = 0 and  ur.user_id IN (#{userId})
+    sys_role r, sys_user_role ur WHERE r.id = ur.role_id AND r.is_del = 0 and  ur.user_id IN (#{userId})
   </select>
 
   <select id="listRolesNameByUserId" resultType="com.xhuicloud.upms.vo.RoleVo">
     SELECT
-    r.role_id roleId,
+    r.id,
     r.role_name roleName
     FROM
-    sys_role r, sys_user_role ur WHERE r.role_id = ur.role_id AND r.is_del = 0 and  ur.user_id IN (#{userId})
+    sys_role r, sys_user_role ur WHERE r.id = ur.role_id AND r.is_del = 0 and  ur.user_id IN (#{userId})
   </select>
 </mapper>

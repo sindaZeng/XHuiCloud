@@ -9,6 +9,7 @@ import com.xhuicloud.common.security.utils.SecurityHolder;
 import com.xhuicloud.upms.entity.SysParam;
 import com.xhuicloud.upms.mapper.SysParamMapper;
 import com.xhuicloud.upms.service.SysParamService;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,7 +20,7 @@ public class SysParamServiceImpl extends ServiceImpl<SysParamMapper, SysParam> i
     @Override
     @Cacheable(value = CacheConstants.SYS_PARAM, key = "#key", unless = "#result == null")
     public SysParam getSysParamByKey(String key) {
-        return getOne(Wrappers.<SysParam>lambdaQuery().eq(SysParam::getParamKey,key).eq(SysParam::getIsDel,1));
+        return getOne(Wrappers.<SysParam>lambdaQuery().eq(SysParam::getParamKey,key));
     }
 
     @Override

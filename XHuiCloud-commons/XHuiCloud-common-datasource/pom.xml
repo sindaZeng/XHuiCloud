@@ -13,76 +13,38 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-aop</artifactId>
+            <groupId>com.baomidou</groupId>
+            <artifactId>dynamic-datasource-spring-boot-starter</artifactId>
         </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-jdbc</artifactId>
-        </dependency>
-
-        <!--mybatis plus-->
         <dependency>
             <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-boot-starter</artifactId>
+            <artifactId>mybatis-plus-extension</artifactId>
         </dependency>
-
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-configuration-processor</artifactId>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>XHuiCloud-common-security</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid</artifactId>
             <optional>true</optional>
         </dependency>
-
-        <!-- druid 连接池 -->
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>druid-spring-boot-starter</artifactId>
+            <scope>provided</scope>
         </dependency>
-
-        <!--web 模块-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-
-        <!--驱动包-->
-        <!-- oracle begin -->
-        <!--        <dependency>-->
-        <!--            <groupId>com.oracle</groupId>-->
-        <!--            <artifactId>ojdbc6</artifactId>-->
-        <!--        </dependency>-->
-        <!-- oracle end -->
-
-        <!-- sqlServer begin -->
-        <!--        <dependency>-->
-        <!--            <groupId>net.sourceforge.jtds</groupId>-->
-        <!--            <artifactId>jtds</artifactId>-->
-        <!--        </dependency>-->
-        <!-- sqlServer end -->
-
-        <!-- mysql begin -->
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-        </dependency>
-        <!-- mysql end -->
-
-        <!--驱动包-->
-
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>transmittable-thread-local</artifactId>
-        </dependency>
-
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>XHuiCloud-common-core</artifactId>
         </dependency>
-
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>XHuiCloud-common-feign</artifactId>
+            <artifactId>XHuiCloud-common-data</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
         </dependency>
     </dependencies>
 </project>

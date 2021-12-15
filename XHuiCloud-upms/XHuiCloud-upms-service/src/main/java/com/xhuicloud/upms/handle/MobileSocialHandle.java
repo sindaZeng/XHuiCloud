@@ -3,7 +3,7 @@ package com.xhuicloud.upms.handle;
 import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.xhuicloud.common.datasource.tenant.XHuiTenantHolder;
+import com.xhuicloud.common.data.tenant.XHuiTenantHolder;
 import com.xhuicloud.upms.dto.UserInfo;
 import com.xhuicloud.upms.entity.SysUser;
 import com.xhuicloud.upms.service.SysUserService;

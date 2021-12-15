@@ -16,9 +16,11 @@
         <module>XHuiCloud-gateway</module>
         <module>XHuiCloud-register</module>
         <module>XHuiCloud-transaction</module>
-        <module>XHuiCloud-task</module>
         <module>XHuiCloud-logs</module>
         <module>XHuiCloud-generator</module>
         <module>XHuiCloud-pay</module>
+        <module>XHuiCloud-xxl-admin</module>
+        <module>XHuiCloud-job</module>
+        <module>XHuiCloud-push</module>
     </modules>
 </project>

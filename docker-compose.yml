@@ -1,26 +1,5 @@
 version: '2'
 services:
-  xhuicloud-mysql:
-    build:
-      context: doc/db
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-    restart: always
-    container_name: xhuicloud-mysql
-    image: xhuicloud-mysql
-    ports:
-      - 3306:3306
-    volumes:
-      - ./xhuicloud-mysql:/var/lib/mysql
-    command: --lower_case_table_names=1
-
-  xhuicloud-redis:
-    container_name: xhuicloud-redis
-    image: redis:5.0.7
-    restart: always
-    ports:
-      - 6379:6379
-
   xhuicloud-zk:
     image: zookeeper:3.4.11
     restart: always
@@ -30,13 +9,7 @@ services:
 
   xhuicloud-register:
     build:
-      context: ./FDP-management-business/FDP-register
-    environment:
-      - REDIS_HOST=xhuicloud-redis
-      - MYSQL_HOST=xhuicloud-mysql
-      - MYSQL_PORT=3306
-      - MYSQL_USER=root
-      - MYSQL_PASSWORD=root
+      context: ./XHuiCloud-business/XHuiCloud-register
     restart: always
     container_name: xhuicloud-register
     image: xhuicloud-register
@@ -45,11 +18,7 @@ services:
 
   xhuicloud-gateway:
     build:
-      context: ./FDP-management-business/XHuiCloud-gateway
-    environment:
-      - REDIS_HOST=xhuicloud-redis
-      - NACOS_HOST=xhuicloud-register
-      - NACOS_PORT=13000
+      context: ./XHuiCloud-business/XHuiCloud-gateway
     restart: always
     container_name: xhuicloud-gateway
     image: xhuicloud-gateway
@@ -58,74 +27,36 @@ services:
 
   xhuicloud-auth:
     build:
-      context: ./FDP-auth
-    environment:
-      - REDIS_HOST=xhuicloud-redis
-      - NACOS_HOST=xhuicloud-register
-      - NACOS_PORT=13000
-      - MYSQL_HOST=xhuicloud-mysql
-      - MYSQL_PORT=3306
-      - MYSQL_USER=root
-      - MYSQL_PASSWORD=root
+      context: ./XHuiCloud-auth
     restart: always
     container_name: xhuicloud-auth
     image: xhuicloud-auth
 
-  xhuicloud-upmm:
+  xhuicloud-upms:
     build:
-      context: ./FDP-upmm/FDP-upmm-business
-    environment:
-      - REDIS_HOST=xhuicloud-redis
-      - NACOS_HOST=xhuicloud-register
-      - NACOS_PORT=13000
-      - MYSQL_HOST=xhuicloud-mysql
-      - MYSQL_PORT=3306
-      - MYSQL_USER=root
-      - MYSQL_PASSWORD=root
+      context: ./XHuiCloud-upms/XHuiCloud-upmm-service
     restart: always
     container_name: xhuicloud-upmm
     image: xhuicloud-upmm
 
   xhuicloud-logs:
     build:
-      context: ./FDP-management-business/FDP-logs/FDP-logs-business
-    environment:
-      - NACOS_HOST=xhuicloud-register
-      - NACOS_PORT=13000
-      - MYSQL_HOST=xhuicloud-mysql
-      - MYSQL_PORT=3306
-      - MYSQL_USER=root
-      - MYSQL_PASSWORD=root
+      context: ./XHuiCloud-business/XHuiCloud-logs/XHuiCloud-logs-service
     restart: always
     container_name: xhuicloud-logs
     image: xhuicloud-logs
 
   xhuicloud-pay:
     build:
-      context: ./FDP-management-business/FDP-pay/FDP-pay-business
-    environment:
-      - ZK_HOST=xhuicloud-zk
-      - ZK_PORT=2181
-      - NACOS_HOST=xhuicloud-register
-      - NACOS_PORT=13000
-      - MYSQL_HOST=xhuicloud-mysql
-      - MYSQL_PORT=3306
-      - MYSQL_USER=root
-      - MYSQL_PASSWORD=root
+      context: ./XHuiCloud-business/XHuiCloud-pay/XHuiCloud-pay-service
     restart: always
     container_name: xhuicloud-pay
     image: xhuicloud-pay
 
-  xhuicloud-gen:
+  xhuicloud-push:
     build:
-      context: ./FDP-management-business/FDP-generator
-    environment:
-      - NACOS_HOST=xhuicloud-register
-      - NACOS_PORT=13000
-      - MYSQL_HOST=xhuicloud-mysql
-      - MYSQL_PORT=3306
-      - MYSQL_USER=root
-      - MYSQL_PASSWORD=root
+      context: ./XHuiCloud-business/XHuiCloud-push/XHuiCloud-push-service
     restart: always
-    container_name: xhuicloud-gen
-    image: xhuicloud-gen
+    container_name: xhuicloud-push
+    image: xhuicloud-push
+

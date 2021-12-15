@@ -1,4 +1,4 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-    com.xhuicloud.common.log.LogAutoConfiguration
+    com.xhuicloud.common.log.XHuiLogAutoConfiguration
 org.springframework.context.ApplicationContextInitializer=\
     com.xhuicloud.common.log.init.ApplicationLoggerInitializer

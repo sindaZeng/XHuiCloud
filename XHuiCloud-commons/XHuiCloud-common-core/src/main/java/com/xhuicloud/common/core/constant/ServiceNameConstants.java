@@ -21,4 +21,9 @@ public interface ServiceNameConstants {
      */
     String XHUICLOUD_PAY_SERVICE = "XHuiCloud-pay-service";
 
+    /**
+     * 分布式任务调度
+     */
+    String XHUICLOUD_XXL_ADMIN_SERVICE = "XHuiCloud-xxl-admin-service";
+
 }

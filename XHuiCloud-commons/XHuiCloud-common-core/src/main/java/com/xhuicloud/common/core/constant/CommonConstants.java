@@ -100,4 +100,9 @@ public interface CommonConstants {
      * 用户手机号参数名称
      */
     String USER_PHONE = "phone";
+
+    /**
+     * 回调
+     */
+    String REDIRECT_URL = "redirect_url";
 }

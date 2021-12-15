@@ -18,49 +18,14 @@ import java.util.List;
 public class SwaggerProperties {
 
     /**
-     * 标题
-     **/
-    private String title = "";
+     * 是否开启swagger
+     */
+    private Boolean enabled = true;
 
     /**
-     * 描述
-     **/
-    private String description = "";
-
-    /**
-     * 授权
-     **/
-    private String license = "";
-
-    /**
-     * 授权地址
-     **/
-    private String licenseUrl = "";
-
-    /**
-     * 服务条款URL
-     **/
-    private String termsOfServiceUrl = "";
-
-    /**
-     * 版本
-     **/
-    private String version = "";
-
-    /**
-     * host信息
-     **/
-    private String host = "";
-
-    /**
-     * swagger解析包路径
+     * swagger会解析的包路径
      **/
     private String basePackage = "";
-
-    /**
-     * 联系人信息
-     */
-    private Contact contact = new Contact();
 
     /**
      * swagger会解析的url规则
@@ -72,10 +37,60 @@ public class SwaggerProperties {
      **/
     private List<String> excludePath = new ArrayList<>();
 
+    /**
+     * 需要排除的服务
+     */
+    private List<String> ignoreProviders = new ArrayList<>();
+
+    /**
+     * 标题
+     **/
+    private String title = "";
+
+    /**
+     * 描述
+     **/
+    private String description = "";
+
+    /**
+     * 版本
+     **/
+    private String version = "";
+
+    /**
+     * 许可证
+     **/
+    private String license = "";
+
+    /**
+     * 许可证URL
+     **/
+    private String licenseUrl = "";
+
+    /**
+     * 服务条款URL
+     **/
+    private String termsOfServiceUrl = "";
+
+    /**
+     * host信息
+     **/
+    private String host = "";
+
+    /**
+     * 联系人信息
+     */
+    private Contact contact = new Contact();
+
+    /**
+     * 全局统一鉴权配置
+     **/
+    private Authorization authorization = new Authorization();
 
     @Data
     @NoArgsConstructor
     public static class Contact {
+
         /**
          * 联系人
          **/
@@ -90,6 +105,46 @@ public class SwaggerProperties {
          * 联系人email
          **/
         private String email = "";
+
+    }
+
+    @Data
+    @NoArgsConstructor
+    public static class Authorization {
+
+        /**
+         * 鉴权策略ID，需要和SecurityReferences ID保持一致
+         */
+        private String name = "";
+
+        /**
+         * 需要开启鉴权URL的正则
+         */
+        private String authRegex = "^.*$";
+
+        /**
+         * 鉴权作用域列表
+         */
+        private List<AuthorizationScope> authorizationScopeList = new ArrayList<>();
+
+        private List<String> tokenUrlList = new ArrayList<>();
+
+    }
+
+    @Data
+    @NoArgsConstructor
+    public static class AuthorizationScope {
+
+        /**
+         * 作用域名称
+         */
+        private String scope = "";
+
+        /**
+         * 作用域描述
+         */
+        private String description = "";
+
     }
 
 }

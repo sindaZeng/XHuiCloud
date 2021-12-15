@@ -3,17 +3,21 @@ package com.xhuicloud.common.gray.rule;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.RandomUtil;
-import com.alibaba.cloud.nacos.ribbon.NacosServer;
-import com.netflix.client.config.IClientConfig;
-import com.netflix.loadbalancer.AbstractLoadBalancerRule;
-import com.netflix.loadbalancer.Server;
+import cn.hutool.core.util.StrUtil;
+import com.alibaba.cloud.nacos.NacosServiceInstance;
 import com.xhuicloud.common.core.constant.CommonConstants;
-import com.xhuicloud.common.core.utils.WebUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
-import java.util.ArrayList;
+import org.springframework.beans.factory.ObjectProvider;
+import org.springframework.cloud.client.ServiceInstance;
+import org.springframework.cloud.client.loadbalancer.*;
+import org.springframework.cloud.loadbalancer.core.NoopServiceInstanceListSupplier;
+import org.springframework.cloud.loadbalancer.core.RoundRobinLoadBalancer;
+import org.springframework.cloud.loadbalancer.core.ServiceInstanceListSupplier;
+import org.springframework.http.HttpHeaders;
+import reactor.core.publisher.Mono;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @program: XHuiCloud
@@ -22,47 +26,68 @@ import java.util.Map;
  * @create: 2020/7/18 9:46 下午
  */
 @Slf4j
-public class GlobalGrayRibbonLoadBalancerRule extends AbstractLoadBalancerRule {
-    @Override
-    public void initWithNiwsConfig(IClientConfig iClientConfig) {
+public class GlobalGrayRibbonLoadBalancerRule extends RoundRobinLoadBalancer {
+
+    private ObjectProvider<ServiceInstanceListSupplier> serviceInstanceListSupplierProvider;
+
+    private String serviceId;
+
+    public GlobalGrayRibbonLoadBalancerRule(ObjectProvider<ServiceInstanceListSupplier> serviceInstanceListSupplierProvider,
+                                      String serviceId) {
+        super(serviceInstanceListSupplierProvider, serviceId);
+        this.serviceInstanceListSupplierProvider = serviceInstanceListSupplierProvider;
+        this.serviceId = serviceId;
     }
 
     @Override
-    public Server choose(Object o) {
+    public Mono<Response<ServiceInstance>> choose(Request request) {
+        ServiceInstanceListSupplier supplier = this.serviceInstanceListSupplierProvider.getIfAvailable(NoopServiceInstanceListSupplier::new);
+        return supplier.get(request).next().map(serviceInstances -> getInstanceResponse(serviceInstances, request));
+    }
 
-        // 可用实例
-        List<Server> reachableServers = getLoadBalancer().getReachableServers();
+    Response<ServiceInstance> getInstanceResponse(List<ServiceInstance> instances, Request request) {
 
-        // 匹配成功实例
-        List<Server> matchSuccessfulServers;
-
-        if (CollUtil.isEmpty(reachableServers)) {
-            log.warn("注册中心没有任何实例可用! {}", o);
-            return null;
+        // 注册中心无可用实例 抛出异常
+        if (CollUtil.isEmpty(instances)) {
+            log.warn("No instance available serviceId: {}", serviceId);
+            return new EmptyResponse();
         }
 
-        // 获取请求version，无则随机返回可用实例
-        String reqVersion = WebUtils.getRequest() != null ? WebUtils.getRequest().getHeader(CommonConstants.VERSION)
-                : null;
-
-        if (StringUtils.isNotBlank(reqVersion)) {
-            matchSuccessfulServers = new ArrayList();
-            // 遍历可以实例元数据，若匹配则返回此实例
-            for (Server server : reachableServers) {
-                NacosServer nacosServer = (NacosServer) server;
-                Map<String, String> metadata = nacosServer.getMetadata();
-                String targetVersion = MapUtil.getStr(metadata, CommonConstants.VERSION);
-                if (reqVersion.equalsIgnoreCase(targetVersion)) {
-                    log.debug("版本匹配成功 :{} {}", reqVersion, nacosServer);
-                    matchSuccessfulServers.add(nacosServer);
-                }
-            }
-
-            if (CollUtil.isNotEmpty(matchSuccessfulServers)) {
-                return matchSuccessfulServers.get(RandomUtil.randomInt(matchSuccessfulServers.size()));
-            }
+        if (request == null || request.getContext() == null) {
+            return super.choose(request).block();
         }
-        //TODO 如果没有携带版本,自定义自己的规则。此处是写明，可用实例中随机挑选 ——Sinda
-        return reachableServers.get(RandomUtil.randomInt(reachableServers.size()));
+
+        DefaultRequestContext requestContext = (DefaultRequestContext) request.getContext();
+        if (!(requestContext.getClientRequest() instanceof RequestData)) {
+            return super.choose(request).block();
+        }
+
+        RequestData clientRequest = (RequestData) requestContext.getClientRequest();
+        HttpHeaders headers = clientRequest.getHeaders();
+
+        String reqVersion = headers.getFirst(CommonConstants.VERSION);
+        if (StrUtil.isBlank(reqVersion)) {
+            return super.choose(request).block();
+        }
+
+        // 遍历可以实例元数据，若匹配则返回此实例
+        List<ServiceInstance> serviceInstanceList = instances.stream().filter(instance -> {
+            NacosServiceInstance nacosInstance = (NacosServiceInstance) instance;
+            Map<String, String> metadata = nacosInstance.getMetadata();
+            String targetVersion = MapUtil.getStr(metadata, CommonConstants.VERSION);
+            return reqVersion.equalsIgnoreCase(targetVersion);
+        }).collect(Collectors.toList());
+
+        // 存在 随机返回
+        if (CollUtil.isNotEmpty(serviceInstanceList)) {
+            ServiceInstance instance = RandomUtil.randomEle(serviceInstanceList);
+
+            log.debug("gray instance available serviceId: {} , instanceId: {}", serviceId, instance.getInstanceId());
+            return new DefaultResponse(instance);
+        }
+        else {
+            // 不存在,降级策略，使用轮询策略
+            return super.choose(request).block();
+        }
     }
 }

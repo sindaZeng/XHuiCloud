@@ -3,7 +3,6 @@ package com.xhuicloud.generator.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.xhuicloud.common.datasource.annotation.ChooseDataSource;
 import com.xhuicloud.generator.entity.GenDatasourceInfo;
 import com.xhuicloud.generator.entity.TableColumnsInfo;
 import com.xhuicloud.generator.entity.TableInfo;
@@ -21,7 +20,6 @@ public interface GenDatasourceInfoMapper extends BaseMapper<GenDatasourceInfo> {
      * @param tableName 表名称
      * @return
      */
-    @ChooseDataSource("GEN")
     TableInfo queryTableForMysql(@Param("tableName") String tableName);
 
     /**
@@ -30,7 +28,6 @@ public interface GenDatasourceInfoMapper extends BaseMapper<GenDatasourceInfo> {
      * @param page
      * @return
      */
-    @ChooseDataSource("GEN")
     IPage<List<TableInfo>> queryPageTableForMysql(@Param("page") Page page);
 
     /**
@@ -39,6 +36,5 @@ public interface GenDatasourceInfoMapper extends BaseMapper<GenDatasourceInfo> {
      * @param tableName
      * @return
      */
-    @ChooseDataSource("GEN")
     List<TableColumnsInfo> queryColumnsForMysql(@Param("tableName") String tableName);
 }

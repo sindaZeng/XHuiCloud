@@ -13,5 +13,7 @@ public interface SysMenuMapper extends BaseMapper<SysMenu> {
 
     List<MenuVO> listMenusByRoleId(Integer roleId);
 
+    List<MenuVO> listMenusByRoleCode(String roleId);
+
     void deleteMenu(@Param("ids") List<Integer> ids);
 }

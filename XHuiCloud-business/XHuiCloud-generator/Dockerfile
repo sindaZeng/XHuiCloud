@@ -6,12 +6,12 @@ ENV TZ=Asia/Shanghai
 
 RUN ln -sf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
-RUN mkdir -p /FDP-generator
+RUN mkdir -p /XHuiCloud-generator
 
-WORKDIR /FDP-generator
+WORKDIR /XHuiCloud-generator
 
 EXPOSE 21000
 
-ADD ./target/FDP-generator.jar ./
+ADD ./target/XHuiCloud-generator.jar ./
 
-CMD sleep 130;java -Xms128m -Xmx256m -jar FDP-generator.jar
+CMD sleep 60;java -Xms256m -Xmx512m -Djava.security.egd=file:/dev/./urandom -jar XHuiCloud-generator.jar

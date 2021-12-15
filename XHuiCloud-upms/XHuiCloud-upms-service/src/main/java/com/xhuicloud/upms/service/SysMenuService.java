@@ -10,6 +10,8 @@ public interface SysMenuService extends IService<SysMenu> {
 
     List<MenuVO> findMenuByRoleId(Integer roleId);
 
+    List<MenuVO> findMenuByRoleCode(String roleCode);
+
     /**
      * 新增菜单
      * @param sysMenu

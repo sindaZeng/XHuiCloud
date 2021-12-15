@@ -8,7 +8,7 @@
 <meta content="email=no" name="format-detection">
 <title>付款成功</title>
 <link rel="stylesheet" href="https://act.weixin.qq.com/static/cdn/css/wepayui/0.1.1/wepayui.min.css">
-<link rel="stylesheet" href="/FDP-pay-business/css/pay.css">
+<link rel="stylesheet" href="/XHuiCloud-pay-service/css/pay.css">
 </head>
 <body ontouchstart class="weui-wepay-pay-wrap">
 <div class="msg_success">

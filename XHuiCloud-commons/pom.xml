@@ -26,6 +26,8 @@
         <module>XHuiCloud-common-swagger</module>
         <module>XHuiCloud-common-transaction</module>
         <module>XHuiCloud-common-zero</module>
+        <module>XHuiCloud-common-xxl</module>
+        <module>XHuiCloud-common-rabbitMq</module>
     </modules>
 
 </project>
