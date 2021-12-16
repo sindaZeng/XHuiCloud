@@ -1,6 +1,7 @@
-package com.xhuicloud.common.data.tenant;
+package com.xhuicloud.common.feign.interceptor;
 
 import com.xhuicloud.common.core.constant.CommonConstants;
+import com.xhuicloud.common.data.tenant.XHuiTenantHolder;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
 import lombok.extern.slf4j.Slf4j;

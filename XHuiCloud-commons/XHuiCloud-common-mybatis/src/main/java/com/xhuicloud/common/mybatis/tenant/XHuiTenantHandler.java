@@ -1,10 +1,9 @@
-package com.xhuicloud.common.datasource.tenant;
+package com.xhuicloud.common.mybatis.tenant;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.mybatisplus.core.metadata.TableInfo;
 import com.baomidou.mybatisplus.core.metadata.TableInfoHelper;
 import com.baomidou.mybatisplus.extension.plugins.handler.TenantLineHandler;
-import com.xhuicloud.common.data.tenant.TenantCoreProperties;
 import com.xhuicloud.common.data.tenant.XHuiTenantHolder;
 import net.sf.jsqlparser.expression.LongValue;
 import net.sf.jsqlparser.expression.NullValue;

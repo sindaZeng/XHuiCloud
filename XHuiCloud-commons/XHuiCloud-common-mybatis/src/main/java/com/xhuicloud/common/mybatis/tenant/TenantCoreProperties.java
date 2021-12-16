@@ -1,11 +1,9 @@
-package com.xhuicloud.common.data.tenant;
+package com.xhuicloud.common.mybatis.tenant;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Configuration;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * @program: XHuiCloud

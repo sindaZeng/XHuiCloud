@@ -1,4 +1,4 @@
-package com.xhuicloud.common.datasource.mybatis;
+package com.xhuicloud.common.mybatis.config;
 
 import com.alibaba.druid.DbType;
 import com.alibaba.druid.filter.FilterChain;
@@ -108,7 +108,7 @@ public class DruidSqlLogFilterAdapter extends FilterEventAdapter {
 
     private static void printSql(String sql, StatementProxy statement) {
         // 打印 sql
-        String sqlLogger = "\n\n======= Sql Logger ======================" + "\n{}"
+        String sqlLogger = "\n\n======= Sql ======================" + "\n{}"
                 + "\n======= Sql Execute Time: {} =======\n";
         log.info(sqlLogger, sql.trim(), format(statement.getLastExecuteTimeNano()));
     }

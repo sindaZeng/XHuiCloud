@@ -1,7 +1,9 @@
 package com.xhuicloud.common.feign;
 
 import com.xhuicloud.common.feign.endpoint.FeignClientEndpoint;
+import com.xhuicloud.common.feign.interceptor.XHuiFeignTenantInterceptor;
 import feign.Feign;
+import feign.RequestInterceptor;
 import org.springframework.boot.actuate.autoconfigure.endpoint.condition.ConditionalOnAvailableEndpoint;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -31,4 +33,11 @@ public class XHuiFeignAutoConfiguration {
     public FeignClientEndpoint feignClientEndpoint(ApplicationContext context) {
         return new FeignClientEndpoint(context);
     }
+
+    @Bean
+    public RequestInterceptor requestInterceptor() {
+        return new XHuiFeignTenantInterceptor();
+    }
+
+
 }

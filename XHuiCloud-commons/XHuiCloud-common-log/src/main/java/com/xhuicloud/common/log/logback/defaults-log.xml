@@ -55,7 +55,7 @@
     </appender>
 
     <!-- ELK 输出到logstash-->
-    <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+    <appender name="logstash" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
         <destination>120.77.221.194:4560</destination>
         <encoder charset="UTF-8" class="net.logstash.logback.encoder.LogstashEncoder"/>
     </appender>
@@ -75,6 +75,7 @@
     <springProfile name="dev">
         <root level="${logger.level}">
             <appender-ref ref="console"/>
+            <appender-ref ref="logstash"/>
         </root>
     </springProfile>
 </configuration>

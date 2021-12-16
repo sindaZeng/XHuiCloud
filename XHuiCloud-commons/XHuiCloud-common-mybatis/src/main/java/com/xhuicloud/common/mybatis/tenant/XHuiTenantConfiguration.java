@@ -1,6 +1,5 @@
-package com.xhuicloud.common.data.tenant;
+package com.xhuicloud.common.mybatis.tenant;
 
-import feign.RequestInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
@@ -13,11 +12,6 @@ import org.springframework.http.client.ClientHttpRequestInterceptor;
  */
 @Configuration
 public class XHuiTenantConfiguration {
-
-    @Bean
-    public RequestInterceptor requestInterceptor() {
-        return new XHuiFeignTenantInterceptor();
-    }
 
     @Bean
     public ClientHttpRequestInterceptor clientHttpRequestInterceptor() {

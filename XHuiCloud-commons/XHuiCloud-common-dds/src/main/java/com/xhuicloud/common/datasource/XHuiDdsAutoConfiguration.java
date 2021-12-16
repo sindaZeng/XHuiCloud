@@ -6,7 +6,7 @@ import com.xhuicloud.common.datasource.config.DataSourceProperties;
 import com.xhuicloud.common.datasource.config.TenantDsProcessor;
 import com.xhuicloud.common.datasource.config.WebMvcConfig;
 import com.xhuicloud.common.datasource.config.XhuiDynamicDataSourceProvider;
-import com.xhuicloud.common.datasource.tenant.XHuiTenantHandler;
+import com.xhuicloud.common.mybatis.tenant.XHuiTenantHandler;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;

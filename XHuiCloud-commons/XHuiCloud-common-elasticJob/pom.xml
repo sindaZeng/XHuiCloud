@@ -14,7 +14,7 @@
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>XHuiCloud-common-datasource</artifactId>
+            <artifactId>XHuiCloud-common-dds</artifactId>
         </dependency>
 
         <dependency>

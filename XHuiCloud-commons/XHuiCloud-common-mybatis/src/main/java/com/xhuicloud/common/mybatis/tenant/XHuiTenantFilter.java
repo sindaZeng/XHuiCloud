@@ -1,7 +1,8 @@
-package com.xhuicloud.common.data.tenant;
+package com.xhuicloud.common.mybatis.tenant;
 
 import cn.hutool.core.util.StrUtil;
 import com.xhuicloud.common.core.constant.CommonConstants;
+import com.xhuicloud.common.data.tenant.XHuiTenantHolder;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.Ordered;
@@ -21,7 +22,6 @@ import javax.servlet.http.HttpServletResponse;
  * @create: 2020-05-12 17:45
  */
 @Slf4j
-@Component
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class XHuiTenantFilter extends GenericFilterBean {
 

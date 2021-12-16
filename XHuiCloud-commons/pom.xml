@@ -14,7 +14,7 @@
     <modules>
         <module>XHuiCloud-common-core</module>
         <module>XHuiCloud-common-data</module>
-        <module>XHuiCloud-common-datasource</module>
+        <module>XHuiCloud-common-dds</module>
         <module>XHuiCloud-common-elasticJob</module>
         <module>XHuiCloud-common-feign</module>
         <module>XHuiCloud-common-gateway</module>
@@ -28,6 +28,7 @@
         <module>XHuiCloud-common-zero</module>
         <module>XHuiCloud-common-xxl</module>
         <module>XHuiCloud-common-rabbitMq</module>
+        <module>XHuiCloud-common-mybatis</module>
     </modules>
 
 </project>

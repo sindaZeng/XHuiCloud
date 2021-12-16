@@ -32,13 +32,18 @@
 
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>XHuiCloud-common-datasource</artifactId>
+                <artifactId>XHuiCloud-common-dds</artifactId>
                 <version>${revision}</version>
             </dependency>
 
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>XHuiCloud-common-data</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>XHuiCloud-common-mybatis</artifactId>
                 <version>${revision}</version>
             </dependency>
 

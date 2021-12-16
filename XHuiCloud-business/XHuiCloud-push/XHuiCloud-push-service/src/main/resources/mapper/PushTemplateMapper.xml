@@ -16,10 +16,12 @@
     <result column="content" jdbcType="VARCHAR" property="content" />
     <result column="status" jdbcType="BOOLEAN" property="status" />
     <result column="kv" jdbcType="VARCHAR" property="kv" />
+    <result column="template_id" jdbcType="VARCHAR" property="templateId" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
     id, tenant_id, create_time, update_time, is_del, create_id, update_id, remark, channel, 
-    content, `status`, kv
+    content, `status`, kv, template_id, title
   </sql>
 </mapper>

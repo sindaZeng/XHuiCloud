@@ -1,6 +1,7 @@
-package com.xhuicloud.common.data.tenant;
+package com.xhuicloud.common.mybatis.tenant;
 
 import com.xhuicloud.common.core.constant.CommonConstants;
+import com.xhuicloud.common.data.tenant.XHuiTenantHolder;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.MediaType;

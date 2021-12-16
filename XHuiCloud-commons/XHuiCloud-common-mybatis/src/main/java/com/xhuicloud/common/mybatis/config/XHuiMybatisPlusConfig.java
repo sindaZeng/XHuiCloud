@@ -1,19 +1,14 @@
-package com.xhuicloud.common.datasource.mybatis;
+package com.xhuicloud.common.mybatis.config;
 
-import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.TenantLineInnerInterceptor;
-import com.xhuicloud.common.datasource.handle.AutoFieldMetaObjectHandler;
-import com.xhuicloud.common.datasource.resolver.SqlFilterResolver;
-import com.xhuicloud.common.datasource.tenant.XHuiTenantHandler;
+import com.xhuicloud.common.mybatis.resolver.SqlFilterResolver;
+import com.xhuicloud.common.mybatis.tenant.XHuiTenantHandler;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -40,22 +35,8 @@ public class XHuiMybatisPlusConfig implements WebMvcConfigurer {
     }
 
     /**
-     * 租户维护处理器
-     */
-    @Bean
-    @ConditionalOnMissingBean
-    public XHuiTenantHandler xHuiTenantHandler() {
-        return new XHuiTenantHandler();
-    }
-
-    /**
      * 数据处理
      */
-    @Bean
-    public MetaObjectHandler autoFieldMetaObjectHandler() {
-        return new AutoFieldMetaObjectHandler();
-    }
-
     /**
      * mybatis plus 拦截器配置
      * @return

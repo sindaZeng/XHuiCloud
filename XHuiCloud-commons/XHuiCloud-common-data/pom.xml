@@ -24,9 +24,5 @@
             <groupId>com.alibaba</groupId>
             <artifactId>transmittable-thread-local</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.xhuicloud</groupId>
-            <artifactId>XHuiCloud-common-feign</artifactId>
-        </dependency>
     </dependencies>
 </project>

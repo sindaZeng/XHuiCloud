@@ -105,4 +105,18 @@ public class PushTemplate extends Model<PushTemplate> {
     @ApiModelProperty(value="参数对应的key与value")
     private String kv;
 
+    /**
+     * 第三方模板ID
+     */
+    @TableField(value = "template_id")
+    @ApiModelProperty(value="第三方模板ID")
+    private String templateId;
+
+    /**
+     * 类别标题
+     */
+    @TableField(value = "title")
+    @ApiModelProperty(value="类别标题")
+    private String title;
+
 }

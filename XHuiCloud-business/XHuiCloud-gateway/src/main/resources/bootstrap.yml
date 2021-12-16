@@ -17,15 +17,7 @@ spring:
         # 公共的配置文件
         shared-configs:
           - application-common-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
-#    gateway:
-#      globalcors:
-#        corsConfigurations:
-#          '[/**]':
-#            allowedOriginPatterns: '*' #注意这个设置只对 spring boot 2.4+ 有效， pigx v4.0+ ,低版本 使用  allowedOrigins: "*"
-#            allowed-methods: '*'
-#            allowed-headers: '*'
-#            allow-credentials: true
-#            exposedHeaders: 'Content-Disposition,Content-Type,Cache-Control'
+
 swagger:
   ignore-providers:
     - XHuiCloud-auth

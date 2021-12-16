@@ -13,7 +13,7 @@ XHuiCloud
 └── XHuiCloud-commons                      -- 公共模块 
      ├── XHuiCloud-common-core             -- 公共核心模块
      ├── XHuiCloud-common-data             -- 数据缓存模块
-     ├── XHuiCloud-common-datasource       -- 动态数据源模块
+     ├── XHuiCloud-common-dds       -- 动态数据源模块
      ├── XHuiCloud-common-elasticJob       -- elasticJob自动配置模块
      ├── XHuiCloud-common-feign            -- 公共feign
      ├── XHuiCloud-common-gateway          -- 网关核心模块

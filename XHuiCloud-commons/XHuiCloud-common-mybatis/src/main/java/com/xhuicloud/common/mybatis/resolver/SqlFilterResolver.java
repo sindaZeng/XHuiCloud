@@ -1,4 +1,4 @@
-package com.xhuicloud.common.datasource.resolver;
+package com.xhuicloud.common.mybatis.resolver;
 
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.metadata.OrderItem;

@@ -9,7 +9,7 @@ import com.xhuicloud.pay.config.PayConfigInit;
 import com.xhuicloud.pay.dto.PayOrderDto;
 import com.xhuicloud.pay.handle.impl.AliPayServiceImpl;
 import com.xhuicloud.pay.properties.PayProperties;
-import com.xhuicloud.common.data.tenant.XHuiTenantHolder;
+import com.xhuicloud.common.mybatis.tenant.XHuiTenantHolder;
 import com.xhuicloud.pay.utils.UserAgentUtil;
 import com.xhuicloud.upms.entity.SysTenant;
 import io.swagger.annotations.Api;

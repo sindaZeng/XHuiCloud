@@ -14,7 +14,7 @@ import com.xhuicloud.pay.entity.PayOrderAll;
 import com.xhuicloud.pay.handle.PayService;
 import com.xhuicloud.pay.properties.PayProperties;
 import com.xhuicloud.pay.service.PayOrderAllService;
-import com.xhuicloud.common.data.tenant.XHuiTenantHolder;
+import com.xhuicloud.common.mybatis.tenant.XHuiTenantHolder;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
