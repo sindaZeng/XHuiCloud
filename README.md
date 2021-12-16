@@ -28,19 +28,29 @@ XHuiCloud
      ├── XHuiCloud-common-xxl              -- XXL-JOB配置模块
      └── XHuiCloud-common-zero             -- 分布式发号器
 ├── XHuiCloud-dependencies-bom             -- 统一依赖管理
-├── XHuiCloud-management-business          -- 系统管理业务模块
+├── XHuiCloud-business                     -- 系统管理业务模块
      ├── XHuiCloud-gateway                 -- Api网关[15000]
      ├── XHuiCloud-generator               -- 开发平台[21000]
      ├── XHuiCloud-logs                    -- 日志服务器(18000)
-     ├── XHuiCloud-pay                     -- 支付中心(23000)
-     ├── XHuiCloud-push                    -- 统一推送中心(22000)
+     └── XHuiCloud-job                     -- 定时任务
+        └── XHuiCloud-job-api              -- 定时任务公共api
+        └── XHuiCloud-job-service          -- 定时任务服务(19000)
+     └──XHuiCloud-logs                     -- 操作日志模块
+        └── XHuiCloud-logs-api             -- 操作日志公共api
+        └── XHuiCloud-logs-service         -- 操作日志服务(18000)
+     └──XHuiCloud-pay                      -- 支付中心模块
+        └── XHuiCloud-pay-api              -- 支付中心公共api
+        └── XHuiCloud-pay-service          -- 支付中心服务(23000)
+     └──XHuiCloud-push                     -- 统一推送中心模块
+        └── XHuiCloud-push-api             -- 统一推送中心公共api
+        └── XHuiCloud-push-service         -- 统一推送中心服务(22000)
      ├── XHuiCloud-register                -- 注册中心(13000)
      ├── XHuiCloud-sentinel-dashboard      -- Sentinel监控模块(14000)
      ├── XHuiCloud-transaction             -- 事务管理模块(8091)
-     └── XHuiCloud-xxl-admin               -- 事务管理模块(20000)
-└── XHuiCloud-upmm                         -- 权限管理模块
-     └── XHuiCloud-upmm-api                -- 系统权限管理公共api模块
-     └── XHuiCloud-upmm-business           -- 系统权限管理业务处理模块[17000]
+     └── XHuiCloud-xxl-admin               -- 定时任务管理模块(20000)
+└── XHuiCloud-upms                         -- 权限管理模块
+     └── XHuiCloud-upms-api                -- 系统权限管理公共api模块
+     └── XHuiCloud-upms-service            -- 系统权限管理业务处理模块[17000]
 ```
 
 环境准备:

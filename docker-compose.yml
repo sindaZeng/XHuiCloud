@@ -34,10 +34,10 @@ services:
 
   xhuicloud-upms:
     build:
-      context: ./XHuiCloud-upms/XHuiCloud-upmm-service
+      context: ./XHuiCloud-upms/XHuiCloud-upms-service
     restart: always
-    container_name: xhuicloud-upmm
-    image: xhuicloud-upmm
+    container_name: xhuicloud-upms
+    image: xhuicloud-upms
 
   xhuicloud-logs:
     build:
