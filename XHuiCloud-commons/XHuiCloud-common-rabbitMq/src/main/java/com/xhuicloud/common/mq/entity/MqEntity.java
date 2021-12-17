@@ -18,6 +18,11 @@ public class MqEntity implements Serializable {
     private String errorMsg;
 
     /**
+     * 租户id
+     */
+    private Integer tenantId;
+
+    /**
      * 消费次数
      */
     private Integer times = 0;

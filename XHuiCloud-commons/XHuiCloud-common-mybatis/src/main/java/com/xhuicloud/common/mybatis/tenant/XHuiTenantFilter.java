@@ -2,12 +2,11 @@ package com.xhuicloud.common.mybatis.tenant;
 
 import cn.hutool.core.util.StrUtil;
 import com.xhuicloud.common.core.constant.CommonConstants;
-import com.xhuicloud.common.data.tenant.XHuiTenantHolder;
+import com.xhuicloud.common.data.tenant.XHuiCommonThreadLocalHolder;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
-import org.springframework.stereotype.Component;
 import org.springframework.web.filter.GenericFilterBean;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletRequest;
@@ -33,18 +32,18 @@ public class XHuiTenantFilter extends GenericFilterBean {
 
         String tenantId = request.getHeader(CommonConstants.TENANT_ID);
         if (StrUtil.isNotBlank(tenantId)) {
-            XHuiTenantHolder.setTenant(Integer.parseInt(tenantId));
+            XHuiCommonThreadLocalHolder.setTenant(Integer.parseInt(tenantId));
         } else {
             tenantId = request.getParameter(CommonConstants.TENANT_ID);
             if (StrUtil.isNotBlank(tenantId)) {
-                XHuiTenantHolder.setTenant(Integer.parseInt(tenantId));
+                XHuiCommonThreadLocalHolder.setTenant(Integer.parseInt(tenantId));
             } else {
-                XHuiTenantHolder.setTenant(CommonConstants.DEFAULT_TENANT_ID);
+                XHuiCommonThreadLocalHolder.setTenant(CommonConstants.DEFAULT_TENANT_ID);
             }
         }
         log.debug("租户id为:[{}]", tenantId);
         filterChain.doFilter(request, response);
-        XHuiTenantHolder.removeTenant();
+        XHuiCommonThreadLocalHolder.removeTenant();
     }
 
 }

@@ -1,7 +1,7 @@
 package com.xhuicloud.common.data.resolver;
 
 import com.xhuicloud.common.core.utils.KeyStrResolver;
-import com.xhuicloud.common.data.tenant.XHuiTenantHolder;
+import com.xhuicloud.common.data.tenant.XHuiCommonThreadLocalHolder;
 
 public class TenantKeyResolver implements KeyStrResolver {
 
@@ -13,7 +13,7 @@ public class TenantKeyResolver implements KeyStrResolver {
      */
     @Override
     public String extract(String in, String split) {
-        return XHuiTenantHolder.getTenant() + split + in;
+        return XHuiCommonThreadLocalHolder.getTenant() + split + in;
     }
 
     /**
@@ -22,7 +22,7 @@ public class TenantKeyResolver implements KeyStrResolver {
      */
     @Override
     public String key() {
-        return String.valueOf(XHuiTenantHolder.getTenant());
+        return String.valueOf(XHuiCommonThreadLocalHolder.getTenant());
     }
 
 }

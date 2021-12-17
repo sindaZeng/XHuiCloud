@@ -1,6 +1,7 @@
 package com.xhuicloud.pay.controller;
 
 import cn.hutool.core.util.ObjectUtil;
+import com.xhuicloud.common.data.tenant.XHuiCommonThreadLocalHolder;
 import com.xhuicloud.common.security.annotation.NoAuth;
 import com.xhuicloud.common.core.constant.CommonConstants;
 import com.xhuicloud.common.core.enums.pay.PayTypeEnum;
@@ -9,7 +10,6 @@ import com.xhuicloud.pay.config.PayConfigInit;
 import com.xhuicloud.pay.dto.PayOrderDto;
 import com.xhuicloud.pay.handle.impl.AliPayServiceImpl;
 import com.xhuicloud.pay.properties.PayProperties;
-import com.xhuicloud.common.mybatis.tenant.XHuiTenantHolder;
 import com.xhuicloud.pay.utils.UserAgentUtil;
 import com.xhuicloud.upms.entity.SysTenant;
 import io.swagger.annotations.Api;
@@ -51,7 +51,7 @@ public class PayRouteController {
     @NoAuth(value = false)
     public ModelAndView toPay(ModelAndView modelAndView,
                               HttpServletRequest request) {
-        SysTenant sysTenant = getTenant(XHuiTenantHolder.getTenant());
+        SysTenant sysTenant = getTenant(XHuiCommonThreadLocalHolder.getTenant());
         if (ObjectUtil.isNotNull(sysTenant)) {
             modelAndView.setViewName("ftl/h5pay");
             modelAndView.addObject("tenant", sysTenant);
@@ -93,7 +93,7 @@ public class PayRouteController {
                              HttpServletRequest request,
                              ModelAndView modelAndView) {
         payOrderDto.setQuitUrl(payProperties.getDomain() + "pay/route");
-        if (ObjectUtil.isNotNull(getTenant(XHuiTenantHolder.getTenant()))) {
+        if (ObjectUtil.isNotNull(getTenant(XHuiCommonThreadLocalHolder.getTenant()))) {
             if (UserAgentUtil.isWeChat(request)) {
                 // 唤起微信
                 modelAndView.setViewName("ftl/success");
@@ -116,7 +116,7 @@ public class PayRouteController {
     public SysTenant getTenant(Integer tenantId) {
         SysTenant sysTenant = PayConfigInit.tenantMaps.get(tenantId);
         if (ObjectUtil.isNotNull(sysTenant)) {
-            XHuiTenantHolder.setTenant(Integer.valueOf(tenantId));
+            XHuiCommonThreadLocalHolder.setTenant(Integer.valueOf(tenantId));
         } else {
             throw SysException.sysFail(SysException.TENANT_NOT_EXIST_DATA_EXCEPTION);
         }

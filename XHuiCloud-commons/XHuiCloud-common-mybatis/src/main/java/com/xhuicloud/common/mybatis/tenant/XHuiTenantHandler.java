@@ -4,7 +4,7 @@ import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.mybatisplus.core.metadata.TableInfo;
 import com.baomidou.mybatisplus.core.metadata.TableInfoHelper;
 import com.baomidou.mybatisplus.extension.plugins.handler.TenantLineHandler;
-import com.xhuicloud.common.data.tenant.XHuiTenantHolder;
+import com.xhuicloud.common.data.tenant.XHuiCommonThreadLocalHolder;
 import net.sf.jsqlparser.expression.LongValue;
 import net.sf.jsqlparser.expression.NullValue;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,7 +47,7 @@ public class XHuiTenantHandler implements TenantLineHandler {
      */
     @Override
     public Expression getTenantId() {
-        Integer tenantId = XHuiTenantHolder.getTenant();
+        Integer tenantId = XHuiCommonThreadLocalHolder.getTenant();
         if (tenantId == null) {
             return new NullValue();
         }
@@ -72,7 +72,7 @@ public class XHuiTenantHandler implements TenantLineHandler {
      */
     @Override
     public boolean ignoreTable(String tableName) {
-        Integer tenantId = XHuiTenantHolder.getTenant();
+        Integer tenantId = XHuiCommonThreadLocalHolder.getTenant();
         if (tenantId == null) {
             return Boolean.TRUE;
         }

@@ -2,7 +2,7 @@ package com.xhuicloud.common.data.cache;
 
 import cn.hutool.core.util.StrUtil;
 import com.xhuicloud.common.core.constant.CacheConstants;
-import com.xhuicloud.common.data.tenant.XHuiTenantHolder;
+import com.xhuicloud.common.data.tenant.XHuiCommonThreadLocalHolder;
 import org.springframework.boot.convert.DurationStyle;
 import org.springframework.cache.Cache;
 import org.springframework.data.redis.cache.RedisCache;
@@ -49,7 +49,7 @@ public class RedisAutoCacheManager extends RedisCacheManager {
         if (name.startsWith(CacheConstants.GLOBALLY)) {
             return super.getCache(name);
         }
-        return super.getCache(XHuiTenantHolder.getTenant() + StrUtil.COLON + name);
+        return super.getCache(XHuiCommonThreadLocalHolder.getTenant() + StrUtil.COLON + name);
     }
 
 }

@@ -1,7 +1,7 @@
 package com.xhuicloud.common.mybatis.tenant;
 
 import com.xhuicloud.common.core.constant.CommonConstants;
-import com.xhuicloud.common.data.tenant.XHuiTenantHolder;
+import com.xhuicloud.common.data.tenant.XHuiCommonThreadLocalHolder;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.MediaType;
@@ -22,8 +22,8 @@ public class XHuiRequestInterceptor implements ClientHttpRequestInterceptor {
     public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution)
             throws IOException {
         request.getHeaders().set(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE);
-        if (XHuiTenantHolder.getTenant() != null) {
-            request.getHeaders().set(CommonConstants.TENANT_ID, String.valueOf(XHuiTenantHolder.getTenant()));
+        if (XHuiCommonThreadLocalHolder.getTenant() != null) {
+            request.getHeaders().set(CommonConstants.TENANT_ID, String.valueOf(XHuiCommonThreadLocalHolder.getTenant()));
         }
         return execution.execute(request, body);
     }

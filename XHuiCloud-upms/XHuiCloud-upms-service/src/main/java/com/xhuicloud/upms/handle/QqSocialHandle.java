@@ -9,7 +9,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.xhuicloud.common.core.constant.ThirdLoginUrlConstants;
 import com.xhuicloud.common.core.enums.login.LoginTypeEnum;
 import com.xhuicloud.common.core.exception.SysException;
-import com.xhuicloud.common.data.tenant.XHuiTenantHolder;
+import com.xhuicloud.common.data.tenant.XHuiCommonThreadLocalHolder;
 import com.xhuicloud.upms.dto.UserInfo;
 import com.xhuicloud.upms.entity.SysSocial;
 import com.xhuicloud.upms.entity.SysUser;
@@ -92,7 +92,7 @@ public class QqSocialHandle extends AbstractSocialHandle {
         user.setAvatar(qqInfo.getStr("figureurl_qq"));
         user.setSex(StringUtils.equals("男", qqInfo.getStr("gender")) ? 1 : 0);
         user.setLockFlag(1);
-        user.setTenantId(XHuiTenantHolder.getTenant());
+        user.setTenantId(XHuiCommonThreadLocalHolder.getTenant());
         return user;
     }
 }

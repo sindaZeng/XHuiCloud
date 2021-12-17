@@ -7,6 +7,7 @@ import com.alipay.api.domain.AlipayTradeWapPayModel;
 import com.alipay.api.response.AlipayTradeCreateResponse;
 import com.jpay.alipay.AliPayApi;
 import com.jpay.alipay.AliPayApiConfigKit;
+import com.xhuicloud.common.data.tenant.XHuiCommonThreadLocalHolder;
 import com.xhuicloud.pay.config.PayConfigInit;
 import com.xhuicloud.common.core.constant.CommonConstants;
 import com.xhuicloud.pay.dto.PayOrderDto;
@@ -14,7 +15,6 @@ import com.xhuicloud.pay.entity.PayOrderAll;
 import com.xhuicloud.pay.handle.PayService;
 import com.xhuicloud.pay.properties.PayProperties;
 import com.xhuicloud.pay.service.PayOrderAllService;
-import com.xhuicloud.common.mybatis.tenant.XHuiTenantHolder;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -56,7 +56,7 @@ public class AliPayServiceImpl implements PayService {
     private Object openAliPay(PayOrderDto payOrderDto, PayOrderAll payOrderAll) {
         try {
             // 根据租户 选择支付商户号
-            Integer tenantId = XHuiTenantHolder.getTenant();
+            Integer tenantId = XHuiCommonThreadLocalHolder.getTenant();
             AliPayApiConfigKit.setThreadLocalAppId(PayConfigInit.tenantIdAliPayAppIdMaps.get(tenantId));
             // wap 支付
             alipayWapPay(payOrderDto, payOrderAll, tenantId);

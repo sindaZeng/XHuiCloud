@@ -8,9 +8,9 @@ import com.google.common.collect.Maps;
 import com.jpay.alipay.AliPayApiConfig;
 import com.jpay.alipay.AliPayApiConfigKit;
 import com.xhuicloud.common.core.enums.pay.PayTypeEnum;
+import com.xhuicloud.common.data.tenant.XHuiCommonThreadLocalHolder;
 import com.xhuicloud.pay.entity.PayChannel;
 import com.xhuicloud.pay.service.PayChannelService;
-import com.xhuicloud.common.mybatis.tenant.XHuiTenantHolder;
 import com.xhuicloud.upms.entity.SysTenant;
 import com.xhuicloud.upms.feign.SysTenantServiceFeign;
 import lombok.AllArgsConstructor;
@@ -55,7 +55,7 @@ public class PayConfigInit {
         List<PayChannel> payChannels = new ArrayList<>();
 
         sysTenantServiceFeign.list(IS_COMMING_INNER_YES).getData().forEach(tenant -> {
-            XHuiTenantHolder.setTenant(tenant.getId());
+            XHuiCommonThreadLocalHolder.setTenant(tenant.getId());
 
             List<PayChannel> payChannelList = payChannelService
                     .list(Wrappers.<PayChannel>lambdaQuery()

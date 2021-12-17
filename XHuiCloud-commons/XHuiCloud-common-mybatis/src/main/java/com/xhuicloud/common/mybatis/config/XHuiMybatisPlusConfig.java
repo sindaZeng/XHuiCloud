@@ -1,8 +1,10 @@
 package com.xhuicloud.common.mybatis.config;
 
+import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.TenantLineInnerInterceptor;
+import com.xhuicloud.common.mybatis.meta.AutoFieldMetaObjectHandler;
 import com.xhuicloud.common.mybatis.resolver.SqlFilterResolver;
 import com.xhuicloud.common.mybatis.tenant.XHuiTenantHandler;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
@@ -32,6 +34,14 @@ public class XHuiMybatisPlusConfig implements WebMvcConfigurer {
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolverList) {
         resolverList.add(new SqlFilterResolver());
+    }
+
+    /**
+     * 数据处理
+     */
+    @Bean
+    public MetaObjectHandler autoFieldMetaObjectHandler() {
+        return new AutoFieldMetaObjectHandler();
     }
 
     /**

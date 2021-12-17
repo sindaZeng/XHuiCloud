@@ -1,14 +1,10 @@
 package com.xhuicloud.common.security.component;
 
-import com.xhuicloud.common.security.component.PermitNoAuthUrlProperties;
-import com.xhuicloud.common.security.component.ResourceAuthExceptionEntryPoint;
-import com.xhuicloud.common.security.component.XHuiUserAuthenticationConverter;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.authentication.TokenExtractor;

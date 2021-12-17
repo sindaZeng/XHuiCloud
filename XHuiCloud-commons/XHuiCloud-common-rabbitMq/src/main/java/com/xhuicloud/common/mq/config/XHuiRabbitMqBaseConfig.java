@@ -83,7 +83,7 @@ public class XHuiRabbitMqBaseConfig {
     }
 
     @Bean
-    public CommonMqService mqService(RabbitTemplate rabbitTemplate, XHuiRabbitMqProperties xHuiRabbitMqProperties) {
+    public CommonMqService commonMqService(RabbitTemplate rabbitTemplate, XHuiRabbitMqProperties xHuiRabbitMqProperties) {
         return new CommonMqService(rabbitTemplate, xHuiRabbitMqProperties);
     }
 

@@ -60,3 +60,17 @@ services:
     container_name: xhuicloud-push
     image: xhuicloud-push
 
+  xhuicloud-xxl-admin:
+    build:
+      context: ./XHuiCloud-business/XHuiCloud-xxl-admin/XHuiCloud-xxl-admin-service
+    restart: always
+    container_name: xhuicloud-xxl-admin
+    image: xhuicloud-xxl-admin
+
+  xhuicloud-job:
+    build:
+      context: ./XHuiCloud-business/XHuiCloud-job/XHuiCloud-job-service
+    restart: always
+    container_name: xhuicloud-job
+    image: xhuicloud-job
+

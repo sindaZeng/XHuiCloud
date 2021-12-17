@@ -2,12 +2,12 @@ package com.xhuicloud.pay.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.xhuicloud.common.data.tenant.XHuiCommonThreadLocalHolder;
 import com.xhuicloud.common.zero.base.IDGenerate;
 import com.xhuicloud.pay.dto.PayOrderDto;
 import com.xhuicloud.pay.entity.PayOrderAll;
 import com.xhuicloud.pay.mapper.PayOrderAllMapper;
 import com.xhuicloud.pay.service.PayOrderAllService;
-import com.xhuicloud.common.mybatis.tenant.XHuiTenantHolder;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,7 +24,7 @@ public class PayOrderAllServiceImpl extends ServiceImpl<PayOrderAllMapper, PayOr
         PayOrderAll payOrderAll = new PayOrderAll();
         BeanUtil.copyProperties(payOrderDto, payOrderAll);
         payOrderAll.setOrderNo(String.valueOf(defaultSnowflakeIDGenerate.get()));
-        payOrderAll.setTenantId(XHuiTenantHolder.getTenant());
+        payOrderAll.setTenantId(XHuiCommonThreadLocalHolder.getTenant());
         payOrderAll.setState(0);
         save(payOrderAll);
         return payOrderAll;
