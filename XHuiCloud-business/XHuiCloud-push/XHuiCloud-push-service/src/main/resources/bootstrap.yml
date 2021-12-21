@@ -33,3 +33,6 @@ server:
 
 mysql:
   scheme: xhuicloud_push
+
+
+

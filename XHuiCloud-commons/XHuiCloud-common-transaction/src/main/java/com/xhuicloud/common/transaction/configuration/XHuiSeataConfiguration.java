@@ -15,7 +15,6 @@ import javax.sql.DataSource;
  * @create: 2020-01-29 00:59
  */
 @Slf4j
-@AllArgsConstructor
 public class XHuiSeataConfiguration implements BeanPostProcessor {
 
     /**
@@ -27,9 +26,9 @@ public class XHuiSeataConfiguration implements BeanPostProcessor {
      */
     @Override
     public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
-        if (bean instanceof DataSource){
-            return new DataSourceProxy((DataSource) bean);
-        }
+//        if (bean instanceof DataSource){
+//            return new DataSourceProxy((DataSource) bean);
+//        }
         return bean;
     }
 }

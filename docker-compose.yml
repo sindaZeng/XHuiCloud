@@ -74,3 +74,10 @@ services:
     container_name: xhuicloud-job
     image: xhuicloud-job
 
+  xhuicloud-seata:
+    build:
+      context: ./XHuiCloud-business/XHuiCloud-seata
+    restart: always
+    container_name: xhuicloud-seata
+    image: xhuicloud-seata
+

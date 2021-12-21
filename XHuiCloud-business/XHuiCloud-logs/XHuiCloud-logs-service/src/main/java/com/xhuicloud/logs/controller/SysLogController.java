@@ -26,7 +26,7 @@ public class SysLogController {
     private final SysLogService sysLogService;
 
     @NoAuth
-    @PostMapping("save")
+    @PostMapping("/save")
     public Response save(@RequestBody SysLog sysLog) {
         return Response.success(sysLogService.save(sysLog));
     }

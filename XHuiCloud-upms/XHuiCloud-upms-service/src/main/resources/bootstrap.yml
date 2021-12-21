@@ -37,3 +37,5 @@ server:
 
 mysql:
   scheme: xhuicloud_sys
+
+

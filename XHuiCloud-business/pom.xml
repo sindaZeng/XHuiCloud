@@ -15,7 +15,7 @@
         <module>XHuiCloud-sentinel-dashboard</module>
         <module>XHuiCloud-gateway</module>
         <module>XHuiCloud-register</module>
-        <module>XHuiCloud-transaction</module>
+        <module>XHuiCloud-seata</module>
         <module>XHuiCloud-logs</module>
         <module>XHuiCloud-generator</module>
         <module>XHuiCloud-pay</module>

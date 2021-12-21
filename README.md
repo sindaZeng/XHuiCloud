@@ -46,7 +46,7 @@ XHuiCloud
         └── XHuiCloud-push-service         -- 统一推送中心服务(22000)
      ├── XHuiCloud-register                -- 注册中心(13000)
      ├── XHuiCloud-sentinel-dashboard      -- Sentinel监控模块(14000)
-     ├── XHuiCloud-transaction             -- 事务管理模块(8091)
+     ├── XHuiCloud-seata             -- 事务管理模块(8091)
      └── XHuiCloud-xxl-admin               -- 定时任务管理模块(20000)
 └── XHuiCloud-upms                         -- 权限管理模块
      └── XHuiCloud-upms-api                -- 系统权限管理公共api模块

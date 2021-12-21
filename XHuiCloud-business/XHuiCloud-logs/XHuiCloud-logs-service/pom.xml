@@ -49,6 +49,11 @@
 
         <dependency>
             <groupId>${project.groupId}</groupId>
+            <artifactId>XHuiCloud-common-transaction</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>${project.groupId}</groupId>
             <artifactId>XHuiCloud-common-mybatis</artifactId>
         </dependency>
 

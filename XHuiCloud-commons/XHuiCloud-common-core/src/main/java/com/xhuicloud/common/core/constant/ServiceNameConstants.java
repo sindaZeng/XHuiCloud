@@ -26,4 +26,9 @@ public interface ServiceNameConstants {
      */
     String XHUICLOUD_XXL_ADMIN_SERVICE = "XHuiCloud-xxl-admin-service";
 
+    /**
+     * 推送中心
+     */
+    String XHUICLOUD_PUSH_SERVICE = "XHuiCloud-push-service";
+
 }
