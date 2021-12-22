@@ -37,7 +37,7 @@ import java.util.List;
  */
 @LoadLevel(name = "redis", scope = Scope.PROTOTYPE)
 public class RedisSessionManager extends AbstractSessionManager
-    implements SessionManager, SessionLifecycleListener, Initialize, Reloadable {
+    implements Initialize {
     /**
      * The constant LOGGER.
      */
@@ -187,8 +187,4 @@ public class RedisSessionManager extends AbstractSessionManager
         throws TransactionException {
         return lockCallable.call();
     }
-
-    @Override
-    public void reload() {}
-
 }

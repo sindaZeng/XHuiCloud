@@ -35,8 +35,8 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static io.seata.core.constants.DefaultValues.DEFAULT_STORE_DB_BRANCH_TABLE;
-import static io.seata.core.constants.DefaultValues.DEFAULT_STORE_DB_GLOBAL_TABLE;
+import static io.seata.common.DefaultValues.DEFAULT_STORE_DB_BRANCH_TABLE;
+import static io.seata.common.DefaultValues.DEFAULT_STORE_DB_GLOBAL_TABLE;
 
 /**
  * The type Log store data base dao.

@@ -39,7 +39,7 @@ import java.util.List;
  */
 @LoadLevel(name = "db", scope = Scope.PROTOTYPE)
 public class DataBaseSessionManager extends AbstractSessionManager
-    implements SessionManager, SessionLifecycleListener, Initialize, Reloadable {
+    implements Initialize {
 
     /**
      * The constant LOGGER.
@@ -188,9 +188,5 @@ public class DataBaseSessionManager extends AbstractSessionManager
     public <T> T lockAndExecute(GlobalSession globalSession, GlobalSession.LockCallable<T> lockCallable)
             throws TransactionException {
         return lockCallable.call();
-    }
-
-    @Override
-    public void reload() {
     }
 }

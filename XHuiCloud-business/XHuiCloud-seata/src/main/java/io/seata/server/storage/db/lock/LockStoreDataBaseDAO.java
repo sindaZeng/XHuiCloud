@@ -39,7 +39,7 @@ import java.sql.SQLException;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static io.seata.core.constants.DefaultValues.DEFAULT_LOCK_DB_TABLE;
+import static io.seata.common.DefaultValues.DEFAULT_LOCK_DB_TABLE;
 
 /**
  * The type Data base lock store.
