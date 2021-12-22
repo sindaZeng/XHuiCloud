@@ -49,6 +49,11 @@ public interface CacheConstants {
     String PUSH_TEMPLATE = "PUSH:TEMPLATE:";
 
     /**
+     * 推送模板组
+     */
+    String PUSH_GROUP = "PUSH:GROUP:";
+
+    /**
      * 全局缓存，该缓存不区分租户
      */
     String GLOBALLY = "gl:";

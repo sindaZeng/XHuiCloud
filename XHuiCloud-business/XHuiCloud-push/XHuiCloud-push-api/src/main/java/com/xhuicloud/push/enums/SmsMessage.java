@@ -1,5 +1,9 @@
 package com.xhuicloud.push.enums;
 
+
+import com.xhuicloud.push.common.PushSingle;
+
+import java.util.List;
 import java.util.Map;
 
 public enum SmsMessage implements BasePushMessage {
@@ -17,23 +21,9 @@ public enum SmsMessage implements BasePushMessage {
     }
 
     @Override
-    public String url() {
+    public PushSingle setPushSingle(Map<String, String> params) {
         return null;
     }
 
-    @Override
-    public String source() {
-        return null;
-    }
-
-    @Override
-    public String content() {
-        return null;
-    }
-
-    @Override
-    public String templateId() {
-        return null;
-    }
 
 }

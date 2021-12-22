@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.xhuicloud.push.mapper.PushTemplateMapper">
-  <resultMap id="BaseResultMap" type="com.xhuicloud.push.entity.PushTemplate">
+<mapper namespace="com.xhuicloud.push.mapper.PushGroupMapper">
+  <resultMap id="BaseResultMap" type="com.xhuicloud.push.entity.PushGroup">
     <!--@mbg.generated-->
-    <!--@Table push_template-->
+    <!--@Table push_group-->
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="tenant_id" jdbcType="INTEGER" property="tenantId" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
@@ -11,16 +11,12 @@
     <result column="is_del" jdbcType="BOOLEAN" property="isDel" />
     <result column="create_id" jdbcType="INTEGER" property="createId" />
     <result column="update_id" jdbcType="INTEGER" property="updateId" />
-    <result column="remark" jdbcType="VARCHAR" property="remark" />
-    <result column="content" jdbcType="VARCHAR" property="content" />
-    <result column="status" jdbcType="BOOLEAN" property="status" />
-    <result column="kv" jdbcType="VARCHAR" property="kv" />
-    <result column="group_id" jdbcType="INTEGER" property="groupId" />
-    <result column="channel" jdbcType="VARCHAR" property="channel" />
+    <result column="template_code" jdbcType="VARCHAR" property="templateCode" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
-    id, tenant_id, create_time, update_time, is_del, create_id, update_id, remark, content, 
-    `status`, kv, group_id, channel
+    id, tenant_id, create_time, update_time, is_del, create_id, update_id, template_code, 
+    `name`
   </sql>
 </mapper>

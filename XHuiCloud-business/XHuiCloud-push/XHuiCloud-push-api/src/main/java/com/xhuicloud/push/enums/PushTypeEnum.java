@@ -7,15 +7,14 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum PushTypeEnum {
 
-    SMS(SmsMessage.class),
+    SMS("短信"),
 
-    WECHAT_MP(WeChatMpMessage.class),
-
+    WECHAT_MP("微信公众号"),
     ;
 
     /**
-     * 指定消息类
+     * 类型描述
      */
-    private final Class<? extends BasePushMessage> messageClass;
+    String message;
 
 }

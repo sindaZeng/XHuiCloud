@@ -10,12 +10,15 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@ApiModel(value="推送模板")
+/**
+    * 推送组
+    */
+@ApiModel(value="推送组")
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class PushTemplate extends Model<PushTemplate> {
+public class PushGroup extends Model<PushGroup> {
     /**
      * id
      */
@@ -51,50 +54,28 @@ public class PushTemplate extends Model<PushTemplate> {
      * 创建者id
      */
     @TableField(fill = FieldFill.INSERT)
-    @ApiModelProperty(value = "创建者id", hidden = true)
+    @ApiModelProperty(value="创建者id")
     private Integer createId;
 
     /**
      * 更新者id
      */
     @TableField(fill = FieldFill.UPDATE)
-    @ApiModelProperty(value = "更新者id", hidden = true)
+    @ApiModelProperty(value="更新者id")
     private Integer updateId;
 
     /**
-     * 备注
+     * 模板编码
      */
-    @ApiModelProperty(value="备注")
-    private String remark;
+    @TableField(value = "template_code")
+    @ApiModelProperty(value="模板编码")
+    private String templateCode;
 
     /**
-     * 内容
+     * 名称
      */
-    @ApiModelProperty(value="内容")
-    private String content;
-
-    /**
-     * 0:正常 1:停用
-     */
-    @ApiModelProperty(value="0:正常 1:停用")
-    private Boolean status;
-
-    /**
-     * 参数对应的key与value
-     */
-    @ApiModelProperty(value="参数对应的key与value")
-    private String kv;
-
-    /**
-     * 组id
-     */
-    @ApiModelProperty(value="组id")
-    private Integer groupId;
-
-    /**
-     * 渠道
-     */
-    @ApiModelProperty(value="渠道")
-    private String channel;
+    @TableField(value = "`name`")
+    @ApiModelProperty(value="名称")
+    private String name;
 
 }
