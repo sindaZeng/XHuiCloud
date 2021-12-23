@@ -35,10 +35,17 @@ public class XHuiUser extends User {
     @Getter
     private Integer tenantId;
 
-    public XHuiUser(Integer id, String phone, Integer tenantId, String username, String password, boolean enabled, boolean accountNonExpired, boolean credentialsNonExpired, boolean accountNonLocked, Collection<? extends GrantedAuthority> authorities) {
+    /**
+     * 租户名称
+     */
+    @Getter
+    private String tenantName;
+
+    public XHuiUser(Integer id, String phone, Integer tenantId, String tenantName, String username, String password, boolean enabled, boolean accountNonExpired, boolean credentialsNonExpired, boolean accountNonLocked, Collection<? extends GrantedAuthority> authorities) {
         super(username, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
         this.id = id;
         this.phone = phone;
         this.tenantId = tenantId;
+        this.tenantName = tenantName;
     }
 }

@@ -49,6 +49,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
     private final SysUserDeptService sysUserDeptService;
 
+    private final SysTenantService sysTenantService;
+
     private static final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     @Override
@@ -76,6 +78,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
             permissions.addAll(permissionList);
         });
         userInfo.setPermissions(ArrayUtil.toArray(permissions, String.class));
+        userInfo.setTenantName(sysTenantService.getById(sysUser.getTenantId()).getName());
         return userInfo;
     }
 

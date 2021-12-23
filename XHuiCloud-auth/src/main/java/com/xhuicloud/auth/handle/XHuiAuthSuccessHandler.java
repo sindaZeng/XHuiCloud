@@ -1,6 +1,9 @@
 package com.xhuicloud.auth.handle;
 
+import cn.hutool.core.date.DateUtil;
+import com.alibaba.nacos.common.utils.IPUtil;
 import com.google.common.collect.Maps;
+import com.xhuicloud.common.core.utils.WebUtils;
 import com.xhuicloud.common.security.handle.AbstractAuthenticationSuccessEventHandler;
 import com.xhuicloud.common.security.service.XHuiUser;
 import com.xhuicloud.push.common.PushSingle;
@@ -16,6 +19,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Arrays;
 import java.util.Map;
+
+import static com.xhuicloud.common.core.constant.AuthorizationConstants.IS_COMMING_INNER_YES;
 
 /**
  * @program: XHuiCloud
@@ -35,15 +40,17 @@ public class XHuiAuthSuccessHandler extends AbstractAuthenticationSuccessEventHa
         log.info("用户：{} 登录成功", authentication.getPrincipal());
         XHuiUser xHuiUser = (XHuiUser) authentication.getPrincipal();
         Map<String, String> params = Maps.newHashMap();
-        params.put("first.DATA","");
-        params.put("keyword1.DATA","");
-        params.put("keyword2.DATA","");
-        params.put("keyword3.DATA","");
-        params.put("keyword4.DATA","");
-        params.put("remark.DATA","");
+        params.put("first.DATA","账号名密码登录");
+        params.put("keyword1.DATA",xHuiUser.getUsername());
+        params.put("keyword2.DATA",xHuiUser.getTenantName());
+        params.put("keyword3.DATA", DateUtil.now());
+        params.put("keyword4.DATA", WebUtils.getIP(request));
+        params.put("remark.DATA","非本人登录请修改密码!");
         PushSingle pushSingle = WeChatMpMessage.LOGIN_SUCCESS.getPushSingle(params);
         pushSingle.setUserId(xHuiUser.getId());
+        pushSingle.setTenantId(xHuiUser.getTenantId());
         pushSingle.setPushChannelEnums(Arrays.asList(PushChannelEnum.WECHAT_MP));
-        pushCommonFeign.single(pushSingle);
+        pushCommonFeign.single(pushSingle, IS_COMMING_INNER_YES);
     }
+
 }

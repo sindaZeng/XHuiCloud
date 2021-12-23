@@ -28,8 +28,8 @@ public class PushMultiDiff extends BasePush{
         @ApiModelProperty(value = "用户id")
         private Integer userId;
 
-        @ApiModelProperty(value = "模板组编码")
-        private String code;
+        @ApiModelProperty(value = "模板编码")
+        private String templateCode;
 
         @ApiModelProperty("模板渠道，当不选择模板渠道时")
         private List<PushChannelEnum> pushChannelEnums;

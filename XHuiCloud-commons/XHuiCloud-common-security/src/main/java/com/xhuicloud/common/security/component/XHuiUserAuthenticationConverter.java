@@ -47,9 +47,10 @@ public class XHuiUserAuthenticationConverter implements UserAuthenticationConver
             String username = MapUtil.getStr(map, CommonConstants.USER_USERNAME);
             Integer id = MapUtil.getInt(map, CommonConstants.USER_ID);
             Integer tenantId = MapUtil.getInt(map, CommonConstants.USER_TENANT_ID);
+            String tenantName = MapUtil.getStr(map, CommonConstants.USER_TENANT_NAME);
             String phone = MapUtil.getStr(map, CommonConstants.USER_PHONE);
 
-            XHuiUser user = new XHuiUser(id, phone, tenantId, username,
+            XHuiUser user = new XHuiUser(id, phone, tenantId, tenantName, username,
                     "N_A", true, true, true, true,
                     authorities);
             return new UsernamePasswordAuthenticationToken(user, "N_A", authorities);

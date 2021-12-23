@@ -88,7 +88,7 @@ public class XHuiUserDetailsServiceImpl implements XHuiUserDetailsService {
         SysUser user = userInfo.getSysUser();
         boolean enabled = StrUtil.equals(user.getLockFlag().toString(), USER_IS_LOCK);
         // 构造security用户
-        return new XHuiUser(user.getUserId(), user.getPhone(), user.getTenantId(), user.getUsername(), user.getPassword(), enabled,
+        return new XHuiUser(user.getUserId(), user.getPhone(), user.getTenantId(), userInfo.getTenantName(), user.getUsername(), user.getPassword(), enabled,
                 true, true, enabled, authorities);
     }
 }

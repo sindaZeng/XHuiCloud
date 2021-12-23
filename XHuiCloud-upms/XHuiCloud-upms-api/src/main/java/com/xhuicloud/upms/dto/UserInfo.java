@@ -26,4 +26,8 @@ public class UserInfo implements Serializable {
      * 角色集合
      */
     private String[] roles;
+    /**
+     * 租户名称
+     */
+    private String tenantName;
 }

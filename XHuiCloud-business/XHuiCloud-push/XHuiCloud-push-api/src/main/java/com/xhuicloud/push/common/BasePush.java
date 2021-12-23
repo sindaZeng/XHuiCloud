@@ -18,4 +18,7 @@ public class BasePush implements Serializable {
     @ApiModelProperty("定时发送，如果小于当前时间则立即发送")
     private Date sendTime;
 
+    @ApiModelProperty("租户Id")
+    private Integer tenantId;
+
 }

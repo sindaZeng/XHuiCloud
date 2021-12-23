@@ -1,5 +1,9 @@
 package com.xhuicloud.common.core.utils;
 
+import cn.hutool.core.date.DateException;
+import cn.hutool.core.date.DatePattern;
+import cn.hutool.core.util.NumberUtil;
+import cn.hutool.core.util.StrUtil;
 import org.apache.commons.lang3.time.DateFormatUtils;
 
 import java.lang.management.ManagementFactory;
@@ -13,7 +17,7 @@ import java.util.Date;
  * @author: Sinda
  * @create: 2020-03-22 17:44
  */
-public class DateUtils extends org.apache.commons.lang3.time.DateUtils{
+public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
     public static String YYYY = "yyyy";
 
     public static String YYYY_MM = "yyyy-MM";
@@ -34,8 +38,7 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils{
      *
      * @return Date() 当前日期
      */
-    public static Date getNowDate()
-    {
+    public static Date getNowDate() {
         return new Date();
     }
 
@@ -44,44 +47,34 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils{
      *
      * @return String
      */
-    public static String getDate()
-    {
+    public static String getDate() {
         return dateTimeNow(YYYY_MM_DD);
     }
 
-    public static final String getTime()
-    {
+    public static final String getTime() {
         return dateTimeNow(YYYY_MM_DD_HH_MM_SS);
     }
 
-    public static final String dateTimeNow()
-    {
+    public static final String dateTimeNow() {
         return dateTimeNow(YYYYMMDDHHMMSS);
     }
 
-    public static final String dateTimeNow(final String format)
-    {
+    public static final String dateTimeNow(final String format) {
         return parseDateToStr(format, new Date());
     }
 
-    public static final String dateTime(final Date date)
-    {
+    public static final String dateTime(final Date date) {
         return parseDateToStr(YYYY_MM_DD, date);
     }
 
-    public static final String parseDateToStr(final String format, final Date date)
-    {
+    public static final String parseDateToStr(final String format, final Date date) {
         return new SimpleDateFormat(format).format(date);
     }
 
-    public static final Date dateTime(final String format, final String ts)
-    {
-        try
-        {
+    public static final Date dateTime(final String format, final String ts) {
+        try {
             return new SimpleDateFormat(format).parse(ts);
-        }
-        catch (ParseException e)
-        {
+        } catch (ParseException e) {
             throw new RuntimeException(e);
         }
     }
@@ -89,17 +82,53 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils{
     /**
      * 日期路径 即年/月/日 如2018/08/08
      */
-    public static final String datePath()
-    {
+    public static final String datePath() {
         Date now = new Date();
         return DateFormatUtils.format(now, "yyyy/MM/dd");
     }
 
     /**
+     * 格式化任意日期类型
+     *
+     * @param dateString
+     * @return
+     */
+    public static Date parse(String dateString) {
+        if (StrUtil.contains(dateString, 'T')) {
+            try {
+                int length = dateString.length();
+                String pattern = null;
+                if (StrUtil.contains(dateString, 'Z')) {
+                    if (length == DatePattern.UTC_PATTERN.length() - 4) {
+                        pattern = DatePattern.UTC_PATTERN;
+                    } else if (length == DatePattern.UTC_MS_PATTERN.length() - 4) {
+                        // 格式类似：2018-09-13T05:34:31.999Z
+                        pattern = DatePattern.UTC_MS_PATTERN;
+                    }
+                } else {
+                    if (length == DatePattern.UTC_MS_WITH_ZONE_OFFSET_PATTERN.length() + 2 || length == DatePattern.UTC_MS_WITH_ZONE_OFFSET_PATTERN.length() + 3) {
+                        // 格式类似：2018-09-13T05:34:31.999+0800 或 2018-09-13T05:34:31.999+08:00
+                        pattern = DatePattern.UTC_MS_WITH_ZONE_OFFSET_PATTERN;
+                    } else if (length == DatePattern.UTC_WITH_ZONE_OFFSET_PATTERN.length() + 2 || length == DatePattern.UTC_WITH_ZONE_OFFSET_PATTERN.length() + 3) {
+                        // 格式类似：2018-09-13T05:34:31+0800 或 2018-09-13T05:34:31+08:00
+                        pattern = DatePattern.UTC_WITH_ZONE_OFFSET_PATTERN;
+                    }
+                }
+                return new SimpleDateFormat(pattern).parse(dateString);
+            } catch (ParseException e) {
+                throw new DateException("日期格式化异常 {}", dateString);
+            }
+        }
+        if (NumberUtil.isNumber(dateString)) {
+            return new Date(Long.parseLong(dateString));
+        }
+        return cn.hutool.core.date.DateUtil.parse(dateString);
+    }
+
+    /**
      * 日期路径 即年/月/日 如20180808
      */
-    public static final String dateTime()
-    {
+    public static final String dateTime() {
         Date now = new Date();
         return DateFormatUtils.format(now, "yyyyMMdd");
     }
@@ -107,18 +136,13 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils{
     /**
      * 日期型字符串转化为日期 格式
      */
-    public static Date parseDate(Object str)
-    {
-        if (str == null)
-        {
+    public static Date parseDate(Object str) {
+        if (str == null) {
             return null;
         }
-        try
-        {
+        try {
             return parseDate(str.toString(), parsePatterns);
-        }
-        catch (ParseException e)
-        {
+        } catch (ParseException e) {
             return null;
         }
     }
@@ -126,8 +150,7 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils{
     /**
      * 获取服务器启动时间
      */
-    public static Date getServerStartDate()
-    {
+    public static Date getServerStartDate() {
         long time = ManagementFactory.getRuntimeMXBean().getStartTime();
         return new Date(time);
     }
@@ -135,8 +158,7 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils{
     /**
      * 计算两个时间差
      */
-    public static String getDatePoor(Date endDate, Date nowDate)
-    {
+    public static String getDatePoor(Date endDate, Date nowDate) {
         long nd = 1000 * 24 * 60 * 60;
         long nh = 1000 * 60 * 60;
         long nm = 1000 * 60;

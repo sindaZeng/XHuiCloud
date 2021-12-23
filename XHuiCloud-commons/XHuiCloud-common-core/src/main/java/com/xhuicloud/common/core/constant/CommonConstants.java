@@ -87,6 +87,11 @@ public interface CommonConstants {
     String USER_TENANT_ID = "tenantId";
 
     /**
+     * 租户参数名称
+     */
+    String USER_TENANT_NAME = "tenantName";
+
+    /**
      * 用户名参数名称
      */
     String USER_USERNAME = "username";
