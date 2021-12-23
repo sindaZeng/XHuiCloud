@@ -3,9 +3,9 @@ package com.xhuicloud.upms.feign;
 import com.xhuicloud.common.core.constant.ServiceNameConstants;
 import com.xhuicloud.upms.dto.UserInfo;
 import com.xhuicloud.common.core.utils.Response;
+import com.xhuicloud.upms.entity.SysUserSocial;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
-
 import static com.xhuicloud.common.core.constant.AuthorizationConstants.FROM;
 
 @FeignClient(contextId = SysUserServiceFeign.SYSUSERSERVICEFEIGN, value = ServiceNameConstants.XHUICLOUD_UPMS_SERVICE, path = "/user")
@@ -18,5 +18,8 @@ public interface SysUserServiceFeign {
 
     @PostMapping
     Response user(@RequestHeader(FROM) String from);
+
+    @GetMapping("/social/{userId}/{type}")
+    Response<SysUserSocial> getUserSocial(@PathVariable("userId") Integer userId, @PathVariable("type") String type, @RequestHeader(FROM) String from);
 
 }

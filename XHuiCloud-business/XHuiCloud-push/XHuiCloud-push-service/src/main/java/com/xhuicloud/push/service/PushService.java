@@ -2,6 +2,7 @@ package com.xhuicloud.push.service;
 
 import com.xhuicloud.push.common.PushMultiple;
 import com.xhuicloud.push.common.PushSingle;
+import com.xhuicloud.push.entity.PushTemplate;
 
 public interface PushService {
 
@@ -11,7 +12,7 @@ public interface PushService {
      * @param pushSingle
      * @return
      */
-    boolean pushSingle(PushSingle pushSingle);
+    boolean pushSingle(PushTemplate pushTemplate, PushSingle pushSingle);
 
 
     /**
@@ -20,6 +21,6 @@ public interface PushService {
      * @param pushMultiple
      * @return
      */
-    boolean pushMultiple(PushMultiple pushMultiple);
+    boolean pushMultiple(PushTemplate pushTemplate, PushMultiple pushMultiple);
 
 }

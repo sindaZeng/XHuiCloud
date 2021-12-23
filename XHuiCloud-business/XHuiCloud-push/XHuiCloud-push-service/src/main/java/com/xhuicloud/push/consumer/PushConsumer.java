@@ -26,11 +26,11 @@ public class PushConsumer {
     @RabbitListener(queues = QUEUE_NAME)
     public void consumePush(PushMqEntity pushMqEntity) {
         XHuiCommonThreadLocalHolder.setTenant(pushMqEntity.getTenantId());
-        if (pushMqEntity.getCls().equals(PushSingle.class.getSimpleName())) {
+        if (pushMqEntity.getCls() == PushSingle.class) {
             pushCommonService.single(JSON.parseObject(pushMqEntity.getJson(), PushSingle.class));
-        } else if (pushMqEntity.getCls().equals(PushMultiple.class.getSimpleName())) {
+        } else if (pushMqEntity.getCls()== PushMultiple.class) {
             pushCommonService.multiple(JSON.parseObject(pushMqEntity.getJson(), PushMultiple.class));
-        } else if (pushMqEntity.getCls().equals(PushMultiDiff.class.getSimpleName())) {
+        } else if (pushMqEntity.getCls() == PushMultiDiff.class) {
             pushCommonService.multiDiff(JSON.parseObject(pushMqEntity.getJson(), PushMultiDiff.class));
         }
         XHuiCommonThreadLocalHolder.removeTenant();

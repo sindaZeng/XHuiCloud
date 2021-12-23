@@ -9,7 +9,9 @@ import com.xhuicloud.common.security.annotation.NoAuth;
 import com.xhuicloud.common.security.utils.SecurityHolder;
 import com.xhuicloud.upms.dto.UserDto;
 import com.xhuicloud.upms.entity.SysUser;
+import com.xhuicloud.upms.entity.SysUserSocial;
 import com.xhuicloud.upms.service.SysUserService;
+import com.xhuicloud.upms.service.SysUserSocialService;
 import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -26,6 +28,8 @@ import java.util.List;
 public class SysUserController {
 
     private final SysUserService sysUserService;
+
+    private final SysUserSocialService sysUserSocialService;
 
     /**
      * 分页查询用户列表
@@ -69,6 +73,18 @@ public class SysUserController {
             return Response.failed(null, String.format("用户信息为空 %s", userName));
         }
         return Response.success(sysUserService.getSysUser(user));
+    }
+
+    /**
+     * 查找用户第三方id
+     *
+     * @return
+     */
+    @NoAuth
+    @GetMapping("/social/{userId}/{type}")
+    public Response getUserSocial(@PathVariable("userId") Integer userId, @PathVariable("type") String type) {
+        return Response.success(sysUserSocialService.getOne(Wrappers.<SysUserSocial>lambdaQuery()
+                .eq(SysUserSocial::getUserId, userId).eq(SysUserSocial::getSocialType, type)));
     }
 
     /**

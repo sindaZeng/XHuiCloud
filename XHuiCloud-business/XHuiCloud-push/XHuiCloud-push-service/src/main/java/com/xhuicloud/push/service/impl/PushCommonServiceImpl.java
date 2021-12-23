@@ -16,11 +16,13 @@ import com.xhuicloud.push.entity.PushTemplate;
 import com.xhuicloud.push.enums.PushChannelEnum;
 import com.xhuicloud.push.service.PushCommonService;
 import com.xhuicloud.push.service.PushGroupService;
+import com.xhuicloud.push.service.PushService;
 import com.xhuicloud.push.service.PushTemplateService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -32,6 +34,8 @@ public class PushCommonServiceImpl implements PushCommonService {
     private final PushGroupService pushGroupService;
 
     private final PushTemplateService pushTemplateService;
+
+    private final Map<String, PushService> pushServiceMap;
 
     @Override
     public void toQueue(BasePush basePush) {
@@ -77,7 +81,7 @@ public class PushCommonServiceImpl implements PushCommonService {
         }
 
         List<PushChannelEnum> pushChannelEnums = pushSingle.getPushChannelEnums();
-        List<PushTemplate> pushTemplates = null;
+        List<PushTemplate> pushTemplates;
         if (CollectionUtil.isNotEmpty(pushChannelEnums)) {
             pushTemplates = pushTemplateService.list(Wrappers.<PushTemplate>lambdaQuery()
                     .eq(PushTemplate::getGroupId, pushGroup.getId())
@@ -90,9 +94,14 @@ public class PushCommonServiceImpl implements PushCommonService {
                             .collect(Collectors.toList())));
         }
         if (CollectionUtil.isNotEmpty(pushTemplates)) {
-
+            for (PushTemplate pushTemplate : pushTemplates) {
+                PushService pushService = pushServiceMap.get(pushTemplate.getChannel());
+                if (pushService != null) {
+                    pushService.pushSingle(pushTemplate, pushSingle);
+                }
+            }
         }
-        return null;
+        return Response.success();
     }
 
     @Override
