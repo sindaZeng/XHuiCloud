@@ -6,17 +6,17 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.cloud.openfeign.SpringQueryMap;
 import org.springframework.web.bind.annotation.*;
 
-@FeignClient(contextId = JobInfoFeign.JOBINFOFEIGN, value = ServiceNameConstants.XHUICLOUD_XXL_ADMIN_SERVICE)
+@FeignClient(contextId = JobInfoFeign.JOBINFOFEIGN, value = ServiceNameConstants.XHUICLOUD_XXL_ADMIN_SERVICE, path = "/xxl-job-admin/jobinfo")
 public interface JobInfoFeign {
 
     String JOBINFOFEIGN = "jobInfoFeign";
 
-    @PostMapping("/xxl-job-admin/jobinfo/add")
     @ResponseBody
+    @PostMapping("/add")
     String add(@RequestHeader("Cookie") String cookie, @SpringQueryMap XxlJobInfo jobInfo);
 
-    @PostMapping("/xxl-job-admin/jobinfo/addAndStart")
     @ResponseBody
+    @PostMapping("/addAndStart")
     String addAndStart(@RequestHeader("Cookie") String cookie, @SpringQueryMap XxlJobInfo jobInfo);
 
 }

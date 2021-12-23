@@ -17,7 +17,7 @@ public interface BasePushMessage {
     /**
      * 获取单一推送数据载体
      */
-    PushSingle setPushSingle(Map<String, String> params);
+    PushSingle getPushSingle(Map<String, String> params);
 
 
 }

@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum PushTypeEnum {
+public enum PushChannelEnum {
 
     SMS("短信"),
 

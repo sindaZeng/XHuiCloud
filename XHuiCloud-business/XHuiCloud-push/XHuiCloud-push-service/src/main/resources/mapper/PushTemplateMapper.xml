@@ -17,10 +17,11 @@
     <result column="kv" jdbcType="VARCHAR" property="kv" />
     <result column="group_id" jdbcType="INTEGER" property="groupId" />
     <result column="channel" jdbcType="VARCHAR" property="channel" />
+    <result column="channel_id" jdbcType="VARCHAR" property="channelId" />
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
     id, tenant_id, create_time, update_time, is_del, create_id, update_id, remark, content, 
-    `status`, kv, group_id, channel
+    `status`, kv, group_id, channel, channel_id
   </sql>
 </mapper>

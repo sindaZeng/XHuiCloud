@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import static com.xhuicloud.common.core.constant.AuthorizationConstants.FROM;
 
-@FeignClient(contextId = SysParamServiceFeign.SYSPARAMSERVICEFEIGN, value = ServiceNameConstants.XHUICLOUD_UPMS_SERVICE)
+@FeignClient(contextId = SysParamServiceFeign.SYSPARAMSERVICEFEIGN, value = ServiceNameConstants.XHUICLOUD_UPMS_SERVICE, path = "/param")
 public interface SysParamServiceFeign {
 
     String SYSPARAMSERVICEFEIGN = "sysParamServiceFeign";
@@ -18,10 +18,10 @@ public interface SysParamServiceFeign {
      *
      * @return
      */
-    @GetMapping("/param/get")
+    @GetMapping("/get")
     Response<SysParam> get(@RequestParam(value = "key") String key, @RequestHeader(FROM) String from);
 
-    @PutMapping("/param/updateValue")
+    @PutMapping("/updateValue")
     Response updateValue(@RequestBody SysParam sysParam, @RequestHeader(FROM) String from);
 
 }

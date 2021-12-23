@@ -21,7 +21,7 @@ public enum SmsMessage implements BasePushMessage {
     }
 
     @Override
-    public PushSingle setPushSingle(Map<String, String> params) {
+    public PushSingle getPushSingle(Map<String, String> params) {
         return null;
     }
 

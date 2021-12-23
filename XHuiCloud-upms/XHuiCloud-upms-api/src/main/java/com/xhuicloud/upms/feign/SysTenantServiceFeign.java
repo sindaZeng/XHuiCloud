@@ -11,7 +11,7 @@ import java.util.List;
 
 import static com.xhuicloud.common.core.constant.AuthorizationConstants.FROM;
 
-@FeignClient(contextId = SysTenantServiceFeign.SYSTENANTSERVICEFEIGN, value = ServiceNameConstants.XHUICLOUD_UPMS_SERVICE)
+@FeignClient(contextId = SysTenantServiceFeign.SYSTENANTSERVICEFEIGN, value = ServiceNameConstants.XHUICLOUD_UPMS_SERVICE, path = "/tenant")
 public interface SysTenantServiceFeign {
 
     String SYSTENANTSERVICEFEIGN = "sysTenantServiceFeign";
@@ -21,7 +21,7 @@ public interface SysTenantServiceFeign {
      *
      * @return
      */
-    @GetMapping("/tenant/list")
+    @GetMapping("/list")
     Response<List<SysTenant>> list(@RequestHeader(FROM) String from);
 
 }

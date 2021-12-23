@@ -5,11 +5,11 @@ import com.xhuicloud.common.core.utils.Response;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 
-@FeignClient(contextId = PushTestFeign.PUSHTESTFEIGN, value = ServiceNameConstants.XHUICLOUD_PUSH_SERVICE)
+@FeignClient(contextId = PushTestFeign.PUSHTESTFEIGN, value = ServiceNameConstants.XHUICLOUD_PUSH_SERVICE, path = "/test")
 public interface PushTestFeign {
 
     String PUSHTESTFEIGN = "PushTestFeign";
 
-    @GetMapping("/test/tm")
+    @GetMapping("/tm")
     Response tm();
 }

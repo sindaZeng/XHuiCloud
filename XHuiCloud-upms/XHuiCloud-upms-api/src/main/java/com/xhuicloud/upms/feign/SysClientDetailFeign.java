@@ -10,12 +10,12 @@ import org.springframework.web.bind.annotation.RequestHeader;
 
 import static com.xhuicloud.common.core.constant.AuthorizationConstants.FROM;
 
-@FeignClient(contextId = SysClientDetailFeign.SYSCLIENTDETAILFEIGN, value = ServiceNameConstants.XHUICLOUD_UPMS_SERVICE)
+@FeignClient(contextId = SysClientDetailFeign.SYSCLIENTDETAILFEIGN, value = ServiceNameConstants.XHUICLOUD_UPMS_SERVICE, path = "/client")
 public interface SysClientDetailFeign {
 
     String SYSCLIENTDETAILFEIGN = "sysClientDetailFeign";
 
-    @GetMapping("/client/{clientId}")
+    @GetMapping("/{clientId}")
     Response<SysClientDetails> getById(@PathVariable(value = "clientId") String clientId, @RequestHeader(FROM) String from);
 
 }

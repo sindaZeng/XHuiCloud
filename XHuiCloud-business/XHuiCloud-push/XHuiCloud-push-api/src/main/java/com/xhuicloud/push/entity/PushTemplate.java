@@ -97,4 +97,10 @@ public class PushTemplate extends Model<PushTemplate> {
     @ApiModelProperty(value="渠道")
     private String channel;
 
+    /**
+     * 渠道模板id
+     */
+    @ApiModelProperty(value="渠道模板id")
+    private String channelId;
+
 }

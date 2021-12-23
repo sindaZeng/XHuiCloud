@@ -15,8 +15,8 @@ import javax.validation.constraints.NotBlank;
 @ApiModel(value="推送单人单一内容")
 public class PushSingle extends BasePushData{
 
-    @ApiModelProperty(value = "用户标识 比如微信的openid")
+    @ApiModelProperty(value = "用户id")
     @NotBlank
-    private String userId;
+    private Integer userId;
 
 }

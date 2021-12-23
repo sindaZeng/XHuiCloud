@@ -36,7 +36,7 @@ public class PushCommonController {
     @SysLog("推送多人不同内容")
     @PostMapping("/multiDiff")
     @ApiOperation(value = "推送多人不同内容", notes = "推送多人不同内容")
-    public Response multiple(@RequestBody PushMultiDiff pushMultiDiff) {
+    public Response multiDiff(@RequestBody PushMultiDiff pushMultiDiff) {
         return Response.success();
     }
 

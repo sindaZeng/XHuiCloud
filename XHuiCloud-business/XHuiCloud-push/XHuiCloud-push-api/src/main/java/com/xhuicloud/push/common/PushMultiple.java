@@ -16,9 +16,9 @@ import java.util.List;
 @ApiModel(value="推送多人单一内容")
 public class PushMultiple extends BasePushData{
 
-    @ApiModelProperty(value = "用户标识集合 比如微信的openid")
+    @ApiModelProperty(value = "用户id")
     @NotNull
-    private List<String> userIds;
+    private List<Integer> userIds;
 
 }
 

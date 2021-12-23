@@ -45,7 +45,7 @@ public class PushTestController {
         params.put("keyword3.DATA","4");
         params.put("keyword4.DATA","5");
         params.put("remark.DATA","6");
-        PushSingle pushSingle = WeChatMpMessage.LOGIN_SUCCESS.setPushSingle(params);
+        PushSingle pushSingle = WeChatMpMessage.LOGIN_SUCCESS.getPushSingle(params);
         System.out.println();
     }
 

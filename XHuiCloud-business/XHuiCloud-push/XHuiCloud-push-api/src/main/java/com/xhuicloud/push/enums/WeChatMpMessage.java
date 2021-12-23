@@ -30,8 +30,9 @@ public enum WeChatMpMessage implements BasePushMessage{
     }
 
     @Override
-    public PushSingle setPushSingle(Map<String, String> params) {
+    public PushSingle getPushSingle(Map<String, String> params) {
         PushSingle pushSingle = new PushSingle();
+        pushSingle.setTemplateCode(name());
         for (String k : paramNames()) {
             String v = params.get(k);
             if (StrUtil.isBlank(v)) {

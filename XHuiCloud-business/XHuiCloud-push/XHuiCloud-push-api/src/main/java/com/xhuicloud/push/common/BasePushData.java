@@ -1,6 +1,6 @@
 package com.xhuicloud.push.common;
 
-import com.xhuicloud.push.enums.PushTypeEnum;
+import com.xhuicloud.push.enums.PushChannelEnum;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -20,7 +20,7 @@ public class BasePushData extends BasePush {
     private String templateCode;
 
     @ApiModelProperty("模板渠道，当不选择模板渠道时，会对该模板组下的所有渠道进行消息推送")
-    private List<PushTypeEnum> pushTypeEnums;
+    private List<PushChannelEnum> pushChannelEnums;
 
     @ApiModelProperty("模板参数集合")
     private List<Parameter> params;
