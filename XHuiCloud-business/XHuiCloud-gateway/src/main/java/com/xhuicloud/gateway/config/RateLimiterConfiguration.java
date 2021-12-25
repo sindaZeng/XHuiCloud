@@ -23,7 +23,7 @@ public class RateLimiterConfiguration {
 
         corsConfiguration.addAllowedHeader("*");
         corsConfiguration.addAllowedMethod("*");
-        corsConfiguration.addAllowedOrigin("*");
+        corsConfiguration.addAllowedOriginPattern("*");
         corsConfiguration.setAllowCredentials(true);
         corsConfiguration.setMaxAge(600L);
 
