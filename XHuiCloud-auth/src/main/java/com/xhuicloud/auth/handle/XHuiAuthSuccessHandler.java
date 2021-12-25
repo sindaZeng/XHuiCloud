@@ -38,6 +38,8 @@ public class XHuiAuthSuccessHandler extends AbstractAuthenticationSuccessEventHa
     @Override
     public void handle(Authentication authentication, HttpServletRequest request, HttpServletResponse response) {
         log.info("用户：{} 登录成功", authentication.getPrincipal());
+        try {
+
         XHuiUser xHuiUser = (XHuiUser) authentication.getPrincipal();
         Map<String, String> params = Maps.newHashMap();
         params.put("first.DATA","账号名密码登录");
@@ -51,6 +53,9 @@ public class XHuiAuthSuccessHandler extends AbstractAuthenticationSuccessEventHa
         pushSingle.setTenantId(xHuiUser.getTenantId());
         pushSingle.setPushChannelEnums(Arrays.asList(PushChannelEnum.WECHAT_MP));
         pushCommonFeign.single(pushSingle, IS_COMMING_INNER_YES);
+        }catch (Exception e) {
+            log.info("用户：{} 登录成功推送失败", e);
+        }
     }
 
 }
