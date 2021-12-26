@@ -30,7 +30,7 @@ import java.util.Map;
 @RequestMapping("/token")
 @AllArgsConstructor
 @Api(value = "auth", tags = "认证模块")
-public class AuthController {
+public class AuthTokenEndpoint {
 
     private final TokenStore tokenStore;
 

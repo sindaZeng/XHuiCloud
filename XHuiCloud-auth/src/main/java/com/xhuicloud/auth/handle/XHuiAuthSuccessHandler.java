@@ -50,7 +50,7 @@ public class XHuiAuthSuccessHandler extends AbstractAuthenticationSuccessEventHa
         pushSingle.setUserId(xHuiUser.getId());
         pushSingle.setTenantId(xHuiUser.getTenantId());
         pushSingle.setPushChannelEnums(Arrays.asList(PushChannelEnum.WECHAT_MP));
-        pushCommonFeign.single(pushSingle, IS_COMMING_INNER_YES);
+//        pushCommonFeign.single(pushSingle, IS_COMMING_INNER_YES);
     }
 
 }
