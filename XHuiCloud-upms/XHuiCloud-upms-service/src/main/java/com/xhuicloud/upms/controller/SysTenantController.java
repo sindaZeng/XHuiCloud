@@ -1,10 +1,37 @@
+/*
+ * MIT License
+ * Copyright <2021-2022>
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+ * of the Software, and to permit persons to whom the Software is furnished to do so,
+ * subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+ * INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
+ * PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+ * CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
+ * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * @Author: Sinda
+ * @Email:  xhuicloud@163.com
+ */
+
 package com.xhuicloud.upms.controller;
 
+import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xhuicloud.common.core.utils.Response;
 import com.xhuicloud.common.log.annotation.SysLog;
 import com.xhuicloud.common.security.annotation.NoAuth;
+import com.xhuicloud.upms.dto.TenantDto;
 import com.xhuicloud.upms.entity.SysTenant;
 import com.xhuicloud.upms.service.SysTenantService;
 import io.swagger.annotations.Api;
@@ -38,7 +65,23 @@ public class SysTenantController {
     @GetMapping("/list")
     public Response<List<SysTenant>> list() {
         return Response.success(sysTenantService.list(Wrappers.<SysTenant>lambdaQuery()
-                .eq(SysTenant::getState, 1).eq(SysTenant::getIsDel, 1)));
+                .eq(SysTenant::getState, 1)));
+    }
+
+    /**
+     * 模糊查询租户列表
+     *
+     * @return
+     */
+    @NoAuth(value = false)
+    @GetMapping("/like")
+    public Response<List<TenantDto>> like(@RequestParam(required = false) String tenantName) {
+        LambdaQueryWrapper<SysTenant> wrapper = Wrappers.<SysTenant>lambdaQuery()
+                .eq(SysTenant::getState, 1);
+        if (StrUtil.isNotEmpty(tenantName)) {
+            wrapper.like(SysTenant::getName, tenantName);
+        }
+        return Response.success(TenantDto.build(null, sysTenantService.list(wrapper)));
     }
 
     /**

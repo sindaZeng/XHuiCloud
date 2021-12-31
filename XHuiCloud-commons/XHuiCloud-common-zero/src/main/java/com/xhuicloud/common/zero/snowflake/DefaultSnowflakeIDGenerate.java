@@ -1,3 +1,27 @@
+/*
+ * MIT License
+ * Copyright <2021-2022>
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+ * of the Software, and to permit persons to whom the Software is furnished to do so,
+ * subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+ * INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
+ * PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+ * CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
+ * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * @Author: Sinda
+ * @Email:  xhuicloud@163.com
+ */
+
 package com.xhuicloud.common.zero.snowflake;
 
 import com.google.common.base.Preconditions;
@@ -18,15 +42,25 @@ import java.util.Random;
 public class DefaultSnowflakeIDGenerate implements IDGenerate {
 
     private final long twepoch;
+
     private final long workerIdBits = 10L;
+
     private final long maxWorkerId = ~(-1L << workerIdBits);//最大能够分配的workerid =1023
+
     private final long sequenceBits = 12L;
+
     private final long workerIdShift = sequenceBits;
+
     private final long timestampLeftShift = sequenceBits + workerIdBits;
+
     private final long sequenceMask = ~(-1L << sequenceBits);
+
     private long workerId;
+
     private long sequence = 0L;
+
     private long lastTimestamp = -1L;
+
     private static final Random RANDOM = new Random();
 
     public DefaultSnowflakeIDGenerate(String zkAddress, int port) {
@@ -95,7 +129,6 @@ public class DefaultSnowflakeIDGenerate implements IDGenerate {
 
     }
 
-
     protected long tilNextMillis(long lastTimestamp) {
         long timestamp = timeGen();
         while (timestamp <= lastTimestamp) {
@@ -103,7 +136,6 @@ public class DefaultSnowflakeIDGenerate implements IDGenerate {
         }
         return timestamp;
     }
-
 
     public long getWorkerId() {
         return workerId;

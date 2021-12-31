@@ -20,7 +20,7 @@
         <result column="is_del" jdbcType="INTEGER" property="isDel" />
     </resultMap>
 
-    <resultMap id="MenuVoResultMap" type="com.xhuicloud.upms.vo.MenuVO">
+    <resultMap id="MenuVoResultMap" type="com.xhuicloud.upms.vo.MenuVo">
         <!--@mbg.generated-->
         <!--@Table sys_menu-->
         <id column="id" property="id"/>
