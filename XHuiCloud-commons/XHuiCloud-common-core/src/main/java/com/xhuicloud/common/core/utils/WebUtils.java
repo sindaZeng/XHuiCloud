@@ -25,6 +25,8 @@
 package com.xhuicloud.common.core.utils;
 
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.http.HttpUtil;
+import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
@@ -41,11 +43,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 @Slf4j
 @UtilityClass
 public class WebUtils extends org.springframework.web.util.WebUtils {
-	private final String BASIC_ = "Basic ";
+
+	// IP归属地查询
+	public static final String IP_URL = "http://whois.pconline.com.cn/ipJson.jsp?ip=%s&json=true";
+
 	private final String UNKNOWN = "unknown";
 
 	/**
@@ -169,6 +176,23 @@ public class WebUtils extends org.springframework.web.util.WebUtils {
 		return getIP(getRequest());
 	}
 
+
+	/**
+	 * 根据ip获取详细地址
+	 */
+	public static String getIpCityInfo(String ip) {
+		String api = String.format(IP_URL, ip);
+		return JSONUtil.parseObj(HttpUtil.get(api)).get("addr", String.class);
+	}
+
+	/**
+	 * 获取ip
+	 */
+	public static String getIp(String ip) {
+		String api = String.format(IP_URL, ip);
+		return JSONUtil.parseObj(HttpUtil.get(api)).get("ip", String.class);
+	}
+
 	/**
 	 * 获取ip
 	 *
@@ -196,7 +220,17 @@ public class WebUtils extends org.springframework.web.util.WebUtils {
 		if (StrUtil.isBlank(ip) || UNKNOWN.equalsIgnoreCase(ip)) {
 			ip = request.getRemoteAddr();
 		}
-		return StrUtil.isBlank(ip) ? null : ip.split(",")[0];
+		String localhost = "127.0.0.1";
+		ip = StrUtil.isBlank(ip) ? null : ip.split(",")[0];
+		if (localhost.equals(ip)) {
+			// 获取本机真正的ip地址
+			try {
+				ip = InetAddress.getLocalHost().getHostAddress();
+			} catch (UnknownHostException e) {
+				log.error(e.getMessage(), e);
+			}
+		}
+		return ip;
 	}
 
 }

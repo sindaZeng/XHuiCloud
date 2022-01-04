@@ -25,6 +25,7 @@
 package com.xhuicloud.common.data.tenant;
 
 import com.alibaba.ttl.TransmittableThreadLocal;
+import lombok.experimental.UtilityClass;
 
 /**
  * @program: XHuiCloud
@@ -32,6 +33,7 @@ import com.alibaba.ttl.TransmittableThreadLocal;
  * @author: Sinda
  * @create: 2020-05-12 16:42
  */
+@UtilityClass
 public class XHuiCommonThreadLocalHolder {
 
     /**
@@ -44,27 +46,27 @@ public class XHuiCommonThreadLocalHolder {
      */
     private static final ThreadLocal<Integer> USERID = new TransmittableThreadLocal<>();
 
-    public static void setTenant(Integer id) {
+    public void setTenant(Integer id) {
         TENANT.set(id);
     }
 
-    public static Integer getTenant() {
+    public Integer getTenant() {
         return TENANT.get();
     }
 
-    public static void removeTenant() {
+    public void removeTenant() {
         TENANT.remove();
     }
 
-    public static void removeUserId() {
+    public void removeUserId() {
         USERID.remove();
     }
 
-    public static void setUserId(Integer id) {
+    public void setUserId(Integer id) {
         USERID.set(id);
     }
 
-    public static Integer getUserId() {
+    public Integer getUserId() {
         return USERID.get();
     }
 

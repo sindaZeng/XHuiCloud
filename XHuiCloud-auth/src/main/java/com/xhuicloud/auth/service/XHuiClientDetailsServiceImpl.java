@@ -58,7 +58,7 @@ public class XHuiClientDetailsServiceImpl implements ClientDetailsService {
     private final SysClientDetailFeign sysClientDetailFeign;
 
     @Override
-    @Cacheable(value = CacheConstants.CLIENT_DETAILS, key = "#clientId", unless = "#result == null")
+//    @Cacheable(value = CacheConstants.CLIENT_DETAILS, key = "#clientId", unless = "#result == null")
     public ClientDetails loadClientByClientId(String clientId) {
         SysClientDetails data = sysClientDetailFeign.getById(clientId, IS_COMMING_INNER_YES).getData();
 
