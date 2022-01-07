@@ -24,30 +24,42 @@
 
 package com.xhuicloud.common.core.thread;
 
-import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
-import org.springframework.scheduling.annotation.AsyncConfigurer;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
-import java.util.concurrent.Executor;
+import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.atomic.AtomicInteger;
 
-@Slf4j
-@AllArgsConstructor
-public class AsyncThreadExecutePool implements AsyncConfigurer {
+public class ThreadFactoryName implements ThreadFactory {
 
-    private final ThreadPoolTaskExecutor threadPoolTaskExecutor;
+    private static final AtomicInteger POOL_NUMBER = new AtomicInteger(1);
 
-    @Override
-    public Executor getAsyncExecutor() {
-        return this.threadPoolTaskExecutor;
+    private final ThreadGroup group;
+
+    private final AtomicInteger threadNumber = new AtomicInteger(1);
+
+    private final String namePrefix;
+
+    public ThreadFactoryName() {
+        this("xhui-pool");
+    }
+
+    private ThreadFactoryName(String name){
+        SecurityManager s = System.getSecurityManager();
+        group = (s != null) ? s.getThreadGroup() :
+                Thread.currentThread().getThreadGroup();
+        this.namePrefix = name +
+                POOL_NUMBER.getAndIncrement();
     }
 
     @Override
-    public AsyncUncaughtExceptionHandler getAsyncUncaughtExceptionHandler() {
-        return (throwable, method, objects) -> {
-            log.error("========= thread pool exception =========");
-            log.error("========={}========={}", throwable.getMessage(), throwable);
-            log.error("exception method:{}" + method.getName());
-        };
+    public Thread newThread(Runnable r) {
+        Thread t = new Thread(group, r,
+                namePrefix + "-thread-"+threadNumber.getAndIncrement(),
+                0);
+        if (t.isDaemon()) {
+            t.setDaemon(false);
+        }
+        if (t.getPriority() != Thread.NORM_PRIORITY) {
+            t.setPriority(Thread.NORM_PRIORITY);
+        }
+        return t;
     }
 }

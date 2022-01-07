@@ -24,11 +24,8 @@
 
 package com.xhuicloud.common.data.tenant;
 
-import cn.hutool.extra.spring.SpringUtil;
-import com.xhuicloud.common.core.thread.AsyncThreadExecutePool;
 import com.xhuicloud.common.core.thread.ThreadBroker;
 import lombok.experimental.UtilityClass;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 import java.util.function.Supplier;
 
@@ -39,24 +36,12 @@ public class XHuiTenantThreadBroker {
      * @param tenant 租户ID
      * @param func
      */
-    public static void asyncExecute(Integer tenant, ThreadBroker.Execute<Integer> func) {
-        XHuiCommonThreadLocalHolder.setTenant(tenant);
+
+    public void execute(Integer tenant, ThreadBroker.Execute<Integer> func) {
         try {
-            AsyncThreadExecutePool asyncThreadExecutePool = SpringUtil.getBean(AsyncThreadExecutePool.class);
-            if (asyncThreadExecutePool != null && asyncThreadExecutePool.getAsyncExecutor() != null) {
-                asyncThreadExecutePool.getAsyncExecutor()
-                        .execute(() -> {
-                            try {
-                                func.execute(tenant);
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                        });
-            } else {
-                func.execute(tenant);
-            }
+            func.execute(tenant);
         } catch (Exception e) {
-            throw new SecurityException(e.getMessage(), e);
+            e.printStackTrace();
         }
     }
 
@@ -66,33 +51,22 @@ public class XHuiTenantThreadBroker {
      * @param <R>    返回数据类型
      * @return
      */
-    public static <R> R asyncSubmit(Integer tenant, ThreadBroker.Submit<Integer, R> func) {
-        XHuiCommonThreadLocalHolder.setTenant(tenant);
+
+    public <R> R submit(Integer tenant, ThreadBroker.Submit<Integer, R> func) {
         try {
-            AsyncThreadExecutePool asyncThreadExecutePool = SpringUtil.getBean(AsyncThreadExecutePool.class);
-            if (asyncThreadExecutePool != null && asyncThreadExecutePool.getAsyncExecutor() != null) {
-                ThreadPoolTaskExecutor threadPoolTaskExecutor = (ThreadPoolTaskExecutor) asyncThreadExecutePool.getAsyncExecutor();
-                return (R) threadPoolTaskExecutor.submit(() -> {
-                    try {
-                        func.submit(tenant);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }).get();
-            } else {
-                return func.submit(tenant);
-            }
+            return func.submit(tenant);
         } catch (Exception e) {
-            throw new SecurityException(e.getMessage(), e);
+            e.printStackTrace();
         }
+        return null;
     }
 
     /**
      * @param supplier
      * @param func
      */
-    public static void asyncExecute(Supplier<Integer> supplier, ThreadBroker.Execute<Integer> func) {
-        asyncExecute(supplier.get(), func);
+    public void execute(Supplier<Integer> supplier, ThreadBroker.Execute<Integer> func) {
+        execute(supplier.get(), func);
     }
 
     /**
@@ -101,8 +75,8 @@ public class XHuiTenantThreadBroker {
      * @param <R>      返回数据类型
      * @return
      */
-    public static <R> R asyncSubmit(Supplier<Integer> supplier, ThreadBroker.Submit<Integer, R> func) {
-        return asyncSubmit(supplier.get(), func);
+    public <R> R submit(Supplier<Integer> supplier, ThreadBroker.Submit<Integer, R> func) {
+        return submit(supplier.get(), func);
     }
 
 }
