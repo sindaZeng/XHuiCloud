@@ -32,6 +32,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
+import org.springframework.security.oauth2.common.OAuth2RefreshToken;
 import org.springframework.security.oauth2.provider.AuthorizationRequest;
 import org.springframework.security.oauth2.provider.ClientDetails;
 import org.springframework.security.oauth2.provider.ClientDetailsService;
@@ -114,7 +115,10 @@ public class AuthTokenEndpoint {
         // 清空access token
         tokenStore.removeAccessToken(accessToken);
         // 清空 refresh token
-        tokenStore.removeRefreshToken(accessToken.getRefreshToken());
+        OAuth2RefreshToken refreshToken = accessToken.getRefreshToken();
+        if (refreshToken != null) {
+            tokenStore.removeRefreshToken(refreshToken);
+        }
         return Response.success(Boolean.TRUE);
     }
 

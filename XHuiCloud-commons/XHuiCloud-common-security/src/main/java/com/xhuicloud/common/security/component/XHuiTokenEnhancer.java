@@ -24,7 +24,9 @@
 
 package com.xhuicloud.common.security.component;
 
+import cn.hutool.core.map.MapUtil;
 import com.xhuicloud.common.core.constant.AuthorizationConstants;
+import com.xhuicloud.common.core.constant.CommonConstants;
 import com.xhuicloud.common.core.constant.SecurityConstants;
 import com.xhuicloud.common.security.service.XHuiUser;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
@@ -48,7 +50,10 @@ public class XHuiTokenEnhancer implements TokenEnhancer {
         }
         final Map<String, Object> additionalInfo = new HashMap<>(8);
         XHuiUser XHuiUser = (XHuiUser) authentication.getUserAuthentication().getPrincipal();
-        additionalInfo.put(SecurityConstants.USER_INFO, XHuiUser);
+        additionalInfo.put(CommonConstants.USER_ID, XHuiUser.getId());
+        additionalInfo.put(CommonConstants.USER_TENANT_ID, XHuiUser.getTenantId());
+        additionalInfo.put(CommonConstants.USER_TENANT_NAME, XHuiUser.getTenantName());
+        additionalInfo.put(CommonConstants.USER_PHONE, XHuiUser.getPhone());
         ((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(additionalInfo);
         return accessToken;
     }

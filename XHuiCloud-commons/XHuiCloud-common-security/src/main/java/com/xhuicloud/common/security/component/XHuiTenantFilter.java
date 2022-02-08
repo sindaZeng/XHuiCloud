@@ -22,7 +22,7 @@
  * @Email:  xhuicloud@163.com
  */
 
-package com.xhuicloud.common.mybatis.tenant;
+package com.xhuicloud.common.security.component;
 
 import cn.hutool.core.util.StrUtil;
 import com.xhuicloud.common.core.constant.CommonConstants;

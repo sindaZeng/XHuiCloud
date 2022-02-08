@@ -61,9 +61,9 @@ public class XHuiRedisTokenStore implements TokenStore {
 
     private static final String REFRESH_TO_ACCESS = "refresh_to_access:";
 
-    private static final String CLIENT_ID_TO_ACCESS = "client_id_to_access_z:";
+    private static final String CLIENT_ID_TO_ACCESS = "client_id_to_access:";
 
-    private static final String UNAME_TO_ACCESS = "uname_to_access_z:";
+    private static final String UNAME_TO_ACCESS = "uname_to_access:";
 
     private static final boolean springDataRedis_2_0 = ClassUtils.isPresent(
             "org.springframework.data.redis.connection.RedisStandaloneConfiguration",

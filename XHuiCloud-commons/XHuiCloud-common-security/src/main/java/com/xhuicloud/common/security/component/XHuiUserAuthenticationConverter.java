@@ -53,6 +53,7 @@ import java.util.Optional;
  */
 public class XHuiUserAuthenticationConverter implements UserAuthenticationConverter {
 
+    private final static String N_A = "N_A";
 
     public Map<String, ?> convertUserAuthentication(Authentication authentication) {
         Map<String, Object> response = new LinkedHashMap<String, Object>();
@@ -66,26 +67,24 @@ public class XHuiUserAuthenticationConverter implements UserAuthenticationConver
     public Authentication extractAuthentication(Map<String, ?> map) {
         if (map.containsKey(USERNAME)) {
             Collection<? extends GrantedAuthority> authorities = getAuthorities(map);
-            map = MapUtil.get(map, SecurityConstants.USER_INFO, Map.class);
-            checkTenant(map);
+            Integer tenantId = MapUtil.getInt(map, CommonConstants.USER_TENANT_ID);
+            checkTenant(tenantId);
             String username = MapUtil.getStr(map, CommonConstants.USER_USERNAME);
             Integer id = MapUtil.getInt(map, CommonConstants.USER_ID);
-            Integer tenantId = MapUtil.getInt(map, CommonConstants.USER_TENANT_ID);
             String tenantName = MapUtil.getStr(map, CommonConstants.USER_TENANT_NAME);
             String phone = MapUtil.getStr(map, CommonConstants.USER_PHONE);
 
             XHuiUser user = new XHuiUser(id, phone, tenantId, tenantName, username,
-                    "N_A", true, true, true, true,
+                    N_A, true, true, true, true,
                     authorities);
-            return new UsernamePasswordAuthenticationToken(user, "N_A", authorities);
+            return new UsernamePasswordAuthenticationToken(user, N_A, authorities);
         }
         return null;
     }
 
-    private void checkTenant(Map<String,?> map) {
+    private void checkTenant(Integer tenantId) {
         String headerValue = getTenantId();
-        Integer userValue = MapUtil.getInt(map, CommonConstants.USER_TENANT_ID);
-        if (StrUtil.isNotBlank(headerValue) && !userValue.toString().equals(headerValue)) {
+        if (StrUtil.isNotBlank(headerValue) && !tenantId.toString().equals(headerValue)) {
             throw new XHuiOAuth2Exception(SecurityMessageUtil.getAccessor().getMessage(
                     "AbstractUserDetailsAuthenticationProvider.badTenantId", new Object[] { headerValue },
                     "Bad tenant ID"));

@@ -27,6 +27,7 @@ package com.xhuicloud.common.security.service;
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
 import com.xhuicloud.common.core.constant.CacheConstants;
+import com.xhuicloud.common.data.tenant.XHuiCommonThreadLocalHolder;
 import com.xhuicloud.upms.dto.UserInfo;
 import com.xhuicloud.upms.entity.SysUser;
 import com.xhuicloud.upms.feign.SysSocialServiceFeign;
@@ -111,6 +112,10 @@ public class XHuiUserDetailsServiceImpl implements XHuiUserDetailsService {
                 = AuthorityUtils.createAuthorityList(dbAuthsSet.toArray(new String[0]));
         SysUser user = userInfo.getSysUser();
         boolean enabled = StrUtil.equals(user.getLockFlag().toString(), USER_IS_LOCK);
+
+        if (XHuiCommonThreadLocalHolder.getTenant() == null) {
+            XHuiCommonThreadLocalHolder.setTenant(user.getTenantId());
+        }
         // 构造security用户
         return new XHuiUser(user.getUserId(), user.getPhone(), user.getTenantId(), userInfo.getTenantName(), user.getUsername(), user.getPassword(), enabled,
                 true, true, enabled, authorities);

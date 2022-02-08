@@ -1,5 +1,6 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
   com.xhuicloud.common.security.component.XHuiTokenEnhancer,\
+  com.xhuicloud.common.security.component.XHuiTenantFilter,\
   com.xhuicloud.common.security.exception.GlobalExceptionHandlerResolver,\
   com.xhuicloud.common.security.component.NoAuthAspect,\
   com.xhuicloud.common.security.service.XHuiUserDetailsServiceImpl,\
