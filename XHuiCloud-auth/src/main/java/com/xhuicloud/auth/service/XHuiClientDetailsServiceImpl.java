@@ -40,6 +40,8 @@ import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.client.BaseClientDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+
+import java.util.ArrayList;
 import java.util.Map;
 
 import static com.xhuicloud.common.core.constant.AuthorizationConstants.IS_COMMING_INNER_YES;
@@ -76,7 +78,7 @@ public class XHuiClientDetailsServiceImpl implements ClientDetailsService {
         target.setClientSecret(String.format("{noop}%s", origin.getClientSecret()));
 
         if (ArrayUtil.isNotEmpty(origin.getAuthorizedGrantTypes())) {
-            target.setAuthorizedGrantTypes(CollUtil.newArrayList(origin.getAuthorizedGrantTypes()));
+            target.setAuthorizedGrantTypes(CollUtil.newArrayList(origin.getAuthorizedGrantTypes().split(",")));
         }
 
         if (StrUtil.isNotBlank(origin.getAuthorities())) {
