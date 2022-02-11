@@ -30,7 +30,7 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xhuicloud.common.core.utils.Response;
 import com.xhuicloud.common.log.annotation.SysLog;
-import com.xhuicloud.common.security.annotation.NoAuth;
+import com.xhuicloud.common.security.annotation.Anonymous;
 import com.xhuicloud.upms.dto.TenantDto;
 import com.xhuicloud.upms.entity.SysTenant;
 import com.xhuicloud.upms.service.SysTenantService;
@@ -61,7 +61,7 @@ public class SysTenantController {
      *
      * @return
      */
-    @NoAuth(value = false)
+    @Anonymous(value = false)
     @GetMapping("/list")
     public Response<List<SysTenant>> list() {
         return Response.success(sysTenantService.list(Wrappers.<SysTenant>lambdaQuery()
@@ -73,7 +73,7 @@ public class SysTenantController {
      *
      * @return
      */
-    @NoAuth(value = false)
+    @Anonymous(value = false)
     @GetMapping("/like")
     public Response<List<TenantDto>> like(@RequestParam(required = false) String tenantName) {
         LambdaQueryWrapper<SysTenant> wrapper = Wrappers.<SysTenant>lambdaQuery()

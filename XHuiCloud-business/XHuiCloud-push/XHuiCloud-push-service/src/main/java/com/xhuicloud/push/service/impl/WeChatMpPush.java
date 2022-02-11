@@ -49,7 +49,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.xhuicloud.common.core.constant.AuthorizationConstants.IS_COMMING_INNER_YES;
+import static com.xhuicloud.common.core.constant.AuthorizationConstants.IS_COMMING_ANONYMOUS_YES;
 
 @Component("WECHAT_MP")
 @AllArgsConstructor
@@ -67,7 +67,7 @@ public class WeChatMpPush implements PushService {
     @Override
     public boolean pushSingle(PushTemplate pushTemplate, PushSingle pushSingle) {
 
-        Response<SysParam> response = sysParamServiceFeign.get(SysParamConstants.WECHAT_MP_TOKEN, IS_COMMING_INNER_YES);
+        Response<SysParam> response = sysParamServiceFeign.get(SysParamConstants.WECHAT_MP_TOKEN, IS_COMMING_ANONYMOUS_YES);
         String token = response.getData().getParamValue();
 
         String url = String.format(TEMPLATE_SEND, token);
@@ -80,7 +80,7 @@ public class WeChatMpPush implements PushService {
     }
 
     private Map<String, Object> getMsgBody(PushTemplate pushTemplate, PushSingle pushSingle) {
-        Response<SysUserSocial> sysUserSocialResponse = sysUserServiceFeign.getUserSocial(pushSingle.getUserId(), PushChannelEnum.WECHAT_MP.name(), IS_COMMING_INNER_YES);
+        Response<SysUserSocial> sysUserSocialResponse = sysUserServiceFeign.getUserSocial(pushSingle.getUserId(), PushChannelEnum.WECHAT_MP.name(), IS_COMMING_ANONYMOUS_YES);
 
         Map<String, Object> templateParams = new HashMap<>();
         templateParams.put("touser", sysUserSocialResponse.getData().getUserOpenid());

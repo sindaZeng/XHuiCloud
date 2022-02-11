@@ -26,7 +26,7 @@ package com.xhuicloud.push.controller;
 
 import com.xhuicloud.common.core.utils.Response;
 import com.xhuicloud.common.log.annotation.SysLog;
-import com.xhuicloud.common.security.annotation.NoAuth;
+import com.xhuicloud.common.security.annotation.Anonymous;
 import com.xhuicloud.push.common.PushMultiDiff;
 import com.xhuicloud.push.common.PushMultiple;
 import com.xhuicloud.push.common.PushSingle;
@@ -47,7 +47,7 @@ public class PushCommonController {
 
     private final PushCommonService pushCommonService;
 
-    @NoAuth
+    @Anonymous
     @SysLog("推送单人单一内容")
     @PostMapping("/single")
     @ApiOperation(value = "推送单人单一内容", notes = "推送单人单一内容")

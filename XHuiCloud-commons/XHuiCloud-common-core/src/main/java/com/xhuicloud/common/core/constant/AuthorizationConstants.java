@@ -38,12 +38,12 @@ public interface AuthorizationConstants {
     /**
      * 是来自内部服务调用
      */
-    String IS_COMMING_INNER_YES = "Y";
+    String IS_COMMING_ANONYMOUS_YES = "Y";
 
     /**
      * 不是来自内部服务调用
      */
-    String IS_COMMING_INNER_NO = "N";
+    String IS_COMMING_ANONYMOUS_NO = "N";
 
     /**
      * 标志

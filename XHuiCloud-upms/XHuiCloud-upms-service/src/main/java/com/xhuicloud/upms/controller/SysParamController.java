@@ -28,7 +28,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xhuicloud.common.core.constant.CacheConstants;
 import com.xhuicloud.common.core.utils.Response;
 import com.xhuicloud.common.log.annotation.SysLog;
-import com.xhuicloud.common.security.annotation.NoAuth;
+import com.xhuicloud.common.security.annotation.Anonymous;
 import com.xhuicloud.common.security.utils.SecurityHolder;
 import com.xhuicloud.upms.entity.SysParam;
 import com.xhuicloud.upms.service.SysParamService;
@@ -82,7 +82,7 @@ public class SysParamController {
      *
      * @return
      */
-    @NoAuth(value = false)
+    @Anonymous(value = false)
     @GetMapping("/get")
     public Response<SysParam> get(@RequestParam String key) {
         return Response.success(sysParamService.getSysParamByKey(key));
@@ -96,7 +96,7 @@ public class SysParamController {
      */
     @SysLog("更新系统参数")
     @PutMapping("/updateValue")
-    @NoAuth(value = false)
+    @Anonymous(value = false)
     @CacheEvict(value = CacheConstants.SYS_PARAM,  key = "#sysParam.paramKey", allEntries = true)
     public Response updateValue(@RequestBody SysParam sysParam) {
         SysParam sysParamByKey = sysParamService.getSysParamByKey(sysParam.getParamKey());

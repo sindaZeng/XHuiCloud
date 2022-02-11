@@ -38,7 +38,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import static com.xhuicloud.common.core.constant.AuthorizationConstants.IS_COMMING_INNER_YES;
+import static com.xhuicloud.common.core.constant.AuthorizationConstants.IS_COMMING_ANONYMOUS_YES;
 
 @RestController
 @RequestMapping("/test")
@@ -75,7 +75,7 @@ public class SysTestController {
         sysLog.setResult("TEST");
         sysLog.setExDesc("TEST");
         sysLog.setExDetail("TEST");
-        sysLogServiceFeign.save(sysLog, IS_COMMING_INNER_YES);
+        sysLogServiceFeign.save(sysLog, IS_COMMING_ANONYMOUS_YES);
         throw new RuntimeException();
 //        return Response.success();
     }

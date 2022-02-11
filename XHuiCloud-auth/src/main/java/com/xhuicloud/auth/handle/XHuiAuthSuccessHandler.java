@@ -45,7 +45,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Arrays;
 import java.util.Map;
 
-import static com.xhuicloud.common.core.constant.AuthorizationConstants.IS_COMMING_INNER_YES;
+import static com.xhuicloud.common.core.constant.AuthorizationConstants.IS_COMMING_ANONYMOUS_YES;
 
 /**
  * @program: XHuiCloud
@@ -76,7 +76,7 @@ public class XHuiAuthSuccessHandler extends AbstractAuthenticationSuccessEventHa
         pushSingle.setTenantId(xHuiUser.getTenantId());
         pushSingle.setPushChannelEnums(Arrays.asList(PushChannelEnum.WECHAT_MP));
         XHuiTenantThreadBroker.execute(() -> xHuiUser.getTenantId(),
-                id -> pushCommonFeign.single(pushSingle, IS_COMMING_INNER_YES));
+                id -> pushCommonFeign.single(pushSingle, IS_COMMING_ANONYMOUS_YES));
     }
 
 }

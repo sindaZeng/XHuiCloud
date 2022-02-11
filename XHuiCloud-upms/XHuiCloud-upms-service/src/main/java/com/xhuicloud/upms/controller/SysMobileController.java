@@ -25,7 +25,7 @@
 package com.xhuicloud.upms.controller;
 
 import com.xhuicloud.common.core.utils.Response;
-import com.xhuicloud.common.security.annotation.NoAuth;
+import com.xhuicloud.common.security.annotation.Anonymous;
 import com.xhuicloud.upms.service.SysMobileService;
 import com.xxl.job.admin.api.entity.XxlJobInfo;
 import com.xxl.job.admin.api.feign.JobInfoFeign;
@@ -53,13 +53,13 @@ public class SysMobileController {
 
     private final JobInfoFeign jobInfoFeign;
 
-    @NoAuth(false)
+    @Anonymous(false)
     @GetMapping("/{mobile}")
     public Response sendSmsCode(@PathVariable String mobile) {
         return mobileService.sendSmsCode(mobile);
     }
 
-    @NoAuth(false)
+    @Anonymous(false)
     @GetMapping("/timing/{mobile}")
     @ApiOperation(value = "定时发送短信", notes = "分页查询字典列表")
     public Response timingSendSms(@PathVariable String mobile, XxlJobInfo xxlJobInfo) {

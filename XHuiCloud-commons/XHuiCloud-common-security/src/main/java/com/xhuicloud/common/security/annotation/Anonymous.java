@@ -28,15 +28,19 @@ import java.lang.annotation.*;
 
 /**
  * @program: XHuiCloud
- * @description: NoAuth
+ * @description: anonymous 匿名访问
  * @author: Sinda
  * @create: 2019-12-27 00:10
  **/
 @Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface NoAuth {
+public @interface Anonymous {
 
+    /**
+     * false 外部可访问, true 外部不可访问
+     * @return
+     */
     boolean value() default true;
 
 }

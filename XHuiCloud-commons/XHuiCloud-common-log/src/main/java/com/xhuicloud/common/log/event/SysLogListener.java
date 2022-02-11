@@ -33,7 +33,7 @@ import org.springframework.context.event.EventListener;
 import org.springframework.core.annotation.Order;
 import org.springframework.scheduling.annotation.Async;
 
-import static com.xhuicloud.common.core.constant.AuthorizationConstants.IS_COMMING_INNER_YES;
+import static com.xhuicloud.common.core.constant.AuthorizationConstants.IS_COMMING_ANONYMOUS_YES;
 
 
 /**
@@ -53,7 +53,7 @@ public class SysLogListener {
     @EventListener(SysLogEvent.class)
     public void saveSysLog(SysLogEvent sysLogEvent) {
         SysLog sysLog = sysLogEvent.getSysLog();
-        sysLogServiceFeign.save(sysLog, IS_COMMING_INNER_YES);
+        sysLogServiceFeign.save(sysLog, IS_COMMING_ANONYMOUS_YES);
     }
 
 }

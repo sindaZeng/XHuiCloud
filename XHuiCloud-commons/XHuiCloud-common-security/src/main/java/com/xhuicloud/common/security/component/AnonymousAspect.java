@@ -25,7 +25,7 @@
 package com.xhuicloud.common.security.component;
 
 import cn.hutool.core.util.StrUtil;
-import com.xhuicloud.common.security.annotation.NoAuth;
+import com.xhuicloud.common.security.annotation.Anonymous;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -39,7 +39,7 @@ import org.springframework.stereotype.Component;
 import javax.servlet.http.HttpServletRequest;
 
 import static com.xhuicloud.common.core.constant.AuthorizationConstants.FROM;
-import static com.xhuicloud.common.core.constant.AuthorizationConstants.IS_COMMING_INNER_YES;
+import static com.xhuicloud.common.core.constant.AuthorizationConstants.IS_COMMING_ANONYMOUS_YES;
 
 /**
  * @program: XHuiCloud
@@ -51,20 +51,20 @@ import static com.xhuicloud.common.core.constant.AuthorizationConstants.IS_COMMI
 @Aspect
 @Component
 @AllArgsConstructor
-public class NoAuthAspect {
+public class AnonymousAspect {
 
     private final HttpServletRequest request;
 
     @SneakyThrows
-    @Around("@within(noAuth) ||@annotation(noAuth)")
-    public Object around(ProceedingJoinPoint point, NoAuth noAuth) {
-        if (noAuth == null) {
+    @Around("@within(anonymous) ||@annotation(anonymous)")
+    public Object around(ProceedingJoinPoint point, Anonymous anonymous) {
+        if (anonymous == null) {
             Class<?> aClass = point.getTarget().getClass();
-            noAuth = AnnotationUtils.findAnnotation(aClass, NoAuth.class);
+            anonymous = AnnotationUtils.findAnnotation(aClass, Anonymous.class);
         }
 
         String header = request.getHeader(FROM);
-        if (noAuth.value() && !StrUtil.equals(IS_COMMING_INNER_YES, header)) {
+        if (anonymous.value() && !StrUtil.equals(IS_COMMING_ANONYMOUS_YES, header)) {
             log.warn("访问接口 {} 没有权限", point.getSignature().getName());
             throw new AccessDeniedException("Access is denied");
         }

@@ -29,7 +29,7 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.ReUtil;
 import cn.hutool.core.util.StrUtil;
-import com.xhuicloud.common.security.annotation.NoAuth;
+import com.xhuicloud.common.security.annotation.Anonymous;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -66,7 +66,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @ConditionalOnExpression("!'${security.oauth2.client.ignore-urls}'.isEmpty()")
 @ConfigurationProperties(prefix = "security.oauth2.client")
-public class PermitNoAuthUrlProperties implements InitializingBean {
+public class PermitAnonymousUrlProperties implements InitializingBean {
 
     private static final Pattern PATTERN = Pattern.compile("\\{(.*?)\\}");
 
@@ -90,18 +90,18 @@ public class PermitNoAuthUrlProperties implements InitializingBean {
         for (RequestMappingInfo info : map.keySet()) {
             HandlerMethod handlerMethod = map.get(info);
 
-            // 1. 首先获取类上边 @Inner 注解
-            NoAuth controller = AnnotationUtils.findAnnotation(handlerMethod.getBeanType(), NoAuth.class);
+            // 1. 首先获取类上边 @Anonymous 注解
+            Anonymous controller = AnnotationUtils.findAnnotation(handlerMethod.getBeanType(), Anonymous.class);
 
-            // 2. 当类上不包含 @Inner 注解则获取该方法的注解
+            // 2. 当类上不包含 @Anonymous 注解则获取该方法的注解
             if (controller == null) {
-                NoAuth method = AnnotationUtils.findAnnotation(handlerMethod.getMethod(), NoAuth.class);
+                Anonymous method = AnnotationUtils.findAnnotation(handlerMethod.getMethod(), Anonymous.class);
                 Optional.ofNullable(method).ifPresent(inner -> info.getPatternsCondition().getPatterns()
                         .forEach(url -> this.filterPath(url, info, map)));
                 continue;
             }
 
-            // 3. 当类上包含 @Inner 注解 判断handlerMethod 是否包含在 inner 类中
+            // 3. 当类上包含 @Anonymous 注解 判断handlerMethod 是否包含在 inner 类中
             Class<?> beanType = handlerMethod.getBeanType();
             Method[] methods = beanType.getDeclaredMethods();
             Method method = handlerMethod.getMethod();
@@ -112,7 +112,7 @@ public class PermitNoAuthUrlProperties implements InitializingBean {
     }
 
     /**
-     * 过滤 Inner 设置
+     * 过滤 Anonymous 设置
      * <p>
      * 0. 暴露安全检查 1. 路径转换： 如果为restful(/xx/{xx}) --> /xx/* ant 表达式 2.
      * 构建表达式：允许暴露的接口|允许暴露的方法类型,允许暴露的方法类型 URL|GET,POST,DELETE,PUT
@@ -164,7 +164,7 @@ public class PermitNoAuthUrlProperties implements InitializingBean {
                 if (PATHMATCHER.match(url, pattern)) {
                     HandlerMethod rqMethod = map.get(rq);
                     HandlerMethod infoMethod = map.get(info);
-                    log.error("@NoAuth 标记接口 ==> {}.{} 使用不当，会额外暴露接口 ==> {}.{}", rqMethod.getBeanType().getName(),
+                    log.error("@anonymous 标记接口 ==> {}.{} 使用不当，会额外暴露接口 ==> {}.{}", rqMethod.getBeanType().getName(),
                             rqMethod.getMethod().getName(), infoMethod.getBeanType().getName(),
                             infoMethod.getMethod().getName());
                 }

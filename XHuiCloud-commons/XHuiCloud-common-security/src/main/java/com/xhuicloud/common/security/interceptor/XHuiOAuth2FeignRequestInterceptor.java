@@ -35,7 +35,7 @@ import org.springframework.security.oauth2.client.resource.OAuth2ProtectedResour
 import java.util.Collection;
 
 import static com.xhuicloud.common.core.constant.AuthorizationConstants.FROM;
-import static com.xhuicloud.common.core.constant.AuthorizationConstants.IS_COMMING_INNER_YES;
+import static com.xhuicloud.common.core.constant.AuthorizationConstants.IS_COMMING_ANONYMOUS_YES;
 
 @Slf4j
 public class XHuiOAuth2FeignRequestInterceptor extends OAuth2FeignRequestInterceptor {
@@ -54,7 +54,7 @@ public class XHuiOAuth2FeignRequestInterceptor extends OAuth2FeignRequestInterce
     @Override
     public void apply(RequestTemplate template) {
         Collection<String> fromHeader = template.headers().get(FROM);
-        if (CollUtil.isNotEmpty(fromHeader) && fromHeader.contains(IS_COMMING_INNER_YES)) {
+        if (CollUtil.isNotEmpty(fromHeader) && fromHeader.contains(IS_COMMING_ANONYMOUS_YES)) {
             return;
         }
 

@@ -28,7 +28,7 @@ import com.alipay.api.internal.util.AlipaySignature;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.jpay.alipay.AliPayApi;
 import com.jpay.alipay.AliPayApiConfigKit;
-import com.xhuicloud.common.security.annotation.NoAuth;
+import com.xhuicloud.common.security.annotation.Anonymous;
 import com.xhuicloud.pay.entity.PayOrderAll;
 import com.xhuicloud.pay.service.PayOrderAllService;
 import com.xhuicloud.pay.utils.OrderUtil;
@@ -65,7 +65,7 @@ public class PayNotifyRecordController {
      * @param request
      * @return
      */
-    @NoAuth(false)
+    @Anonymous(false)
     @SneakyThrows
     @ResponseBody
     @RequestMapping(value = "/alipay/return_url")
@@ -88,7 +88,7 @@ public class PayNotifyRecordController {
      * @param request
      * @return
      */
-    @NoAuth(false)
+    @Anonymous(false)
     @SneakyThrows
     @ResponseBody
     @RequestMapping(value = "/alipay/notify_url")

@@ -42,11 +42,11 @@ public class XHuiBearerTokenExtractor extends BearerTokenExtractor {
 
     private final PathMatcher pathMatcher = new AntPathMatcher();
 
-    private final PermitNoAuthUrlProperties permitNoAuthUrlProperties;
+    private final PermitAnonymousUrlProperties permitAnonymousUrlProperties;
 
     @Override
     public Authentication extract(HttpServletRequest request) {
-        boolean result = permitNoAuthUrlProperties.getIgnoreUrls().stream().anyMatch(url -> {
+        boolean result = permitAnonymousUrlProperties.getIgnoreUrls().stream().anyMatch(url -> {
             List<String> strings = StrUtil.split(url, "|");
             boolean match = pathMatcher.match(strings.get(0), request.getRequestURI());
             if (strings.size() == 2) {

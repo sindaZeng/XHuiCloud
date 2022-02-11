@@ -29,7 +29,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xhuicloud.common.core.utils.ExcelUtil;
 import com.xhuicloud.common.core.utils.Response;
 import com.xhuicloud.common.log.annotation.SysLog;
-import com.xhuicloud.common.security.annotation.NoAuth;
+import com.xhuicloud.common.security.annotation.Anonymous;
 import com.xhuicloud.common.security.utils.SecurityHolder;
 import com.xhuicloud.upms.dto.UserDto;
 import com.xhuicloud.upms.entity.SysUser;
@@ -88,7 +88,7 @@ public class SysUserController {
      * @param userName
      * @return
      */
-    @NoAuth
+    @Anonymous
     @GetMapping("/info/{userName}")
     public Response getSysUser(@PathVariable String userName) {
         SysUser user = sysUserService.getOne(Wrappers.<SysUser>query().lambda()
@@ -104,7 +104,7 @@ public class SysUserController {
      *
      * @return
      */
-    @NoAuth
+    @Anonymous
     @GetMapping("/social/{userId}/{type}")
     public Response getUserSocial(@PathVariable("userId") Integer userId, @PathVariable("type") String type) {
         return Response.success(sysUserSocialService.getOne(Wrappers.<SysUserSocial>lambdaQuery()

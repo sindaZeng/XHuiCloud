@@ -26,7 +26,7 @@ package com.xhuicloud.upms.controller;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.xhuicloud.common.core.utils.Response;
-import com.xhuicloud.common.security.annotation.NoAuth;
+import com.xhuicloud.common.security.annotation.Anonymous;
 import com.xhuicloud.upms.entity.SysClientDetails;
 import com.xhuicloud.upms.service.SysClientDetailsService;
 import io.swagger.annotations.Api;
@@ -44,7 +44,7 @@ public class SysClientDetailController {
 
     private final SysClientDetailsService sysClientDetailsService;
 
-    @NoAuth(false)
+    @Anonymous(false)
     @GetMapping("/{clientId}")
     public Response getById(@PathVariable(value = "clientId") String clientId) {
         return Response.success(sysClientDetailsService.getOne(

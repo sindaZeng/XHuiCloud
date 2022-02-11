@@ -50,7 +50,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static com.xhuicloud.common.core.constant.AuthorizationConstants.IS_COMMING_INNER_YES;
+import static com.xhuicloud.common.core.constant.AuthorizationConstants.IS_COMMING_ANONYMOUS_YES;
 
 /**
  * @program: XHuiCloud
@@ -78,7 +78,7 @@ public class PayConfigInit {
 
         List<PayChannel> payChannels = new ArrayList<>();
 
-        sysTenantServiceFeign.list(IS_COMMING_INNER_YES).getData().forEach(tenant -> {
+        sysTenantServiceFeign.list(IS_COMMING_ANONYMOUS_YES).getData().forEach(tenant -> {
             XHuiCommonThreadLocalHolder.setTenant(tenant.getId());
 
             List<PayChannel> payChannelList = payChannelService

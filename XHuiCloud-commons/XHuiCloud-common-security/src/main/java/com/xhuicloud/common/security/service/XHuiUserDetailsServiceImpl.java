@@ -79,7 +79,7 @@ public class XHuiUserDetailsServiceImpl implements XHuiUserDetailsService {
 //        if (cache != null && cache.get(userName) != null) {
 //            return cache.get(userName, XHuiUser.class);
 //        }
-        UserDetails userDetails = getUserDetails(sysUserServiceFeign.getSysUser(userName, IS_COMMING_INNER_YES).getData());
+        UserDetails userDetails = getUserDetails(sysUserServiceFeign.getSysUser(userName, IS_COMMING_ANONYMOUS_YES).getData());
 //        cache.put(userName, userDetails);
         return userDetails;
     }
@@ -93,7 +93,7 @@ public class XHuiUserDetailsServiceImpl implements XHuiUserDetailsService {
      */
     @Override
     public UserDetails loadUserBySocial(String code) throws UsernameNotFoundException {
-        return getUserDetails(sysSocialServiceFeign.getSysUser(code, IS_COMMING_INNER_YES).getData());
+        return getUserDetails(sysSocialServiceFeign.getSysUser(code, IS_COMMING_ANONYMOUS_YES).getData());
     }
 
     private UserDetails getUserDetails(UserInfo userInfo) {

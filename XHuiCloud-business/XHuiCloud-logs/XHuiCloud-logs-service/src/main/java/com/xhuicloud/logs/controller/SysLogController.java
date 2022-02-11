@@ -24,7 +24,7 @@
 
 package com.xhuicloud.logs.controller;
 
-import com.xhuicloud.common.security.annotation.NoAuth;
+import com.xhuicloud.common.security.annotation.Anonymous;
 import com.xhuicloud.logs.entity.SysLog;
 import com.xhuicloud.logs.service.SysLogService;
 import com.xhuicloud.common.core.utils.Response;
@@ -49,7 +49,7 @@ public class SysLogController {
 
     private final SysLogService sysLogService;
 
-    @NoAuth
+    @Anonymous
     @PostMapping("/save")
     public Response save(@RequestBody SysLog sysLog) {
         return Response.success(sysLogService.save(sysLog));

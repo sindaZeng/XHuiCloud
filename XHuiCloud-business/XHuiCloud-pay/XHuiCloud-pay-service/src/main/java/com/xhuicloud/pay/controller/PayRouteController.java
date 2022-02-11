@@ -26,7 +26,7 @@ package com.xhuicloud.pay.controller;
 
 import cn.hutool.core.util.ObjectUtil;
 import com.xhuicloud.common.data.tenant.XHuiCommonThreadLocalHolder;
-import com.xhuicloud.common.security.annotation.NoAuth;
+import com.xhuicloud.common.security.annotation.Anonymous;
 import com.xhuicloud.common.core.constant.CommonConstants;
 import com.xhuicloud.common.core.enums.pay.PayTypeEnum;
 import com.xhuicloud.common.core.exception.SysException;
@@ -72,7 +72,7 @@ public class PayRouteController {
      */
     @SneakyThrows
     @GetMapping
-    @NoAuth(value = false)
+    @Anonymous(value = false)
     public ModelAndView toPay(ModelAndView modelAndView,
                               HttpServletRequest request) {
         SysTenant sysTenant = getTenant(XHuiCommonThreadLocalHolder.getTenant());
@@ -112,7 +112,7 @@ public class PayRouteController {
      */
     @SneakyThrows
     @GetMapping("/call")
-    @NoAuth(value = false)
+    @Anonymous(value = false)
     public ModelAndView call(PayOrderDto payOrderDto,
                              HttpServletRequest request,
                              ModelAndView modelAndView) {

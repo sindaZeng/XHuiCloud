@@ -52,7 +52,7 @@ public class XHuiResourceServerConfigurerAdapter extends ResourceServerConfigure
     private RestTemplate lbRestTemplate;
 
     @Autowired
-    private PermitNoAuthUrlProperties permitNoAuthUrlProperties;
+    private PermitAnonymousUrlProperties permitAnonymousUrlProperties;
 
     @Autowired
     protected ResourceAuthExceptionEntryPoint resourceAuthExceptionEntryPoint;
@@ -83,7 +83,7 @@ public class XHuiResourceServerConfigurerAdapter extends ResourceServerConfigure
         ExpressionUrlAuthorizationConfigurer<HttpSecurity>
                 .ExpressionInterceptUrlRegistry registry = httpSecurity
                 .authorizeRequests();
-        permitNoAuthUrlProperties.registry(registry);
+        permitAnonymousUrlProperties.registry(registry);
         registry.anyRequest().authenticated()
                 .and().csrf().disable();
     }
