@@ -57,7 +57,7 @@ public class WeChatAccessTokenJob {
     public ReturnT<String> weChatAccessTokenJob() {
         Response<SysParam> appId = sysParamServiceFeign.get(SysParamConstants.WECHAT_MP_APPID, IS_COMMING_ANONYMOUS_YES);
         Response<SysParam> secret = sysParamServiceFeign.get(SysParamConstants.WECHAT_MP_SECRET, IS_COMMING_ANONYMOUS_YES);
-        if (appId.isSuccess() && secret.isSuccess()) {
+        if (appId.getData() != null && secret.getData() != null) {
             String url = String.format(ThirdLoginUrlConstants.MINI_WECHAT_ACCESS_TOKEN, appId.getData().getParamValue(), secret.getData().getParamValue());
             String result = HttpUtil.get(url);
             JSONObject response = JSONUtil.parseObj(result);

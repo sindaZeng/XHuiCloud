@@ -81,3 +81,10 @@ services:
     container_name: xhuicloud-seata
     image: xhuicloud-seata
 
+  xhuicloud-generator:
+    build:
+      context: ./XHuiCloud-business/XHuiCloud-generator
+    restart: always
+    container_name: xhuicloud-generator
+    image: xhuicloud-generator
+
