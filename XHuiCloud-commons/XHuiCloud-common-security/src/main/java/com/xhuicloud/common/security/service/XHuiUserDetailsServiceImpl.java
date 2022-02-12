@@ -75,12 +75,12 @@ public class XHuiUserDetailsServiceImpl implements XHuiUserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
 
-//        Cache cache = cacheManager.getCache(CacheConstants.SYS_USER);
-//        if (cache != null && cache.get(userName) != null) {
-//            return cache.get(userName, XHuiUser.class);
-//        }
+        Cache cache = cacheManager.getCache(CacheConstants.SYS_USER);
+        if (cache != null && cache.get(userName) != null) {
+            return cache.get(userName, XHuiUser.class);
+        }
         UserDetails userDetails = getUserDetails(sysUserServiceFeign.getSysUser(userName, IS_COMMING_ANONYMOUS_YES).getData());
-//        cache.put(userName, userDetails);
+        cache.put(userName, userDetails);
         return userDetails;
     }
 

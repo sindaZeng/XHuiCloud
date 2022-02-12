@@ -1,3 +1,27 @@
+/*
+* MIT License
+* Copyright <2021-2022>
+*
+* Permission is hereby granted, free of charge, to any person obtaining a copy
+* of this software and associated documentation files (the "Software"), to deal
+* in the Software without restriction, including without limitation the rights
+* to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+* of the Software, and to permit persons to whom the Software is furnished to do so,
+* subject to the following conditions:
+*
+* The above copyright notice and this permission notice shall be included in all
+* copies or substantial portions of the Software.
+*
+* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+* INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
+* PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+* HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+* CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
+* OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+* @Author: Sinda
+* @Email:  xhuicloud@163.com
+*/
+
 package ${package}.controller;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -14,11 +38,11 @@ import org.springframework.web.bind.annotation.*;
 
 
 /**
- * @program: ${projectName}
- * @description: ${tableComment}
- * @author: ${author}
- * @create: ${datetime}
- */
+* @program: ${projectName}
+* @description: ${tableComment}
+* @author: ${author}
+* @create: ${datetime}
+*/
 @RestController
 @AllArgsConstructor
 @RequestMapping("/${pathName}" )
@@ -28,12 +52,12 @@ public class ${ClassName}Controller {
     private final ${ClassName}Service ${className}Service;
 
     /**
-     * 分页查询
-     *
-     * @param page 分页对象
-     * @param ${className} ${tableComment}
-     * @return
-     */
+    * 分页查询
+    *
+    * @param page 分页对象
+    * @param ${className} ${tableComment}
+    * @return Response
+    */
     @ApiOperation(value = "分页查询", notes = "分页查询")
     @GetMapping("/page" )
     public Response page(Page page, ${ClassName} ${className}) {
@@ -42,10 +66,10 @@ public class ${ClassName}Controller {
 
 
     /**
-     * 通过id查询${tableComment}
-     * @param id
-     * @return R
-     */
+    * 通过id查询${tableComment}
+    * @param id
+    * @return Response
+    */
     @ApiOperation(value = "通过id查询${tableComment}", notes = "通过id查询${tableComment}")
     @GetMapping("/{id}")
     public Response getById(@PathVariable Integer id) {
@@ -53,11 +77,11 @@ public class ${ClassName}Controller {
     }
 
     /**
-     * 新增${tableComment}
-     *
-     * @param ${className} ${tableComment}
-     * @return R
-     */
+    * 新增${tableComment}
+    *
+    * @param ${className} ${tableComment}
+    * @return Response
+    */
     @ApiOperation(value = "新增${tableComment}", notes = "新增${tableComment}")
     @SysLog("新增${tableComment}" )
     @PostMapping
@@ -67,11 +91,11 @@ public class ${ClassName}Controller {
     }
 
     /**
-     * 修改${tableComment}
-     *
-     * @param ${className} ${tableComment}
-     * @return R
-     */
+    * 修改${tableComment}
+    *
+    * @param ${className} ${tableComment}
+    * @return Response
+    */
     @ApiOperation(value = "修改${tableComment}", notes = "修改${tableComment}")
     @SysLog("编辑${tableComment}" )
     @PutMapping
@@ -81,11 +105,11 @@ public class ${ClassName}Controller {
     }
 
     /**
-     * 通过id删除${tableComment}
-     *
-     * @param id
-     * @return R
-     */
+    * 通过id删除${tableComment}
+    *
+    * @param id
+    * @return Response
+    */
     @ApiOperation(value = "通过id删除${tableComment}", notes = "通过id删除${tableComment}")
     @SysLog("通过id删除${tableComment}" )
     @DeleteMapping("/{id}" )

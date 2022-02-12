@@ -50,6 +50,11 @@ public class GenCodeDto {
     private String moduleName;
 
     /**
+     * 包路径
+     */
+    private String packagePath;
+
+    /**
      * 作者名
      */
     private String author;

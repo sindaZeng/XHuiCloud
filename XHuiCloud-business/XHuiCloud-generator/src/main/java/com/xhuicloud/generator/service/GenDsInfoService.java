@@ -22,43 +22,33 @@
  * @Email:  xhuicloud@163.com
  */
 
-package com.xhuicloud.generator.mapper;
+package com.xhuicloud.generator.service;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.xhuicloud.generator.entity.GenDatasourceInfo;
-import com.xhuicloud.generator.entity.TableColumnsInfo;
+import com.baomidou.mybatisplus.extension.service.IService;
+import com.xhuicloud.common.datasource.entity.GenDsInfo;
 import com.xhuicloud.generator.entity.TableInfo;
-import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import java.util.List;
-
-@Mapper
-public interface GenDatasourceInfoMapper extends BaseMapper<GenDatasourceInfo> {
+public interface GenDsInfoService extends IService<GenDsInfo> {
 
     /**
-     * 查询表信息
+     * 添加数据源到 动态数据源列表
      *
-     * @param tableName 表名称
+     * @param genDsInfo
      * @return
      */
-    TableInfo queryTableForMysql(@Param("tableName") String tableName);
+    Boolean addDynamicDataSource(GenDsInfo genDsInfo);
 
     /**
-     * 分页查询表信息
+     * 添加数据源到 动态数据源列表
      *
-     * @param page
+     * @param genDsInfo
      * @return
      */
-    IPage<List<TableInfo>> queryPageTableForMysql(@Param("page") Page page);
+    Boolean updateDynamicDataSource(GenDsInfo genDsInfo);
 
-    /**
-     * 查询表字段信息
-     *
-     * @param tableName
-     * @return
-     */
-    List<TableColumnsInfo> queryColumnsForMysql(@Param("tableName") String tableName);
+    IPage<TableInfo> queryPageTableForMysql(@Param("page") Page page);
+
 }

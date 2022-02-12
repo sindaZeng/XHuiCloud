@@ -22,51 +22,68 @@
  * @Email:  xhuicloud@163.com
  */
 
-package com.xhuicloud.generator.entity;
+package com.xhuicloud.generator.handle;
 
-import lombok.Data;
+import com.alibaba.druid.pool.DruidDataSource;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.xhuicloud.common.datasource.entity.GenDsInfo;
+import com.xhuicloud.generator.dto.GenCodeDto;
+import com.xhuicloud.generator.entity.TableColumnsInfo;
+import com.xhuicloud.generator.entity.TableInfo;
 
-import java.io.Serializable;
+import java.util.List;
 
 /**
  * @program: XHuiCloud
- * @description: 生成信息
+ * @description: JdbcHandle
  * @author: Sinda
- * @create: 2020-05-07 18:14
+ * @create: 2020-06-22 12:02
  */
-@Data
-public class GeneratorInfo implements Serializable {
-    private static final long serialVersionUID = 1L;
+public interface JdbcHandle {
 
     /**
-     * 包名
+     * 尝试连接数据库
+     *
+     * @param genDsInfo
+     * @return
      */
-    private String packageName;
+    Boolean test(GenDsInfo genDsInfo);
 
     /**
-     * 作者
+     * 获取 表信息
+     *
+     * @param tableName
+     * @return
      */
-    private String author;
+    TableInfo getTableInfo(String tableName);
 
     /**
-     * 模块名称
+     * 分页获取 表信息
+     *
+     * @param page
+     * @return
      */
-    private String moduleName;
+    IPage getPageTableInfo(Page page);
 
     /**
-     * 表名称
+     * 获取 表列信息
+     *
+     * @param tableName
+     * @return
      */
-    private String tableName;
+    List<TableColumnsInfo> getTableColumnsInfo(String tableName);
 
     /**
-     * 表备注
+     * 创建数据源
+     *
+     * @return
      */
-    private String comments;
+    DruidDataSource createDataSource(GenDsInfo genDsInfo);
 
     /**
-     * 代码风格
-     * 0 - avue
-     * 1 - element
+     * 生成代码
      */
-    private String style;
+    byte[] genCode(GenCodeDto genCodeDto);
+
 }

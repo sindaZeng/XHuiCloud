@@ -48,11 +48,6 @@ public class XHuiDdsAutoConfiguration {
     private final DataSourceProperties properties;
 
     @Bean
-    public XHuiTenantHandler tenantHandler() {
-        return new XHuiTenantHandler();
-    }
-
-    @Bean
     public DynamicDataSourceProvider dynamicDataSourceProvider() {
         return new XHuiDynamicDataSourceProvider(properties);
     }

@@ -26,7 +26,7 @@ package com.xhuicloud.common.datasource.config;
 
 import com.baomidou.dynamic.datasource.provider.AbstractJdbcDataSourceProvider;
 import com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DataSourceProperty;
-import com.xhuicloud.common.datasource.entity.SysTenantDs;
+import com.xhuicloud.common.datasource.entity.GenDsInfo;
 import com.xhuicloud.common.datasource.enums.DsJdbcUrlEnum;
 import lombok.SneakyThrows;
 
@@ -60,14 +60,14 @@ public class XHuiDynamicDataSourceProvider extends AbstractJdbcDataSourceProvide
     protected Map<String, DataSourceProperty> executeStmt(Statement statement) throws SQLException {
         ResultSet rs = statement.executeQuery(properties.getQueryDsSql());
         Map<String, DataSourceProperty> map = new HashMap<>(8);
-        List<SysTenantDs> sysTenantDs = populate(rs, SysTenantDs.class);
-        for (SysTenantDs ds : sysTenantDs) {
+        List<GenDsInfo> sysTenantDs = populate(rs, GenDsInfo.class);
+        for (GenDsInfo ds : sysTenantDs) {
             String url;
             DsJdbcUrlEnum dsJdbcUrlEnum = DsJdbcUrlEnum.get(ds.getType());
             if (DsJdbcUrlEnum.MSSQL == dsJdbcUrlEnum) {
-                url = String.format(dsJdbcUrlEnum.getUrl(), ds.getHost(), ds.getPort(), ds.getDsName());
+                url = String.format(dsJdbcUrlEnum.getUrl(), ds.getHost(), ds.getPort(), ds.getName());
             }else {
-                url = String.format(dsJdbcUrlEnum.getUrl(), ds.getHost(), ds.getPort(), ds.getDsName());
+                url = String.format(dsJdbcUrlEnum.getUrl(), ds.getHost(), ds.getPort(), ds.getName());
             }
 
             DataSourceProperty property = new DataSourceProperty();

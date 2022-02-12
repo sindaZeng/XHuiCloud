@@ -22,68 +22,88 @@
  * @Email:  xhuicloud@163.com
  */
 
-package com.xhuicloud.generator.entity;
+package com.xhuicloud.common.datasource.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.xhuicloud.common.core.annotation.Scalpel;
-import com.xhuicloud.common.core.data.ScalpelTypeEnum;
+import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
-
 import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.util.Date;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@ApiModel(value="gen_ds_info")
 @Data
-@ApiModel(value = "数据源")
-public class GenDatasourceInfo implements Serializable {
+@AllArgsConstructor
+@NoArgsConstructor
+@TableName(value = "gen_ds_info")
+public class GenDsInfo implements Serializable {
+
     /**
-     * 数据源表id
+     * id
      */
-    @TableId(value = "id", type = IdType.AUTO)
-    @ApiModelProperty(value = "数据源表id")
+    @TableId(type = IdType.AUTO)
+    @ApiModelProperty(value = "id")
     private Integer id;
 
     /**
-     * 数据库类型:mysql,oracle,sqlsever
+     * 数据源名称
      */
-    @ApiModelProperty(value = "数据库类型:mysql,oracle,sqlsever")
-    private String type;
-
-    /**
-     * 数据库名
-     */
-    @ApiModelProperty(value = "数据库名")
+    @ApiModelProperty(value = "数据源名称")
     private String name;
 
     /**
-     * 数据库host
+     * type
      */
-    @ApiModelProperty(value = "数据库host")
-    private String host;
+    @ApiModelProperty(value = "type")
+    private String type;
 
     /**
-     * 数据库端口
+     * username
      */
-    @TableField(value = "port")
-    @Scalpel(type = ScalpelTypeEnum.MOSAIC, before = 0, after = 0)
-    @ApiModelProperty(value = "数据库端口")
-    private String port;
-
-    /**
-     * 用户名
-     */
-    @Scalpel(type = ScalpelTypeEnum.MOSAIC, before = 0, after = 0)
-    @ApiModelProperty(value = "用户名")
+    @ApiModelProperty(value = "username")
     private String username;
 
     /**
-     * 密码
+     * password
      */
-    @ApiModelProperty(value = "密码")
-    @Scalpel(type = ScalpelTypeEnum.MOSAIC, before = 0, after = 0)
+    @ApiModelProperty(value = "password")
     private String password;
+
+    /**
+     * host
+     */
+    @ApiModelProperty(value = "host")
+    private String host;
+
+    /**
+     * port
+     */
+    @ApiModelProperty(value = "port")
+    private String port;
+
+    /**
+     * 创建时间
+     */
+    @ApiModelProperty(value = "创建时间", hidden = true)
+    private LocalDateTime createTime;
+
+    /**
+     * 更新时间
+     */
+    @ApiModelProperty(value = "更新时间", hidden = true)
+    private LocalDateTime updateTime;
+
+    /**
+     * 0:否 1:是
+     */
+    @ApiModelProperty(value = "0:否 1:是")
+    private Integer isDel;
 
     private static final long serialVersionUID = 1L;
 }

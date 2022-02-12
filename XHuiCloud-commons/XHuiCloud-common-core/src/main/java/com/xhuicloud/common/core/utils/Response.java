@@ -83,10 +83,6 @@ public class Response<T> implements Serializable {
 		return restResult(data, CommonConstants.REQUEST_FAIL, msg);
 	}
 
-	public boolean isSuccess() {
-		return ObjectUtils.nullSafeEquals(CommonConstants.REQUEST_SUCCESS, this.code);
-	}
-
 	private static <T> Response<T> restResult(T data, int code, String msg) {
 		Response<T> apiResult = new Response<>();
 		apiResult.setCode(code);

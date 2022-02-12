@@ -45,10 +45,11 @@ public class AesUtil {
     private static String KEY_ALGORITHM = "AES";
 
     public static String decrypt(String arg) {
-        AES aes = new AES(Mode.CBC, Padding.NoPadding, new SecretKeySpec(encodeKey.getBytes(), KEY_ALGORITHM),
-                new IvParameterSpec(encodeKey.getBytes()));
-        // 获取请求密码并解密
-        return new String(aes.decrypt(Base64.decode(arg.getBytes(StandardCharsets.UTF_8))), StandardCharsets.UTF_8).trim();
+//        AES aes = new AES(Mode.CBC, Padding.NoPadding, new SecretKeySpec(encodeKey.getBytes(), KEY_ALGORITHM),
+//                new IvParameterSpec(encodeKey.getBytes()));
+//        // 获取请求密码并解密
+//        return new String(aes.decrypt(Base64.decode(arg.getBytes(StandardCharsets.UTF_8))), StandardCharsets.UTF_8).trim();
+        return arg;
     }
 
 

@@ -56,6 +56,6 @@ public class DataSourceProperties {
     /**
      * 查询数据源的SQL
      */
-    private String queryDsSql = "select * from sys_tenant_ds where is_del = 0";
+    private String queryDsSql = "select * from xhuicloud_gen.gen_ds_info where is_del = 0";
 
 }

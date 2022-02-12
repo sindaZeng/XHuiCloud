@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+MIT License
+Copyright <2021-2022>
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+of the Software, and to permit persons to whom the Software is furnished to do so,
+subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
+PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
+OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+@Author: Sinda
+@Email:  xhuicloud@163.com
+-->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.xhuicloud.test.mapper.SysMerchantMapper">
+
+    <resultMap id="BaseResultMap" type="com.xhuicloud.test.entity.SysMerchant">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="merchant_code" jdbcType="varchar" property="merchantCode"/>
+        <result column="name" jdbcType="varchar" property="name"/>
+        <result column="short_name" jdbcType="varchar" property="shortName"/>
+        <result column="systype" jdbcType="char" property="systype"/>
+        <result column="area_code" jdbcType="varchar" property="areaCode"/>
+        <result column="parent_code" jdbcType="varchar" property="parentCode"/>
+        <result column="parent_name" jdbcType="varchar" property="parentName"/>
+        <result column="industry_id" jdbcType="int" property="industryId"/>
+        <result column="is_chain" jdbcType="tinyint" property="isChain"/>
+        <result column="contact_name" jdbcType="varchar" property="contactName"/>
+        <result column="contact_tel" jdbcType="varchar" property="contactTel"/>
+        <result column="logo_url" jdbcType="varchar" property="logoUrl"/>
+        <result column="remarks" jdbcType="varchar" property="remarks"/>
+        <result column="country_name" jdbcType="varchar" property="countryName"/>
+        <result column="province_id" jdbcType="bigint" property="provinceId"/>
+        <result column="city_id" jdbcType="bigint" property="cityId"/>
+        <result column="county_id" jdbcType="bigint" property="countyId"/>
+        <result column="area_id" jdbcType="bigint" property="areaId"/>
+        <result column="province_name" jdbcType="varchar" property="provinceName"/>
+        <result column="city_name" jdbcType="varchar" property="cityName"/>
+        <result column="county_name" jdbcType="varchar" property="countyName"/>
+        <result column="area_name" jdbcType="varchar" property="areaName"/>
+        <result column="address" jdbcType="varchar" property="address"/>
+        <result column="key" jdbcType="varchar" property="key"/>
+        <result column="create_by" jdbcType="varchar" property="createBy"/>
+        <result column="create_time" jdbcType="datetime" property="createTime"/>
+        <result column="update_by" jdbcType="varchar" property="updateBy"/>
+        <result column="update_time" jdbcType="datetime" property="updateTime"/>
+        <result column="status" jdbcType="int" property="status"/>
+        <result column="after_sales_specialis" jdbcType="varchar" property="afterSalesSpecialis"/>
+        <result column="cash_register" jdbcType="varchar" property="cashRegister"/>
+    </resultMap>
+</mapper>

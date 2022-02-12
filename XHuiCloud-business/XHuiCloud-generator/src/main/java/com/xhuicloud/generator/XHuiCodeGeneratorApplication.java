@@ -25,11 +25,11 @@
 package com.xhuicloud.generator;
 
 import com.xhuicloud.common.datasource.annotation.EnableDynamicDataSource;
+import com.xhuicloud.common.feign.annotation.EnableXHuiFeignClients;
 import com.xhuicloud.common.security.annotation.EnableXHuiResourceServer;
 import com.xhuicloud.common.swagger.annotation.EnableXHuiSwagger;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.openfeign.EnableFeignClients;
 
 /**
  * @program: XHuiCloud
@@ -39,7 +39,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
  */
 @SpringBootApplication
 @EnableDynamicDataSource
-@EnableFeignClients
+@EnableXHuiFeignClients
 @EnableXHuiResourceServer
 @EnableXHuiSwagger
 public class XHuiCodeGeneratorApplication {
