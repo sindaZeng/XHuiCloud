@@ -49,6 +49,10 @@ public class MenuVo implements Serializable {
      */
     private String name;
     /**
+     * 国际化key
+     */
+    private String internationalization;
+    /**
      * 菜单权限标识
      */
     private String permission;

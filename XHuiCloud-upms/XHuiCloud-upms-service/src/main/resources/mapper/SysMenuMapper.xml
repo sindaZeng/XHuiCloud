@@ -6,6 +6,7 @@
         <!--@Table sys_menu-->
         <id column="id" jdbcType="INTEGER" property="id"/>
         <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="internationalization" jdbcType="VARCHAR" property="internationalization"/>
         <result column="permission" jdbcType="VARCHAR" property="permission"/>
         <result column="redirect" jdbcType="VARCHAR" property="redirect"/>
         <result column="path" jdbcType="VARCHAR" property="path"/>

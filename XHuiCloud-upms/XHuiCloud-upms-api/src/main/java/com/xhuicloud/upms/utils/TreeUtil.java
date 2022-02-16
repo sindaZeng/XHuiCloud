@@ -63,6 +63,7 @@ public class TreeUtil {
             node.setParentId(menu.getParentId());
             node.setValue(menu.getId());
             node.setName(menu.getName());
+            node.setInternationalization(menu.getInternationalization());
             node.setLabel(menu.getName());
             node.setPath(menu.getPath());
             node.setPermission(menu.getPermission());

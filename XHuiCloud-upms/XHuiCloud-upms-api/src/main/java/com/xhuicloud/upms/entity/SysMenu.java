@@ -55,6 +55,12 @@ public class SysMenu extends Model<SysMenu> {
     private String name;
 
     /**
+     * 国际化key
+     */
+    @NotBlank(message = "国际化key")
+    private String internationalization;
+
+    /**
      * 权限
      */
     private String permission;

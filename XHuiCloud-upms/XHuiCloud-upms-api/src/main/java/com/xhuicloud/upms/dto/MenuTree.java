@@ -49,6 +49,11 @@ public class MenuTree extends TreeNode {
     private String name;
 
     /**
+     * 国际化key
+     */
+    private String internationalization;
+
+    /**
      * 权限
      */
     private String permission;
@@ -81,16 +86,18 @@ public class MenuTree extends TreeNode {
     public MenuTree() {
     }
 
-    public MenuTree(int id, String name, int parentId) {
+    public MenuTree(int id, String name, String internationalization, int parentId) {
         this.id = id;
         this.parentId = parentId;
         this.name = name;
+        this.internationalization = internationalization;
     }
 
-    public MenuTree(int id, String name, MenuTree parent) {
+    public MenuTree(int id, String name, String internationalization, MenuTree parent) {
         this.id = id;
         this.parentId = parent.getId();
         this.name = name;
+        this.internationalization = internationalization;
     }
 
     public MenuTree(MenuVo menuVo) {
@@ -98,6 +105,7 @@ public class MenuTree extends TreeNode {
         this.parentId = menuVo.getParentId();
         this.icon = menuVo.getIcon();
         this.name = menuVo.getName();
+        this.internationalization = menuVo.getInternationalization();
         this.path = menuVo.getPath();
         this.type = menuVo.getType();
         this.sort = menuVo.getSort();
