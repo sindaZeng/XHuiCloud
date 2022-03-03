@@ -24,6 +24,7 @@
 
 package com.xhuicloud.upms.controller;
 
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xhuicloud.common.core.constant.CacheConstants;
 import com.xhuicloud.common.core.utils.Response;
@@ -60,8 +61,8 @@ public class SysRoleController {
      */
     @GetMapping("/page")
     @ApiOperation(value = "分页查询角色列表", notes = "分页查询角色列表")
-    public Response page(Page page) {
-        return Response.success(sysRoleService.page(page));
+    public Response page(Page page, SysRole sysRole) {
+        return Response.success(sysRoleService.page(page, Wrappers.query(sysRole)));
     }
 
     /**

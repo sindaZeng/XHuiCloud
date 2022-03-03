@@ -59,6 +59,7 @@ public class LogUtil {
         sysLog.setRequestIp(ServletUtil.getClientIP(request));
         sysLog.setRequestUri(URLUtil.getPath(request.getRequestURI()));
         sysLog.setHttpMethod(request.getMethod());
+        sysLog.setCreateTime(LocalDateTime.now());
         sysLog.setUserAgent(request.getHeader(HttpHeaders.USER_AGENT));
         return sysLog;
     }

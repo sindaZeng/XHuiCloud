@@ -68,7 +68,7 @@ public class SysRole extends Model<SysRole> {
     /**
      * 创建时间
      */
-    @ApiModelProperty(value = "创建时间", hidden = true)
+    @ApiModelProperty(value = "创建时间")
     private LocalDateTime createTime;
 
     /**
