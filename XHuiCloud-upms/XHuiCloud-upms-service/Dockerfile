@@ -14,6 +14,6 @@ EXPOSE 17000
 
 ADD ./target/XHuiCloud-upms-service.jar ./
 
-CMD sleep 50;java -Xms128m -Xmx256m -Djava.security.egd=file:/dev/./urandom -jar XHuiCloud-upms-service.jar
+CMD sleep 50;java -Xms256m -Xmx512m -Djava.security.egd=file:/dev/./urandom -jar XHuiCloud-upms-service.jar
 
 
