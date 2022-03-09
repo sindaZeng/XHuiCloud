@@ -45,7 +45,7 @@ public class UserDto implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @ApiModelProperty(value = "搜索内容: 用户名/手机号/邮箱")
-    private String text;
+    private String username;
 
     @ApiModelProperty(value = "角色名称")
     private String roleName;

@@ -29,12 +29,15 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xhuicloud.common.core.constant.CacheConstants;
 import com.xhuicloud.upms.entity.SysRole;
 import com.xhuicloud.upms.entity.SysRoleMenu;
+import com.xhuicloud.upms.entity.SysUserRole;
 import com.xhuicloud.upms.mapper.SysRoleMapper;
 import com.xhuicloud.upms.mapper.SysRoleMenuMapper;
+import com.xhuicloud.upms.mapper.SysUserRoleMapper;
 import com.xhuicloud.upms.service.SysRoleService;
 import lombok.AllArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -46,6 +49,8 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
 
     private final SysRoleMenuMapper sysRoleMenuMapper;
 
+    private final SysUserRoleMapper sysUserRoleMapper;
+
     @Override
     public List<SysRole> findRoleById(Integer userId) {
         return baseMapper.listRolesByUserId(userId);
@@ -54,10 +59,14 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Boolean deleteRoleById(Integer id) {
+        removeById(id);
+        sysUserRoleMapper.delete(Wrappers
+                .<SysUserRole>update().lambda()
+                .eq(SysUserRole::getRoleId, id));
         sysRoleMenuMapper.delete(Wrappers
                 .<SysRoleMenu>update().lambda()
                 .eq(SysRoleMenu::getRoleId, id));
-        return removeById(id);
+        return Boolean.TRUE;
     }
 
     @Override
