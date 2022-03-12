@@ -41,11 +41,6 @@ public class XHuiCommonThreadLocalHolder {
      */
     private static final ThreadLocal<Integer> TENANT = new TransmittableThreadLocal<>();
 
-    /**
-     * 创建本地线程共享对象  用户Id
-     */
-    private static final ThreadLocal<Integer> USERID = new TransmittableThreadLocal<>();
-
     public void setTenant(Integer id) {
         TENANT.set(id);
     }
@@ -56,18 +51,6 @@ public class XHuiCommonThreadLocalHolder {
 
     public void removeTenant() {
         TENANT.remove();
-    }
-
-    public void removeUserId() {
-        USERID.remove();
-    }
-
-    public void setUserId(Integer id) {
-        USERID.set(id);
-    }
-
-    public Integer getUserId() {
-        return USERID.get();
     }
 
 }

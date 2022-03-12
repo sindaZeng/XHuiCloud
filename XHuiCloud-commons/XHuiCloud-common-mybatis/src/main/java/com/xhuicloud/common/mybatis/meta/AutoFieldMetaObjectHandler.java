@@ -26,31 +26,63 @@ package com.xhuicloud.common.mybatis.meta;
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import com.xhuicloud.common.data.tenant.XHuiCommonThreadLocalHolder;
+import com.xhuicloud.common.security.utils.SecurityHolder;
 import org.apache.ibatis.reflection.MetaObject;
+
+import java.time.LocalDateTime;
 
 public class AutoFieldMetaObjectHandler implements MetaObjectHandler {
 
     /**
-     * 创建
+     * 创建人
      */
     private static final String CREATER_ID = "createId";
 
     /**
-     * 更新
+     * 创建时间
+     */
+    private static final String CREATE_TIME = "createTime";
+
+    /**
+     * 更新人
      */
     private static final String UPDATE_ID = "updateId";
 
+    /**
+     * 更新时间
+     */
+    private static final String UPDATE_TIME = "updateTime";
+
     @Override
     public void insertFill(MetaObject metaObject) {
-        Integer userId = XHuiCommonThreadLocalHolder.getUserId();
-        if (userId != null)
-            this.setFieldValByName(CREATER_ID, userId, metaObject);
+        Object createId = metaObject.getValue(CREATER_ID);
+        if (createId == null){
+            Integer userId = SecurityHolder.getUserId();
+            if (userId != null)
+                this.setFieldValByName(CREATER_ID, userId, metaObject);
+        }
+
+        Object createTime = metaObject.getValue(CREATE_TIME);
+        if (createTime == null){
+            LocalDateTime now = LocalDateTime.now();
+            this.setFieldValByName(CREATE_TIME, now, metaObject);
+        }
     }
 
     @Override
     public void updateFill(MetaObject metaObject) {
-        Integer userId = XHuiCommonThreadLocalHolder.getUserId();
-        if (userId != null)
-            this.setFieldValByName(UPDATE_ID, userId, metaObject);
+        Object updateId = metaObject.getValue(UPDATE_ID);
+        if (updateId == null){
+            Integer userId = SecurityHolder.getUserId();
+            if (userId != null)
+                this.setFieldValByName(UPDATE_ID, userId, metaObject);
+        }
+
+        Object updateTime = metaObject.getValue(UPDATE_TIME);
+        if (updateTime == null){
+            LocalDateTime now = LocalDateTime.now();
+            this.setFieldValByName(UPDATE_TIME, now, metaObject);
+        }
+
     }
 }
