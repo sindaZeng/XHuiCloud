@@ -61,14 +61,6 @@ public interface SysUserService extends IService<SysUser> {
     Boolean updateUser(SysUser sysUser);
 
     /**
-     * 开启/禁用用户
-     *
-     * @param id
-     * @return
-     */
-    Boolean deleteUser(Integer id);
-
-    /**
      * 锁定/解锁用户
      *
      * @param id

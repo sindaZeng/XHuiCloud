@@ -113,18 +113,6 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Boolean deleteUser(Integer id) {
-        SysUser sysUser = checkUserId(id);
-        if (sysUser.getIsDel() == 0) {
-            sysUser.setIsDel(1);
-        } else {
-            sysUser.setIsDel(0);
-        }
-        return updateById(sysUser);
-    }
-
-    @Override
-    @Transactional(rollbackFor = Exception.class)
     public Boolean lock(Integer id) {
         SysUser sysUser = checkUserId(id);
         if (sysUser.getLockFlag() == 0) {

@@ -50,13 +50,6 @@
             AND sys_role_menu.role_id = #{roleId}
     </select>
 
-    <update id="deleteMenu">
-        UPDATE sys_menu SET is_del = 1 WHERE id in
-            <foreach collection="ids" item="item" open="(" close=")" separator=",">
-                #{item}
-            </foreach>
-    </update>
-
     <select id="listMenusByRoleCode" resultMap="MenuVoResultMap">
         SELECT
         sm.*

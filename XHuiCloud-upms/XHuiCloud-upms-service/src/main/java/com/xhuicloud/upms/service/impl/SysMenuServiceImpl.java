@@ -79,20 +79,10 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
                 .lambda().eq(SysMenu::getId, id));
         if (ObjectUtils.isNotEmpty(sysMenu)) {
             List<Integer> ids = Lists.newArrayList();
-            if (sysMenu.getIsDel() == 1) {
-                ids.add(sysMenu.getId());
-                // 禁用逻辑
-                // 查询当前节点的子节点 孙子节点 等等
-                getChildMenus(ids, id);
-                // 禁用菜单
-                baseMapper.deleteMenu(ids);
-                // 删除拥有这些菜单的角色
-                sysRoleMenuService.deleteRoleMenus(ids);
-            }else {
-                // 启用逻辑
-                sysMenu.setIsDel(1);
-                updateById(sysMenu);
-            }
+            ids.add(sysMenu.getId());
+            getChildMenus(ids, id);
+            removeByIds(ids);
+            sysRoleMenuService.deleteRoleMenus(ids);
             return true;
         } else {
             throw SysException.sysFail("没有此菜单或者按钮!");

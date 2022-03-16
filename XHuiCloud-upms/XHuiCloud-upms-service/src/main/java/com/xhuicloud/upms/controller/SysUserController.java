@@ -163,7 +163,7 @@ public class SysUserController {
     @DeleteMapping("/{id}")
     @PreAuthorize("@authorize.hasPermission('sys_delete_user')")
     public Response delete(@PathVariable Integer id) {
-        return Response.success(sysUserService.deleteUser(id));
+        return Response.success(sysUserService.removeById(id));
     }
 
     /**
