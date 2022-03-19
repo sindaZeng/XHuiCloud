@@ -55,6 +55,16 @@ public class WebUtils extends org.springframework.web.util.WebUtils {
 
 	private final String UNKNOWN = "unknown";
 
+	public String userAgent(HttpServletRequest request) {
+		Assert.notNull(request, "HttpServletRequest is null");
+		String ua = request.getHeader("User-Agent");
+		return ua;
+	}
+
+	public String userAgent() {
+		return userAgent(getRequest());
+	}
+
 	/**
 	 * 判断是否ajax请求
 	 * spring ajax 返回含有 ResponseBody 或者 RestController注解

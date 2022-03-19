@@ -22,33 +22,23 @@
  * @Email:  xhuicloud@163.com
  */
 
-package com.xhuicloud.common.security.component;
+package com.xhuicloud.logs.feign;
 
-import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.databind.SerializerProvider;
-import com.fasterxml.jackson.databind.ser.std.StdSerializer;
-import com.xhuicloud.common.core.constant.CommonConstants;
-import com.xhuicloud.common.security.exception.XHuiOAuth2Exception;
-import java.io.IOException;
+import com.xhuicloud.common.core.constant.AuthorizationConstants;
+import com.xhuicloud.common.core.constant.ServiceNameConstants;
+import com.xhuicloud.common.core.utils.Response;
+import com.xhuicloud.logs.entity.SysLogLogin;
+import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 
-/**
- * @program: XHuiCloud
- * @description: 定义异常 ${@link XHuiOAuth2Exception} 的序列化类
- * @author: Sinda
- * @create: 2020-01-01 19:13
- */
-public class XHuiOAuth2ExceptionJacksonSerializer extends StdSerializer<XHuiOAuth2Exception> {
+@FeignClient(contextId = SysLogLoginFeign.SYSLOGLOGINFEIGN, value = ServiceNameConstants.XHUICLOUD_LOGS_SERVICE, path = "/sysLogLogin")
+public interface SysLogLoginFeign {
 
-    @Override
-    public void serialize(XHuiOAuth2Exception e, JsonGenerator generator, SerializerProvider s) throws IOException {
-        generator.writeStartObject();
-        generator.writeObjectField("code", CommonConstants.FAIL);
-        generator.writeStringField("msg", e.getMessage());
-        generator.writeStringField("data", e.getErrorCode());
-        generator.writeEndObject();
-    }
+    String SYSLOGLOGINFEIGN = "sysLogLoginFeign";
 
-    public XHuiOAuth2ExceptionJacksonSerializer() {
-        super(XHuiOAuth2Exception.class);
-    }
+    @PostMapping
+    Response save(@RequestBody SysLogLogin sysLogLogin,  @RequestHeader(AuthorizationConstants.FROM) String from);
+
 }

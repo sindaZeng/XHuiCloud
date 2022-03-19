@@ -23,14 +23,18 @@
  */
 
 package com.xhuicloud.auth.handle;
+import java.time.LocalDateTime;
 
 import cn.hutool.core.date.DateUtil;
 import com.google.common.collect.Maps;
+import com.xhuicloud.common.core.constant.CommonConstants;
 import com.xhuicloud.common.core.utils.WebUtils;
 import com.xhuicloud.common.data.tenant.XHuiCommonThreadLocalHolder;
 import com.xhuicloud.common.data.tenant.XHuiTenantThreadBroker;
 import com.xhuicloud.common.security.handle.AbstractAuthenticationSuccessEventHandler;
 import com.xhuicloud.common.security.service.XHuiUser;
+import com.xhuicloud.logs.entity.SysLogLogin;
+import com.xhuicloud.logs.feign.SysLogLoginFeign;
 import com.xhuicloud.push.common.PushSingle;
 import com.xhuicloud.push.enums.PushChannelEnum;
 import com.xhuicloud.push.enums.WeChatMpMessage;
@@ -60,6 +64,8 @@ public class XHuiAuthSuccessHandler extends AbstractAuthenticationSuccessEventHa
 
     private final PushCommonFeign pushCommonFeign;
 
+    private final SysLogLoginFeign sysLogLoginFeign;
+
     @Override
     public void handle(Authentication authentication, HttpServletRequest request, HttpServletResponse response) {
         log.info("用户：{} 登录成功", authentication.getPrincipal());
@@ -77,6 +83,14 @@ public class XHuiAuthSuccessHandler extends AbstractAuthenticationSuccessEventHa
         pushSingle.setPushChannelEnums(Arrays.asList(PushChannelEnum.WECHAT_MP));
         XHuiTenantThreadBroker.execute(() -> xHuiUser.getTenantId(),
                 id -> pushCommonFeign.single(pushSingle, IS_COMMING_ANONYMOUS_YES));
+        SysLogLogin sysLogLogin = new SysLogLogin();
+        sysLogLogin.setUsername(xHuiUser.getUsername());
+        sysLogLogin.setUserId(xHuiUser.getId());
+        sysLogLogin.setLoginTime(LocalDateTime.now());
+        sysLogLogin.setIp(WebUtils.getIP(request));
+        sysLogLogin.setUseragent(WebUtils.userAgent(request));
+        sysLogLogin.setStatus(CommonConstants.SUCCESS);
+        sysLogLoginFeign.save(sysLogLogin, IS_COMMING_ANONYMOUS_YES);
     }
 
 }

@@ -27,7 +27,6 @@ package com.xhuicloud.common.core.utils;
 import com.xhuicloud.common.core.constant.CommonConstants;
 import lombok.*;
 import lombok.experimental.Accessors;
-import org.springframework.util.ObjectUtils;
 
 import java.io.Serializable;
 
@@ -56,31 +55,31 @@ public class Response<T> implements Serializable {
 	private T data;
 
 	public static <T> Response<T> success() {
-		return restResult(null, CommonConstants.REQUEST_SUCCESS, null);
+		return restResult(null, CommonConstants.SUCCESS, null);
 	}
 
 	public static <T> Response<T> success(T data) {
-		return restResult(data, CommonConstants.REQUEST_SUCCESS, null);
+		return restResult(data, CommonConstants.SUCCESS, null);
 	}
 
 	public static <T> Response<T> success(T data, String msg) {
-		return restResult(data, CommonConstants.REQUEST_SUCCESS, msg);
+		return restResult(data, CommonConstants.SUCCESS, msg);
 	}
 
 	public static <T> Response<T> failed() {
-		return restResult(null, CommonConstants.REQUEST_FAIL, null);
+		return restResult(null, CommonConstants.FAIL, null);
 	}
 
 	public static <T> Response<T> failed(String msg) {
-		return restResult(null, CommonConstants.REQUEST_FAIL, msg);
+		return restResult(null, CommonConstants.FAIL, msg);
 	}
 
 	public static <T> Response<T> failed(T data) {
-		return restResult(data, CommonConstants.REQUEST_FAIL, null);
+		return restResult(data, CommonConstants.FAIL, null);
 	}
 
 	public static <T> Response<T> failed(T data, String msg) {
-		return restResult(data, CommonConstants.REQUEST_FAIL, msg);
+		return restResult(data, CommonConstants.FAIL, msg);
 	}
 
 	private static <T> Response<T> restResult(T data, int code, String msg) {

@@ -68,7 +68,7 @@ public class ResourceAuthExceptionEntryPoint implements AuthenticationEntryPoint
         Response<String> result = new Response<>();
         result.setMsg(authException.getMessage());
         result.setData(authException.getMessage());
-        result.setCode(CommonConstants.REQUEST_FAIL);
+        result.setCode(CommonConstants.FAIL);
 
         if (authException instanceof CredentialsExpiredException
                 || authException instanceof InsufficientAuthenticationException) {

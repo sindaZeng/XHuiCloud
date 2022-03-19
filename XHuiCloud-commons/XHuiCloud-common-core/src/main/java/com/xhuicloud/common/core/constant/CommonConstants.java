@@ -33,14 +33,14 @@ package com.xhuicloud.common.core.constant;
 public interface CommonConstants {
 
     /**
-     * 请求成功标记
+     * 成功标记
      */
-    Integer REQUEST_SUCCESS = 0;
+    Integer SUCCESS = 0;
 
     /**
-     * 请求失败标记
+     * 失败标记
      */
-    Integer REQUEST_FAIL = 1;
+    Integer FAIL = 1;
 
     /**
      * 操作类型

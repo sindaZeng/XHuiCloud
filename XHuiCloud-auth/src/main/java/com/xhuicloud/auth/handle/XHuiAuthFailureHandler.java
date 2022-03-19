@@ -24,7 +24,14 @@
 
 package com.xhuicloud.auth.handle;
 
+import com.xhuicloud.common.core.constant.CommonConstants;
+import com.xhuicloud.common.core.utils.WebUtils;
+import com.xhuicloud.common.data.tenant.XHuiTenantThreadBroker;
 import com.xhuicloud.common.security.handle.AbstractAuthenticationFailureEvenHandler;
+import com.xhuicloud.common.security.service.XHuiUser;
+import com.xhuicloud.logs.entity.SysLogLogin;
+import com.xhuicloud.logs.feign.SysLogLoginFeign;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -32,6 +39,9 @@ import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.time.LocalDateTime;
+
+import static com.xhuicloud.common.core.constant.AuthorizationConstants.IS_COMMING_ANONYMOUS_YES;
 
 /**
  * @program: XHuiCloud
@@ -41,10 +51,23 @@ import javax.servlet.http.HttpServletResponse;
  */
 @Slf4j
 @Component
+@AllArgsConstructor
 public class XHuiAuthFailureHandler extends AbstractAuthenticationFailureEvenHandler {
+
+    private final SysLogLoginFeign sysLogLoginFeign;
 
     @Override
     public void handle(AuthenticationException authenticationException, Authentication authentication, HttpServletRequest request, HttpServletResponse response) {
         log.info("用户：{} 登录失败，异常：{}", authentication.getPrincipal(), authenticationException.getLocalizedMessage());
+        String username = (String) authentication.getPrincipal();
+        SysLogLogin sysLogLogin = new SysLogLogin();
+        sysLogLogin.setUsername(username);
+        sysLogLogin.setUserId(null);
+        sysLogLogin.setLoginTime(LocalDateTime.now());
+        sysLogLogin.setIp(WebUtils.getIP(request));
+        sysLogLogin.setUseragent(WebUtils.userAgent(request));
+        sysLogLogin.setStatus(CommonConstants.FAIL);
+        sysLogLogin.setRemake(authenticationException.getLocalizedMessage());
+        sysLogLoginFeign.save(sysLogLogin, IS_COMMING_ANONYMOUS_YES);
     }
 }
