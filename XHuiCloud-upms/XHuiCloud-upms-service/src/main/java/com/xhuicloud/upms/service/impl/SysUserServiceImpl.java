@@ -79,6 +79,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
     @Override
     public UserInfo getSysUser(SysUser sysUser) {
+        sysUser.setPassword(null);
         UserInfo userInfo = new UserInfo();
         userInfo.setSysUser(sysUser);
         //查询该用户的角色

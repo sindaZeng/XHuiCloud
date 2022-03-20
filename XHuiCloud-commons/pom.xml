@@ -29,6 +29,7 @@
         <module>XHuiCloud-common-xxl</module>
         <module>XHuiCloud-common-rabbitMq</module>
         <module>XHuiCloud-common-mybatis</module>
+        <module>XHuiCloud-common-oss</module>
     </modules>
 
 </project>

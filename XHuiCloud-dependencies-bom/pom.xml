@@ -85,6 +85,12 @@
 
             <dependency>
                 <groupId>${project.groupId}</groupId>
+                <artifactId>XHuiCloud-common-oss</artifactId>
+                <version>${revision}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>${project.groupId}</groupId>
                 <artifactId>XHuiCloud-common-transaction</artifactId>
                 <version>${revision}</version>
             </dependency>

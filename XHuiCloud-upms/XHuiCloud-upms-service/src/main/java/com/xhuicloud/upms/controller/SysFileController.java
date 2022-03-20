@@ -71,10 +71,10 @@ public class SysFileController {
      * @return
      */
     @SysLog("上传文件")
-    @PostMapping("/upload/{fileType}")
+    @PostMapping("/upload")
     @PreAuthorize("@authorize.hasPermission('sys_upload_file')")
-    public Response upload(@RequestParam("file") MultipartFile file, @PathVariable("fileType") String fileType) {
-        return Response.success(sysFileService.upload(file, fileType));
+    public Response upload(@RequestPart("file") MultipartFile file) {
+        return Response.success(sysFileService.upload(file));
     }
 
     /**

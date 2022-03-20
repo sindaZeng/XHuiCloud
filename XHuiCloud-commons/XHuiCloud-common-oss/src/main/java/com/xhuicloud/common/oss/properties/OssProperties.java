@@ -22,28 +22,49 @@
  * @Email:  xhuicloud@163.com
  */
 
-package com.xhuicloud.upms.service;
+package com.xhuicloud.common.oss.properties;
 
-import com.baomidou.mybatisplus.extension.service.IService;
-import com.xhuicloud.upms.entity.SysFile;
-import com.xhuicloud.upms.vo.FileVo;
-import org.springframework.web.multipart.MultipartFile;
+import lombok.Data;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 
-import javax.servlet.http.HttpServletResponse;
-
-public interface SysFileService extends IService<SysFile> {
+@Data
+@ConfigurationProperties(prefix = "oss")
+public class OssProperties {
 
     /**
-     * 上传文件
-     * @param file
-     * @param fileType
-     * @return
+     * oss URL
      */
-    String upload(MultipartFile file);
+    private String serviceEndpoint;
 
-    Boolean deleteFileById(Integer id);
+    /**
+     * 区域
+     */
+    private String signingRegion;
 
-    void download(String fileName, HttpServletResponse response);
+    /**
+     * accessKey
+     */
+    private String accessKey;
 
-    FileVo detail(Integer id);
+    /**
+     * secretKey
+     */
+    private String secretKey;
+
+    /**
+     * 最大线程数
+     */
+    private Integer maxConnections = 50;
+
+    /**
+     * 超时时间 milliseconds
+     */
+    private Integer requestTimeout = 3000;
+
+    /**
+     * 存储桶名称
+     */
+    private String bucketName = "xhuicloud";
+
+    private Boolean pathStyleAccessEnabled = true;
 }

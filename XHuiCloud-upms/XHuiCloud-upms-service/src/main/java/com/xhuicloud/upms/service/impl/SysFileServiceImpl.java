@@ -24,32 +24,72 @@
 
 package com.xhuicloud.upms.service.impl;
 
+import cn.hutool.core.io.FileUtil;
+import cn.hutool.core.util.IdUtil;
+import cn.hutool.core.util.StrUtil;
+import com.amazonaws.services.s3.model.PutObjectResult;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 
+import com.xhuicloud.common.core.exception.SysException;
+import com.xhuicloud.common.oss.properties.OssProperties;
+import com.xhuicloud.common.oss.service.OssService;
 import com.xhuicloud.upms.entity.SysFile;
 
 import com.xhuicloud.upms.mapper.SysFileMapper;
 import com.xhuicloud.upms.service.SysFileService;
 
 import com.xhuicloud.upms.vo.FileVo;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
+import java.util.Map;
 
 @Slf4j
 @Service
+@AllArgsConstructor
 public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> implements SysFileService {
 
+    private final OssProperties ossProperties;
+
+    private final OssService ossService;
+
     @Override
-    public String upload(MultipartFile file, String fileType) {
-        return null;
+    public String upload(MultipartFile file) {
+        if (StrUtil.isBlank(file.getOriginalFilename())) {
+            throw SysException.sysFail("上传文件错误，文件为空!");
+        }
+        try {
+            String fileType = FileUtil.extName(file.getOriginalFilename());
+            String fileName = IdUtil.simpleUUID() + StrUtil.DOT + FileUtil.extName(file.getOriginalFilename());
+            String url = StrUtil.SLASH + ossProperties.getBucketName() + StrUtil.SLASH + fileName;
+
+            ossService.upload(ossProperties.getBucketName(), fileName, file.getInputStream(),
+                    file.getContentType());
+            SysFile sysFile = new SysFile();
+            sysFile.setFileSize(file.getSize());
+            sysFile.setName(file.getOriginalFilename());
+            sysFile.setFileName(fileName);
+            sysFile.setUrl(url);
+            sysFile.setFileType(fileType);
+            sysFile.setBucketName(ossProperties.getBucketName());
+            save(sysFile);
+            return url;
+        }
+		catch (Exception e) {
+            log.error("上传失败", e);
+        }
+        return "";
     }
 
     @Override
     public Boolean deleteFileById(Integer id) {
-        return null;
+        SysFile sysFile = getById(id);
+        ossService.remove(sysFile.getBucketName(), sysFile.getFileName());
+        return removeById(id);
     }
 
     @Override
