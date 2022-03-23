@@ -36,7 +36,6 @@ public interface SysFileService extends IService<SysFile> {
     /**
      * 上传文件
      * @param file
-     * @param fileType
      * @return
      */
     String upload(MultipartFile file);

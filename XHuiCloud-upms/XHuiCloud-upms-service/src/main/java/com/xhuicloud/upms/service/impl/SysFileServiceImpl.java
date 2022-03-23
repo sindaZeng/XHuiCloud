@@ -64,14 +64,14 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impl
         }
         try {
             String fileType = FileUtil.extName(file.getOriginalFilename());
-            String fileName = IdUtil.simpleUUID() + StrUtil.DOT + FileUtil.extName(file.getOriginalFilename());
+            String fileName = IdUtil.simpleUUID() + StrUtil.DOT + fileType;
             String url = StrUtil.SLASH + ossProperties.getBucketName() + StrUtil.SLASH + fileName;
 
             ossService.upload(ossProperties.getBucketName(), fileName, file.getInputStream(),
                     file.getContentType());
             SysFile sysFile = new SysFile();
             sysFile.setFileSize(file.getSize());
-            sysFile.setName(file.getOriginalFilename());
+            sysFile.setName(FileUtil.mainName(file.getOriginalFilename()));
             sysFile.setFileName(fileName);
             sysFile.setUrl(url);
             sysFile.setFileType(fileType);

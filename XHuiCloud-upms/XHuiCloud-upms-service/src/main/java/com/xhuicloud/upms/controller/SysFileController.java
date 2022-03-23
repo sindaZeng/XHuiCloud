@@ -65,6 +65,16 @@ public class SysFileController {
     }
 
     /**
+     * 查询文件列表
+     *
+     * @return
+     */
+    @GetMapping
+    public Response list(SysFile sysFile) {
+        return Response.success(sysFileService.list(Wrappers.lambdaQuery(sysFile)));
+    }
+
+    /**
      * 七牛文件上传
      *
      * @param file
