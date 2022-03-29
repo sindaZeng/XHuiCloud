@@ -29,6 +29,7 @@ import com.xhuicloud.auth.service.XHuiClientDetailsServiceImpl;
 import com.xhuicloud.common.security.component.ResourceAuthExceptionEntryPoint;
 import com.xhuicloud.common.security.component.XHuiWebResponseExceptionTranslator;
 import com.xhuicloud.common.security.service.XHuiUserDetailsService;
+import com.xhuicloud.common.security.social.SocialTokenGranter;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -38,9 +39,15 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.A
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.CompositeTokenGranter;
+import org.springframework.security.oauth2.provider.TokenGranter;
 import org.springframework.security.oauth2.provider.code.AuthorizationCodeServices;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenStore;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * @program: XHuiCloud
@@ -100,5 +107,16 @@ public class XHuiAuthorizationServerConfig extends AuthorizationServerConfigurer
                 .reuseRefreshTokens(false)
                 .pathMapping("/oauth/confirm_access", "/token/confirm_access")//设置成自己的授权页面
                 .exceptionTranslator(new XHuiWebResponseExceptionTranslator()); //修改Oauth2定义的错误信息 为我们定义的错误信息
+        setSocialTokenGranter(endpoints);
+    }
+
+    private void setSocialTokenGranter(AuthorizationServerEndpointsConfigurer endpoints) {
+        TokenGranter tokenGranter = endpoints.getTokenGranter();
+        List<TokenGranter> tokenGranters = new ArrayList<>(Arrays.asList(tokenGranter));
+        tokenGranters.add(new SocialTokenGranter(
+                authenticationManager, endpoints.getTokenServices(), endpoints.getClientDetailsService(),
+                endpoints.getOAuth2RequestFactory()));
+        CompositeTokenGranter compositeTokenGranter = new CompositeTokenGranter(tokenGranters);
+        endpoints.tokenGranter(compositeTokenGranter);
     }
 }

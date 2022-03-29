@@ -28,7 +28,7 @@ import com.xhuicloud.common.security.handle.FormAuthFailureHandler;
 import com.xhuicloud.common.security.handle.MobileAuthSuccessHandler;
 import com.xhuicloud.common.security.handle.XHuiLogoutSuccessHandler;
 import com.xhuicloud.common.security.handle.XHuiSimpleUrlAuthenticationSuccessHandler;
-import com.xhuicloud.common.security.social.SocialSecurityConfigurer;
+import com.xhuicloud.common.security.social.SocialAuthenticationProvider;
 import lombok.SneakyThrows;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -72,6 +72,21 @@ public class XHuiWebSecurityConfigurer extends WebSecurityConfigurerAdapter {
         return super.authenticationManagerBean();
     }
 
+    @Bean
+    public MobileAuthSuccessHandler mobileAuthSuccessHandler() {
+        return new MobileAuthSuccessHandler();
+    }
+
+    @Bean
+    public AuthenticationSuccessHandler xHuiSimpleUrlAuthenticationSuccessHandler() {
+        return new XHuiSimpleUrlAuthenticationSuccessHandler();
+    }
+
+    @Bean
+    public LogoutSuccessHandler xHuiLogoutSuccessHandler() {
+        return new XHuiLogoutSuccessHandler();
+    }
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.formLogin()//表单登录
@@ -89,9 +104,17 @@ public class XHuiWebSecurityConfigurer extends WebSecurityConfigurerAdapter {
                 .antMatchers("/token/**", "/mobile/**", "/actuator/**")
                 .permitAll() //匹配这个url 放行
                 .anyRequest().authenticated()//任何请求都要授权
-                .and().csrf().disable()//跨站请求伪造攻击
-                .apply(socialSecurityConfigurer());
+                .and().csrf().disable();//跨站请求伪造攻击
+        http.authenticationProvider(new SocialAuthenticationProvider());
     }
+
+//    @Override
+//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+//        super.configure(auth);
+//        SocialAuthenticationProvider socialAuthenticationProvider = new SocialAuthenticationProvider();
+//        socialAuthenticationProvider.setUserDetailsService(userDetailsService);
+//        auth.authenticationProvider(userDetailsService)
+//    }
 
     /**
      * 不拦截静态资源
@@ -103,23 +126,4 @@ public class XHuiWebSecurityConfigurer extends WebSecurityConfigurerAdapter {
         web.ignoring().antMatchers("/favicon.ico", "/css/**", "/error");
     }
 
-    @Bean
-    public SocialSecurityConfigurer socialSecurityConfigurer() {
-        return new SocialSecurityConfigurer();
-    }
-
-    @Bean
-    public MobileAuthSuccessHandler mobileAuthSuccessHandler() {
-        return new MobileAuthSuccessHandler();
-    }
-
-    @Bean
-    public AuthenticationSuccessHandler xHuiSimpleUrlAuthenticationSuccessHandler() {
-        return new XHuiSimpleUrlAuthenticationSuccessHandler();
-    }
-
-    @Bean
-    public LogoutSuccessHandler xHuiLogoutSuccessHandler() {
-        return new XHuiLogoutSuccessHandler();
-    }
 }

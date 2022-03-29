@@ -36,5 +36,5 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
  **/
 public interface XHuiUserDetailsService extends UserDetailsService {
 
-    UserDetails loadUserBySocial(String code) throws UsernameNotFoundException;
+    UserDetails loadUserBySocial(String type, String code) throws UsernameNotFoundException;
 }

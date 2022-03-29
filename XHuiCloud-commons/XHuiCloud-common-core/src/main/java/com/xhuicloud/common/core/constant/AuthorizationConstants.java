@@ -53,7 +53,7 @@ public interface AuthorizationConstants {
     /**
      * 用户锁定
      */
-    String USER_IS_LOCK = "1";
+    Integer USER_IS_LOCK = 1;
 
     /**
      * 用户ID

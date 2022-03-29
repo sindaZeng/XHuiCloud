@@ -60,9 +60,9 @@ public class SysSocialController {
      * @return
      */
     @Anonymous
-    @GetMapping("/{auth_code}")
-    public Response<UserInfo> getSysUser(@PathVariable String auth_code) {
-        return Response.success(sysSocialService.getSysUser(auth_code));
+    @GetMapping("/{type}/{auth_code}")
+    public Response<UserInfo> getSysUser(@PathVariable(value = "type") String type, @PathVariable String auth_code) {
+        return Response.success(sysSocialService.getSysUser(type, auth_code));
     }
 
     /**

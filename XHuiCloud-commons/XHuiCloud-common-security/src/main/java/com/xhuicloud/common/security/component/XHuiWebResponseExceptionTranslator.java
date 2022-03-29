@@ -77,9 +77,7 @@ public class XHuiWebResponseExceptionTranslator implements WebResponseExceptionT
         ase = (InvalidGrantException) throwableAnalyzer
                 .getFirstThrowableOfType(InvalidGrantException.class, causeChain);
         if (ase != null) {
-            String msg = SecurityMessageUtil.getAccessor().getMessage(
-                    "AbstractUserDetailsAuthenticationProvider.badCredentials", ase.getMessage(), Locale.CHINA);
-            return handleOAuth2Exception(new InvalidException(msg, ase));
+            return handleOAuth2Exception(new InvalidException(ase.getMessage(), ase));
         }
 
         ase = (HttpRequestMethodNotSupportedException) throwableAnalyzer

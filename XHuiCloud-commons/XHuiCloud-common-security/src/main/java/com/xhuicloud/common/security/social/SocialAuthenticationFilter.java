@@ -25,6 +25,8 @@
 package com.xhuicloud.common.security.social;
 
 import com.xhuicloud.common.core.constant.SecurityConstants;
+import com.xhuicloud.common.core.enums.login.LoginTypeEnum;
+import com.xhuicloud.common.core.exception.SysException;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -42,6 +44,8 @@ import org.springframework.security.web.authentication.preauth.PreAuthenticatedA
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Arrays;
+import java.util.Locale;
 
 /**
  * @program: XHuiCloud
@@ -52,7 +56,9 @@ import javax.servlet.http.HttpServletResponse;
 @Slf4j
 public class SocialAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
 
-    //请求中 携带手机号的参数名字
+    /**
+     * 请求中 携带手机号的参数名字
+     */
     public static final String authCodeParameter = "auth_code";
 
     @Getter
@@ -80,13 +86,19 @@ public class SocialAuthenticationFilter extends AbstractAuthenticationProcessing
      * @throws AuthenticationException
      */
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
+        String requestURI = request.getRequestURI();
 
         //判断当前请求是否为post
         if (postOnly && !request.getMethod().equals(HttpMethod.POST.name())) {
             throw new AuthenticationServiceException("Authentication method not supported: " + request.getMethod());
         } else {
+            String[] urlArray = requestURI.split("/");
+            String loginType = urlArray[urlArray.length-1];
+            if (loginType == null || !Arrays.stream(LoginTypeEnum.values()).anyMatch(type -> type.equals(loginType))) {
+                throw new AuthenticationServiceException("Authentication method not supported: " + request.getMethod());
+            }
             //获取授权凭证
-            String auth_code = obtainMobile(request);
+            String auth_code = getAuthCodeParameter(request);
             if (auth_code == null) {
                 auth_code = "";
             }
@@ -128,7 +140,7 @@ public class SocialAuthenticationFilter extends AbstractAuthenticationProcessing
      * @param request
      * @return
      */
-    protected String obtainMobile(HttpServletRequest request) {
+    protected String getAuthCodeParameter(HttpServletRequest request) {
         return request.getParameter(authCodeParameter);
     }
 

@@ -45,7 +45,7 @@ public interface SysSocialServiceFeign {
 
     String SYSSOCIALSERVICEFEIGN = "sysSocialServiceFeign";
 
-    @GetMapping("/{auth_code}")
-    Response<UserInfo> getSysUser(@PathVariable(value = "auth_code") String auth_code, @RequestHeader(FROM) String from);
+    @GetMapping("/{type}/{auth_code}")
+    Response<UserInfo> getSysUser(@PathVariable(value = "type") String type, @PathVariable(value = "auth_code") String auth_code, @RequestHeader(FROM) String from);
 
 }

@@ -24,6 +24,7 @@
 
 package com.xhuicloud.common.security.social;
 
+import cn.hutool.extra.spring.SpringUtil;
 import com.xhuicloud.common.security.component.XHuiUserDetailsChecker;
 import com.xhuicloud.common.security.service.XHuiUserDetailsService;
 import com.xhuicloud.common.security.utils.SecurityMessageUtil;
@@ -38,6 +39,8 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsChecker;
 
+import java.util.Map;
+
 /**
  * @program: XHuiCloud
  * @description:
@@ -51,15 +54,14 @@ public class SocialAuthenticationProvider implements AuthenticationProvider {
 
     private UserDetailsChecker detailsChecker = new XHuiUserDetailsChecker();
 
-    @Getter
-    @Setter
-    private XHuiUserDetailsService userDetailsService;
-
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+        XHuiUserDetailsService userDetailsService = SpringUtil
+                .getBean(XHuiUserDetailsService.class);
         SocialAuthenticationToken authenticationToken = (SocialAuthenticationToken) authentication;
+        String type = authenticationToken.getType();
         String principal = authenticationToken.getPrincipal().toString();
-        UserDetails userDetails = userDetailsService.loadUserBySocial(principal);
+        UserDetails userDetails = userDetailsService.loadUserBySocial(type, principal);
         if (userDetails == null) {
             log.debug("Authentication failed: no credentials provided");
             throw new BadCredentialsException(messages

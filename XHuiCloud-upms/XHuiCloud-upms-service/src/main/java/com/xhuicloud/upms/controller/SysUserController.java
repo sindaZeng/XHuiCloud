@@ -79,6 +79,7 @@ public class SysUserController {
         if (user == null) {
             return Response.failed(null, "获取当前用户信息失败");
         }
+        user.setPassword(null);
         return Response.success(sysUserService.getSysUser(user));
     }
 

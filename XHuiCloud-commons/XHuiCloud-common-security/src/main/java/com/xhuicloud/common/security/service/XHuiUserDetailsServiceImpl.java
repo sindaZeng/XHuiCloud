@@ -55,7 +55,6 @@ import static com.xhuicloud.common.core.constant.AuthorizationConstants.*;
  * @author: Sinda
  * @create: 2019-12-26 00:12
  **/
-@Service
 @AllArgsConstructor
 public class XHuiUserDetailsServiceImpl implements XHuiUserDetailsService {
 
@@ -75,12 +74,12 @@ public class XHuiUserDetailsServiceImpl implements XHuiUserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
 
-        Cache cache = cacheManager.getCache(CacheConstants.SYS_USER);
-        if (cache != null && cache.get(userName) != null) {
-            return cache.get(userName, XHuiUser.class);
-        }
+//        Cache cache = cacheManager.getCache(CacheConstants.SYS_USER);
+//        if (cache != null && cache.get(userName) != null) {
+//            return cache.get(userName, XHuiUser.class);
+//        }
         UserDetails userDetails = getUserDetails(sysUserServiceFeign.getSysUser(userName, IS_COMMING_ANONYMOUS_YES).getData());
-        cache.put(userName, userDetails);
+//        cache.put(userName, userDetails);
         return userDetails;
     }
 
@@ -92,8 +91,8 @@ public class XHuiUserDetailsServiceImpl implements XHuiUserDetailsService {
      * @throws UsernameNotFoundException
      */
     @Override
-    public UserDetails loadUserBySocial(String code) throws UsernameNotFoundException {
-        return getUserDetails(sysSocialServiceFeign.getSysUser(code, IS_COMMING_ANONYMOUS_YES).getData());
+    public UserDetails loadUserBySocial(String type, String code) throws UsernameNotFoundException {
+        return getUserDetails(sysSocialServiceFeign.getSysUser(type, code, IS_COMMING_ANONYMOUS_YES).getData());
     }
 
     private UserDetails getUserDetails(UserInfo userInfo) {
@@ -111,13 +110,8 @@ public class XHuiUserDetailsServiceImpl implements XHuiUserDetailsService {
         Collection<? extends GrantedAuthority> authorities
                 = AuthorityUtils.createAuthorityList(dbAuthsSet.toArray(new String[0]));
         SysUser user = userInfo.getSysUser();
-        boolean enabled = StrUtil.equals(user.getLockFlag().toString(), USER_IS_LOCK);
-
-        if (XHuiCommonThreadLocalHolder.getTenant() == null) {
-            XHuiCommonThreadLocalHolder.setTenant(user.getTenantId());
-        }
         // 构造security用户
-        return new XHuiUser(user.getUserId(), user.getPhone(), user.getTenantId(), userInfo.getTenantName(), user.getUsername(), user.getPassword(), enabled,
-                true, true, enabled, authorities);
+        return new XHuiUser(user.getUserId(), user.getPhone(), user.getTenantId(), userInfo.getTenantName(), user.getUsername(), user.getPassword(), true,
+                true, true, user.getLockFlag() != USER_IS_LOCK, authorities);
     }
 }

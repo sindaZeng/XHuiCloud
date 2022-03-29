@@ -50,7 +50,7 @@ public interface SecurityConstants {
     /**
      * 第三方社交登录
      */
-    String TOKEN_SOCIAL = "/token/social";
+    String TOKEN_SOCIAL = "/token/social/*";
 
     /**
      * 刷新TOKEN

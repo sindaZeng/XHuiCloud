@@ -43,6 +43,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
+import org.springframework.util.AntPathMatcher;
 import reactor.core.publisher.Mono;
 
 /**
@@ -64,10 +65,10 @@ public class CodeGatewayFilter extends AbstractGatewayFilterFactory {
     public GatewayFilter apply(Object config) {
         return (exchange, chain) -> {
             ServerHttpRequest request = exchange.getRequest();
-
+            AntPathMatcher matcher = new AntPathMatcher();
             // 不是登录请求，直接向下执行
-            if (!StrUtil.containsAnyIgnoreCase(request.getURI().getPath()
-                    , SecurityConstants.OAUTH_TOKEN, SecurityConstants.TOKEN_SOCIAL)) {
+            if (!matcher.match(SecurityConstants.OAUTH_TOKEN, request.getURI().getPath())
+                    && !matcher.match(SecurityConstants.TOKEN_SOCIAL, request.getURI().getPath())) {
                 return chain.filter(exchange);
             }
 
@@ -79,7 +80,7 @@ public class CodeGatewayFilter extends AbstractGatewayFilterFactory {
 
             try {
                 // 如果是第三方社交登录 判断授权码的合法性
-                if (StrUtil.containsAnyIgnoreCase(request.getURI().getPath(), SecurityConstants.TOKEN_SOCIAL)) {
+                if (matcher.match(SecurityConstants.TOKEN_SOCIAL, request.getURI().getPath())) {
                     String auth_code = request.getQueryParams().getFirst("auth_code");
                     if (StrUtil.containsAny(auth_code, LoginTypeEnum.SMS.getType())) {
                         //验证码登录 校验验证码

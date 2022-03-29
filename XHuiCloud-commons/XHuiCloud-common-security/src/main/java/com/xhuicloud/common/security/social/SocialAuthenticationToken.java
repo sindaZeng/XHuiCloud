@@ -26,8 +26,10 @@ package com.xhuicloud.common.security.social;
 
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
 
 import java.util.Collection;
+import java.util.LinkedHashMap;
 
 /**
  * @program: XHuiCloud
@@ -45,10 +47,10 @@ public class SocialAuthenticationToken extends AbstractAuthenticationToken {
     private final Object principal;
 
 
-    public SocialAuthenticationToken(String mobile) {
-        super(null);
-        this.principal = mobile;
-        this.setAuthenticated(false);
+    public SocialAuthenticationToken(String authCode) {
+        super(AuthorityUtils.NO_AUTHORITIES);
+        this.principal = authCode;
+        this.setAuthenticated(true);
     }
 
     /**
@@ -72,15 +74,8 @@ public class SocialAuthenticationToken extends AbstractAuthenticationToken {
         return this.principal;
     }
 
-    public void setAuthenticated(boolean isAuthenticated) throws IllegalArgumentException {
-        if (isAuthenticated) {
-            throw new IllegalArgumentException("Cannot set this token to trusted - use constructor which takes a GrantedAuthority list instead");
-        } else {
-            super.setAuthenticated(false);
-        }
+    public String getType() {
+        return ((LinkedHashMap) this.getDetails()).get("type").toString();
     }
 
-    public void eraseCredentials() {
-        super.eraseCredentials();
-    }
 }
