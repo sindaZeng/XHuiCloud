@@ -12,7 +12,7 @@
 
     <properties>
         <revision>2.0.0</revision>
-        <mybatis-plus.version>3.4.3</mybatis-plus.version>
+        <mybatis-plus.version>3.5.1</mybatis-plus.version>
         <druid.version>1.2.8</druid.version>
         <dds.version>3.4.1</dds.version>
         <mysql.connector.version>8.0.27</mysql.connector.version>

@@ -27,7 +27,7 @@ package com.xhuicloud.upms.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.xhuicloud.upms.dto.UserDto;
+import com.xhuicloud.upms.dto.UserQueryDto;
 import com.xhuicloud.upms.dto.UserInfo;
 import com.xhuicloud.upms.entity.SysUser;
 
@@ -47,10 +47,10 @@ public interface SysUserService extends IService<SysUser> {
      * 分页查询用户信息
      *
      * @param page
-     * @param userDto
+     * @param userQueryDto
      * @return
      */
-    IPage userPage(Page page, UserDto userDto);
+    IPage userPage(Page page, UserQueryDto userQueryDto);
 
     /**
      * 编辑用户

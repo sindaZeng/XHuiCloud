@@ -31,7 +31,7 @@ import com.xhuicloud.common.core.utils.Response;
 import com.xhuicloud.common.log.annotation.SysLog;
 import com.xhuicloud.common.security.annotation.Anonymous;
 import com.xhuicloud.common.security.utils.SecurityHolder;
-import com.xhuicloud.upms.dto.UserDto;
+import com.xhuicloud.upms.dto.UserQueryDto;
 import com.xhuicloud.upms.entity.SysUser;
 import com.xhuicloud.upms.entity.SysUserSocial;
 import com.xhuicloud.upms.service.SysUserService;
@@ -58,12 +58,12 @@ public class SysUserController {
     /**
      * 分页查询用户列表
      *
-     * @param userDto
+     * @param userQueryDto
      * @return
      */
     @GetMapping("/page")
-    public Response page(Page page, UserDto userDto) {
-        return Response.success(sysUserService.userPage(page, userDto));
+    public Response page(Page page, UserQueryDto userQueryDto) {
+        return Response.success(sysUserService.userPage(page, userQueryDto));
     }
 
     /**

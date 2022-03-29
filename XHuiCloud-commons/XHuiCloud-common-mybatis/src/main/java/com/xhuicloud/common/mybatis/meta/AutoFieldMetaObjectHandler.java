@@ -28,6 +28,7 @@ import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import com.xhuicloud.common.data.tenant.XHuiCommonThreadLocalHolder;
 import com.xhuicloud.common.security.utils.SecurityHolder;
 import org.apache.ibatis.reflection.MetaObject;
+import org.springframework.security.core.Authentication;
 
 import java.time.LocalDateTime;
 
@@ -57,9 +58,11 @@ public class AutoFieldMetaObjectHandler implements MetaObjectHandler {
     public void insertFill(MetaObject metaObject) {
         Object createId = metaObject.getValue(CREATER_ID);
         if (createId == null){
-            Integer userId = SecurityHolder.getUserId();
-            if (userId != null)
-                this.setFieldValByName(CREATER_ID, userId, metaObject);
+            if (!"anonymousUser".equals(SecurityHolder.getAuthentication().getPrincipal().toString())) {
+                Integer userId = SecurityHolder.getUserId();
+                if (userId != null)
+                    this.setFieldValByName(CREATER_ID, userId, metaObject);
+            }
         }
 
         Object createTime = metaObject.getValue(CREATE_TIME);
@@ -73,9 +76,11 @@ public class AutoFieldMetaObjectHandler implements MetaObjectHandler {
     public void updateFill(MetaObject metaObject) {
         Object updateId = metaObject.getValue(UPDATE_ID);
         if (updateId == null){
-            Integer userId = SecurityHolder.getUserId();
-            if (userId != null)
-                this.setFieldValByName(UPDATE_ID, userId, metaObject);
+            if (!"anonymousUser".equals(SecurityHolder.getAuthentication().getPrincipal().toString())) {
+                Integer userId = SecurityHolder.getUserId();
+                if (userId != null)
+                    this.setFieldValByName(UPDATE_ID, userId, metaObject);
+            }
         }
 
         Object updateTime = metaObject.getValue(UPDATE_TIME);

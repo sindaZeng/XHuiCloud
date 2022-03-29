@@ -47,7 +47,7 @@
         sys_user u
         <where>
             1 = 1
-            <if test="query.roleName != null and query.roleName != ''">
+            <if test="userQueryDto.roleName != null and userQueryDto.roleName != ''">
                 <!--      角色筛选条件      -->
                 AND u.user_id in (
                 SELECT
@@ -56,14 +56,14 @@
                 sys_user_role
                 WHERE
                 role_id IN ( SELECT role_id FROM ( SELECT role_id FROM sys_role sr WHERE
-                sr.role_name LIKE CONCAT( '%', #{query.roleName}, '%' )
+                sr.role_name LIKE CONCAT( '%', #{userQueryDto.roleName}, '%' )
                 ) sr )
                 GROUP BY
                 user_id
                 )
             </if>
             <!--      部门筛选条件     -->
-            <if test="null != query.deptIds and query.deptIds.size() >0">
+            <if test="null != userQueryDto.deptIds and userQueryDto.deptIds.size() > 0">
                 AND
                 u.user_id in (
                 SELECT
@@ -72,16 +72,16 @@
                 sys_user_dept
                 WHERE
                 dept_id IN
-                <foreach collection="query.deptIds" item="item" open="(" close=")" separator=",">
+                <foreach collection="userQueryDto.deptIds" item="item" open="(" close=")" separator=",">
                     #{item}
                 </foreach>
                 )
             </if>
-            <if test="query.username != null and query.username != ''">
-                AND CONCAT(u.username,u.phone,u.email) LIKE CONCAT('%',#{query.username},'%')
+            <if test="userQueryDto.username != null and userQueryDto.username != ''">
+                AND CONCAT(u.username,u.phone,u.email) LIKE CONCAT('%',#{userQueryDto.username},'%')
             </if>
-            <if test="query.isDel != 2 and query.isDel != null and query.isDel != ''">
-                AND u.is_del = #{query.isDel}
+            <if test="userQueryDto.isDel != 2 and userQueryDto.isDel != null and userQueryDto.isDel != ''">
+                AND u.is_del = #{userQueryDto.isDel}
             </if>
         </where>
         ORDER BY u.create_time DESC

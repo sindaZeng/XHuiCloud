@@ -32,7 +32,7 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xhuicloud.common.core.exception.SysException;
-import com.xhuicloud.upms.dto.UserDto;
+import com.xhuicloud.upms.dto.UserQueryDto;
 import com.xhuicloud.upms.dto.UserInfo;
 import com.xhuicloud.upms.entity.SysParam;
 import com.xhuicloud.upms.entity.SysRole;
@@ -107,8 +107,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     }
 
     @Override
-    public IPage userPage(Page page, UserDto userDto) {
-        return baseMapper.userPage(page, userDto);
+    public IPage userPage(Page page, UserQueryDto userQueryDto) {
+        return baseMapper.userPage(page, userQueryDto);
     }
 
     @Override

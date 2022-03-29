@@ -24,7 +24,14 @@
 
 package com.xhuicloud.upms.dto;
 
-import io.swagger.annotations.ApiModel;
+import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.xhuicloud.common.core.annotation.Excel;
+import com.xhuicloud.common.core.annotation.Scalpel;
+import com.xhuicloud.common.core.data.ScalpelTypeEnum;
+import com.xhuicloud.common.core.enums.excel.ColumnType;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -32,31 +39,100 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 
-/**
- * @program: XHuiCloud
- * @description: UserDto
- * @author: Sinda
- * @create: 2020-03-17 15:40
- */
 @Data
-@ApiModel(value = "用户列表条件")
 public class UserDto implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-
-    @ApiModelProperty(value = "搜索内容: 用户名/手机号/邮箱")
+    /**
+     * 用户名
+     */
+    @ApiModelProperty(value = "用户名")
     private String username;
 
-    @ApiModelProperty(value = "角色名称")
-    private String roleName;
+    /**
+     * 密码
+     */
+    @ApiModelProperty(value = "密码")
+    private String password;
 
-    @ApiModelProperty(value = "0:否 1:是 2:全部")
+    /**
+     * 头像
+     */
+    @ApiModelProperty(value = "头像")
+    private String avatar;
+
+    /**
+     * 手机号码
+     */
+    @ApiModelProperty(value = "手机号码")
+    private String phone;
+
+    /**
+     * 邮箱
+     */
+    @ApiModelProperty(value = "邮箱")
+    private String email;
+
+    /**
+     * 性别:0 女、1  男、2  其他
+     */
+    @ApiModelProperty(value = "性别:0 女、1  男、2  其他")
+    private Integer sex;
+
+    /**
+     * 创建时间
+     */
+    @ApiModelProperty(value = "创建时间", hidden = true)
+    private LocalDateTime createTime;
+
+    /**
+     * 创建者id
+     */
+    @ApiModelProperty(value = "创建者id", hidden = true)
+    private Integer createId;
+
+    /**
+     * 修改时间
+     */
+    @ApiModelProperty(value = "修改时间")
+    private LocalDateTime updateTime;
+
+    /**
+     * 更新者id
+     */
+    @ApiModelProperty(value = "更新者id", hidden = true)
+    private Integer updateId;
+
+    /**
+     * 0:账号被锁
+     */
+    @ApiModelProperty(value = "0:账号被锁")
+    private Integer lockFlag;
+
+    /**
+     * 0:否 1:是
+     */
+    @ApiModelProperty(value = "0:否 1:是")
     private Integer isDel;
 
-    @ApiModelProperty(value = "日期")
-    private LocalDateTime date;
+    /**
+     * 租户id
+     */
+    @ApiModelProperty(value = "租户id")
+    private Integer tenantId;
 
-    @ApiModelProperty(value = "部门ID集合")
+
+    /**
+     * 角色名称
+     */
+    @TableField(exist = false)
+    private List<Integer> roleIds;
+
+    /**
+     * 角色名称
+     */
+    @TableField(exist = false)
     private List<Integer> deptIds;
 
+    private static final long serialVersionUID = 1L;
 }
+

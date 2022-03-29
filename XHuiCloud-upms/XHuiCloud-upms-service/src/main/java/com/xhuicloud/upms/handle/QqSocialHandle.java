@@ -115,7 +115,7 @@ public class QqSocialHandle extends AbstractSocialHandle {
         user.setUsername(qqInfo.getStr("nickname"));
         user.setAvatar(qqInfo.getStr("figureurl_qq"));
         user.setSex(StringUtils.equals("男", qqInfo.getStr("gender")) ? 1 : 0);
-        user.setLockFlag(1);
+        user.setLockFlag(0);
         user.setTenantId(XHuiCommonThreadLocalHolder.getTenant());
         return user;
     }

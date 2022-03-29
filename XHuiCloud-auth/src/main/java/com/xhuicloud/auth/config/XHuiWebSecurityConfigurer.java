@@ -89,7 +89,8 @@ public class XHuiWebSecurityConfigurer extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.formLogin()//表单登录
+        http.authenticationProvider(new SocialAuthenticationProvider())
+                .formLogin()//表单登录
                 .loginPage("/token/login")
                 .loginProcessingUrl("/token/form")
                 .successHandler(xHuiSimpleUrlAuthenticationSuccessHandler())
@@ -105,16 +106,7 @@ public class XHuiWebSecurityConfigurer extends WebSecurityConfigurerAdapter {
                 .permitAll() //匹配这个url 放行
                 .anyRequest().authenticated()//任何请求都要授权
                 .and().csrf().disable();//跨站请求伪造攻击
-        http.authenticationProvider(new SocialAuthenticationProvider());
     }
-
-//    @Override
-//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//        super.configure(auth);
-//        SocialAuthenticationProvider socialAuthenticationProvider = new SocialAuthenticationProvider();
-//        socialAuthenticationProvider.setUserDetailsService(userDetailsService);
-//        auth.authenticationProvider(userDetailsService)
-//    }
 
     /**
      * 不拦截静态资源
