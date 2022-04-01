@@ -27,9 +27,12 @@ package com.xhuicloud.upms.init;
 import cn.hutool.core.collection.CollectionUtil;
 import com.xhuicloud.common.core.constant.SysParamConstants;
 import com.xhuicloud.upms.entity.SysParam;
+import com.xhuicloud.upms.handle.WeChatScanHandler;
 import com.xhuicloud.upms.service.SysParamService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import me.chanjar.weixin.common.api.WxConsts;
+import me.chanjar.weixin.mp.api.WxMpMessageRouter;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.api.impl.WxMpServiceImpl;
 import me.chanjar.weixin.mp.config.impl.WxMpDefaultConfigImpl;
@@ -47,7 +50,11 @@ public class WeChatMpInit {
 
     private final SysParamService sysParamService;
 
+    private final WeChatScanHandler weChatScanHandler;
+
     public static WxMpService service;
+
+    public static WxMpMessageRouter router;
 
     @PostConstruct
     public void init() {
@@ -63,6 +70,17 @@ public class WeChatMpInit {
             WxMpService service = new WxMpServiceImpl();
             service.setWxMpConfigStorage(config);
             this.service = service;
+
+
+            // ====================================
+            final WxMpMessageRouter router = new WxMpMessageRouter(service);
+            // 用户扫码事件
+            router.rule().async(false)
+                    .msgType(WxConsts.XmlMsgType.EVENT)
+                    .event(WxConsts.EventType.SCAN)
+                    .handler(this.weChatScanHandler).end();
+
+            this.router = router;
         }
     }
 }

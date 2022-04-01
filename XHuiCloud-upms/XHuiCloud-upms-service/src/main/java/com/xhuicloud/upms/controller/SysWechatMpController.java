@@ -37,7 +37,10 @@ import com.xhuicloud.upms.service.SysParamService;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import me.chanjar.weixin.mp.api.WxMpMessageRouter;
 import me.chanjar.weixin.mp.api.WxMpService;
+import me.chanjar.weixin.mp.bean.message.WxMpXmlMessage;
+import me.chanjar.weixin.mp.bean.message.WxMpXmlOutMessage;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -122,12 +125,32 @@ public class SysWechatMpController {
                 openid, signature, encType, msgSignature, timestamp, nonce, requestBody);
 
         final WxMpService wxService = WeChatMpInit.service;
+        final WxMpMessageRouter router = WeChatMpInit.router;
 
         if (!wxService.checkSignature(timestamp, nonce, signature)) {
             throw new IllegalArgumentException("参数不合法！");
         }
+        if ("raw".equals(encType)) {
+            // 明文传输的消息
+            WxMpXmlMessage inMessage = WxMpXmlMessage.fromXml(requestBody);
+            WxMpXmlOutMessage outMessage = router.route(inMessage);
+            if (outMessage != null) {
+                return outMessage.toXml();
+            }
+        }
 
-        return null;
+        if ("aes".equalsIgnoreCase(encType)) {
+            WxMpXmlMessage inMessage = WxMpXmlMessage
+                    .fromEncryptedXml(requestBody, wxService.getWxMpConfigStorage(),
+                            timestamp, nonce, msgSignature);
+
+            log.info("解密后：{} ", inMessage.toString());
+            WxMpXmlOutMessage outMessage = router.route(inMessage);
+            if (outMessage != null) {
+                return outMessage.toEncryptedXml(wxService.getWxMpConfigStorage());
+            }
+        }
+        return "错误的请求!";
     }
 
 }
