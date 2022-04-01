@@ -22,14 +22,31 @@
  * @Email:  xhuicloud@163.com
  */
 
-package com.xhuicloud.upms.service;
+package com.xhuicloud.upms.vo;
 
-import com.baomidou.mybatisplus.extension.service.IService;
-import com.xhuicloud.upms.entity.SysParam;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 
-public interface SysParamService extends IService<SysParam>{
+import java.io.Serializable;
 
-    SysParam getSysParamByKey(String key);
+@Data
+@ApiModel(value = "租户列表")
+public class TenantVo implements Serializable {
 
-    Boolean saveParam(SysParam sysParam);
+    @ApiModelProperty(value="租户id")
+    private Integer id;
+
+    /**
+     * 租户名称
+     */
+    @ApiModelProperty(value="租户名称")
+    private String name;
+
+    /**
+     * logo地址
+     */
+    @ApiModelProperty(value="logo地址")
+    private String logo;
+
 }

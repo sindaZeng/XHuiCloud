@@ -24,6 +24,7 @@
 
 package com.xhuicloud.upms.controller;
 
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -34,6 +35,7 @@ import com.xhuicloud.common.security.annotation.Anonymous;
 import com.xhuicloud.upms.dto.TenantDto;
 import com.xhuicloud.upms.entity.SysTenant;
 import com.xhuicloud.upms.service.SysTenantService;
+import com.xhuicloud.upms.vo.TenantVo;
 import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -63,9 +65,9 @@ public class SysTenantController {
      */
     @Anonymous(value = false)
     @GetMapping("/list")
-    public Response<List<SysTenant>> list() {
-        return Response.success(sysTenantService.list(Wrappers.<SysTenant>lambdaQuery()
-                .eq(SysTenant::getState, 1)));
+    public Response<List<TenantVo>> list(@RequestParam(required = false) String name) {
+        List<SysTenant> list = sysTenantService.list(Wrappers.query(SysTenant.builder().state(1).name(name).build()));
+        return Response.success(BeanUtil.copyToList(list, TenantVo.class));
     }
 
     /**

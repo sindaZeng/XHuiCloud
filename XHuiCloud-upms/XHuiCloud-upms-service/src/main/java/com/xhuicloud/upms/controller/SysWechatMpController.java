@@ -1,0 +1,94 @@
+/*
+ * MIT License
+ * Copyright <2021-2022>
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+ * of the Software, and to permit persons to whom the Software is furnished to do so,
+ * subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+ * INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
+ * PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+ * CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
+ * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * @Author: Sinda
+ * @Email:  xhuicloud@163.com
+ */
+
+package com.xhuicloud.upms.controller;
+
+import cn.hutool.core.util.RandomUtil;
+import cn.hutool.http.HttpUtil;
+import cn.hutool.json.JSONUtil;
+import com.xhuicloud.common.core.constant.SysParamConstants;
+import com.xhuicloud.common.core.utils.Response;
+import com.xhuicloud.common.security.annotation.Anonymous;
+import com.xhuicloud.upms.entity.SysParam;
+import com.xhuicloud.upms.service.SysParamService;
+import io.swagger.annotations.Api;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.HashMap;
+import java.util.Map;
+
+@RestController
+@Anonymous(value = false)
+@RequestMapping("/wechat-mp")
+@RequiredArgsConstructor
+@Api(value = "wechat-mp", tags = "微信公众号管理模块")
+public class SysWechatMpController {
+
+    /**
+     * 临时二维码
+     */
+    private static String QR_SCENE = "QR_SCENE";
+
+    /**
+     * 永久二维码
+     */
+    private static String QR_LIMIT_SCENE = "QR_LIMIT_SCENE";
+
+    /**
+     * 永久二维码
+     */
+    private static String QR_LIMIT_STR_SCENE = "QR_LIMIT_STR_SCENE";
+
+
+    private static String create_ticket_path = "https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token=%s";
+
+    private final SysParamService sysParamService;
+
+    @GetMapping("/login-qrcode")
+    public Response loginQrcode() {
+        String sceneStr = RandomUtil.randomString(20);
+        SysParam sysParamByKey = sysParamService.getSysParamByKey(SysParamConstants.WECHAT_MP_TOKEN);
+        Map<String, String> intMap = new HashMap<>();
+        intMap.put("scene_str", sceneStr);
+        Map<String, Map<String, String>> mapMap = new HashMap<>();
+        mapMap.put("scene", intMap);
+
+        Map<String, Object> paramsMap = new HashMap<>();
+        paramsMap.put("expire_seconds", 10);
+        paramsMap.put("action_name", QR_SCENE);
+        paramsMap.put("action_info", mapMap);
+
+        String post = HttpUtil.post(String.format(create_ticket_path, sysParamByKey.getParamValue()), JSONUtil.toJsonStr(paramsMap));
+        return Response.success(JSONUtil.parseObj(post).get("ticket"));
+    }
+
+    @GetMapping
+    public String get() {
+        return "11111111111111111111111";
+    }
+
+}

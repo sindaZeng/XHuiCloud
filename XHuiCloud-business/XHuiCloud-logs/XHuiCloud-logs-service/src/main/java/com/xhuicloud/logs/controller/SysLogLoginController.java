@@ -24,6 +24,7 @@
 
 package com.xhuicloud.logs.controller;
 
+import com.baomidou.mybatisplus.core.metadata.OrderItem;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xhuicloud.common.core.utils.Response;
@@ -36,6 +37,8 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Arrays;
 
 
 /**
@@ -62,6 +65,7 @@ public class SysLogLoginController {
     @GetMapping("/page" )
     @ApiOperation(value = "分页查询", notes = "分页查询")
     public Response page(Page page, SysLogLogin sysLogLogin) {
+        page.setOrders(Arrays.asList(OrderItem.desc("login_time")));
         return Response.success(sysLogLoginService.page(page, Wrappers.query(sysLogLogin)));
     }
 
