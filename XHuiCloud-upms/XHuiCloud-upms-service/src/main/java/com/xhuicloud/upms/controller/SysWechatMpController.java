@@ -25,22 +25,28 @@
 package com.xhuicloud.upms.controller;
 
 import cn.hutool.core.util.RandomUtil;
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.http.HttpUtil;
 import cn.hutool.json.JSONUtil;
 import com.xhuicloud.common.core.constant.SysParamConstants;
 import com.xhuicloud.common.core.utils.Response;
 import com.xhuicloud.common.security.annotation.Anonymous;
 import com.xhuicloud.upms.entity.SysParam;
+import com.xhuicloud.upms.init.WeChatMpInit;
 import com.xhuicloud.upms.service.SysParamService;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import me.chanjar.weixin.mp.api.WxMpService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
 import java.util.Map;
 
+@Slf4j
 @RestController
 @Anonymous(value = false)
 @RequestMapping("/wechat-mp")
@@ -87,8 +93,22 @@ public class SysWechatMpController {
     }
 
     @GetMapping
-    public String get() {
-        return "11111111111111111111111";
+    public String wechatAuth(@RequestParam(name = "signature", required = false) String signature,
+                             @RequestParam(name = "timestamp", required = false) String timestamp,
+                             @RequestParam(name = "nonce", required = false) String nonce,
+                             @RequestParam(name = "echostr", required = false) String echostr) {
+        log.info("微信公众平台认：[{}, {}, {}, {}]", signature, timestamp, nonce, echostr);
+
+        if (StrUtil.isAllBlank(signature, timestamp, nonce, echostr)) {
+            throw new IllegalArgumentException("认证参数不合法");
+        }
+
+        final WxMpService wxService = WeChatMpInit.service;
+
+        if (wxService.checkSignature(timestamp, nonce, signature)) {
+            return echostr;
+        }
+        return "非法请求";
     }
 
 }

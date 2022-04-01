@@ -27,9 +27,13 @@ package com.xhuicloud.upms.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.xhuicloud.upms.entity.SysParam;
 
+import java.util.List;
+
 public interface SysParamService extends IService<SysParam>{
 
     SysParam getSysParamByKey(String key);
+
+    List<SysParam> sysParamByKeyLike(String key);
 
     Boolean saveParam(SysParam sysParam);
 }

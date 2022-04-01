@@ -38,6 +38,8 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 public class SysParamServiceImpl extends ServiceImpl<SysParamMapper, SysParam> implements SysParamService {
 
@@ -45,6 +47,11 @@ public class SysParamServiceImpl extends ServiceImpl<SysParamMapper, SysParam> i
     @Cacheable(value = CacheConstants.SYS_PARAM, key = "#key", unless = "#result == null")
     public SysParam getSysParamByKey(String key) {
         return getOne(Wrappers.<SysParam>lambdaQuery().eq(SysParam::getParamKey,key));
+    }
+
+    @Override
+    public List<SysParam> sysParamByKeyLike(String key) {
+        return list(Wrappers.<SysParam>lambdaQuery().like(SysParam::getParamKey,key));
     }
 
     @Override

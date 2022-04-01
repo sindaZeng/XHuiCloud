@@ -72,4 +72,9 @@ public interface SysParamConstants {
      */
     String WECHAT_MP_TOKEN = "WECHAT_MP_TOKEN";
 
+    /**
+     * 微信公众号
+     */
+    String WECHAT_MP_AES = "WECHAT_MP_AES";
+
 }
