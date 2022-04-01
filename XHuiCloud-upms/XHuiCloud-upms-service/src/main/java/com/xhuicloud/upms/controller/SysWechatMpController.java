@@ -38,10 +38,7 @@ import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.mp.api.WxMpService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -108,7 +105,29 @@ public class SysWechatMpController {
         if (wxService.checkSignature(timestamp, nonce, signature)) {
             return echostr;
         }
-        return "非法请求";
+        return "错误的请求!";
+    }
+
+    @PostMapping
+    public String post(@RequestBody String requestBody,
+                       @RequestParam("signature") String signature,
+                       @RequestParam("timestamp") String timestamp,
+                       @RequestParam("nonce") String nonce,
+                       @RequestParam("openid") String openid,
+                       @RequestParam(name = "encrypt_type", required = false) String encType,
+                       @RequestParam(name = "msg_signature", required = false) String msgSignature) {
+
+        log.info("微信事件推送请求：[openid=[{}], [signature=[{}], encType=[{}], msgSignature=[{}],"
+                        + " timestamp=[{}], nonce=[{}], requestBody=[{}] ",
+                openid, signature, encType, msgSignature, timestamp, nonce, requestBody);
+
+        final WxMpService wxService = WeChatMpInit.service;
+
+        if (!wxService.checkSignature(timestamp, nonce, signature)) {
+            throw new IllegalArgumentException("参数不合法！");
+        }
+
+        return null;
     }
 
 }
