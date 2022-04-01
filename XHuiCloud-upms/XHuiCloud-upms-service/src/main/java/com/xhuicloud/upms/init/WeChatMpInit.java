@@ -57,7 +57,7 @@ public class WeChatMpInit {
             WxMpDefaultConfigImpl config = new WxMpDefaultConfigImpl();
             config.setAppId(configMap.get(SysParamConstants.WECHAT_MP_APPID)); // 设置微信公众号的appid
             config.setSecret(configMap.get(SysParamConstants.WECHAT_MP_SECRET)); // 设置微信公众号的app corpSecret
-            config.setToken(configMap.get(SysParamConstants.WECHAT_MP_TOKEN)); // 设置微信公众号的token
+            config.setToken(configMap.get(SysParamConstants.WECHAT_MP_AUTH_TOKEN)); // 设置微信公众号的token
             config.setAesKey(configMap.get(SysParamConstants.WECHAT_MP_AES)); // 设置微信公众号的EncodingAESKey
 
             WxMpService service = new WxMpServiceImpl();
