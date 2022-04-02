@@ -55,6 +55,6 @@ public class WeChatMpScanHandler implements WxMpMessageHandler {
         redisTemplate.opsForValue().set(
                 SecurityConstants.WECHAT_MP_SCAN_SUCCESS + ticket
                 , fromUser, 30, TimeUnit.SECONDS);
-        return WxMpXmlOutMessage.TEXT().fromUser(toUser).toUser(fromUser).content("登录成功").build();
+        return WxMpXmlOutMessage.TEXT().fromUser(toUser).toUser(fromUser).content("扫码成功，欢迎您使用星辉云:\n<a href=\"https://github.com/sindaZeng/XHuiCloud\">点击关注此项目</a>\n有问题在此公众号直接回复!").build();
     }
 }
