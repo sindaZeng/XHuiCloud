@@ -77,4 +77,14 @@ public interface SecurityConstants {
      */
     String OAUTH_CODE_PREFIX = "oauth:code:";
 
+    /**
+     * 微信公众号扫码
+     */
+    String WECHAT_MP_SCAN = "wechat:mp:scan";
+
+    /**
+     * 微信公众号扫码 用户成功扫码
+     */
+    String WECHAT_MP_SCAN_SUCCESS = "wechat:mp:scan:success";
+
 }

@@ -24,22 +24,36 @@
 
 package com.xhuicloud.upms.handle;
 
+import com.xhuicloud.common.core.constant.SecurityConstants;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.error.WxErrorException;
 import me.chanjar.weixin.common.session.WxSessionManager;
 import me.chanjar.weixin.mp.api.WxMpMessageHandler;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.message.WxMpXmlMessage;
 import me.chanjar.weixin.mp.bean.message.WxMpXmlOutMessage;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
+@Slf4j
 @Component
+@AllArgsConstructor
 public class WeChatScanHandler implements WxMpMessageHandler {
+
+    private final RedisTemplate redisTemplate;
 
     @Override
     public WxMpXmlOutMessage handle(WxMpXmlMessage wxMpXmlMessage, Map<String, Object> map, WxMpService wxMpService,
                                     WxSessionManager wxSessionManager) throws WxErrorException {
+        String fromUser = wxMpXmlMessage.getFromUser();
+        String ticket = wxMpXmlMessage.getTicket();
+        redisTemplate.opsForValue().set(
+                SecurityConstants.WECHAT_MP_SCAN_SUCCESS + ticket
+                , fromUser, 30, TimeUnit.SECONDS);
         return null;
     }
 }

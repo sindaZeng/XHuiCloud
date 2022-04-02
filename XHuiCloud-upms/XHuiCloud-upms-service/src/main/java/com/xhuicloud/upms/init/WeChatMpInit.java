@@ -26,6 +26,7 @@ package com.xhuicloud.upms.init;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.xhuicloud.common.core.constant.SysParamConstants;
+import com.xhuicloud.common.core.thread.AsyncThreadExecutePool;
 import com.xhuicloud.upms.entity.SysParam;
 import com.xhuicloud.upms.handle.WeChatScanHandler;
 import com.xhuicloud.upms.service.SysParamService;
@@ -37,6 +38,7 @@ import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.api.impl.WxMpServiceImpl;
 import me.chanjar.weixin.mp.config.impl.WxMpDefaultConfigImpl;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.core.RedisTemplate;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
@@ -50,11 +52,14 @@ public class WeChatMpInit {
 
     private final SysParamService sysParamService;
 
-    private final WeChatScanHandler weChatScanHandler;
-
     public static WxMpService service;
 
     public static WxMpMessageRouter router;
+
+    /**
+     * 用户扫码事件
+     */
+    private final WeChatScanHandler weChatScanHandler;
 
     @PostConstruct
     public void init() {

@@ -28,6 +28,7 @@ import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.http.HttpUtil;
 import cn.hutool.json.JSONUtil;
+import com.xhuicloud.common.core.constant.SecurityConstants;
 import com.xhuicloud.common.core.constant.SysParamConstants;
 import com.xhuicloud.common.core.utils.Response;
 import com.xhuicloud.common.security.annotation.Anonymous;
@@ -41,10 +42,12 @@ import me.chanjar.weixin.mp.api.WxMpMessageRouter;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.message.WxMpXmlMessage;
 import me.chanjar.weixin.mp.bean.message.WxMpXmlOutMessage;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @RestController
@@ -57,7 +60,7 @@ public class SysWechatMpController {
     /**
      * 临时二维码
      */
-    private static String QR_SCENE = "QR_SCENE";
+    private static String QR_STR_SCENE = "QR_STR_SCENE";
 
     /**
      * 永久二维码
@@ -72,11 +75,15 @@ public class SysWechatMpController {
 
     private static String create_ticket_path = "https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token=%s";
 
+    private static Integer expire_seconds = 30;
+
     private final SysParamService sysParamService;
+
+    private final RedisTemplate redisTemplate;
 
     @GetMapping("/login-qrcode")
     public Response loginQrcode() {
-        String sceneStr = RandomUtil.randomString(20);
+        String sceneStr = RandomUtil.randomString(30);
         SysParam sysParamByKey = sysParamService.getSysParamByKey(SysParamConstants.WECHAT_MP_TOKEN);
         Map<String, String> intMap = new HashMap<>();
         intMap.put("scene_str", sceneStr);
@@ -84,12 +91,23 @@ public class SysWechatMpController {
         mapMap.put("scene", intMap);
 
         Map<String, Object> paramsMap = new HashMap<>();
-        paramsMap.put("expire_seconds", 10);
-        paramsMap.put("action_name", QR_SCENE);
+        paramsMap.put("expire_seconds", expire_seconds);
+        paramsMap.put("action_name", QR_STR_SCENE);
         paramsMap.put("action_info", mapMap);
 
         String post = HttpUtil.post(String.format(create_ticket_path, sysParamByKey.getParamValue()), JSONUtil.toJsonStr(paramsMap));
-        return Response.success(JSONUtil.parseObj(post).get("ticket"));
+        String ticket = JSONUtil.parseObj(post).get("ticket").toString();
+        redisTemplate.opsForValue().set(
+                SecurityConstants.WECHAT_MP_SCAN + ticket
+                , sceneStr, expire_seconds, TimeUnit.SECONDS);
+        return Response.success(ticket);
+    }
+
+    @GetMapping("/scan-success")
+    public Response scanSuccess(@RequestParam String ticket) {
+        Object o = redisTemplate.opsForValue().get(
+                SecurityConstants.WECHAT_MP_SCAN_SUCCESS + ticket);
+        return Response.success(o != null);
     }
 
     @GetMapping
