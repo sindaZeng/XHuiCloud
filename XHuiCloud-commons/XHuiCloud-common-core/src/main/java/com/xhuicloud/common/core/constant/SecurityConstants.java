@@ -80,11 +80,11 @@ public interface SecurityConstants {
     /**
      * 微信公众号扫码
      */
-    String WECHAT_MP_SCAN = "wechat:mp:scan";
+    String WECHAT_MP_SCAN = "wechat:mp:scan:";
 
     /**
      * 微信公众号扫码 用户成功扫码
      */
-    String WECHAT_MP_SCAN_SUCCESS = "wechat:mp:scan:success";
+    String WECHAT_MP_SCAN_SUCCESS = "wechat:mp:scan:success:";
 
 }

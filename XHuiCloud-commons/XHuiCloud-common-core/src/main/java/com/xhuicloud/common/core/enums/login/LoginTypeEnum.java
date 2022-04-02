@@ -55,7 +55,12 @@ public enum LoginTypeEnum {
     /**
      * 微信登录
      */
-    WECHAT("WX", "微信登录");
+    WECHAT("WX", "微信登录"),
+
+    /**
+     * 微信公众号扫码登录
+     */
+    WECHAT_MP("WXMP", "微信公众号扫码登录");
 
     /**
      * 类型

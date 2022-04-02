@@ -103,6 +103,7 @@ public class SysWechatMpController {
         return Response.success(ticket);
     }
 
+
     @GetMapping("/scan-success")
     public Response scanSuccess(@RequestParam String ticket) {
         Object o = redisTemplate.opsForValue().get(

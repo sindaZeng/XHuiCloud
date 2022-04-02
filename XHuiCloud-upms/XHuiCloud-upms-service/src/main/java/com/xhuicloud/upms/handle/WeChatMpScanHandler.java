@@ -42,7 +42,7 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 @Component
 @AllArgsConstructor
-public class WeChatScanHandler implements WxMpMessageHandler {
+public class WeChatMpScanHandler implements WxMpMessageHandler {
 
     private final RedisTemplate redisTemplate;
 
