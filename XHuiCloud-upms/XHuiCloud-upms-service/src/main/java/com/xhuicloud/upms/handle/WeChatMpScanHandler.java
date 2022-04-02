@@ -54,6 +54,6 @@ public class WeChatMpScanHandler implements WxMpMessageHandler {
         redisTemplate.opsForValue().set(
                 SecurityConstants.WECHAT_MP_SCAN_SUCCESS + ticket
                 , fromUser, 30, TimeUnit.SECONDS);
-        return null;
+        return WxMpXmlOutMessage.TEXT().fromUser(fromUser).toUser(fromUser).content("登录成功").build();
     }
 }
