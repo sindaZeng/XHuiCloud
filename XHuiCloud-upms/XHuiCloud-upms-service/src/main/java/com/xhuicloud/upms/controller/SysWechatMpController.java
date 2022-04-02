@@ -166,7 +166,9 @@ public class SysWechatMpController {
             log.info("解密后：{} ", inMessage.toString());
             WxMpXmlOutMessage outMessage = router.route(inMessage);
             if (outMessage != null) {
-                return outMessage.toEncryptedXml(wxService.getWxMpConfigStorage());
+                String out = outMessage.toEncryptedXml(wxService.getWxMpConfigStorage());
+                log.info("返回信息:{}", out);
+                return out;
             }
         }
         return "错误的请求!";

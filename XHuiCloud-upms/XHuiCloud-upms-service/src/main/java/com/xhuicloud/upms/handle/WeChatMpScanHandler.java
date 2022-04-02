@@ -50,10 +50,11 @@ public class WeChatMpScanHandler implements WxMpMessageHandler {
     public WxMpXmlOutMessage handle(WxMpXmlMessage wxMpXmlMessage, Map<String, Object> map, WxMpService wxMpService,
                                     WxSessionManager wxSessionManager) throws WxErrorException {
         String fromUser = wxMpXmlMessage.getFromUser();
+        String toUser = wxMpXmlMessage.getToUser();
         String ticket = wxMpXmlMessage.getTicket();
         redisTemplate.opsForValue().set(
                 SecurityConstants.WECHAT_MP_SCAN_SUCCESS + ticket
                 , fromUser, 30, TimeUnit.SECONDS);
-        return WxMpXmlOutMessage.TEXT().fromUser(fromUser).toUser(fromUser).content("登录成功").build();
+        return WxMpXmlOutMessage.TEXT().fromUser(toUser).toUser(fromUser).content("登录成功").build();
     }
 }
