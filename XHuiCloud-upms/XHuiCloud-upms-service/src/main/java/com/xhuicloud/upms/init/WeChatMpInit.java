@@ -27,7 +27,7 @@ package com.xhuicloud.upms.init;
 import cn.hutool.core.collection.CollectionUtil;
 import com.xhuicloud.common.core.constant.SysParamConstants;
 import com.xhuicloud.upms.entity.SysParam;
-import com.xhuicloud.upms.handle.WeChatMpScanHandler;
+import com.xhuicloud.upms.handle.wechat.WeChatMpScanHandler;
 import com.xhuicloud.upms.service.SysParamService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

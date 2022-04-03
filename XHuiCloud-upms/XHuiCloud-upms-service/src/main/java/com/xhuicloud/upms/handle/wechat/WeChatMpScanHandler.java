@@ -22,7 +22,7 @@
  * @Email:  xhuicloud@163.com
  */
 
-package com.xhuicloud.upms.handle;
+package com.xhuicloud.upms.handle.wechat;
 
 import com.xhuicloud.common.core.constant.SecurityConstants;
 import lombok.AllArgsConstructor;

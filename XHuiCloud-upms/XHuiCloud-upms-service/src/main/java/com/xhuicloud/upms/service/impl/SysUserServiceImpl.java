@@ -239,6 +239,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
             List<Integer> roleIds = getRoleIds(allRoleIds, sysUser.getRoleIds(), sysParamRole);
             return saveUserAndRoleAndDept(sysUser, deptIds, roleIds);
         }catch (Exception e){
+            log.error(e.getMessage());
             throw SysException.sysFail(SysException.USER_IS_EXIST_EXCEPTION);
         }
     }

@@ -22,7 +22,7 @@
  * @Email:  xhuicloud@163.com
  */
 
-package com.xhuicloud.upms.handle;
+package com.xhuicloud.upms.handle.login;
 
 import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
