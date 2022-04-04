@@ -34,11 +34,3 @@ security:
 
 server:
   port: 17000
-
-mysql:
-  scheme: xhuicloud_sys
-
-oss:
-  service-endpoint: http://127.0.0.1:9000/
-  access-key: minioadmin
-  secret-key: minioadmin

@@ -1,11 +1,48 @@
-version: '2'
+version: '3'
 services:
+
+  xhuicloud-mq:
+    image: rabbitmq:3.8.3-management
+    container_name: xhuicloud-mq
+    restart: always
+    hostname: xhuicloud-mq
+    ports:
+      - 15672:15672
+      - 5672:5672
+    environment:
+      - RABBITMQ_DEFAULT_USER=root
+      - RABBITMQ_DEFAULT_PASS=root
+      - RABBITMQ_DEFAULT_VHOST=xhuicloud
+
+  xhuicloud-redis:
+    container_name: xhuicloud-redis
+    image: redis:6.2.6
+    command: redis-server --requirepass root
+    restart: always
+    ports:
+      - 6379:6379
+
   xhuicloud-zk:
     image: zookeeper:3.4.11
     restart: always
     container_name: xhuicloud-zk
     ports:
       - 2181:2181
+
+  xhuicloud-mysql:
+    build:
+      context: ./doc/db
+    restart: always
+    container_name: xhuicloud-mysql
+    image: xhuicloud-mysql
+    environment:
+      MYSQL_ROOT_HOST: "%"
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - 3306:3306
+    volumes:
+      - ./xhuicloud-mysql:/var/lib/mysql
+    command: --lower_case_table_names=1
 
   xhuicloud-register:
     build:

@@ -1,4 +1,28 @@
-USE xhuicloud-register;
+/*
+ * MIT License
+ * Copyright <2021-2022>
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+ * of the Software, and to permit persons to whom the Software is furnished to do so,
+ * subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+ * INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
+ * PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+ * CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
+ * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * @Author: Sinda
+ * @Email:  xhuicloud@163.com
+ */
+
+ USE xhuicloud-register;
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
@@ -7,240 +31,331 @@ SET FOREIGN_KEY_CHECKS = 0;
 -- Table structure for config_info
 -- ----------------------------
 DROP TABLE IF EXISTS `config_info`;
-CREATE TABLE `config_info` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'id',
-  `data_id` varchar(255) COLLATE utf8_bin NOT NULL COMMENT 'data_id',
-  `group_id` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `content` longtext COLLATE utf8_bin NOT NULL COMMENT 'content',
-  `md5` varchar(32) COLLATE utf8_bin DEFAULT NULL COMMENT 'md5',
-  `gmt_create` datetime NOT NULL DEFAULT '2010-05-05 00:00:00' COMMENT '创建时间',
-  `gmt_modified` datetime NOT NULL DEFAULT '2010-05-05 00:00:00' COMMENT '修改时间',
-  `src_user` text COLLATE utf8_bin COMMENT 'source user',
-  `src_ip` varchar(20) COLLATE utf8_bin DEFAULT NULL COMMENT 'source ip',
-  `app_name` varchar(128) COLLATE utf8_bin DEFAULT NULL,
-  `tenant_id` varchar(128) COLLATE utf8_bin DEFAULT '' COMMENT '租户字段',
-  `c_desc` varchar(256) COLLATE utf8_bin DEFAULT NULL,
-  `c_use` varchar(64) COLLATE utf8_bin DEFAULT NULL,
-  `effect` varchar(64) COLLATE utf8_bin DEFAULT NULL,
-  `type` varchar(64) COLLATE utf8_bin DEFAULT NULL,
-  `c_schema` text COLLATE utf8_bin,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `uk_configinfo_datagrouptenant` (`data_id`,`group_id`,`tenant_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=273 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='config_info';
+CREATE TABLE `config_info`  (
+                                `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'id',
+                                `data_id` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT 'data_id',
+                                `group_id` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
+                                `content` longtext CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT 'content',
+                                `md5` varchar(32) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT 'md5',
+                                `gmt_create` datetime NOT NULL DEFAULT '2010-05-05 00:00:00' COMMENT '创建时间',
+                                `gmt_modified` datetime NOT NULL DEFAULT '2010-05-05 00:00:00' COMMENT '修改时间',
+                                `src_user` text CHARACTER SET utf8 COLLATE utf8_bin NULL COMMENT 'source user',
+                                `src_ip` varchar(20) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT 'source ip',
+                                `app_name` varchar(128) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
+                                `tenant_id` varchar(128) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT '' COMMENT '租户字段',
+                                `c_desc` varchar(256) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
+                                `c_use` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
+                                `effect` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
+                                `type` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
+                                `c_schema` text CHARACTER SET utf8 COLLATE utf8_bin NULL,
+                                PRIMARY KEY (`id`) USING BTREE,
+                                UNIQUE INDEX `uk_configinfo_datagrouptenant`(`data_id`, `group_id`, `tenant_id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 11231231231496 CHARACTER SET = utf8 COLLATE = utf8_bin COMMENT = 'config_info' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of config_info
 -- ----------------------------
-BEGIN;
-INSERT INTO `config_info` VALUES (200, 'application-common.yml', 'DEFAULT_GROUP', 'spring:\n  main:\n    allow-bean-definition-overriding: true\n  redis:\n    lettuce:\n      cluster:\n        refresh:\n          adaptive: true\n    cluster:\n      nodes:\n        - 127.0.0.1:7000\n        - 127.0.0.1:7001\n        - 127.0.0.1:7002\n        - 127.0.0.1:7003\n        - 127.0.0.1:7004\n        - 127.0.0.1:7005\n      max-redirects: 3\n    #lock:\n#     enable: true #需要分布式锁的话，请打开\n    #type: CLUSTER\n    #host: ${REDIS_HOST:localhost}\n    #password: ${REDIS_PASSWORD:123456}\n    timeout: 10000\n\n  cloud:\n    alibaba:\n      seata:\n        tx-service-group: xhui_tx_group\n    circuitbreaker:\n      sentinel:\n        enabled: true\n    sentinel:\n      filter:\n        urlPatterns:\n          - /**\n      transport:\n        # sentinel 地址\n        dashboard: localhost:14000\n        #监控此服务端口\n        port: ${server.port}\n    \nmanagement:\n  endpoints:\n    web:\n      exposure:\n        include: \'*\'\n\nfeign:\n  okhttp:\n    enabled: true\n  httpclient:\n    enabled: false\n  sentinel:\n    #feign开启sentinle监控\n    enabled: true\n    \nmybatis-plus:\n  global-config:\n    banner: false\n    db-config:\n      id-type: auto\n      field-strategy: NOT_EMPTY\n      logic-delete-field: delFlag  #全局逻辑删除字段值 3.3.0开始支持，详情看下面。\n      logic-delete-value: 0 # 逻辑已删除值(默认为 1)\n      logic-not-delete-value: 1 # 逻辑未删除值(默认为 0)\n\n  zipkin:\n    #设置zipkin的地址\n    base-url: http://localhost:9411/\n    #注意 如果不设置 nacos客户端会把这个当成服务名疯狂的从服务端获取此服务\n    discoveryClientEnabled: false\n\n  sleuth:\n    sampler:\n      #抽样率 默认是(10%) 生产环境请不要设置1.0\n      probability: 1.0\n\n#xhuicloud:\n#  zero:\n#    snowflake:\n#      zk-address: 127.0.0.1\n#      port: 19999\n\nlogging:\n  path: /Users/cengxinda/workspace/sourceCode/XHuiCloud/logs\n    # name: ${logging.file.path}/${spring.application.name}/root.log\n  config: classpath:com/zsinda/xhuicloud/logback/Fdp-defaults-log.xml\n\nsecurity:\n  oauth2:\n    client:\n      ignore-urls:\n        - /druid/**\n        - /v2/api-docs\n    resource:\n      loadBalanced: true\n      token-info-uri: http://XHuiCloud-gateway:15000/auth/oauth/check_token #检查token是否有效的地址\nswagger:\n  title: 星辉云\n  description: 星辉云\n  license: Powered By Sinda\n  license-url: http://www.zsinda.cn/\n  terms-of-service-url: http://www.zsinda.cn/\n  version: 1.0.0\n  contact:\n    name: Sinda\n    email: sindazeng@gmail.com\n    url: https://github.com/sindaZeng', '7e74e1dbf84b22486cfaf488e67f6b10', '2020-01-28 20:04:52', '2020-08-18 16:12:36', NULL, '127.0.0.1', '星辉云-星辉云', '', '公共通用配置文件\n', 'null', 'null', 'yaml', 'null');
-INSERT INTO `config_info` VALUES (201, 'XHuiCloud-upmm-business.yml', 'DEFAULT_GROUP', 'spring:\n datasource:\n   type: com.alibaba.druid.pool.DruidDataSource\n   druid:\n      driver-class-name: com.mysql.cj.jdbc.Driver\n      url: jdbc:mysql://${MYSQL-HOST:localhost}:${MYSQL-PORT:3306}/sys?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Asia/Shanghai&allowMultiQueries=true&allowPublicKeyRetrieval=true\n      username: ${MYSQL-USER:root}\n      password: ${MYSQL-PASSWORD:root}\n\nqiniu:\n  accessKey: TShrbqCsZuA7B2pYRN5YZeir_l8lUOro2rjqiF27\n  secretKey: z6ayUPyw4XD7utgXp-yWfTuwSQC87WcjAv_c1Jx5\n  bucketName: xhuicloud', '17a9ca5e2dd21a0cdf76153c1fa59727', '2020-01-29 00:12:43', '2020-06-22 15:10:03', NULL, '127.0.0.1', '星辉云-星辉云', '', '用户管理', 'null', 'null', 'yaml', 'null');
-INSERT INTO `config_info` VALUES (202, 'XHuiCloud-auth.yml', 'DEFAULT_GROUP', 'spring:\n  datasource:\n    type: com.alibaba.druid.pool.DruidDataSource\n    druid:\n      driver-class-name: com.mysql.cj.jdbc.Driver\n      url: jdbc:mysql://${MYSQL-HOST:localhost}:${MYSQL-PORT:3306}/sys?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Asia/Shanghai&allowMultiQueries=true&allowPublicKeyRetrieval=true\n      username: ${MYSQL-USER:root}\n      password: ${MYSQL-PASSWORD:root}\n  freemarker:\n    allow-request-override: false\n    allow-session-override: false\n    cache: true\n    charset: UTF-8\n    check-template-location: true\n    content-type: text/html\n    enabled: true\n    expose-request-attributes: false\n    expose-session-attributes: false\n    expose-spring-macro-helpers: true\n    prefer-file-system-access: true\n    suffix: .ftl\n    template-loader-path: classpath:/templates/\n\n', '0dd8d780327402f53b2259cf898ef8af', '2020-02-01 11:42:05', '2020-08-18 11:33:17', NULL, '127.0.0.1', '星辉云-星辉云', '', '认证中心配置', 'null', 'null', 'yaml', 'null');
-INSERT INTO `config_info` VALUES (203, 'XHuiCloud-logs-business.yml', 'DEFAULT_GROUP', 'spring:\n datasource:\n   type: com.alibaba.druid.pool.DruidDataSource\n   druid:\n      driver-class-name: com.mysql.cj.jdbc.Driver\n      url: jdbc:mysql://${MYSQL-HOST:localhost}:${MYSQL-PORT:3306}/sys?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Asia/Shanghai&allowMultiQueries=true&allowPublicKeyRetrieval=true\n      username: ${MYSQL-USER:root}\n      password: ${MYSQL-PASSWORD:root}\n  # datasources:\n  #   #       数据库 1\n  #   first:\n  #     url: jdbc:mysql://47.106.198.206:3306/mbaseinfo?characterEncoding=utf8&characterSetResults=utf8&autoReconnect=true\n  #     username: hczhyl\n  #     password: 123456\n  #     driver-class-name: com.mysql.cj.jdbc.Driver\n  #     initialSize: 5\n  #     minIdle: 5\n  #     maxActive: 20\n  #   second:\n  #     url: jdbc:mysql://47.106.198.206:3306/saas_common_auth?characterEncoding=utf8&characterSetResults=utf8&autoReconnect=true\n  #     username: hczhyl\n  #     password: 123456\n  #     driver-class-name: com.mysql.cj.jdbc.Driver\n  #     initialSize: 5\n  #     minIdle: 5\n  #     maxActive: 20\nserver:\n  port: 18000\n', '1283e80d3d1b37fb29d7ae9552e9f248', '2020-03-18 00:58:37', '2020-06-12 14:51:42', NULL, '127.0.0.1', '星辉云-星辉云', '', '日志管理中心', 'null', 'null', 'yaml', 'null');
-INSERT INTO `config_info` VALUES (204, 'XHuiCloud-pay-business.yml', 'DEFAULT_GROUP', 'server:\n  port: 20000\nspring:\n  datasource:\n    type: com.alibaba.druid.pool.DruidDataSource\n    druid:\n      driver-class-name: com.mysql.cj.jdbc.Driver\n      url: jdbc:mysql://${MYSQL-HOST:localhost}:${MYSQL-PORT:3306}/sys_pay?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Asia/Shanghai&allowMultiQueries=true&allowPublicKeyRetrieval=true\n      username: ${MYSQL-USER:root}\n      password: ${MYSQL-PASSWORD:root}', '526731d8bf647cc343d5c462f264bfba', '2020-06-03 11:17:13', '2020-06-05 15:10:37', NULL, '127.0.0.1', '星辉云-星辉云', '', '收银台', 'null', 'null', 'yaml', 'null');
-INSERT INTO `config_info` VALUES (205, 'XHuiCloud-generator.yml', 'DEFAULT_GROUP', 'spring:\n  datasources:\n    #       数据库 1\n    first:\n      url: jdbc:mysql://${MYSQL-HOST:localhost}:${MYSQL-PORT:3306}/sys_generator?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Asia/Shanghai&allowMultiQueries=true&allowPublicKeyRetrieval=true\n      username: ${MYSQL-USER:root}\n      password: ${MYSQL-PASSWORD:root}\n      driver-class-name: com.mysql.cj.jdbc.Driver\n      initialSize: 5\n      minIdle: 5\n      maxActive: 20\nserver:\n  port: 21000', 'c457a387b7bf0943a48d5f3d1b977063', '2020-06-22 14:50:41', '2020-06-22 14:50:41', NULL, '127.0.0.1', '星辉云-星辉云', '', '代码生成模块', NULL, NULL, 'yaml', NULL);
-INSERT INTO `config_info` VALUES (207, 'transport.type', 'SEATA_GROUP', 'TCP', 'b136ef5f6a01d816991fe3cf7a6ac763', '2020-07-17 00:14:59', '2020-07-17 00:14:59', NULL, '0:0:0:0:0:0:0:1', '', '', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `config_info` VALUES (208, 'transport.server', 'SEATA_GROUP', 'NIO', 'b6d9dfc0fb54277321cebc0fff55df2f', '2020-07-17 00:14:59', '2020-07-17 00:14:59', NULL, '0:0:0:0:0:0:0:1', '', '', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `config_info` VALUES (209, 'transport.heartbeat', 'SEATA_GROUP', 'true', 'b326b5062b2f0e69046810717534cb09', '2020-07-17 00:14:59', '2020-07-17 00:14:59', NULL, '0:0:0:0:0:0:0:1', '', '', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `config_info` VALUES (210, 'transport.enableClientBatchSendRequest', 'SEATA_GROUP', 'false', '68934a3e9455fa72420237eb05902327', '2020-07-17 00:14:59', '2020-07-17 00:14:59', NULL, '0:0:0:0:0:0:0:1', '', '', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `config_info` VALUES (211, 'transport.threadFactory.bossThreadPrefix', 'SEATA_GROUP', 'NettyBoss', '0f8db59a3b7f2823f38a70c308361836', '2020-07-17 00:14:59', '2020-07-17 00:14:59', NULL, '0:0:0:0:0:0:0:1', '', '', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `config_info` VALUES (212, 'transport.threadFactory.workerThreadPrefix', 'SEATA_GROUP', 'NettyServerNIOWorker', 'a78ec7ef5d1631754c4e72ae8a3e9205', '2020-07-17 00:14:59', '2020-07-17 00:14:59', NULL, '0:0:0:0:0:0:0:1', '', '', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `config_info` VALUES (213, 'transport.threadFactory.serverExecutorThreadPrefix', 'SEATA_GROUP', 'NettyServerBizHandler', '11a36309f3d9df84fa8b59cf071fa2da', '2020-07-17 00:14:59', '2020-07-17 00:14:59', NULL, '0:0:0:0:0:0:0:1', '', '', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `config_info` VALUES (214, 'transport.threadFactory.shareBossWorker', 'SEATA_GROUP', 'false', '68934a3e9455fa72420237eb05902327', '2020-07-17 00:14:59', '2020-07-17 00:14:59', NULL, '0:0:0:0:0:0:0:1', '', '', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `config_info` VALUES (215, 'transport.threadFactory.clientSelectorThreadPrefix', 'SEATA_GROUP', 'NettyClientSelector', 'cd7ec5a06541e75f5a7913752322c3af', '2020-07-17 00:14:59', '2020-07-17 00:14:59', NULL, '0:0:0:0:0:0:0:1', '', '', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `config_info` VALUES (216, 'transport.threadFactory.clientSelectorThreadSize', 'SEATA_GROUP', '1', 'c4ca4238a0b923820dcc509a6f75849b', '2020-07-17 00:14:59', '2020-07-17 00:14:59', NULL, '0:0:0:0:0:0:0:1', '', '', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `config_info` VALUES (217, 'transport.threadFactory.clientWorkerThreadPrefix', 'SEATA_GROUP', 'NettyClientWorkerThread', '61cf4e69a56354cf72f46dc86414a57e', '2020-07-17 00:14:59', '2020-07-17 00:14:59', NULL, '0:0:0:0:0:0:0:1', '', '', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `config_info` VALUES (218, 'transport.threadFactory.bossThreadSize', 'SEATA_GROUP', '1', 'c4ca4238a0b923820dcc509a6f75849b', '2020-07-17 00:14:59', '2020-07-17 00:14:59', NULL, '0:0:0:0:0:0:0:1', '', '', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `config_info` VALUES (219, 'transport.threadFactory.workerThreadSize', 'SEATA_GROUP', 'default', 'c21f969b5f03d33d43e04f8f136e7682', '2020-07-17 00:14:59', '2020-07-17 00:14:59', NULL, '0:0:0:0:0:0:0:1', '', '', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `config_info` VALUES (220, 'transport.shutdown.wait', 'SEATA_GROUP', '3', 'eccbc87e4b5ce2fe28308fd9f2a7baf3', '2020-07-17 00:14:59', '2020-07-17 00:14:59', NULL, '0:0:0:0:0:0:0:1', '', '', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `config_info` VALUES (221, 'service.vgroupMapping.xhui_tx_group', 'SEATA_GROUP', 'default', 'c21f969b5f03d33d43e04f8f136e7682', '2020-07-17 00:14:59', '2020-07-17 00:14:59', NULL, '0:0:0:0:0:0:0:1', '', '', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `config_info` VALUES (222, 'service.default.grouplist', 'SEATA_GROUP', '127.0.0.1:8091', 'c32ce0d3e264525dcdada751f98143a3', '2020-07-17 00:14:59', '2020-07-17 00:14:59', NULL, '0:0:0:0:0:0:0:1', '', '', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `config_info` VALUES (223, 'service.enableDegrade', 'SEATA_GROUP', 'false', '68934a3e9455fa72420237eb05902327', '2020-07-17 00:14:59', '2020-07-17 00:14:59', NULL, '0:0:0:0:0:0:0:1', '', '', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `config_info` VALUES (224, 'service.disableGlobalTransaction', 'SEATA_GROUP', 'false', '68934a3e9455fa72420237eb05902327', '2020-07-17 00:14:59', '2020-07-17 00:14:59', NULL, '0:0:0:0:0:0:0:1', '', '', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `config_info` VALUES (225, 'client.rm.asyncCommitBufferLimit', 'SEATA_GROUP', '10000', 'b7a782741f667201b54880c925faec4b', '2020-07-17 00:14:59', '2020-07-17 00:14:59', NULL, '0:0:0:0:0:0:0:1', '', '', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `config_info` VALUES (226, 'client.rm.lockRetryInternal', 'SEATA_GROUP', '10', 'd3d9446802a44259755d38e6d163e820', '2020-07-17 00:14:59', '2020-07-17 00:14:59', NULL, '0:0:0:0:0:0:0:1', '', '', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `config_info` VALUES (227, 'client.rm.lockRetryTimes', 'SEATA_GROUP', '30', '34173cb38f07f89ddbebc2ac9128303f', '2020-07-17 00:14:59', '2020-07-17 00:14:59', NULL, '0:0:0:0:0:0:0:1', '', '', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `config_info` VALUES (228, 'client.rm.reportRetryCount', 'SEATA_GROUP', '5', 'e4da3b7fbbce2345d7772b0674a318d5', '2020-07-17 00:14:59', '2020-07-17 00:14:59', NULL, '0:0:0:0:0:0:0:1', '', '', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `config_info` VALUES (229, 'client.rm.lockRetryPolicyBranchRollbackOnConflict', 'SEATA_GROUP', 'true', 'b326b5062b2f0e69046810717534cb09', '2020-07-17 00:14:59', '2020-07-17 00:14:59', NULL, '0:0:0:0:0:0:0:1', '', '', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `config_info` VALUES (230, 'client.rm.tableMetaCheckEnable', 'SEATA_GROUP', 'false', '68934a3e9455fa72420237eb05902327', '2020-07-17 00:14:59', '2020-07-17 00:14:59', NULL, '0:0:0:0:0:0:0:1', '', '', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `config_info` VALUES (231, 'client.rm.sqlParserType', 'SEATA_GROUP', 'druid', '3d650fb8a5df01600281d48c47c9fa60', '2020-07-17 00:14:59', '2020-07-17 00:14:59', NULL, '0:0:0:0:0:0:0:1', '', '', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `config_info` VALUES (232, 'client.rm.reportSuccessEnable', 'SEATA_GROUP', 'false', '68934a3e9455fa72420237eb05902327', '2020-07-17 00:14:59', '2020-07-17 00:14:59', NULL, '0:0:0:0:0:0:0:1', '', '', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `config_info` VALUES (233, 'client.tm.commitRetryCount', 'SEATA_GROUP', '5', 'e4da3b7fbbce2345d7772b0674a318d5', '2020-07-17 00:14:59', '2020-07-17 00:14:59', NULL, '0:0:0:0:0:0:0:1', '', '', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `config_info` VALUES (234, 'client.tm.rollbackRetryCount', 'SEATA_GROUP', '5', 'e4da3b7fbbce2345d7772b0674a318d5', '2020-07-17 00:14:59', '2020-07-17 00:14:59', NULL, '0:0:0:0:0:0:0:1', '', '', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `config_info` VALUES (235, 'store.mode', 'SEATA_GROUP', 'db', 'd77d5e503ad1439f585ac494268b351b', '2020-07-17 00:14:59', '2020-07-17 00:14:59', NULL, '0:0:0:0:0:0:0:1', '', '', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `config_info` VALUES (236, 'store.file.dir', 'SEATA_GROUP', 'file_store/data', '6a8dec07c44c33a8a9247cba5710bbb2', '2020-07-17 00:14:59', '2020-07-17 00:14:59', NULL, '0:0:0:0:0:0:0:1', '', '', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `config_info` VALUES (237, 'store.file.maxBranchSessionSize', 'SEATA_GROUP', '16384', 'c76fe1d8e08462434d800487585be217', '2020-07-17 00:14:59', '2020-07-17 00:14:59', NULL, '0:0:0:0:0:0:0:1', '', '', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `config_info` VALUES (238, 'store.file.maxGlobalSessionSize', 'SEATA_GROUP', '512', '10a7cdd970fe135cf4f7bb55c0e3b59f', '2020-07-17 00:14:59', '2020-07-17 00:14:59', NULL, '0:0:0:0:0:0:0:1', '', '', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `config_info` VALUES (239, 'store.file.fileWriteBufferCacheSize', 'SEATA_GROUP', '16384', 'c76fe1d8e08462434d800487585be217', '2020-07-17 00:14:59', '2020-07-17 00:14:59', NULL, '0:0:0:0:0:0:0:1', '', '', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `config_info` VALUES (240, 'store.file.flushDiskMode', 'SEATA_GROUP', 'async', '0df93e34273b367bb63bad28c94c78d5', '2020-07-17 00:14:59', '2020-07-17 00:14:59', NULL, '0:0:0:0:0:0:0:1', '', '', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `config_info` VALUES (241, 'store.file.sessionReloadReadSize', 'SEATA_GROUP', '100', 'f899139df5e1059396431415e770c6dd', '2020-07-17 00:14:59', '2020-07-17 00:14:59', NULL, '0:0:0:0:0:0:0:1', '', '', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `config_info` VALUES (242, 'store.db.datasource', 'SEATA_GROUP', 'dbcp', '3a9f384fb40c59fbdc67024ee97d94b1', '2020-07-17 00:14:59', '2020-07-17 00:14:59', NULL, '0:0:0:0:0:0:0:1', '', '', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `config_info` VALUES (243, 'store.db.dbType', 'SEATA_GROUP', 'mysql', '81c3b080dad537de7e10e0987a4bf52e', '2020-07-17 00:14:59', '2020-07-17 00:14:59', NULL, '0:0:0:0:0:0:0:1', '', '', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `config_info` VALUES (244, 'store.db.driverClassName', 'SEATA_GROUP', 'com.mysql.jdbc.Driver', '683cf0c3a5a56cec94dfac94ca16d760', '2020-07-17 00:14:59', '2020-07-17 00:14:59', NULL, '0:0:0:0:0:0:0:1', '', '', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `config_info` VALUES (245, 'store.db.url', 'SEATA_GROUP', 'jdbc:mysql://127.0.0.1:3306/sys_seata?useUnicode=true', '922a27e1cf456b99d1a16193e80ae2c5', '2020-07-17 00:15:00', '2020-07-17 00:15:00', NULL, '0:0:0:0:0:0:0:1', '', '', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `config_info` VALUES (246, 'store.db.user', 'SEATA_GROUP', 'root', '63a9f0ea7bb98050796b649e85481845', '2020-07-17 00:15:00', '2020-07-17 00:15:00', NULL, '0:0:0:0:0:0:0:1', '', '', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `config_info` VALUES (247, 'store.db.password', 'SEATA_GROUP', 'root', '63a9f0ea7bb98050796b649e85481845', '2020-07-17 00:15:00', '2020-07-17 00:15:00', NULL, '0:0:0:0:0:0:0:1', '', '', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `config_info` VALUES (248, 'store.db.minConn', 'SEATA_GROUP', '1', 'c4ca4238a0b923820dcc509a6f75849b', '2020-07-17 00:15:00', '2020-07-17 00:15:00', NULL, '0:0:0:0:0:0:0:1', '', '', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `config_info` VALUES (249, 'store.db.maxConn', 'SEATA_GROUP', '3', 'eccbc87e4b5ce2fe28308fd9f2a7baf3', '2020-07-17 00:15:00', '2020-07-17 00:15:00', NULL, '0:0:0:0:0:0:0:1', '', '', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `config_info` VALUES (250, 'store.db.globalTable', 'SEATA_GROUP', 'global_table', '8b28fb6bb4c4f984df2709381f8eba2b', '2020-07-17 00:15:00', '2020-07-17 00:15:00', NULL, '0:0:0:0:0:0:0:1', '', '', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `config_info` VALUES (251, 'store.db.branchTable', 'SEATA_GROUP', 'branch_table', '54bcdac38cf62e103fe115bcf46a660c', '2020-07-17 00:15:00', '2020-07-17 00:15:00', NULL, '0:0:0:0:0:0:0:1', '', '', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `config_info` VALUES (252, 'store.db.queryLimit', 'SEATA_GROUP', '100', 'f899139df5e1059396431415e770c6dd', '2020-07-17 00:15:00', '2020-07-17 00:15:00', NULL, '0:0:0:0:0:0:0:1', '', '', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `config_info` VALUES (253, 'store.db.lockTable', 'SEATA_GROUP', 'lock_table', '55e0cae3b6dc6696b768db90098b8f2f', '2020-07-17 00:15:00', '2020-07-17 00:15:00', NULL, '0:0:0:0:0:0:0:1', '', '', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `config_info` VALUES (254, 'server.recovery.committingRetryPeriod', 'SEATA_GROUP', '1000', 'a9b7ba70783b617e9998dc4dd82eb3c5', '2020-07-17 00:15:00', '2020-07-17 00:15:00', NULL, '0:0:0:0:0:0:0:1', '', '', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `config_info` VALUES (255, 'server.recovery.asynCommittingRetryPeriod', 'SEATA_GROUP', '1000', 'a9b7ba70783b617e9998dc4dd82eb3c5', '2020-07-17 00:15:00', '2020-07-17 00:15:00', NULL, '0:0:0:0:0:0:0:1', '', '', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `config_info` VALUES (256, 'server.recovery.rollbackingRetryPeriod', 'SEATA_GROUP', '1000', 'a9b7ba70783b617e9998dc4dd82eb3c5', '2020-07-17 00:15:00', '2020-07-17 00:15:00', NULL, '0:0:0:0:0:0:0:1', '', '', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `config_info` VALUES (257, 'server.recovery.timeoutRetryPeriod', 'SEATA_GROUP', '1000', 'a9b7ba70783b617e9998dc4dd82eb3c5', '2020-07-17 00:15:00', '2020-07-17 00:15:00', NULL, '0:0:0:0:0:0:0:1', '', '', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `config_info` VALUES (258, 'server.maxCommitRetryTimeout', 'SEATA_GROUP', '-1', '6bb61e3b7bce0931da574d19d1d82c88', '2020-07-17 00:15:00', '2020-07-17 00:15:00', NULL, '0:0:0:0:0:0:0:1', '', '', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `config_info` VALUES (259, 'server.maxRollbackRetryTimeout', 'SEATA_GROUP', '-1', '6bb61e3b7bce0931da574d19d1d82c88', '2020-07-17 00:15:00', '2020-07-17 00:15:00', NULL, '0:0:0:0:0:0:0:1', '', '', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `config_info` VALUES (260, 'server.rollbackRetryTimeoutUnlockEnable', 'SEATA_GROUP', 'false', '68934a3e9455fa72420237eb05902327', '2020-07-17 00:15:00', '2020-07-17 00:15:00', NULL, '0:0:0:0:0:0:0:1', '', '', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `config_info` VALUES (261, 'client.undo.dataValidation', 'SEATA_GROUP', 'true', 'b326b5062b2f0e69046810717534cb09', '2020-07-17 00:15:00', '2020-07-17 00:15:00', NULL, '0:0:0:0:0:0:0:1', '', '', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `config_info` VALUES (262, 'client.undo.logSerialization', 'SEATA_GROUP', 'jackson', 'b41779690b83f182acc67d6388c7bac9', '2020-07-17 00:15:00', '2020-07-17 00:15:00', NULL, '0:0:0:0:0:0:0:1', '', '', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `config_info` VALUES (263, 'server.undo.logSaveDays', 'SEATA_GROUP', '7', '8f14e45fceea167a5a36dedd4bea2543', '2020-07-17 00:15:00', '2020-07-17 00:15:00', NULL, '0:0:0:0:0:0:0:1', '', '', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `config_info` VALUES (264, 'server.undo.logDeletePeriod', 'SEATA_GROUP', '86400000', 'f4c122804fe9076cb2710f55c3c6e346', '2020-07-17 00:15:00', '2020-07-17 00:15:00', NULL, '0:0:0:0:0:0:0:1', '', '', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `config_info` VALUES (265, 'client.undo.logTable', 'SEATA_GROUP', 'undo_log', '2842d229c24afe9e61437135e8306614', '2020-07-17 00:15:00', '2020-07-17 00:15:00', NULL, '0:0:0:0:0:0:0:1', '', '', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `config_info` VALUES (266, 'client.log.exceptionRate', 'SEATA_GROUP', '100', 'f899139df5e1059396431415e770c6dd', '2020-07-17 00:15:00', '2020-07-17 00:15:00', NULL, '0:0:0:0:0:0:0:1', '', '', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `config_info` VALUES (267, 'transport.serialization', 'SEATA_GROUP', 'seata', 'b943081c423b9a5416a706524ee05d40', '2020-07-17 00:15:00', '2020-07-17 00:15:00', NULL, '0:0:0:0:0:0:0:1', '', '', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `config_info` VALUES (268, 'transport.compressor', 'SEATA_GROUP', 'none', '334c4a4c42fdb79d7ebc3e73b517e6f8', '2020-07-17 00:15:00', '2020-07-17 00:15:00', NULL, '0:0:0:0:0:0:0:1', '', '', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `config_info` VALUES (269, 'metrics.enabled', 'SEATA_GROUP', 'false', '68934a3e9455fa72420237eb05902327', '2020-07-17 00:15:00', '2020-07-17 00:15:00', NULL, '0:0:0:0:0:0:0:1', '', '', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `config_info` VALUES (270, 'metrics.registryType', 'SEATA_GROUP', 'compact', '7cf74ca49c304df8150205fc915cd465', '2020-07-17 00:15:00', '2020-07-17 00:15:00', NULL, '0:0:0:0:0:0:0:1', '', '', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `config_info` VALUES (271, 'metrics.exporterList', 'SEATA_GROUP', 'prometheus', 'e4f00638b8a10e6994e67af2f832d51c', '2020-07-17 00:15:00', '2020-07-17 00:15:00', NULL, '0:0:0:0:0:0:0:1', '', '', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `config_info` VALUES (272, 'metrics.exporterPrometheusPort', 'SEATA_GROUP', '9898', '7b9dc501afe4ee11c56a4831e20cee71', '2020-07-17 00:15:00', '2020-07-17 00:15:00', NULL, '0:0:0:0:0:0:0:1', '', '', NULL, NULL, NULL, NULL, NULL);
-COMMIT;
+INSERT INTO `config_info` VALUES (1, 'application-common-dev.yml', 'DEFAULT_GROUP', 'spring:\r\n  datasource:\r\n    type: com.alibaba.druid.pool.DruidDataSource\r\n    druid:\r\n      driver-class-name: com.mysql.cj.jdbc.Driver\r\n      url: jdbc:mysql://${MYSQL-HOST:xhuicloud-mysql}:${MYSQL-PORT:3306}/${mysql.scheme:\'\'}?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Asia/Shanghai&allowMultiQueries=true&allowPublicKeyRetrieval=true\r\n      username: ${MYSQL-USER:root}\r\n      password: ${MYSQL-PASSWORD:root}\r\n      stat-view-servlet:\r\n        enabled: true\r\n        allow: \"\"\r\n        url-pattern: /druid/*\r\n      filter:\r\n        stat:\r\n          enabled: true\r\n          log-slow-sql: true\r\n          slow-sql-millis: 10000\r\n          merge-sql: false\r\n        wall:\r\n          config:\r\n            multi-statement-allow: true\r\n\r\n  redis:\r\n    host: ${REDIS-HOST:xhuicloud-redis}\r\n    password: ${REDIS-PASSWORD:root}\r\n  #     timeout: 10000\r\n  rabbitmq:\r\n    host : ${MQ-HOST:xhuicloud-mq}\r\n    port: ${MQ-PORT:5672}\r\n    username: ${MQ-USER:root} \r\n    password: ${MQ-PASSWORD:root}\r\n    virtual-host: ${MQ-VHOST:xhuicloud}\r\n  cloud:\r\n    alibaba:\r\n      seata:\r\n        tx-service-group: xhui_tx_group\r\n    circuitbreaker:\r\n      sentinel:\r\n        enabled: true\r\n    sentinel:\r\n      filter:\r\n        urlPatterns:\r\n          - /**\r\n      transport:\r\n        # sentinel 地址\r\n        dashboard: localhost:14000\r\n        #监控此服务端口\r\n        port: ${server.port}\r\ngray:\r\n  enabled: true\r\nmanagement:\r\n  endpoints:\r\n    web:\r\n      exposure:\r\n        include: \'*\'          \r\n  endpoint:\r\n    health:\r\n      show-details: ALWAYS\r\n\r\nfeign:\r\n  sentinel:\r\n    enabled: true\r\n  okhttp:\r\n    enabled: true\r\n  httpclient:\r\n    enabled: false\r\n  client:\r\n    config:\r\n      default:\r\n        connectTimeout: 20000\r\n        readTimeout: 20000\r\n  compression:\r\n    request:\r\n      enabled: true\r\n    response:\r\n      enabled: true\r\n\r\nmybatis-plus:\r\n  tenant-enable: ture\r\n  mapper-locations: classpath:/mapper/*Mapper.xml\r\n  configuration:\r\n    jdbc-type-for-null: null\r\n  global-config:\r\n    banner: false\r\n    db-config:\r\n      logic-delete-field: isDel\r\n      logic-delete-value: 1\r\n      logic-not-delete-value: 0\r\n      db-type: oracle\r\n      id-type: auto\r\n      select-strategy: not_empty\r\n      insert-strategy: not_empty\r\n      update-strategy: not_empty\r\n\r\n  zipkin:\r\n    #设置zipkin的地址\r\n    base-url: http://localhost:9411/\r\n    #注意 如果不设置 nacos客户端会把这个当成服务名疯狂的从服务端获取此服务\r\n    discoveryClientEnabled: false\r\n\r\n  sleuth:\r\n    sampler:\r\n      #抽样率 默认是(10%) 生产环境请不要设置1.0\r\n      probability: 1.0\r\n\r\n#xhuicloud:\r\n#  zero:\r\n#    snowflake:\r\n#      zk-address: 127.0.0.1\r\n#      port: 19999\r\n\r\nlogging:\r\n  level:\r\n    com.xhuicloud.*.mapper: debug\r\n  # path: /Users/cengxinda/workspace/sourceCode/XHuiCloud/logs\r\n  # name: ${logging.file.path}/${spring.application.name}/root.log\r\n  config: classpath:com/xhuicloud/common/log/logback/defaults-log.xml\r\nsecurity:\r\n  oauth2:\r\n    client:\r\n      ignore-urls:\r\n        - /error\r\n        - /actuator/**\r\n        - /v2/api-docs\r\n    resource:\r\n      loadBalanced: true\r\n      token-info-uri: http://XHuiCloud-gateway:15000/auth/oauth/check_token #检查token是否有效的地址\r\n# swagger 全局配置\r\nswagger:\r\n  enabled: true\r\n  title: 星辉云\r\n  license: 星辉云\r\n  licenseUrl: http://www.xhuicloud.cn/\r\n  terms-of-service-url: http://www.xhuicloud.cn/\r\n  contact:\r\n    email: sindazeng@gmail.com\r\n    url: http://www.xhuicloud.cn/\r\n  authorization:\r\n    name: oauth2\r\n    auth-regex: ^.*$\r\n    authorization-scope-list:\r\n      - scope: server\r\n        description: server all\r\n    token-url-list:\r\n      - http://XHuiCloud-gateway:15000/auth/oauth/token\r\nseata:\r\n  client:\r\n    rm:\r\n      async-commit-buffer-limit: 1000\r\n      report-retry-count: 5\r\n      table-meta-check-enable: false\r\n      report-success-enable: false\r\n      saga-branch-register-enable: false\r\n      lock:\r\n        retry-interval: 10\r\n        retry-times: 30\r\n        retry-policy-branch-rollback-on-conflict: true\r\n    tm:\r\n      degrade-check: false\r\n      degrade-check-period: 2000\r\n      degrade-check-allow-times: 10\r\n      commit-retry-count: 5\r\n      rollback-retry-count: 5\r\n    undo:\r\n      data-validation: true\r\n      log-serialization: kryo\r\n      log-table: undo_log\r\n      only-care-update-columns: true\r\n    log:\r\n      exceptionRate: 100\r\n  service:\r\n    vgroup-mapping:\r\n      xhui_tx_group: default\r\n    grouplist:\r\n      default: ${SEATA-HOST:xhuicloud-seata}:${SEATA-PORT:8091}\r\n    enable-degrade: false\r\n    disable-global-transaction: false\r\n  transport:\r\n    shutdown:\r\n      wait: 3\r\n    thread-factory:\r\n      boss-thread-prefix: NettyBoss\r\n      worker-thread-prefix: NettyServerNIOWorker\r\n      server-executor-thread-prefix: NettyServerBizHandler\r\n      share-boss-worker: false\r\n      client-selector-thread-prefix: NettyClientSelector\r\n      client-selector-thread-size: 1\r\n      client-worker-thread-prefix: NettyClientWorkerThread\r\n      worker-thread-size: default\r\n      boss-thread-size: 1\r\n    type: TCP\r\n    server: NIO\r\n    heartbeat: true\r\n    serialization: seata\r\n    compressor: none\r\n    enable-client-batch-send-request: true', '510d580909589b341679f68283927a8f', '2020-01-28 20:04:52', '2021-12-21 17:25:05', 'nacos', '0:0:0:0:0:0:0:1', '快速开发平台-星辉云', '', '公共通用配置文件\n', 'null', 'null', 'yaml', 'null');
+INSERT INTO `config_info` VALUES (2, 'XHuiCloud-upms-service.yml', 'DEFAULT_GROUP', 'mysql:\r\n  scheme: xhuicloud_sys\r\n\r\noss:\r\n  service-endpoint: http://127.0.0.1:9000/\r\n  access-key: minioadmin\r\n  secret-key: minioadmin', 'fd822c0d0f2eac5a0a1057c49eab47b8', '2021-10-17 19:54:05', '2021-11-12 21:03:37', 'nacos', '0:0:0:0:0:0:0:1', '快速开发平台-星辉云', '', '', '', '', 'yaml', '');
+INSERT INTO `config_info` VALUES (3, 'XHuiCloud-auth.yml', 'DEFAULT_GROUP', 'mysql:\n  scheme: sys\nspring:\n  freemarker:\n    allow-request-override: false\n    allow-session-override: false\n    cache: true\n    charset: UTF-8\n    check-template-location: true\n    content-type: text/html\n    enabled: true\n    expose-request-attributes: false\n    expose-session-attributes: false\n    expose-spring-macro-helpers: true\n    prefer-file-system-access: true\n    suffix: .ftl\n    template-loader-path: classpath:/templates/\n\n', '8375babf80454931060904a7f0f6dfac', '2020-02-01 11:42:05', '2021-11-12 21:09:32', 'nacos', '0:0:0:0:0:0:0:1', '快速开发平台-星辉云', '', '认证中心配置', 'null', 'null', 'yaml', 'null');
+INSERT INTO `config_info` VALUES (4, 'XHuiCloud-logs-service.yml', 'DEFAULT_GROUP', 'server:\n  port: 18000\n', '6b3cc3571ec3601abf33967d1b323ceb', '2020-03-18 00:58:37', '2021-12-15 15:22:33', 'nacos', '0:0:0:0:0:0:0:1', '快速开发平台-星辉云', '', '日志管理中心', 'null', 'null', 'yaml', 'null');
+INSERT INTO `config_info` VALUES (5, 'XHuiCloud-pay-service.yml', 'DEFAULT_GROUP', 'server:\n  port: 23000\nmysql:\n  scheme: xhuicloud_pay\n', '50e9eb5072ba9ca44a648e83bc370269', '2020-06-03 11:17:13', '2021-12-15 16:15:33', 'nacos', '0:0:0:0:0:0:0:1', '快速开发平台-星辉云', '', '收银台', 'null', 'null', 'yaml', 'null');
+INSERT INTO `config_info` VALUES (6, 'XHuiCloud-generator.yml', 'DEFAULT_GROUP', 'mysql:\n  scheme: xhuicloud_gen\nserver:\n  port: 21000', '7cf0204fdd3d81cc354b1101fdff2048', '2020-06-22 14:50:41', '2022-02-11 11:41:20', 'nacos', '0:0:0:0:0:0:0:1', '快速开发平台-星辉云', '', '代码生成模块', '', '', 'yaml', '');
+INSERT INTO `config_info` VALUES (7, 'XHuiCloud-xxl-admin-service.yml', 'DEFAULT_GROUP', 'management:\r\n  health:\r\n    mail:\r\n      enabled: false\r\n  endpoints:\r\n    web:\r\n      exposure:\r\n        include: \'*\'\r\n  endpoint:\r\n    health:\r\n      show-details: ALWAYS\r\nmybatis:\r\n  mapper-locations: classpath:/mybatis-mapper/*Mapper.xml\r\nserver:\r\n  servlet:\r\n    context-path: /xxl-job-admin\r\nspring:\r\n  datasource:\r\n    driver-class-name: com.mysql.cj.jdbc.Driver\r\n    hikari:\r\n      auto-commit: true\r\n      connection-test-query: SELECT 1\r\n      connection-timeout: 10000\r\n      idle-timeout: 30000\r\n      max-lifetime: 900000\r\n      maximum-pool-size: 30\r\n      minimum-idle: 10\r\n      pool-name: HikariCP\r\n      validation-timeout: 1000\r\n    type: com.zaxxer.hikari.HikariDataSource\r\n    url: jdbc:mysql://${MYSQL-HOST:xhuicloud-mysql}:${MYSQL-PORT:3306}/${mysql.scheme:xhuicloud_job}?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&serverTimezone=Asia/Shanghai\r\n    username: ${MYSQL-USER:root}\r\n    password: ${MYSQL-PASSWORD:root}\r\n  freemarker:\r\n    request-context-attribute: request\r\n    settings:\r\n      number_format: 0.##########\r\n    suffix: .ftl\r\n  mail:\r\n    from: xxx@qq.com\r\n    host: smtp.qq.com\r\n    password: xxx\r\n    port: 25\r\n    properties:\r\n      mail:\r\n        smtp:\r\n          auth: true\r\n          socketFactory:\r\n            class: javax.net.ssl.SSLSocketFactory\r\n          starttls:\r\n            enable: true\r\n            required: true\r\n    username: xxx@qq.com\r\n  mvc:\r\n    servlet:\r\n      load-on-startup: 0\r\n    static-path-pattern: /static/**\r\n  resources:\r\n    static-locations: classpath:/static/\r\n\r\nxxl:\r\n  job:\r\n    accessToken: XXXXXXXX\r\n    i18n: zh_CN\r\n    logretentiondays: 30\r\n    triggerpool:\r\n      fast.max: 200\r\n      slow.max: 200\r\n', '2ff2fcbdab90551b68c021869d68a587', '2021-11-29 22:17:25', '2021-12-21 09:58:52', 'nacos', '116.21.176.236', '快速开发平台-星辉云', '', '', '', '', 'yaml', '');
+INSERT INTO `config_info` VALUES (8, 'XHuiCloud-job-service.yml', 'DEFAULT_GROUP', 'job:\n executor:\n  accessToken: XXXXXXXX', '86c396e7ab6339528d67b111b30fdae4', '2021-11-26 16:25:55', '2021-12-21 09:59:07', 'nacos', '116.21.176.236', '快速开发平台-星辉云', '', '', '', '', 'yaml', '');
+INSERT INTO `config_info` VALUES (11231231231435, 'transport.type', 'SEATA_GROUP', 'TCP', 'b136ef5f6a01d816991fe3cf7a6ac763', '2021-12-21 17:29:46', '2021-12-21 17:29:46', '', '127.0.0.1', '', '', NULL, NULL, NULL, 'text', NULL);
+INSERT INTO `config_info` VALUES (11231231231436, 'transport.server', 'SEATA_GROUP', 'NIO', 'b6d9dfc0fb54277321cebc0fff55df2f', '2021-12-21 17:29:47', '2021-12-21 17:29:47', '', '127.0.0.1', '', '', NULL, NULL, NULL, 'text', NULL);
+INSERT INTO `config_info` VALUES (11231231231437, 'transport.heartbeat', 'SEATA_GROUP', 'true', 'b326b5062b2f0e69046810717534cb09', '2021-12-21 17:29:48', '2021-12-21 17:29:48', '', '127.0.0.1', '', '', NULL, NULL, NULL, 'text', NULL);
+INSERT INTO `config_info` VALUES (11231231231438, 'transport.enableClientBatchSendRequest', 'SEATA_GROUP', 'false', '68934a3e9455fa72420237eb05902327', '2021-12-21 17:29:48', '2021-12-21 17:29:48', '', '127.0.0.1', '', '', NULL, NULL, NULL, 'text', NULL);
+INSERT INTO `config_info` VALUES (11231231231439, 'transport.threadFactory.bossThreadPrefix', 'SEATA_GROUP', 'NettyBoss', '0f8db59a3b7f2823f38a70c308361836', '2021-12-21 17:29:49', '2021-12-21 17:29:49', '', '127.0.0.1', '', '', NULL, NULL, NULL, 'text', NULL);
+INSERT INTO `config_info` VALUES (11231231231440, 'transport.threadFactory.workerThreadPrefix', 'SEATA_GROUP', 'NettyServerNIOWorker', 'a78ec7ef5d1631754c4e72ae8a3e9205', '2021-12-21 17:29:49', '2021-12-21 17:29:49', '', '127.0.0.1', '', '', NULL, NULL, NULL, 'text', NULL);
+INSERT INTO `config_info` VALUES (11231231231441, 'transport.threadFactory.serverExecutorThreadPrefix', 'SEATA_GROUP', 'NettyServerBizHandler', '11a36309f3d9df84fa8b59cf071fa2da', '2021-12-21 17:29:50', '2021-12-21 17:29:50', '', '127.0.0.1', '', '', NULL, NULL, NULL, 'text', NULL);
+INSERT INTO `config_info` VALUES (11231231231442, 'transport.threadFactory.shareBossWorker', 'SEATA_GROUP', 'false', '68934a3e9455fa72420237eb05902327', '2021-12-21 17:29:51', '2021-12-21 17:29:51', '', '127.0.0.1', '', '', NULL, NULL, NULL, 'text', NULL);
+INSERT INTO `config_info` VALUES (11231231231443, 'transport.threadFactory.clientSelectorThreadPrefix', 'SEATA_GROUP', 'NettyClientSelector', 'cd7ec5a06541e75f5a7913752322c3af', '2021-12-21 17:29:52', '2021-12-21 17:29:52', '', '127.0.0.1', '', '', NULL, NULL, NULL, 'text', NULL);
+INSERT INTO `config_info` VALUES (11231231231444, 'transport.threadFactory.clientSelectorThreadSize', 'SEATA_GROUP', '1', 'c4ca4238a0b923820dcc509a6f75849b', '2021-12-21 17:29:52', '2021-12-21 17:29:52', '', '127.0.0.1', '', '', NULL, NULL, NULL, 'text', NULL);
+INSERT INTO `config_info` VALUES (11231231231445, 'transport.threadFactory.clientWorkerThreadPrefix', 'SEATA_GROUP', 'NettyClientWorkerThread', '61cf4e69a56354cf72f46dc86414a57e', '2021-12-21 17:29:53', '2021-12-21 17:29:53', '', '127.0.0.1', '', '', NULL, NULL, NULL, 'text', NULL);
+INSERT INTO `config_info` VALUES (11231231231446, 'transport.threadFactory.bossThreadSize', 'SEATA_GROUP', '1', 'c4ca4238a0b923820dcc509a6f75849b', '2021-12-21 17:29:54', '2021-12-21 17:29:54', '', '127.0.0.1', '', '', NULL, NULL, NULL, 'text', NULL);
+INSERT INTO `config_info` VALUES (11231231231447, 'transport.threadFactory.workerThreadSize', 'SEATA_GROUP', 'default', 'c21f969b5f03d33d43e04f8f136e7682', '2021-12-21 17:29:54', '2021-12-21 17:29:54', '', '127.0.0.1', '', '', NULL, NULL, NULL, 'text', NULL);
+INSERT INTO `config_info` VALUES (11231231231448, 'transport.shutdown.wait', 'SEATA_GROUP', '3', 'eccbc87e4b5ce2fe28308fd9f2a7baf3', '2021-12-21 17:29:55', '2021-12-21 17:29:55', '', '127.0.0.1', '', '', NULL, NULL, NULL, 'text', NULL);
+INSERT INTO `config_info` VALUES (11231231231449, 'service.vgroupMapping.xhui_tx_group', 'SEATA_GROUP', 'default', 'c21f969b5f03d33d43e04f8f136e7682', '2021-12-21 17:29:56', '2021-12-21 17:29:56', '', '127.0.0.1', '', '', NULL, NULL, NULL, 'text', NULL);
+INSERT INTO `config_info` VALUES (11231231231450, 'service.default.grouplist', 'SEATA_GROUP', 'xhuicloud-seata:8091', 'd5ecf38d7afa5dd93071dec9a49df87b', '2021-12-21 17:29:57', '2021-12-21 17:29:57', '', '127.0.0.1', '', '', NULL, NULL, NULL, 'text', NULL);
+INSERT INTO `config_info` VALUES (11231231231451, 'service.enableDegrade', 'SEATA_GROUP', 'false', '68934a3e9455fa72420237eb05902327', '2021-12-21 17:29:58', '2021-12-21 17:29:58', '', '127.0.0.1', '', '', NULL, NULL, NULL, 'text', NULL);
+INSERT INTO `config_info` VALUES (11231231231452, 'service.disableGlobalTransaction', 'SEATA_GROUP', 'false', '68934a3e9455fa72420237eb05902327', '2021-12-21 17:29:58', '2021-12-21 17:29:58', '', '127.0.0.1', '', '', NULL, NULL, NULL, 'text', NULL);
+INSERT INTO `config_info` VALUES (11231231231453, 'client.rm.asyncCommitBufferLimit', 'SEATA_GROUP', '10000', 'b7a782741f667201b54880c925faec4b', '2021-12-21 17:29:59', '2021-12-21 17:29:59', '', '127.0.0.1', '', '', NULL, NULL, NULL, 'text', NULL);
+INSERT INTO `config_info` VALUES (11231231231454, 'client.rm.lock.retryInterval', 'SEATA_GROUP', '10', 'd3d9446802a44259755d38e6d163e820', '2021-12-21 17:30:00', '2021-12-21 17:30:00', '', '127.0.0.1', '', '', NULL, NULL, NULL, 'text', NULL);
+INSERT INTO `config_info` VALUES (11231231231455, 'client.rm.lock.retryTimes', 'SEATA_GROUP', '30', '34173cb38f07f89ddbebc2ac9128303f', '2021-12-21 17:30:01', '2021-12-21 17:30:01', '', '127.0.0.1', '', '', NULL, NULL, NULL, 'text', NULL);
+INSERT INTO `config_info` VALUES (11231231231456, 'client.rm.lock.retryPolicyBranchRollbackOnConflict', 'SEATA_GROUP', 'true', 'b326b5062b2f0e69046810717534cb09', '2021-12-21 17:30:02', '2021-12-21 17:30:02', '', '127.0.0.1', '', '', NULL, NULL, NULL, 'text', NULL);
+INSERT INTO `config_info` VALUES (11231231231457, 'client.rm.reportRetryCount', 'SEATA_GROUP', '5', 'e4da3b7fbbce2345d7772b0674a318d5', '2021-12-21 17:30:04', '2021-12-21 17:30:04', '', '127.0.0.1', '', '', NULL, NULL, NULL, 'text', NULL);
+INSERT INTO `config_info` VALUES (11231231231458, 'client.rm.tableMetaCheckEnable', 'SEATA_GROUP', 'false', '68934a3e9455fa72420237eb05902327', '2021-12-21 17:30:05', '2021-12-21 17:30:05', '', '127.0.0.1', '', '', NULL, NULL, NULL, 'text', NULL);
+INSERT INTO `config_info` VALUES (11231231231459, 'client.rm.sqlParserType', 'SEATA_GROUP', 'druid', '3d650fb8a5df01600281d48c47c9fa60', '2021-12-21 17:30:08', '2021-12-21 17:30:08', '', '127.0.0.1', '', '', NULL, NULL, NULL, 'text', NULL);
+INSERT INTO `config_info` VALUES (11231231231460, 'client.rm.reportSuccessEnable', 'SEATA_GROUP', 'false', '68934a3e9455fa72420237eb05902327', '2021-12-21 17:30:09', '2021-12-21 17:30:09', '', '127.0.0.1', '', '', NULL, NULL, NULL, 'text', NULL);
+INSERT INTO `config_info` VALUES (11231231231461, 'client.rm.sagaBranchRegisterEnable', 'SEATA_GROUP', 'false', '68934a3e9455fa72420237eb05902327', '2021-12-21 17:30:10', '2021-12-21 17:30:10', '', '127.0.0.1', '', '', NULL, NULL, NULL, 'text', NULL);
+INSERT INTO `config_info` VALUES (11231231231462, 'client.tm.commitRetryCount', 'SEATA_GROUP', '5', 'e4da3b7fbbce2345d7772b0674a318d5', '2021-12-21 17:30:11', '2021-12-21 17:30:11', '', '127.0.0.1', '', '', NULL, NULL, NULL, 'text', NULL);
+INSERT INTO `config_info` VALUES (11231231231463, 'client.tm.rollbackRetryCount', 'SEATA_GROUP', '5', 'e4da3b7fbbce2345d7772b0674a318d5', '2021-12-21 17:30:12', '2021-12-21 17:30:12', '', '127.0.0.1', '', '', NULL, NULL, NULL, 'text', NULL);
+INSERT INTO `config_info` VALUES (11231231231464, 'client.tm.degradeCheck', 'SEATA_GROUP', 'false', '68934a3e9455fa72420237eb05902327', '2021-12-21 17:30:12', '2021-12-21 17:30:12', '', '127.0.0.1', '', '', NULL, NULL, NULL, 'text', NULL);
+INSERT INTO `config_info` VALUES (11231231231465, 'client.tm.degradeCheckAllowTimes', 'SEATA_GROUP', '10', 'd3d9446802a44259755d38e6d163e820', '2021-12-21 17:30:14', '2021-12-21 17:30:14', '', '127.0.0.1', '', '', NULL, NULL, NULL, 'text', NULL);
+INSERT INTO `config_info` VALUES (11231231231466, 'client.tm.degradeCheckPeriod', 'SEATA_GROUP', '2000', '08f90c1a417155361a5c4b8d297e0d78', '2021-12-21 17:30:15', '2021-12-21 17:30:15', '', '127.0.0.1', '', '', NULL, NULL, NULL, 'text', NULL);
+INSERT INTO `config_info` VALUES (11231231231467, 'store.mode', 'SEATA_GROUP', 'redis', '86a1b907d54bf7010394bf316e183e67', '2021-12-21 17:30:16', '2021-12-21 17:30:16', '', '127.0.0.1', '', '', NULL, NULL, NULL, 'text', NULL);
+INSERT INTO `config_info` VALUES (11231231231468, 'store.redis.host', 'SEATA_GROUP', 'xhuicloud.redis.rds.aliyuncs.com', '06c94ca6127bbebc5f44411c2f431084', '2021-12-21 17:30:16', '2021-12-21 17:30:16', '', '127.0.0.1', '', '', NULL, NULL, NULL, 'text', NULL);
+INSERT INTO `config_info` VALUES (11231231231469, 'store.redis.port', 'SEATA_GROUP', '6379', '92c3b916311a5517d9290576e3ea37ad', '2021-12-21 17:30:17', '2021-12-21 17:30:17', '', '127.0.0.1', '', '', NULL, NULL, NULL, 'text', NULL);
+INSERT INTO `config_info` VALUES (11231231231470, 'store.redis.maxConn', 'SEATA_GROUP', '10', 'd3d9446802a44259755d38e6d163e820', '2021-12-21 17:30:18', '2021-12-21 17:30:18', '', '127.0.0.1', '', '', NULL, NULL, NULL, 'text', NULL);
+INSERT INTO `config_info` VALUES (11231231231471, 'store.redis.minConn', 'SEATA_GROUP', '1', 'c4ca4238a0b923820dcc509a6f75849b', '2021-12-21 17:30:19', '2021-12-21 17:30:19', '', '127.0.0.1', '', '', NULL, NULL, NULL, 'text', NULL);
+INSERT INTO `config_info` VALUES (11231231231472, 'store.redis.database', 'SEATA_GROUP', '0', 'cfcd208495d565ef66e7dff9f98764da', '2021-12-21 17:30:19', '2021-12-21 17:30:19', '', '127.0.0.1', '', '', NULL, NULL, NULL, 'text', NULL);
+INSERT INTO `config_info` VALUES (11231231231473, 'store.redis.password', 'SEATA_GROUP', 'Xhuicloud@123', '589e6cff0fa4e1a38b82107bdd564b62', '2021-12-21 17:30:20', '2021-12-21 17:30:20', '', '127.0.0.1', '', '', NULL, NULL, NULL, 'text', NULL);
+INSERT INTO `config_info` VALUES (11231231231474, 'store.redis.queryLimit', 'SEATA_GROUP', '100', 'f899139df5e1059396431415e770c6dd', '2021-12-21 17:30:21', '2021-12-21 17:30:21', '', '127.0.0.1', '', '', NULL, NULL, NULL, 'text', NULL);
+INSERT INTO `config_info` VALUES (11231231231475, 'server.recovery.committingRetryPeriod', 'SEATA_GROUP', '1000', 'a9b7ba70783b617e9998dc4dd82eb3c5', '2021-12-21 17:30:22', '2021-12-21 17:30:22', '', '127.0.0.1', '', '', NULL, NULL, NULL, 'text', NULL);
+INSERT INTO `config_info` VALUES (11231231231476, 'server.recovery.asynCommittingRetryPeriod', 'SEATA_GROUP', '1000', 'a9b7ba70783b617e9998dc4dd82eb3c5', '2021-12-21 17:30:22', '2021-12-21 17:30:22', '', '127.0.0.1', '', '', NULL, NULL, NULL, 'text', NULL);
+INSERT INTO `config_info` VALUES (11231231231477, 'server.recovery.rollbackingRetryPeriod', 'SEATA_GROUP', '1000', 'a9b7ba70783b617e9998dc4dd82eb3c5', '2021-12-21 17:30:23', '2021-12-21 17:30:23', '', '127.0.0.1', '', '', NULL, NULL, NULL, 'text', NULL);
+INSERT INTO `config_info` VALUES (11231231231478, 'server.recovery.timeoutRetryPeriod', 'SEATA_GROUP', '1000', 'a9b7ba70783b617e9998dc4dd82eb3c5', '2021-12-21 17:30:24', '2021-12-21 17:30:24', '', '127.0.0.1', '', '', NULL, NULL, NULL, 'text', NULL);
+INSERT INTO `config_info` VALUES (11231231231479, 'server.maxCommitRetryTimeout', 'SEATA_GROUP', '-1', '6bb61e3b7bce0931da574d19d1d82c88', '2021-12-21 17:30:24', '2021-12-21 17:30:24', '', '127.0.0.1', '', '', NULL, NULL, NULL, 'text', NULL);
+INSERT INTO `config_info` VALUES (11231231231480, 'server.maxRollbackRetryTimeout', 'SEATA_GROUP', '-1', '6bb61e3b7bce0931da574d19d1d82c88', '2021-12-21 17:30:25', '2021-12-21 17:30:25', '', '127.0.0.1', '', '', NULL, NULL, NULL, 'text', NULL);
+INSERT INTO `config_info` VALUES (11231231231481, 'server.rollbackRetryTimeoutUnlockEnable', 'SEATA_GROUP', 'false', '68934a3e9455fa72420237eb05902327', '2021-12-21 17:30:26', '2021-12-21 17:30:26', '', '127.0.0.1', '', '', NULL, NULL, NULL, 'text', NULL);
+INSERT INTO `config_info` VALUES (11231231231482, 'client.undo.dataValidation', 'SEATA_GROUP', 'true', 'b326b5062b2f0e69046810717534cb09', '2021-12-21 17:30:26', '2021-12-21 17:30:26', '', '127.0.0.1', '', '', NULL, NULL, NULL, 'text', NULL);
+INSERT INTO `config_info` VALUES (11231231231483, 'client.undo.logSerialization', 'SEATA_GROUP', 'kryo', 'd78f017576c8b3ad5beec73e6c39a59e', '2021-12-21 17:30:27', '2021-12-21 17:30:27', '', '127.0.0.1', '', '', NULL, NULL, NULL, 'text', NULL);
+INSERT INTO `config_info` VALUES (11231231231484, 'client.undo.onlyCareUpdateColumns', 'SEATA_GROUP', 'true', 'b326b5062b2f0e69046810717534cb09', '2021-12-21 17:30:28', '2021-12-21 17:30:28', '', '127.0.0.1', '', '', NULL, NULL, NULL, 'text', NULL);
+INSERT INTO `config_info` VALUES (11231231231485, 'server.undo.logSaveDays', 'SEATA_GROUP', '7', '8f14e45fceea167a5a36dedd4bea2543', '2021-12-21 17:30:28', '2021-12-21 17:30:28', '', '127.0.0.1', '', '', NULL, NULL, NULL, 'text', NULL);
+INSERT INTO `config_info` VALUES (11231231231486, 'server.undo.logDeletePeriod', 'SEATA_GROUP', '86400000', 'f4c122804fe9076cb2710f55c3c6e346', '2021-12-21 17:30:29', '2021-12-21 17:30:29', '', '127.0.0.1', '', '', NULL, NULL, NULL, 'text', NULL);
+INSERT INTO `config_info` VALUES (11231231231487, 'client.undo.logTable', 'SEATA_GROUP', 'undo_log', '2842d229c24afe9e61437135e8306614', '2021-12-21 17:30:29', '2021-12-21 17:30:29', '', '127.0.0.1', '', '', NULL, NULL, NULL, 'text', NULL);
+INSERT INTO `config_info` VALUES (11231231231488, 'client.log.exceptionRate', 'SEATA_GROUP', '100', 'f899139df5e1059396431415e770c6dd', '2021-12-21 17:30:30', '2021-12-21 17:30:30', '', '127.0.0.1', '', '', NULL, NULL, NULL, 'text', NULL);
+INSERT INTO `config_info` VALUES (11231231231489, 'transport.serialization', 'SEATA_GROUP', 'seata', 'b943081c423b9a5416a706524ee05d40', '2021-12-21 17:30:30', '2021-12-21 17:30:30', '', '127.0.0.1', '', '', NULL, NULL, NULL, 'text', NULL);
+INSERT INTO `config_info` VALUES (11231231231490, 'transport.compressor', 'SEATA_GROUP', 'none', '334c4a4c42fdb79d7ebc3e73b517e6f8', '2021-12-21 17:30:31', '2021-12-21 17:30:31', '', '127.0.0.1', '', '', NULL, NULL, NULL, 'text', NULL);
+INSERT INTO `config_info` VALUES (11231231231491, 'metrics.enabled', 'SEATA_GROUP', 'false', '68934a3e9455fa72420237eb05902327', '2021-12-21 17:30:31', '2021-12-21 17:30:31', '', '127.0.0.1', '', '', NULL, NULL, NULL, 'text', NULL);
+INSERT INTO `config_info` VALUES (11231231231492, 'metrics.registryType', 'SEATA_GROUP', 'compact', '7cf74ca49c304df8150205fc915cd465', '2021-12-21 17:30:32', '2021-12-21 17:30:32', '', '127.0.0.1', '', '', NULL, NULL, NULL, 'text', NULL);
+INSERT INTO `config_info` VALUES (11231231231493, 'metrics.exporterList', 'SEATA_GROUP', 'prometheus', 'e4f00638b8a10e6994e67af2f832d51c', '2021-12-21 17:30:32', '2021-12-21 17:30:32', '', '127.0.0.1', '', '', NULL, NULL, NULL, 'text', NULL);
+INSERT INTO `config_info` VALUES (11231231231494, 'metrics.exporterPrometheusPort', 'SEATA_GROUP', '9898', '7b9dc501afe4ee11c56a4831e20cee71', '2021-12-21 17:30:33', '2021-12-21 17:30:33', '', '127.0.0.1', '', '', NULL, NULL, NULL, 'text', NULL);
 
 -- ----------------------------
 -- Table structure for config_info_aggr
 -- ----------------------------
 DROP TABLE IF EXISTS `config_info_aggr`;
-CREATE TABLE `config_info_aggr` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'id',
-  `data_id` varchar(255) COLLATE utf8_bin NOT NULL COMMENT 'data_id',
-  `group_id` varchar(255) COLLATE utf8_bin NOT NULL COMMENT 'group_id',
-  `datum_id` varchar(255) COLLATE utf8_bin NOT NULL COMMENT 'datum_id',
-  `content` longtext COLLATE utf8_bin NOT NULL COMMENT '内容',
-  `gmt_modified` datetime NOT NULL COMMENT '修改时间',
-  `app_name` varchar(128) COLLATE utf8_bin DEFAULT NULL,
-  `tenant_id` varchar(128) COLLATE utf8_bin DEFAULT '' COMMENT '租户字段',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `uk_configinfoaggr_datagrouptenantdatum` (`data_id`,`group_id`,`tenant_id`,`datum_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='增加租户字段';
+CREATE TABLE `config_info_aggr`  (
+                                     `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'id',
+                                     `data_id` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT 'data_id',
+                                     `group_id` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT 'group_id',
+                                     `datum_id` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT 'datum_id',
+                                     `content` longtext CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '内容',
+                                     `gmt_modified` datetime NOT NULL COMMENT '修改时间',
+                                     `app_name` varchar(128) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
+                                     `tenant_id` varchar(128) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT '' COMMENT '租户字段',
+                                     PRIMARY KEY (`id`) USING BTREE,
+                                     UNIQUE INDEX `uk_configinfoaggr_datagrouptenantdatum`(`data_id`, `group_id`, `tenant_id`, `datum_id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_bin COMMENT = '增加租户字段' ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of config_info_aggr
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for config_info_beta
 -- ----------------------------
 DROP TABLE IF EXISTS `config_info_beta`;
-CREATE TABLE `config_info_beta` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'id',
-  `data_id` varchar(255) COLLATE utf8_bin NOT NULL COMMENT 'data_id',
-  `group_id` varchar(128) COLLATE utf8_bin NOT NULL COMMENT 'group_id',
-  `app_name` varchar(128) COLLATE utf8_bin DEFAULT NULL COMMENT 'app_name',
-  `content` longtext COLLATE utf8_bin NOT NULL COMMENT 'content',
-  `beta_ips` varchar(1024) COLLATE utf8_bin DEFAULT NULL COMMENT 'betaIps',
-  `md5` varchar(32) COLLATE utf8_bin DEFAULT NULL COMMENT 'md5',
-  `gmt_create` datetime NOT NULL DEFAULT '2010-05-05 00:00:00' COMMENT '创建时间',
-  `gmt_modified` datetime NOT NULL DEFAULT '2010-05-05 00:00:00' COMMENT '修改时间',
-  `src_user` text COLLATE utf8_bin COMMENT 'source user',
-  `src_ip` varchar(20) COLLATE utf8_bin DEFAULT NULL COMMENT 'source ip',
-  `tenant_id` varchar(128) COLLATE utf8_bin DEFAULT '' COMMENT '租户字段',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `uk_configinfobeta_datagrouptenant` (`data_id`,`group_id`,`tenant_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='config_info_beta';
+CREATE TABLE `config_info_beta`  (
+                                     `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'id',
+                                     `data_id` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT 'data_id',
+                                     `group_id` varchar(128) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT 'group_id',
+                                     `app_name` varchar(128) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT 'app_name',
+                                     `content` longtext CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT 'content',
+                                     `beta_ips` varchar(1024) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT 'betaIps',
+                                     `md5` varchar(32) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT 'md5',
+                                     `gmt_create` datetime NOT NULL DEFAULT '2010-05-05 00:00:00' COMMENT '创建时间',
+                                     `gmt_modified` datetime NOT NULL DEFAULT '2010-05-05 00:00:00' COMMENT '修改时间',
+                                     `src_user` text CHARACTER SET utf8 COLLATE utf8_bin NULL COMMENT 'source user',
+                                     `src_ip` varchar(20) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT 'source ip',
+                                     `tenant_id` varchar(128) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT '' COMMENT '租户字段',
+                                     PRIMARY KEY (`id`) USING BTREE,
+                                     UNIQUE INDEX `uk_configinfobeta_datagrouptenant`(`data_id`, `group_id`, `tenant_id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_bin COMMENT = 'config_info_beta' ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of config_info_beta
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for config_info_tag
 -- ----------------------------
 DROP TABLE IF EXISTS `config_info_tag`;
-CREATE TABLE `config_info_tag` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'id',
-  `data_id` varchar(255) COLLATE utf8_bin NOT NULL COMMENT 'data_id',
-  `group_id` varchar(128) COLLATE utf8_bin NOT NULL COMMENT 'group_id',
-  `tenant_id` varchar(128) COLLATE utf8_bin DEFAULT '' COMMENT 'tenant_id',
-  `tag_id` varchar(128) COLLATE utf8_bin NOT NULL COMMENT 'tag_id',
-  `app_name` varchar(128) COLLATE utf8_bin DEFAULT NULL COMMENT 'app_name',
-  `content` longtext COLLATE utf8_bin NOT NULL COMMENT 'content',
-  `md5` varchar(32) COLLATE utf8_bin DEFAULT NULL COMMENT 'md5',
-  `gmt_create` datetime NOT NULL DEFAULT '2010-05-05 00:00:00' COMMENT '创建时间',
-  `gmt_modified` datetime NOT NULL DEFAULT '2010-05-05 00:00:00' COMMENT '修改时间',
-  `src_user` text COLLATE utf8_bin COMMENT 'source user',
-  `src_ip` varchar(20) COLLATE utf8_bin DEFAULT NULL COMMENT 'source ip',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `uk_configinfotag_datagrouptenanttag` (`data_id`,`group_id`,`tenant_id`,`tag_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='config_info_tag';
+CREATE TABLE `config_info_tag`  (
+                                    `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'id',
+                                    `data_id` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT 'data_id',
+                                    `group_id` varchar(128) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT 'group_id',
+                                    `tenant_id` varchar(128) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT '' COMMENT 'tenant_id',
+                                    `tag_id` varchar(128) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT 'tag_id',
+                                    `app_name` varchar(128) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT 'app_name',
+                                    `content` longtext CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT 'content',
+                                    `md5` varchar(32) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT 'md5',
+                                    `gmt_create` datetime NOT NULL DEFAULT '2010-05-05 00:00:00' COMMENT '创建时间',
+                                    `gmt_modified` datetime NOT NULL DEFAULT '2010-05-05 00:00:00' COMMENT '修改时间',
+                                    `src_user` text CHARACTER SET utf8 COLLATE utf8_bin NULL COMMENT 'source user',
+                                    `src_ip` varchar(20) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT 'source ip',
+                                    PRIMARY KEY (`id`) USING BTREE,
+                                    UNIQUE INDEX `uk_configinfotag_datagrouptenanttag`(`data_id`, `group_id`, `tenant_id`, `tag_id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_bin COMMENT = 'config_info_tag' ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of config_info_tag
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for config_tags_relation
 -- ----------------------------
 DROP TABLE IF EXISTS `config_tags_relation`;
-CREATE TABLE `config_tags_relation` (
-  `id` bigint(20) NOT NULL COMMENT 'id',
-  `tag_name` varchar(128) COLLATE utf8_bin NOT NULL COMMENT 'tag_name',
-  `tag_type` varchar(64) COLLATE utf8_bin DEFAULT NULL COMMENT 'tag_type',
-  `data_id` varchar(255) COLLATE utf8_bin NOT NULL COMMENT 'data_id',
-  `group_id` varchar(128) COLLATE utf8_bin NOT NULL COMMENT 'group_id',
-  `tenant_id` varchar(128) COLLATE utf8_bin DEFAULT '' COMMENT 'tenant_id',
-  `nid` bigint(20) NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`nid`),
-  UNIQUE KEY `uk_configtagrelation_configidtag` (`id`,`tag_name`,`tag_type`),
-  KEY `idx_tenant_id` (`tenant_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='config_tag_relation';
+CREATE TABLE `config_tags_relation`  (
+                                         `id` bigint(20) NOT NULL COMMENT 'id',
+                                         `tag_name` varchar(128) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT 'tag_name',
+                                         `tag_type` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT 'tag_type',
+                                         `data_id` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT 'data_id',
+                                         `group_id` varchar(128) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT 'group_id',
+                                         `tenant_id` varchar(128) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT '' COMMENT 'tenant_id',
+                                         `nid` bigint(20) NOT NULL AUTO_INCREMENT,
+                                         PRIMARY KEY (`nid`) USING BTREE,
+                                         UNIQUE INDEX `uk_configtagrelation_configidtag`(`id`, `tag_name`, `tag_type`) USING BTREE,
+                                         INDEX `idx_tenant_id`(`tenant_id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_bin COMMENT = 'config_tag_relation' ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of config_tags_relation
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for group_capacity
 -- ----------------------------
 DROP TABLE IF EXISTS `group_capacity`;
-CREATE TABLE `group_capacity` (
-  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键ID',
-  `group_id` varchar(128) COLLATE utf8_bin NOT NULL DEFAULT '' COMMENT 'Group ID，空字符表示整个集群',
-  `quota` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '配额，0表示使用默认值',
-  `usage` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '使用量',
-  `max_size` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '单个配置大小上限，单位为字节，0表示使用默认值',
-  `max_aggr_count` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '聚合子配置最大个数，，0表示使用默认值',
-  `max_aggr_size` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '单个聚合数据的子配置大小上限，单位为字节，0表示使用默认值',
-  `max_history_count` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '最大变更历史数量',
-  `gmt_create` datetime NOT NULL DEFAULT '2010-05-05 00:00:00' COMMENT '创建时间',
-  `gmt_modified` datetime NOT NULL DEFAULT '2010-05-05 00:00:00' COMMENT '修改时间',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `uk_group_id` (`group_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='集群、各Group容量信息表';
+CREATE TABLE `group_capacity`  (
+                                   `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+                                   `group_id` varchar(128) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT '' COMMENT 'Group ID，空字符表示整个集群',
+                                   `quota` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '配额，0表示使用默认值',
+                                   `usage` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '使用量',
+                                   `max_size` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '单个配置大小上限，单位为字节，0表示使用默认值',
+                                   `max_aggr_count` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '聚合子配置最大个数，，0表示使用默认值',
+                                   `max_aggr_size` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '单个聚合数据的子配置大小上限，单位为字节，0表示使用默认值',
+                                   `max_history_count` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '最大变更历史数量',
+                                   `gmt_create` datetime NOT NULL DEFAULT '2010-05-05 00:00:00' COMMENT '创建时间',
+                                   `gmt_modified` datetime NOT NULL DEFAULT '2010-05-05 00:00:00' COMMENT '修改时间',
+                                   PRIMARY KEY (`id`) USING BTREE,
+                                   UNIQUE INDEX `uk_group_id`(`group_id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_bin COMMENT = '集群、各Group容量信息表' ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of group_capacity
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for his_config_info
 -- ----------------------------
 DROP TABLE IF EXISTS `his_config_info`;
-CREATE TABLE `his_config_info` (
-  `id` bigint(64) unsigned NOT NULL,
-  `nid` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `data_id` varchar(255) COLLATE utf8_bin NOT NULL,
-  `group_id` varchar(128) COLLATE utf8_bin NOT NULL,
-  `app_name` varchar(128) COLLATE utf8_bin DEFAULT NULL COMMENT 'app_name',
-  `content` longtext COLLATE utf8_bin NOT NULL,
-  `md5` varchar(32) COLLATE utf8_bin DEFAULT NULL,
-  `gmt_create` datetime NOT NULL DEFAULT '2010-05-05 00:00:00',
-  `gmt_modified` datetime NOT NULL DEFAULT '2010-05-05 00:00:00',
-  `src_user` text COLLATE utf8_bin,
-  `src_ip` varchar(20) COLLATE utf8_bin DEFAULT NULL,
-  `op_type` char(10) COLLATE utf8_bin DEFAULT NULL,
-  `tenant_id` varchar(128) COLLATE utf8_bin DEFAULT '' COMMENT '租户字段',
-  PRIMARY KEY (`nid`),
-  KEY `idx_gmt_create` (`gmt_create`),
-  KEY `idx_gmt_modified` (`gmt_modified`),
-  KEY `idx_did` (`data_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=91 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='多租户改造';
+CREATE TABLE `his_config_info`  (
+                                    `id` bigint(20) UNSIGNED NOT NULL,
+                                    `nid` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+                                    `data_id` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+                                    `group_id` varchar(128) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+                                    `app_name` varchar(128) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT 'app_name',
+                                    `content` longtext CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+                                    `md5` varchar(32) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
+                                    `gmt_create` datetime NOT NULL DEFAULT '2010-05-05 00:00:00',
+                                    `gmt_modified` datetime NOT NULL DEFAULT '2010-05-05 00:00:00',
+                                    `src_user` text CHARACTER SET utf8 COLLATE utf8_bin NULL,
+                                    `src_ip` varchar(20) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
+                                    `op_type` char(10) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
+                                    `tenant_id` varchar(128) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT '' COMMENT '租户字段',
+                                    PRIMARY KEY (`nid`) USING BTREE,
+                                    INDEX `idx_gmt_create`(`gmt_create`) USING BTREE,
+                                    INDEX `idx_gmt_modified`(`gmt_modified`) USING BTREE,
+                                    INDEX `idx_did`(`data_id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 280 CHARACTER SET = utf8 COLLATE = utf8_bin COMMENT = '多租户改造' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of his_config_info
 -- ----------------------------
-BEGIN;
-INSERT INTO `his_config_info` VALUES (202, 79, 'XHuiCloud-auth.yml', 'DEFAULT_GROUP', '星辉云-星辉云', 'server:\n  port: 16000\nspring:\n  datasource:\n    type: com.alibaba.druid.pool.DruidDataSource\n    druid:\n      driver-class-name: com.mysql.cj.jdbc.Driver\n      url: jdbc:mysql://${MYSQL-HOST:localhost}:${MYSQL-PORT:3306}/sys?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Asia/Shanghai&allowMultiQueries=true&allowPublicKeyRetrieval=true\n      username: ${MYSQL-USER:root}\n      password: ${MYSQL-PASSWORD:root}\n  freemarker:\n    allow-request-override: false\n    allow-session-override: false\n    cache: true\n    charset: UTF-8\n    check-template-location: true\n    content-type: text/html\n    enabled: true\n    expose-request-attributes: false\n    expose-session-attributes: false\n    expose-spring-macro-helpers: true\n    prefer-file-system-access: true\n    suffix: .ftl\n    template-loader-path: classpath:/templates/\n#  datasources:\n#    first:\n#      url: jdbc:mysql://localhost:3306/sys?characterEncoding=utf8&characterSetResults=utf8&autoReconnect=true\n#      username: root\n#      password: root\n#      driver-class-name: com.mysql.cj.jdbc.Driver\n#      initialSize: 5\n#      minIdle: 5\n#      maxActive: 20\n', '3e8ac813d9595f0ef010009d4edccb40', '2010-05-05 00:00:00', '2020-08-18 11:33:17', NULL, '127.0.0.1', 'U', '');
-INSERT INTO `his_config_info` VALUES (200, 80, 'application-common.yml', 'DEFAULT_GROUP', '星辉云-星辉云', 'spring:\n  redis:\n    host: ${REDIS_HOST:localhost}\n  cloud:\n    alibaba:\n      seata:\n        tx-service-group: xhui_tx_group\n    circuitbreaker:\n      sentinel:\n        enabled: true\n    sentinel:\n      filter:\n        urlPatterns:\n          - /**\n      transport:\n        # sentinel 地址\n        dashboard: localhost:14000\n        #监控此服务端口\n        port: ${server.port}\n    \nmanagement:\n  endpoints:\n    web:\n      exposure:\n        include: \'*\'\nfeign:\n  okhttp:\n    enabled: true\n  httpclient:\n    enabled: false\n  sentinel:\n    #feign开启sentinle监控\n    enabled: true\n    \nmybatis-plus:\n  global-config:\n    banner: false\n    db-config:\n      logic-delete-field: delFlag  #全局逻辑删除字段值 3.3.0开始支持，详情看下面。\n      logic-delete-value: 0 # 逻辑已删除值(默认为 1)\n      logic-not-delete-value: 1 # 逻辑未删除值(默认为 0)\n\n  zipkin:\n    #设置zipkin的地址\n    base-url: http://localhost:9411/\n    #注意 如果不设置 nacos客户端会把这个当成服务名疯狂的从服务端获取此服务\n    discoveryClientEnabled: false\n  sleuth:\n    sampler:\n      #抽样率 默认是(10%) 生产环境请不要设置1.0\n      probability: 1.0\n\nlogging:\n  # file:\n  path: /Users/cengxinda/workspace/sourceCode/XHuiCloud/logs\n    # name: ${logging.file.path}/${spring.application.name}/root.log\n\nsecurity:\n  oauth2:\n    client:\n      ##access-token-uri: http://localhost:15000/XHuiCloud-auth/oauth/token  #请求令牌的地址\n      #user-authorization-uri: http://localhost:15000/XHuiCloud-auth/oauth/authorize #对用户授权的地址\n      ignore-urls:\n        - /druid/**\n        - /v2/api-docs\n    resource:\n      loadBalanced: true\n      token-info-uri: http://XHuiCloud-gateway:15000/auth/oauth/check_token #检查token是否有效的地址\nswagger:\n  title: 星辉云\n  description: 星辉云\n  license: Powered By Sinda\n  license-url: http://www.zsinda.cn/\n  terms-of-service-url: http://www.zsinda.cn/\n  version: 1.0.0\n  contact:\n    name: Sinda\n    email: sindazeng@gmail.com\n    url: https://github.com/sindaZeng', 'dda637682eb40f0baa4a759dbbf228f2', '2010-05-05 00:00:00', '2020-08-18 11:38:52', NULL, '127.0.0.1', 'U', '');
-INSERT INTO `his_config_info` VALUES (200, 81, 'application-common.yml', 'DEFAULT_GROUP', '星辉云-星辉云', 'spring:\n  main:\n    allow-bean-definition-overriding: true\n  redis:\n    lettuce:\n      cluster:\n        refresh:\n          adaptive: true\n    host: ${REDIS_HOST:localhost}\n\n  cloud:\n    alibaba:\n      seata:\n        tx-service-group: xhui_tx_group\n    circuitbreaker:\n      sentinel:\n        enabled: true\n    sentinel:\n      filter:\n        urlPatterns:\n          - /**\n      transport:\n        # sentinel 地址\n        dashboard: localhost:14000\n        #监控此服务端口\n        port: ${server.port}\n    \nmanagement:\n  endpoints:\n    web:\n      exposure:\n        include: \'*\'\nfeign:\n  okhttp:\n    enabled: true\n  httpclient:\n    enabled: false\n  sentinel:\n    #feign开启sentinle监控\n    enabled: true\n    \nmybatis-plus:\n  global-config:\n    banner: false\n    db-config:\n      logic-delete-field: delFlag  #全局逻辑删除字段值 3.3.0开始支持，详情看下面。\n      logic-delete-value: 0 # 逻辑已删除值(默认为 1)\n      logic-not-delete-value: 1 # 逻辑未删除值(默认为 0)\n\n  zipkin:\n    #设置zipkin的地址\n    base-url: http://localhost:9411/\n    #注意 如果不设置 nacos客户端会把这个当成服务名疯狂的从服务端获取此服务\n    discoveryClientEnabled: false\n  sleuth:\n    sampler:\n      #抽样率 默认是(10%) 生产环境请不要设置1.0\n      probability: 1.0\n\nlogging:\n  # file:\n  path: /Users/cengxinda/workspace/sourceCode/XHuiCloud/logs\n    # name: ${logging.file.path}/${spring.application.name}/root.log\n\nsecurity:\n  oauth2:\n    client:\n      ##access-token-uri: http://localhost:15000/XHuiCloud-auth/oauth/token  #请求令牌的地址\n      #user-authorization-uri: http://localhost:15000/XHuiCloud-auth/oauth/authorize #对用户授权的地址\n      ignore-urls:\n        - /druid/**\n        - /v2/api-docs\n    resource:\n      loadBalanced: true\n      token-info-uri: http://XHuiCloud-gateway:15000/auth/oauth/check_token #检查token是否有效的地址\nswagger:\n  title: 星辉云\n  description: 星辉云\n  license: Powered By Sinda\n  license-url: http://www.zsinda.cn/\n  terms-of-service-url: http://www.zsinda.cn/\n  version: 1.0.0\n  contact:\n    name: Sinda\n    email: sindazeng@gmail.com\n    url: https://github.com/sindaZeng', 'dc1b1ac326b5c68f78600701da3a0f04', '2010-05-05 00:00:00', '2020-08-18 11:45:40', NULL, '127.0.0.1', 'U', '');
-INSERT INTO `his_config_info` VALUES (200, 82, 'application-common.yml', 'DEFAULT_GROUP', '星辉云-星辉云', 'spring:\n  main:\n    allow-bean-definition-overriding: true\n  redis:\n    lettuce:\n      cluster:\n        refresh:\n          adaptive: true\n    host: ${REDIS_HOST:localhost}\n    password: ${REDIS_PASSWORD:123456}\n    port: 6379\n    timeout: 10000\n\n  cloud:\n    alibaba:\n      seata:\n        tx-service-group: xhui_tx_group\n    circuitbreaker:\n      sentinel:\n        enabled: true\n    sentinel:\n      filter:\n        urlPatterns:\n          - /**\n      transport:\n        # sentinel 地址\n        dashboard: localhost:14000\n        #监控此服务端口\n        port: ${server.port}\n    \nmanagement:\n  endpoints:\n    web:\n      exposure:\n        include: \'*\'\nfeign:\n  okhttp:\n    enabled: true\n  httpclient:\n    enabled: false\n  sentinel:\n    #feign开启sentinle监控\n    enabled: true\n    \nmybatis-plus:\n  global-config:\n    banner: false\n    db-config:\n      logic-delete-field: delFlag  #全局逻辑删除字段值 3.3.0开始支持，详情看下面。\n      logic-delete-value: 0 # 逻辑已删除值(默认为 1)\n      logic-not-delete-value: 1 # 逻辑未删除值(默认为 0)\n\n  zipkin:\n    #设置zipkin的地址\n    base-url: http://localhost:9411/\n    #注意 如果不设置 nacos客户端会把这个当成服务名疯狂的从服务端获取此服务\n    discoveryClientEnabled: false\n  sleuth:\n    sampler:\n      #抽样率 默认是(10%) 生产环境请不要设置1.0\n      probability: 1.0\n\nlogging:\n  # file:\n  path: /Users/cengxinda/workspace/sourceCode/XHuiCloud/logs\n    # name: ${logging.file.path}/${spring.application.name}/root.log\n\nsecurity:\n  oauth2:\n    client:\n      ##access-token-uri: http://localhost:15000/XHuiCloud-auth/oauth/token  #请求令牌的地址\n      #user-authorization-uri: http://localhost:15000/XHuiCloud-auth/oauth/authorize #对用户授权的地址\n      ignore-urls:\n        - /druid/**\n        - /v2/api-docs\n    resource:\n      loadBalanced: true\n      token-info-uri: http://XHuiCloud-gateway:15000/auth/oauth/check_token #检查token是否有效的地址\nswagger:\n  title: 星辉云\n  description: 星辉云\n  license: Powered By Sinda\n  license-url: http://www.zsinda.cn/\n  terms-of-service-url: http://www.zsinda.cn/\n  version: 1.0.0\n  contact:\n    name: Sinda\n    email: sindazeng@gmail.com\n    url: https://github.com/sindaZeng', '05391b2aa1f7abfc997124377c5f9b73', '2010-05-05 00:00:00', '2020-08-18 15:35:19', NULL, '127.0.0.1', 'U', '');
-INSERT INTO `his_config_info` VALUES (200, 83, 'application-common.yml', 'DEFAULT_GROUP', '星辉云-星辉云', 'spring:\n  main:\n    allow-bean-definition-overriding: true\n  redis:\n    lettuce:\n      cluster:\n        refresh:\n          adaptive: true\n        nodes:\n          - 192.168.101.130:7000\n          - 192.168.101.130:7001\n          - 192.168.101.130:7002\n          - 192.168.101.130:7003\n          - 192.168.101.130:7004\n          - 192.168.101.130:7005\n    #host: ${REDIS_HOST:localhost}\n    password: ${REDIS_PASSWORD:123456}\n    port: 6379\n    timeout: 10000\n\n  cloud:\n    alibaba:\n      seata:\n        tx-service-group: xhui_tx_group\n    circuitbreaker:\n      sentinel:\n        enabled: true\n    sentinel:\n      filter:\n        urlPatterns:\n          - /**\n      transport:\n        # sentinel 地址\n        dashboard: localhost:14000\n        #监控此服务端口\n        port: ${server.port}\n    \nmanagement:\n  endpoints:\n    web:\n      exposure:\n        include: \'*\'\nfeign:\n  okhttp:\n    enabled: true\n  httpclient:\n    enabled: false\n  sentinel:\n    #feign开启sentinle监控\n    enabled: true\n    \nmybatis-plus:\n  global-config:\n    banner: false\n    db-config:\n      logic-delete-field: delFlag  #全局逻辑删除字段值 3.3.0开始支持，详情看下面。\n      logic-delete-value: 0 # 逻辑已删除值(默认为 1)\n      logic-not-delete-value: 1 # 逻辑未删除值(默认为 0)\n\n  zipkin:\n    #设置zipkin的地址\n    base-url: http://localhost:9411/\n    #注意 如果不设置 nacos客户端会把这个当成服务名疯狂的从服务端获取此服务\n    discoveryClientEnabled: false\n  sleuth:\n    sampler:\n      #抽样率 默认是(10%) 生产环境请不要设置1.0\n      probability: 1.0\n\nlogging:\n  # file:\n  path: /Users/cengxinda/workspace/sourceCode/XHuiCloud/logs\n    # name: ${logging.file.path}/${spring.application.name}/root.log\n\nsecurity:\n  oauth2:\n    client:\n      ##access-token-uri: http://localhost:15000/XHuiCloud-auth/oauth/token  #请求令牌的地址\n      #user-authorization-uri: http://localhost:15000/XHuiCloud-auth/oauth/authorize #对用户授权的地址\n      ignore-urls:\n        - /druid/**\n        - /v2/api-docs\n    resource:\n      loadBalanced: true\n      token-info-uri: http://XHuiCloud-gateway:15000/auth/oauth/check_token #检查token是否有效的地址\nswagger:\n  title: 星辉云\n  description: 星辉云\n  license: Powered By Sinda\n  license-url: http://www.zsinda.cn/\n  terms-of-service-url: http://www.zsinda.cn/\n  version: 1.0.0\n  contact:\n    name: Sinda\n    email: sindazeng@gmail.com\n    url: https://github.com/sindaZeng', 'ff703fea87c7a12e1305feff87fb4791', '2010-05-05 00:00:00', '2020-08-18 15:36:53', NULL, '127.0.0.1', 'U', '');
-INSERT INTO `his_config_info` VALUES (200, 84, 'application-common.yml', 'DEFAULT_GROUP', '星辉云-星辉云', 'spring:\n  main:\n    allow-bean-definition-overriding: true\n  redis:\n    lettuce:\n      cluster:\n        refresh:\n          adaptive: true\n        nodes:\n          - 192.168.101.130:7000\n          - 192.168.101.130:7001\n          - 192.168.101.130:7002\n          - 192.168.101.130:7003\n          - 192.168.101.130:7004\n          - 192.168.101.130:7005\n        max-redirects: 3\n    #lock:\n#     enable: true #需要分布式锁的话，请打开\n    #type: CLUSTER\n    #host: ${REDIS_HOST:localhost}\n    password: ${REDIS_PASSWORD:123456}\n    timeout: 10000\n\n  cloud:\n    alibaba:\n      seata:\n        tx-service-group: xhui_tx_group\n    circuitbreaker:\n      sentinel:\n        enabled: true\n    sentinel:\n      filter:\n        urlPatterns:\n          - /**\n      transport:\n        # sentinel 地址\n        dashboard: localhost:14000\n        #监控此服务端口\n        port: ${server.port}\n    \nmanagement:\n  endpoints:\n    web:\n      exposure:\n        include: \'*\'\nfeign:\n  okhttp:\n    enabled: true\n  httpclient:\n    enabled: false\n  sentinel:\n    #feign开启sentinle监控\n    enabled: true\n    \nmybatis-plus:\n  global-config:\n    banner: false\n    db-config:\n      logic-delete-field: delFlag  #全局逻辑删除字段值 3.3.0开始支持，详情看下面。\n      logic-delete-value: 0 # 逻辑已删除值(默认为 1)\n      logic-not-delete-value: 1 # 逻辑未删除值(默认为 0)\n\n  zipkin:\n    #设置zipkin的地址\n    base-url: http://localhost:9411/\n    #注意 如果不设置 nacos客户端会把这个当成服务名疯狂的从服务端获取此服务\n    discoveryClientEnabled: false\n  sleuth:\n    sampler:\n      #抽样率 默认是(10%) 生产环境请不要设置1.0\n      probability: 1.0\n\nlogging:\n  # file:\n  path: /Users/cengxinda/workspace/sourceCode/XHuiCloud/logs\n    # name: ${logging.file.path}/${spring.application.name}/root.log\n\nsecurity:\n  oauth2:\n    client:\n      ##access-token-uri: http://localhost:15000/XHuiCloud-auth/oauth/token  #请求令牌的地址\n      #user-authorization-uri: http://localhost:15000/XHuiCloud-auth/oauth/authorize #对用户授权的地址\n      ignore-urls:\n        - /druid/**\n        - /v2/api-docs\n    resource:\n      loadBalanced: true\n      token-info-uri: http://XHuiCloud-gateway:15000/auth/oauth/check_token #检查token是否有效的地址\nswagger:\n  title: 星辉云\n  description: 星辉云\n  license: Powered By Sinda\n  license-url: http://www.zsinda.cn/\n  terms-of-service-url: http://www.zsinda.cn/\n  version: 1.0.0\n  contact:\n    name: Sinda\n    email: sindazeng@gmail.com\n    url: https://github.com/sindaZeng', '87379875c5b010f90e4d5868da78d9c4', '2010-05-05 00:00:00', '2020-08-18 15:37:00', NULL, '127.0.0.1', 'U', '');
-INSERT INTO `his_config_info` VALUES (200, 85, 'application-common.yml', 'DEFAULT_GROUP', '星辉云-星辉云', 'spring:\n  main:\n    allow-bean-definition-overriding: true\n  redis:\n    lettuce:\n      cluster:\n        refresh:\n          adaptive: true\n        nodes:\n          - 192.168.101.130:7000\n          - 192.168.101.130:7001\n          - 192.168.101.130:7002\n          - 192.168.101.130:7003\n          - 192.168.101.130:7004\n          - 192.168.101.130:7005\n        max-redirects: 3\n    #lock:\n#     enable: true #需要分布式锁的话，请打开\n    #type: CLUSTER\n    #host: ${REDIS_HOST:localhost}\n    #password: ${REDIS_PASSWORD:123456}\n    timeout: 10000\n\n  cloud:\n    alibaba:\n      seata:\n        tx-service-group: xhui_tx_group\n    circuitbreaker:\n      sentinel:\n        enabled: true\n    sentinel:\n      filter:\n        urlPatterns:\n          - /**\n      transport:\n        # sentinel 地址\n        dashboard: localhost:14000\n        #监控此服务端口\n        port: ${server.port}\n    \nmanagement:\n  endpoints:\n    web:\n      exposure:\n        include: \'*\'\nfeign:\n  okhttp:\n    enabled: true\n  httpclient:\n    enabled: false\n  sentinel:\n    #feign开启sentinle监控\n    enabled: true\n    \nmybatis-plus:\n  global-config:\n    banner: false\n    db-config:\n      logic-delete-field: delFlag  #全局逻辑删除字段值 3.3.0开始支持，详情看下面。\n      logic-delete-value: 0 # 逻辑已删除值(默认为 1)\n      logic-not-delete-value: 1 # 逻辑未删除值(默认为 0)\n\n  zipkin:\n    #设置zipkin的地址\n    base-url: http://localhost:9411/\n    #注意 如果不设置 nacos客户端会把这个当成服务名疯狂的从服务端获取此服务\n    discoveryClientEnabled: false\n  sleuth:\n    sampler:\n      #抽样率 默认是(10%) 生产环境请不要设置1.0\n      probability: 1.0\n\nlogging:\n  # file:\n  path: /Users/cengxinda/workspace/sourceCode/XHuiCloud/logs\n    # name: ${logging.file.path}/${spring.application.name}/root.log\n\nsecurity:\n  oauth2:\n    client:\n      ##access-token-uri: http://localhost:15000/XHuiCloud-auth/oauth/token  #请求令牌的地址\n      #user-authorization-uri: http://localhost:15000/XHuiCloud-auth/oauth/authorize #对用户授权的地址\n      ignore-urls:\n        - /druid/**\n        - /v2/api-docs\n    resource:\n      loadBalanced: true\n      token-info-uri: http://XHuiCloud-gateway:15000/auth/oauth/check_token #检查token是否有效的地址\nswagger:\n  title: 星辉云\n  description: 星辉云\n  license: Powered By Sinda\n  license-url: http://www.zsinda.cn/\n  terms-of-service-url: http://www.zsinda.cn/\n  version: 1.0.0\n  contact:\n    name: Sinda\n    email: sindazeng@gmail.com\n    url: https://github.com/sindaZeng', 'c51f504f79e6282c0f20e304e704bbbb', '2010-05-05 00:00:00', '2020-08-18 15:46:06', NULL, '127.0.0.1', 'U', '');
-INSERT INTO `his_config_info` VALUES (200, 86, 'application-common.yml', 'DEFAULT_GROUP', '星辉云-星辉云', 'spring:\n  main:\n    allow-bean-definition-overriding: true\n  redis:\n    lettuce:\n      cluster:\n        refresh:\n          adaptive: true\n        nodes:\n          - 127.0.0.1:7000\n          - 127.0.0.1:7001\n          - 127.0.0.1:7002\n          - 127.0.0.1:7003\n          - 127.0.0.1:7004\n          - 127.0.0.1:7005\n        max-redirects: 3\n    #lock:\n#     enable: true #需要分布式锁的话，请打开\n    #type: CLUSTER\n    #host: ${REDIS_HOST:localhost}\n    #password: ${REDIS_PASSWORD:123456}\n    timeout: 10000\n\n  cloud:\n    alibaba:\n      seata:\n        tx-service-group: xhui_tx_group\n    circuitbreaker:\n      sentinel:\n        enabled: true\n    sentinel:\n      filter:\n        urlPatterns:\n          - /**\n      transport:\n        # sentinel 地址\n        dashboard: localhost:14000\n        #监控此服务端口\n        port: ${server.port}\n    \nmanagement:\n  endpoints:\n    web:\n      exposure:\n        include: \'*\'\nfeign:\n  okhttp:\n    enabled: true\n  httpclient:\n    enabled: false\n  sentinel:\n    #feign开启sentinle监控\n    enabled: true\n    \nmybatis-plus:\n  global-config:\n    banner: false\n    db-config:\n      logic-delete-field: delFlag  #全局逻辑删除字段值 3.3.0开始支持，详情看下面。\n      logic-delete-value: 0 # 逻辑已删除值(默认为 1)\n      logic-not-delete-value: 1 # 逻辑未删除值(默认为 0)\n\n  zipkin:\n    #设置zipkin的地址\n    base-url: http://localhost:9411/\n    #注意 如果不设置 nacos客户端会把这个当成服务名疯狂的从服务端获取此服务\n    discoveryClientEnabled: false\n  sleuth:\n    sampler:\n      #抽样率 默认是(10%) 生产环境请不要设置1.0\n      probability: 1.0\n\nlogging:\n  # file:\n  path: /Users/cengxinda/workspace/sourceCode/XHuiCloud/logs\n    # name: ${logging.file.path}/${spring.application.name}/root.log\n\nsecurity:\n  oauth2:\n    client:\n      ##access-token-uri: http://localhost:15000/XHuiCloud-auth/oauth/token  #请求令牌的地址\n      #user-authorization-uri: http://localhost:15000/XHuiCloud-auth/oauth/authorize #对用户授权的地址\n      ignore-urls:\n        - /druid/**\n        - /v2/api-docs\n    resource:\n      loadBalanced: true\n      token-info-uri: http://XHuiCloud-gateway:15000/auth/oauth/check_token #检查token是否有效的地址\nswagger:\n  title: 星辉云\n  description: 星辉云\n  license: Powered By Sinda\n  license-url: http://www.zsinda.cn/\n  terms-of-service-url: http://www.zsinda.cn/\n  version: 1.0.0\n  contact:\n    name: Sinda\n    email: sindazeng@gmail.com\n    url: https://github.com/sindaZeng', '40891b9d7c481c834e2f9886859eab6f', '2010-05-05 00:00:00', '2020-08-18 16:00:12', NULL, '127.0.0.1', 'U', '');
-INSERT INTO `his_config_info` VALUES (200, 87, 'application-common.yml', 'DEFAULT_GROUP', '星辉云-星辉云', 'spring:\n  main:\n    allow-bean-definition-overriding: true\n  redis:\n    lettuce:\n      cluster:\n        refresh:\n          adaptive: true\n      nodes:\n        - 192.168.101.130:7000\n        - 192.168.101.130:7001\n        - 192.168.101.130:7002\n        - 192.168.101.130:7003\n        - 192.168.101.130:7004\n        - 192.168.101.130:7005\n        max-redirects: 3\n    #lock:\n#     enable: true #需要分布式锁的话，请打开\n    #type: CLUSTER\n    #host: ${REDIS_HOST:localhost}\n    #password: ${REDIS_PASSWORD:123456}\n    timeout: 10000\n\n  cloud:\n    alibaba:\n      seata:\n        tx-service-group: xhui_tx_group\n    circuitbreaker:\n      sentinel:\n        enabled: true\n    sentinel:\n      filter:\n        urlPatterns:\n          - /**\n      transport:\n        # sentinel 地址\n        dashboard: localhost:14000\n        #监控此服务端口\n        port: ${server.port}\n    \nmanagement:\n  endpoints:\n    web:\n      exposure:\n        include: \'*\'\nfeign:\n  okhttp:\n    enabled: true\n  httpclient:\n    enabled: false\n  sentinel:\n    #feign开启sentinle监控\n    enabled: true\n    \nmybatis-plus:\n  global-config:\n    banner: false\n    db-config:\n      logic-delete-field: delFlag  #全局逻辑删除字段值 3.3.0开始支持，详情看下面。\n      logic-delete-value: 0 # 逻辑已删除值(默认为 1)\n      logic-not-delete-value: 1 # 逻辑未删除值(默认为 0)\n\n  zipkin:\n    #设置zipkin的地址\n    base-url: http://localhost:9411/\n    #注意 如果不设置 nacos客户端会把这个当成服务名疯狂的从服务端获取此服务\n    discoveryClientEnabled: false\n  sleuth:\n    sampler:\n      #抽样率 默认是(10%) 生产环境请不要设置1.0\n      probability: 1.0\n\nlogging:\n  # file:\n  path: /Users/cengxinda/workspace/sourceCode/XHuiCloud/logs\n    # name: ${logging.file.path}/${spring.application.name}/root.log\n\nsecurity:\n  oauth2:\n    client:\n      ##access-token-uri: http://localhost:15000/XHuiCloud-auth/oauth/token  #请求令牌的地址\n      #user-authorization-uri: http://localhost:15000/XHuiCloud-auth/oauth/authorize #对用户授权的地址\n      ignore-urls:\n        - /druid/**\n        - /v2/api-docs\n    resource:\n      loadBalanced: true\n      token-info-uri: http://XHuiCloud-gateway:15000/auth/oauth/check_token #检查token是否有效的地址\nswagger:\n  title: 星辉云\n  description: 星辉云\n  license: Powered By Sinda\n  license-url: http://www.zsinda.cn/\n  terms-of-service-url: http://www.zsinda.cn/\n  version: 1.0.0\n  contact:\n    name: Sinda\n    email: sindazeng@gmail.com\n    url: https://github.com/sindaZeng', '9c5eab2a65790aee6866586b3b4091ad', '2010-05-05 00:00:00', '2020-08-18 16:01:22', NULL, '127.0.0.1', 'U', '');
-INSERT INTO `his_config_info` VALUES (200, 88, 'application-common.yml', 'DEFAULT_GROUP', '星辉云-星辉云', 'spring:\n  main:\n    allow-bean-definition-overriding: true\n  redis:\n    lettuce:\n      cluster:\n        refresh:\n          adaptive: true\n      nodes:\n        - 127.0.0.1:7000\n        - 127.0.0.1:7001\n        - 127.0.0.1:7002\n        - 127.0.0.1:7003\n        - 127.0.0.1:7004\n        - 127.0.0.1:7005\n      max-redirects: 3\n    #lock:\n#     enable: true #需要分布式锁的话，请打开\n    #type: CLUSTER\n    #host: ${REDIS_HOST:localhost}\n    #password: ${REDIS_PASSWORD:123456}\n    timeout: 10000\n\n  cloud:\n    alibaba:\n      seata:\n        tx-service-group: xhui_tx_group\n    circuitbreaker:\n      sentinel:\n        enabled: true\n    sentinel:\n      filter:\n        urlPatterns:\n          - /**\n      transport:\n        # sentinel 地址\n        dashboard: localhost:14000\n        #监控此服务端口\n        port: ${server.port}\n    \nmanagement:\n  endpoints:\n    web:\n      exposure:\n        include: \'*\'\nfeign:\n  okhttp:\n    enabled: true\n  httpclient:\n    enabled: false\n  sentinel:\n    #feign开启sentinle监控\n    enabled: true\n    \nmybatis-plus:\n  global-config:\n    banner: false\n    db-config:\n      logic-delete-field: delFlag  #全局逻辑删除字段值 3.3.0开始支持，详情看下面。\n      logic-delete-value: 0 # 逻辑已删除值(默认为 1)\n      logic-not-delete-value: 1 # 逻辑未删除值(默认为 0)\n\n  zipkin:\n    #设置zipkin的地址\n    base-url: http://localhost:9411/\n    #注意 如果不设置 nacos客户端会把这个当成服务名疯狂的从服务端获取此服务\n    discoveryClientEnabled: false\n  sleuth:\n    sampler:\n      #抽样率 默认是(10%) 生产环境请不要设置1.0\n      probability: 1.0\n\nlogging:\n  # file:\n  path: /Users/cengxinda/workspace/sourceCode/XHuiCloud/logs\n    # name: ${logging.file.path}/${spring.application.name}/root.log\n\nsecurity:\n  oauth2:\n    client:\n      ##access-token-uri: http://localhost:15000/XHuiCloud-auth/oauth/token  #请求令牌的地址\n      #user-authorization-uri: http://localhost:15000/XHuiCloud-auth/oauth/authorize #对用户授权的地址\n      ignore-urls:\n        - /druid/**\n        - /v2/api-docs\n    resource:\n      loadBalanced: true\n      token-info-uri: http://XHuiCloud-gateway:15000/auth/oauth/check_token #检查token是否有效的地址\nswagger:\n  title: 星辉云\n  description: 星辉云\n  license: Powered By Sinda\n  license-url: http://www.zsinda.cn/\n  terms-of-service-url: http://www.zsinda.cn/\n  version: 1.0.0\n  contact:\n    name: Sinda\n    email: sindazeng@gmail.com\n    url: https://github.com/sindaZeng', '1226fb4b0ceca3a4b1a961f28157f4be', '2010-05-05 00:00:00', '2020-08-18 16:03:26', NULL, '127.0.0.1', 'U', '');
-INSERT INTO `his_config_info` VALUES (200, 89, 'application-common.yml', 'DEFAULT_GROUP', '星辉云-星辉云', 'spring:\n  main:\n    allow-bean-definition-overriding: true\n  redis:\n    lettuce:\n      cluster:\n        refresh:\n          adaptive: true\n      cluster:\n        nodes:\n          - 127.0.0.1:7000\n          - 127.0.0.1:7001\n          - 127.0.0.1:7002\n          - 127.0.0.1:7003\n          - 127.0.0.1:7004\n          - 127.0.0.1:7005\n        max-redirects: 3\n    #lock:\n#     enable: true #需要分布式锁的话，请打开\n    #type: CLUSTER\n    #host: ${REDIS_HOST:localhost}\n    #password: ${REDIS_PASSWORD:123456}\n    timeout: 10000\n\n  cloud:\n    alibaba:\n      seata:\n        tx-service-group: xhui_tx_group\n    circuitbreaker:\n      sentinel:\n        enabled: true\n    sentinel:\n      filter:\n        urlPatterns:\n          - /**\n      transport:\n        # sentinel 地址\n        dashboard: localhost:14000\n        #监控此服务端口\n        port: ${server.port}\n    \nmanagement:\n  endpoints:\n    web:\n      exposure:\n        include: \'*\'\nfeign:\n  okhttp:\n    enabled: true\n  httpclient:\n    enabled: false\n  sentinel:\n    #feign开启sentinle监控\n    enabled: true\n    \nmybatis-plus:\n  global-config:\n    banner: false\n    db-config:\n      logic-delete-field: delFlag  #全局逻辑删除字段值 3.3.0开始支持，详情看下面。\n      logic-delete-value: 0 # 逻辑已删除值(默认为 1)\n      logic-not-delete-value: 1 # 逻辑未删除值(默认为 0)\n\n  zipkin:\n    #设置zipkin的地址\n    base-url: http://localhost:9411/\n    #注意 如果不设置 nacos客户端会把这个当成服务名疯狂的从服务端获取此服务\n    discoveryClientEnabled: false\n  sleuth:\n    sampler:\n      #抽样率 默认是(10%) 生产环境请不要设置1.0\n      probability: 1.0\n\nlogging:\n  # file:\n  path: /Users/cengxinda/workspace/sourceCode/XHuiCloud/logs\n    # name: ${logging.file.path}/${spring.application.name}/root.log\n\nsecurity:\n  oauth2:\n    client:\n      ##access-token-uri: http://localhost:15000/XHuiCloud-auth/oauth/token  #请求令牌的地址\n      #user-authorization-uri: http://localhost:15000/XHuiCloud-auth/oauth/authorize #对用户授权的地址\n      ignore-urls:\n        - /druid/**\n        - /v2/api-docs\n    resource:\n      loadBalanced: true\n      token-info-uri: http://XHuiCloud-gateway:15000/auth/oauth/check_token #检查token是否有效的地址\nswagger:\n  title: 星辉云\n  description: 星辉云\n  license: Powered By Sinda\n  license-url: http://www.zsinda.cn/\n  terms-of-service-url: http://www.zsinda.cn/\n  version: 1.0.0\n  contact:\n    name: Sinda\n    email: sindazeng@gmail.com\n    url: https://github.com/sindaZeng', '12a72b9b164db8bbc717b177ee8ab0ac', '2010-05-05 00:00:00', '2020-08-18 16:04:08', NULL, '127.0.0.1', 'U', '');
-INSERT INTO `his_config_info` VALUES (200, 90, 'application-common.yml', 'DEFAULT_GROUP', '星辉云-星辉云', 'spring:\n  main:\n    allow-bean-definition-overriding: true\n  redis:\n    lettuce:\n      cluster:\n        refresh:\n          adaptive: true\n    cluster:\n      nodes:\n        - 127.0.0.1:7000\n        - 127.0.0.1:7001\n        - 127.0.0.1:7002\n        - 127.0.0.1:7003\n        - 127.0.0.1:7004\n        - 127.0.0.1:7005\n      max-redirects: 3\n    #lock:\n#     enable: true #需要分布式锁的话，请打开\n    #type: CLUSTER\n    #host: ${REDIS_HOST:localhost}\n    #password: ${REDIS_PASSWORD:123456}\n    timeout: 10000\n\n  cloud:\n    alibaba:\n      seata:\n        tx-service-group: xhui_tx_group\n    circuitbreaker:\n      sentinel:\n        enabled: true\n    sentinel:\n      filter:\n        urlPatterns:\n          - /**\n      transport:\n        # sentinel 地址\n        dashboard: localhost:14000\n        #监控此服务端口\n        port: ${server.port}\n    \nmanagement:\n  endpoints:\n    web:\n      exposure:\n        include: \'*\'\nfeign:\n  okhttp:\n    enabled: true\n  httpclient:\n    enabled: false\n  sentinel:\n    #feign开启sentinle监控\n    enabled: true\n    \nmybatis-plus:\n  global-config:\n    banner: false\n    db-config:\n      logic-delete-field: delFlag  #全局逻辑删除字段值 3.3.0开始支持，详情看下面。\n      logic-delete-value: 0 # 逻辑已删除值(默认为 1)\n      logic-not-delete-value: 1 # 逻辑未删除值(默认为 0)\n\n  zipkin:\n    #设置zipkin的地址\n    base-url: http://localhost:9411/\n    #注意 如果不设置 nacos客户端会把这个当成服务名疯狂的从服务端获取此服务\n    discoveryClientEnabled: false\n  sleuth:\n    sampler:\n      #抽样率 默认是(10%) 生产环境请不要设置1.0\n      probability: 1.0\n\nlogging:\n  # file:\n  path: /Users/cengxinda/workspace/sourceCode/XHuiCloud/logs\n    # name: ${logging.file.path}/${spring.application.name}/root.log\n\nsecurity:\n  oauth2:\n    client:\n      ##access-token-uri: http://localhost:15000/XHuiCloud-auth/oauth/token  #请求令牌的地址\n      #user-authorization-uri: http://localhost:15000/XHuiCloud-auth/oauth/authorize #对用户授权的地址\n      ignore-urls:\n        - /druid/**\n        - /v2/api-docs\n    resource:\n      loadBalanced: true\n      token-info-uri: http://XHuiCloud-gateway:15000/auth/oauth/check_token #检查token是否有效的地址\nswagger:\n  title: 星辉云\n  description: 星辉云\n  license: Powered By Sinda\n  license-url: http://www.zsinda.cn/\n  terms-of-service-url: http://www.zsinda.cn/\n  version: 1.0.0\n  contact:\n    name: Sinda\n    email: sindazeng@gmail.com\n    url: https://github.com/sindaZeng', '5bae3e07656b37daddc47fdaafb0700c', '2010-05-05 00:00:00', '2020-08-18 16:12:36', NULL, '127.0.0.1', 'U', '');
-COMMIT;
+
+-- ----------------------------
+-- Table structure for permissions
+-- ----------------------------
+DROP TABLE IF EXISTS `permissions`;
+CREATE TABLE `permissions`  (
+                                `role` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+                                `resource` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+                                `action` varchar(8) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+                                UNIQUE INDEX `uk_role_permission`(`role`, `resource`, `action`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of permissions
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for roles
+-- ----------------------------
+DROP TABLE IF EXISTS `roles`;
+CREATE TABLE `roles`  (
+                          `username` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+                          `role` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+                          UNIQUE INDEX `uk_username_role`(`username`, `role`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of roles
+-- ----------------------------
+INSERT INTO `roles` VALUES ('nacos', 'ROLE_ADMIN');
+
+-- ----------------------------
+-- Table structure for tenant_capacity
+-- ----------------------------
+DROP TABLE IF EXISTS `tenant_capacity`;
+CREATE TABLE `tenant_capacity`  (
+                                    `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+                                    `tenant_id` varchar(128) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT '' COMMENT 'Tenant ID',
+                                    `quota` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '配额，0表示使用默认值',
+                                    `usage` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '使用量',
+                                    `max_size` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '单个配置大小上限，单位为字节，0表示使用默认值',
+                                    `max_aggr_count` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '聚合子配置最大个数',
+                                    `max_aggr_size` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '单个聚合数据的子配置大小上限，单位为字节，0表示使用默认值',
+                                    `max_history_count` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '最大变更历史数量',
+                                    `gmt_create` datetime NOT NULL DEFAULT '2010-05-05 00:00:00' COMMENT '创建时间',
+                                    `gmt_modified` datetime NOT NULL DEFAULT '2010-05-05 00:00:00' COMMENT '修改时间',
+                                    PRIMARY KEY (`id`) USING BTREE,
+                                    UNIQUE INDEX `uk_tenant_id`(`tenant_id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_bin COMMENT = '租户容量信息表' ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of tenant_capacity
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for tenant_info
+-- ----------------------------
+DROP TABLE IF EXISTS `tenant_info`;
+CREATE TABLE `tenant_info`  (
+                                `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'id',
+                                `kp` varchar(128) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT 'kp',
+                                `tenant_id` varchar(128) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT '' COMMENT 'tenant_id',
+                                `tenant_name` varchar(128) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT '' COMMENT 'tenant_name',
+                                `tenant_desc` varchar(256) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT 'tenant_desc',
+                                `create_source` varchar(32) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT 'create_source',
+                                `gmt_create` bigint(20) NOT NULL COMMENT '创建时间',
+                                `gmt_modified` bigint(20) NOT NULL COMMENT '修改时间',
+                                PRIMARY KEY (`id`) USING BTREE,
+                                UNIQUE INDEX `uk_tenant_info_kptenantid`(`kp`, `tenant_id`) USING BTREE,
+                                INDEX `idx_tenant_id`(`tenant_id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_bin COMMENT = 'tenant_info' ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of tenant_info
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for users
+-- ----------------------------
+DROP TABLE IF EXISTS `users`;
+CREATE TABLE `users`  (
+                          `username` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+                          `password` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+                          `enabled` tinyint(1) NOT NULL,
+                          PRIMARY KEY (`username`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of users
+-- ----------------------------
+INSERT INTO `users` VALUES ('nacos', '$2a$10$EuWPZHzz32dJN7jexM34MOeYirDdFAZm2kuWj7VEOJhhZkDrxfvUu', 1);
 
 SET FOREIGN_KEY_CHECKS = 1;
