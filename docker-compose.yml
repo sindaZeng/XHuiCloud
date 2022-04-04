@@ -11,7 +11,7 @@ services:
       MYSQL_ROOT_PASSWORD: root
     ports:
       - 3306:3306
-    command: --lower_case_table_names=1
+    command: --lower_case_table_names=1 --default-authentication-plugin=mysql_native_password
 
   xhuicloud-mq:
     image: rabbitmq:3.8.3-management
