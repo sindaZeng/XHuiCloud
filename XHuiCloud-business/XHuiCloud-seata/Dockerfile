@@ -1,4 +1,4 @@
-FROM openjdk:8u322
+FROM openjdk:8-jre
 
 MAINTAINER Sinda(sindazeng@gmail.com)
 
@@ -14,4 +14,4 @@ EXPOSE 8091
 
 ADD ./target/XHuiCloud-seata.jar ./
 
-CMD sleep 20;java -Xms256m -Xmx512m -Djava.security.egd=file:/dev/./urandom -jar XHuiCloud-seata.jar
+CMD sleep 40;java -Xms256m -Xmx512m -Djava.security.egd=file:/dev/./urandom -jar XHuiCloud-seata.jar

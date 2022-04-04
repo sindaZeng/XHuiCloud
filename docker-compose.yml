@@ -40,8 +40,6 @@ services:
       MYSQL_ROOT_PASSWORD: root
     ports:
       - 3306:3306
-    volumes:
-      - ./xhuicloud-mysql:/var/lib/mysql
     command: --lower_case_table_names=1
 
   xhuicloud-register:

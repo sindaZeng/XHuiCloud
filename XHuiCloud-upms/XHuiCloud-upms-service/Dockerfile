@@ -1,4 +1,4 @@
-FROM openjdk:8u322
+FROM openjdk:8-jre
 
 MAINTAINER Sinda(sindazeng@gmail.com)
 
@@ -14,6 +14,6 @@ EXPOSE 17000
 
 ADD ./target/XHuiCloud-upms-service.jar ./
 
-CMD sleep 30;java -Xms256m -Xmx512m -Djava.security.egd=file:/dev/./urandom -jar XHuiCloud-upms-service.jar
+CMD sleep 50;java -Xms256m -Xmx512m -Djava.security.egd=file:/dev/./urandom -jar XHuiCloud-upms-service.jar
 
 

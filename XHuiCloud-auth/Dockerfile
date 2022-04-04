@@ -1,4 +1,4 @@
-FROM openjdk:8u322
+FROM openjdk:8-jre
 
 MAINTAINER Sinda(sindazeng@gmail.com)
 

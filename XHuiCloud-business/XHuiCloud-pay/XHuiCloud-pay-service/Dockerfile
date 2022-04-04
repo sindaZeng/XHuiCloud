@@ -1,4 +1,4 @@
-FROM openjdk:8u322
+FROM openjdk:8-jre
 
 MAINTAINER Sinda(sindazeng@gmail.com)
 
@@ -14,6 +14,6 @@ EXPOSE 23000
 
 ADD ./target/XHuiCloud-pay-service.jar ./
 
-CMD sleep 120;java -Xms256m -Xmx512m -Djava.security.egd=file:/dev/./urandom -jar XHuiCloud-pay-service.jar
+CMD sleep 60;java -Xms256m -Xmx512m -Djava.security.egd=file:/dev/./urandom -jar XHuiCloud-pay-service.jar
 
 
