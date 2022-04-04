@@ -22,7 +22,7 @@
  * @Email:  xhuicloud@163.com
  */
 
- USE xhuicloud-register;
+USE xhuicloud_register;
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
