@@ -1,4 +1,4 @@
-FROM mysql:8.0.19
+FROM mysql:8.0.28
 
 MAINTAINER Sinda(sindazeng@gmail.com)
 

@@ -1,5 +1,17 @@
 version: '3'
 services:
+  xhuicloud-mysql:
+    build:
+      context: ./doc/db
+    restart: always
+    container_name: xhuicloud-mysql
+    image: xhuicloud-mysql
+    environment:
+      MYSQL_ROOT_HOST: "%"
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - 3306:3306
+    command: --lower_case_table_names=1
 
   xhuicloud-mq:
     image: rabbitmq:3.8.3-management
@@ -29,25 +41,14 @@ services:
     ports:
       - 2181:2181
 
-  xhuicloud-mysql:
-    build:
-      context: ./doc/db
-    restart: always
-    container_name: xhuicloud-mysql
-    image: xhuicloud-mysql
-    environment:
-      MYSQL_ROOT_HOST: "%"
-      MYSQL_ROOT_PASSWORD: root
-    ports:
-      - 3306:3306
-    command: --lower_case_table_names=1
-
   xhuicloud-register:
     build:
       context: ./XHuiCloud-business/XHuiCloud-register
     restart: always
     container_name: xhuicloud-register
     image: xhuicloud-register
+    depends_on:
+      - xhuicloud-mysql
     ports:
       - 13000:13000
 
