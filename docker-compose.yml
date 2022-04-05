@@ -19,7 +19,8 @@ services:
     restart: always
     hostname: xhuicloud-mq
     volumes:
-      - ./doc/mq:/etc/rabbitmq/enabled_plugins
+      - ./doc/mq/rabbitmq_delayed_message_exchange-3.9.0.ez:/plugins/rabbitmq_delayed_message_exchange-3.9.0.ez
+    command: rabbitmq-plugins enable rabbitmq_delayed_message_exchange
     ports:
       - 15672:15672
       - 5672:5672
