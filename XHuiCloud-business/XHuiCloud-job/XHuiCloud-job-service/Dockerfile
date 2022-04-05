@@ -14,4 +14,4 @@ EXPOSE 19000
 
 ADD ./target/XHuiCloud-job-service.jar ./
 
-CMD sleep 60;java -Xms256m -Xmx512m -Djava.security.egd=file:/dev/./urandom -jar XHuiCloud-job-service.jar
+CMD sleep 90;java -Xms256m -Xmx512m -Djava.security.egd=file:/dev/./urandom -jar XHuiCloud-job-service.jar
