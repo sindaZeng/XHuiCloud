@@ -18,6 +18,8 @@ services:
     container_name: xhuicloud-mq
     restart: always
     hostname: xhuicloud-mq
+    volumes:
+      - ./doc/mq:/etc/rabbitmq/enabled_plugins
     ports:
       - 15672:15672
       - 5672:5672
