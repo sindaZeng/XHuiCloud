@@ -71,6 +71,7 @@ public class QqSocialHandle extends AbstractSocialHandle {
         String result = HttpUtil.get(String.format(ThirdLoginUrlConstants.getTokenUrl
                 , sysSocial.getAppId(), sysSocial.getAppSecret(), auth_code, URLUtil.encode(sysSocial.getRedirectUrl())));
         String access_token = result.split("&")[0].split("=")[1];
+        log.info("QQ return result:[{}]", result);
         result = HttpUtil.get(String.format(ThirdLoginUrlConstants.getOpenIdUrl, access_token));
         result = result.replace("callback(", "");
         result = result.replace(")", "");

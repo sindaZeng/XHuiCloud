@@ -55,7 +55,7 @@ import reactor.core.publisher.Mono;
 @Slf4j
 @Component
 @AllArgsConstructor
-public class CodeGatewayFilter extends AbstractGatewayFilterFactory {
+public class CodeGatewayFilterFactory extends AbstractGatewayFilterFactory {
 
     private final ObjectMapper objectMapper;
 

@@ -36,13 +36,13 @@ import org.springframework.stereotype.Component;
 
 /**
  * @program: XHuiCloud
- * @description: DemoGatewayFilter
+ * @description: SampleGatewayFilterFactory
  * @author: Sinda
  * @create: 2020-04-21 11:38
  */
 @Slf4j
 @Component
-public class DemoGatewayFilter extends AbstractGatewayFilterFactory {
+public class SampleGatewayFilterFactory extends AbstractGatewayFilterFactory {
     private static final String TOKEN = "token";
 
     @Override
