@@ -14,7 +14,7 @@ services:
     command: --lower_case_table_names=1 --default-authentication-plugin=mysql_native_password
 
   xhuicloud-mq:
-    image: rabbitmq:3.8.3-management
+    image: rabbitmq:3-management
     container_name: xhuicloud-mq
     restart: always
     hostname: xhuicloud-mq
