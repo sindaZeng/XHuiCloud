@@ -26,7 +26,9 @@ package com.xhuicloud.common.data.tenant;
 
 import com.xhuicloud.common.core.thread.ThreadBroker;
 import lombok.experimental.UtilityClass;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
+import java.util.concurrent.ThreadPoolExecutor;
 import java.util.function.Supplier;
 
 @UtilityClass
@@ -39,7 +41,8 @@ public class XHuiTenantThreadBroker {
 
     public void execute(Integer tenant, ThreadBroker.Execute<Integer> func) {
         try {
-            func.execute(tenant);
+            ThreadPoolTaskExecutor poll = ThreadBroker.getPoll();
+            poll.execute(() -> func.execute(tenant));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -54,7 +57,8 @@ public class XHuiTenantThreadBroker {
 
     public <R> R submit(Integer tenant, ThreadBroker.Submit<Integer, R> func) {
         try {
-            return func.submit(tenant);
+            ThreadPoolTaskExecutor poll = ThreadBroker.getPoll();
+            return poll.submit(() -> func.submit(tenant)).get();
         } catch (Exception e) {
             e.printStackTrace();
         }

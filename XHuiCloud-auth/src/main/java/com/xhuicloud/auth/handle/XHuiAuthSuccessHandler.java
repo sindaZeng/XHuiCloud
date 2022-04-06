@@ -90,7 +90,8 @@ public class XHuiAuthSuccessHandler extends AbstractAuthenticationSuccessEventHa
         sysLogLogin.setIp(WebUtils.getIP(request));
         sysLogLogin.setUseragent(WebUtils.userAgent(request));
         sysLogLogin.setStatus(CommonConstants.SUCCESS);
-        sysLogLoginFeign.save(sysLogLogin, IS_COMMING_ANONYMOUS_YES);
+        XHuiTenantThreadBroker.execute(() -> xHuiUser.getTenantId(),
+                id -> sysLogLoginFeign.save(sysLogLogin, IS_COMMING_ANONYMOUS_YES));
     }
 
 }

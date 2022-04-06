@@ -22,34 +22,31 @@
  * @Email:  xhuicloud@163.com
  */
 
-package com.xhuicloud.common.core.thread;
+package com.xhuicloud.upms.handle.wechat;
 
-import cn.hutool.extra.spring.SpringUtil;
-import lombok.experimental.UtilityClass;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import me.chanjar.weixin.common.error.WxErrorException;
+import me.chanjar.weixin.common.session.WxSessionManager;
+import me.chanjar.weixin.mp.api.WxMpMessageHandler;
+import me.chanjar.weixin.mp.api.WxMpService;
+import me.chanjar.weixin.mp.bean.message.WxMpXmlMessage;
+import me.chanjar.weixin.mp.bean.message.WxMpXmlOutMessage;
+import org.springframework.stereotype.Component;
 
-@UtilityClass
-public class ThreadBroker {
+import java.util.Map;
 
-    public ThreadPoolTaskExecutor getPoll(){
-        ThreadPoolTaskExecutor threadPoolTaskExecutor = SpringUtil.getBean(ThreadPoolTaskExecutor.class);
-        return threadPoolTaskExecutor;
-    }
+/**
+ * 关注事件
+ */
+@Slf4j
+@Component
+@AllArgsConstructor
+public class WeChatMpSubscribeHandler implements WxMpMessageHandler {
 
-    @FunctionalInterface
-    public interface Execute<T> {
-
-        void execute(T t);
-
-    }
-
-    @FunctionalInterface
-    public interface Submit<T, R> {
-
-        R submit(T t);
-
+    @Override
+    public WxMpXmlOutMessage handle(WxMpXmlMessage wxMessage, Map<String, Object> context, WxMpService wxMpService, WxSessionManager sessionManager) throws WxErrorException {
+        return null;
     }
 
 }
-
-

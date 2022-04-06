@@ -64,7 +64,6 @@ public class AsyncThreadExecuteConfiguration {
         ThreadPoolExecutor.CallerRunsPolicy callerRunsPolicy = new ThreadPoolExecutor.CallerRunsPolicy();
         executor.setRejectedExecutionHandler(callerRunsPolicy);
         executor.setThreadFactory(new ThreadFactoryName());
-        executor.initialize();
         log.info("线程池初始化完成: corePoolSize = {}, maxPoolSize = {}, " +
                         "queueCapacity = {}, keepAliveSeconds = {}, rejectedExecutionHandler = {}", properties.getCorePoolSize(),
                 properties.getMaxPoolSize(), properties.getQueueCapacity(), properties.getKeepAliveSeconds(), callerRunsPolicy.getClass());

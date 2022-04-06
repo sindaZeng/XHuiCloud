@@ -39,6 +39,9 @@ import org.springframework.stereotype.Component;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * 扫码事件 未关注的话不会进入
+ */
 @Slf4j
 @Component
 @AllArgsConstructor

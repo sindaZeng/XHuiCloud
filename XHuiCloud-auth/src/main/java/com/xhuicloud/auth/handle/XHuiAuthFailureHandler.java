@@ -69,5 +69,7 @@ public class XHuiAuthFailureHandler extends AbstractAuthenticationFailureEvenHan
         sysLogLogin.setStatus(CommonConstants.FAIL);
         sysLogLogin.setRemake(authenticationException.getLocalizedMessage());
         sysLogLoginFeign.save(sysLogLogin, IS_COMMING_ANONYMOUS_YES);
+        XHuiTenantThreadBroker.execute(() -> null,
+                id -> sysLogLoginFeign.save(sysLogLogin, IS_COMMING_ANONYMOUS_YES));
     }
 }

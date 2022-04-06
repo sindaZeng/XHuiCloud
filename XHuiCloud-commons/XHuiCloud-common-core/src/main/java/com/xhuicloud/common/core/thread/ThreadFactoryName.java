@@ -38,10 +38,10 @@ public class ThreadFactoryName implements ThreadFactory {
     private final String namePrefix;
 
     public ThreadFactoryName() {
-        this("xhui-pool");
+        this("xhuicloud-pool");
     }
 
-    private ThreadFactoryName(String name){
+    private ThreadFactoryName(String name) {
         SecurityManager s = System.getSecurityManager();
         group = (s != null) ? s.getThreadGroup() :
                 Thread.currentThread().getThreadGroup();
@@ -52,11 +52,9 @@ public class ThreadFactoryName implements ThreadFactory {
     @Override
     public Thread newThread(Runnable r) {
         Thread t = new Thread(group, r,
-                namePrefix + "-thread-"+threadNumber.getAndIncrement(),
+                namePrefix + "-thread-" + threadNumber.getAndIncrement(),
                 0);
-        if (t.isDaemon()) {
-            t.setDaemon(false);
-        }
+        t.setDaemon(!t.isDaemon());
         if (t.getPriority() != Thread.NORM_PRIORITY) {
             t.setPriority(Thread.NORM_PRIORITY);
         }

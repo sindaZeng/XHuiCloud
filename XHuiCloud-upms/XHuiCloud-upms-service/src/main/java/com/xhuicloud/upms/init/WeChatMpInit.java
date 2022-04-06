@@ -28,6 +28,7 @@ import cn.hutool.core.collection.CollectionUtil;
 import com.xhuicloud.common.core.constant.SysParamConstants;
 import com.xhuicloud.upms.entity.SysParam;
 import com.xhuicloud.upms.handle.wechat.WeChatMpScanHandler;
+import com.xhuicloud.upms.handle.wechat.WeChatMpSubscribeHandler;
 import com.xhuicloud.upms.service.SysParamService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -54,10 +55,9 @@ public class WeChatMpInit {
 
     public static WxMpMessageRouter router;
 
-    /**
-     * 用户扫码事件
-     */
     private final WeChatMpScanHandler weChatMpScanHandler;
+
+    private final WeChatMpSubscribeHandler weChatMpSubscribeHandler;
 
     @PostConstruct
     public void init() {
@@ -82,6 +82,12 @@ public class WeChatMpInit {
                     .msgType(WxConsts.XmlMsgType.EVENT)
                     .event(WxConsts.EventType.SCAN)
                     .handler(this.weChatMpScanHandler).end();
+
+            // 用户关注事件
+            router.rule().async(false)
+                    .msgType(WxConsts.XmlMsgType.EVENT)
+                    .event(WxConsts.EventType.SUBSCRIBE)
+                    .handler(this.weChatMpSubscribeHandler).end();
 
             this.router = router;
         }
