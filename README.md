@@ -121,7 +121,7 @@ XHuiCloud
 | Redis         | 6.2.6  |
 | RabbitMQ      | 3      |
 | Nginx         | 1.10   |
-| Minio         | 1.10   |
+| Minio         |        |
 
 ### 搭建步骤
 
