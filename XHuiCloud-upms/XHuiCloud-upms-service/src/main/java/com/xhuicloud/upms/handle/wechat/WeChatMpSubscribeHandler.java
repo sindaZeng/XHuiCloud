@@ -24,6 +24,7 @@
 
 package com.xhuicloud.upms.handle.wechat;
 
+import com.xhuicloud.common.core.constant.SecurityConstants;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.error.WxErrorException;
@@ -32,9 +33,11 @@ import me.chanjar.weixin.mp.api.WxMpMessageHandler;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.message.WxMpXmlMessage;
 import me.chanjar.weixin.mp.bean.message.WxMpXmlOutMessage;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 关注事件
@@ -44,9 +47,18 @@ import java.util.Map;
 @AllArgsConstructor
 public class WeChatMpSubscribeHandler implements WxMpMessageHandler {
 
+    private final RedisTemplate redisTemplate;
+
     @Override
-    public WxMpXmlOutMessage handle(WxMpXmlMessage wxMessage, Map<String, Object> context, WxMpService wxMpService, WxSessionManager sessionManager) throws WxErrorException {
-        return null;
+    public WxMpXmlOutMessage handle(WxMpXmlMessage wxMpXmlMessage, Map<String, Object> map, WxMpService wxMpService,
+                                    WxSessionManager wxSessionManager) throws WxErrorException {
+        String fromUser = wxMpXmlMessage.getFromUser();
+        String toUser = wxMpXmlMessage.getToUser();
+        String ticket = wxMpXmlMessage.getTicket();
+        redisTemplate.opsForValue().set(
+                SecurityConstants.WECHAT_MP_SCAN_SUCCESS + ticket
+                , fromUser, 30, TimeUnit.SECONDS);
+        return WxMpXmlOutMessage.TEXT().fromUser(toUser).toUser(fromUser).content("感谢关注，欢迎您使用星辉云:\n<a href=\"https://github.com/sindaZeng/XHuiCloud\">点击关注此项目</a>\n演示环境: http://xhuicloud.cn\n有关问题在此公众号直接回复!").build();
     }
 
 }
