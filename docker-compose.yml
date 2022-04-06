@@ -105,6 +105,8 @@ services:
     restart: always
     container_name: xhuicloud-xxl-admin
     image: xhuicloud-xxl-admin
+    ports:
+      - 20000:20000
 
   xhuicloud-job:
     build:
