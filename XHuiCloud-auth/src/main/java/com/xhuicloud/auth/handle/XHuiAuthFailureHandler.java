@@ -28,7 +28,6 @@ import com.xhuicloud.common.core.constant.CommonConstants;
 import com.xhuicloud.common.core.utils.WebUtils;
 import com.xhuicloud.common.data.tenant.XHuiTenantThreadBroker;
 import com.xhuicloud.common.security.handle.AbstractAuthenticationFailureEvenHandler;
-import com.xhuicloud.common.security.service.XHuiUser;
 import com.xhuicloud.logs.entity.SysLogLogin;
 import com.xhuicloud.logs.feign.SysLogLoginFeign;
 import lombok.AllArgsConstructor;
@@ -68,7 +67,6 @@ public class XHuiAuthFailureHandler extends AbstractAuthenticationFailureEvenHan
         sysLogLogin.setUseragent(WebUtils.userAgent(request));
         sysLogLogin.setStatus(CommonConstants.FAIL);
         sysLogLogin.setRemake(authenticationException.getLocalizedMessage());
-        sysLogLoginFeign.save(sysLogLogin, IS_COMMING_ANONYMOUS_YES);
         XHuiTenantThreadBroker.execute(() -> null,
                 id -> sysLogLoginFeign.save(sysLogLogin, IS_COMMING_ANONYMOUS_YES));
     }

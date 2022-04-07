@@ -36,6 +36,7 @@ import com.xhuicloud.pay.handle.impl.AliPayServiceImpl;
 import com.xhuicloud.pay.properties.PayProperties;
 import com.xhuicloud.pay.utils.UserAgentUtil;
 import com.xhuicloud.upms.entity.SysTenant;
+import com.xhuicloud.upms.vo.TenantVo;
 import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
@@ -75,10 +76,10 @@ public class PayRouteController {
     @Anonymous(value = false)
     public ModelAndView toPay(ModelAndView modelAndView,
                               HttpServletRequest request) {
-        SysTenant sysTenant = getTenant(XHuiCommonThreadLocalHolder.getTenant());
-        if (ObjectUtil.isNotNull(sysTenant)) {
+        TenantVo tenantVo = getTenant(XHuiCommonThreadLocalHolder.getTenant());
+        if (ObjectUtil.isNotNull(tenantVo)) {
             modelAndView.setViewName("ftl/h5pay");
-            modelAndView.addObject("tenant", sysTenant);
+            modelAndView.addObject("tenant", tenantVo);
             if (UserAgentUtil.isWeChat(request)) {
                 // 微信
                 modelAndView.addObject("channel", PayTypeEnum.WEIXIN_WAP.toString());
@@ -137,14 +138,14 @@ public class PayRouteController {
      * @return
      */
     @Cacheable(value = "Tenant", key = "#tenantId")
-    public SysTenant getTenant(Integer tenantId) {
-        SysTenant sysTenant = PayConfigInit.tenantMaps.get(tenantId);
-        if (ObjectUtil.isNotNull(sysTenant)) {
+    public TenantVo getTenant(Integer tenantId) {
+        TenantVo tenantVo = PayConfigInit.tenantMaps.get(tenantId);
+        if (ObjectUtil.isNotNull(tenantVo)) {
             XHuiCommonThreadLocalHolder.setTenant(Integer.valueOf(tenantId));
         } else {
             throw SysException.sysFail(SysException.TENANT_NOT_EXIST_DATA_EXCEPTION);
         }
-        return sysTenant;
+        return tenantVo;
     }
 
 }

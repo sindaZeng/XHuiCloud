@@ -4,9 +4,9 @@
     <meta charset="UTF-8"/>
     <meta name="viewport"
           content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
-    <title>快速开发平台第三方授权</title>
+    <title>星辉云认证授权</title>
     <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css"/>
-    <link rel="stylesheet" type="text/css" href="/css/signin.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/auth.css"/>
 </head>
 
 <body>
@@ -22,9 +22,6 @@
             <p class="navbar-text navbar-right">
                 <a target="_blank" href="">申请接入</a>
             </p>
-            <p class="navbar-text navbar-right">
-                <a target="_blank" href="">${user.username}</a>
-            </p>
         </div>
     </div>
 </nav>
@@ -32,13 +29,17 @@
     <form id='confirmationForm' name='confirmationForm' action="/oauth/authorize" method='post'>
         <input name='user_oauth_approval' value='true' type='hidden'/>
         <p>
-            <a href="${app.home!''}" target="_blank">${app.name!'未定义应用名称'}</a> 将获得以下权限：</p>
+            <a href="#" target="_blank">${app.name!'未知应用'}</a> 同意将获得以下权限：</p>
         <ul class="list-group">
-            <li class="list-group-item"> <span>
-              <#list scopeList as scope>
-                  <input type="hidden" name="${scope}" value="true"/>
-                  <input type="checkbox" disabled checked="checked"/><label>${scope}</label>
-              </#list>
+            <li class="list-group-item">
+                <#list scopeList as scope>
+                    <input type="hidden" name="${scope}" value="true"/>
+                </#list>
+                <#list permission?keys as key>
+                    <input type="hidden" name="${permission[key]}" value="true"/>
+                    <input type="checkbox" disabled checked="checked"/><label>${permission[key]}</label>
+                </#list>
+            </li>
         </ul>
         <p class="help-block">授权后表明你已同意 <a>服务协议</a></p>
         <button class="btn btn-success pull-right" type="submit" id="write-email-btn">授权</button>
@@ -46,7 +47,7 @@
     </form>
 </div>
 <footer>
-    <p>support by: 快速开发平台</p>
+    <p>support by: 星辉云</p>
     <p>email: <a href="mailto:wangiegie@gmail.com">sindazeng@gmail.com</a>.</p>
 </footer>
 </body>

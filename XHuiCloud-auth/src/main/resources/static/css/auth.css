@@ -22,28 +22,46 @@
 * @Email:  xhuicloud@163.com
 */
 
-.sign_body {
-  padding-top: 40px;
-  padding-bottom: 40px;
-  background-color: #eee;
+.auth_body {
+  background-color: #F6F8FD;
 }
 
-.form-signin {
+.form-auth {
   max-width: 330px;
-  padding: 15px;
   margin: 0 auto;
 }
-.form-margin-top {
-  margin-top: 50px;
+.form-container {
+  margin-top: 150px;
+  width: 456px;
+  min-height: 500px;
+  background-color: white;
+  border: 1px solid #BFBFBF;
+  border-radius: 10px;
 }
-.form-signin .form-signin-heading,
-.form-signin .checkbox {
-  margin-bottom: 10px;
+
+.header-container {
+  user-select: none;
+  padding: 24px 38px 0;
+  margin-bottom: 30px;
 }
-.form-signin .checkbox {
-  font-weight: normal;
+.header-container .icon {
+  width: 80px;
+  height: 80px;
+  border-radius: 4px;
+  margin-bottom: 8px;
 }
-.form-signin .form-control {
+
+.header-container .title {
+  color: #282d3c;
+  font-weight: 600;
+  font-size: 24px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-left: 7px;
+}
+
+.form-auth .form-control {
   position: relative;
   height: auto;
   -webkit-box-sizing: border-box;
@@ -52,18 +70,11 @@
   padding: 10px;
   font-size: 16px;
 }
-.form-signin .form-control:focus {
+.form-auth .form-control:focus {
   z-index: 2;
 }
-.form-signin input[type="email"] {
-  margin-bottom: -1px;
-  border-bottom-right-radius: 0;
-  border-bottom-left-radius: 0;
-}
-.form-signin input[type="password"] {
+.form-auth input[type="password"] {
   margin-bottom: 10px;
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
 }
 footer{
   text-align: center;

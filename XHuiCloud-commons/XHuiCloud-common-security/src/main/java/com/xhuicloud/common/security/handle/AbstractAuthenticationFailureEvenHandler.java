@@ -26,6 +26,7 @@ package com.xhuicloud.common.security.handle;
 
 import org.springframework.context.ApplicationListener;
 import org.springframework.security.authentication.event.AbstractAuthenticationFailureEvent;
+import org.springframework.security.authentication.event.AuthenticationFailureProviderNotFoundEvent;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -44,6 +45,9 @@ public abstract class AbstractAuthenticationFailureEvenHandler implements Applic
 
     @Override
     public void onApplicationEvent(AbstractAuthenticationFailureEvent event) {
+        if (event instanceof AuthenticationFailureProviderNotFoundEvent) {
+            return;
+        }
         ServletRequestAttributes requestAttributes = (ServletRequestAttributes)
                 RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = requestAttributes.getRequest();

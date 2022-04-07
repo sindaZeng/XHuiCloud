@@ -28,12 +28,10 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;
-import com.xhuicloud.common.core.constant.CacheConstants;
 import com.xhuicloud.upms.entity.SysClientDetails;
 import com.xhuicloud.upms.feign.SysClientDetailFeign;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.oauth2.provider.ClientDetails;
 import org.springframework.security.oauth2.provider.ClientDetailsService;
@@ -65,7 +63,6 @@ public class XHuiClientDetailsServiceImpl implements ClientDetailsService {
         if (data == null) {
             return null;
         }
-        // 适配成oauth2内置类型
         return clientDetailsWrapper(data);
     }
 
@@ -110,15 +107,12 @@ public class XHuiClientDetailsServiceImpl implements ClientDetailsService {
         String json = origin.getAdditionalInformation();
         if (StrUtil.isNotBlank(json)) {
             try {
-                @SuppressWarnings("unchecked")
                 Map<String, Object> additionalInformation = JSONUtil.toBean(json, Map.class);
                 target.setAdditionalInformation(additionalInformation);
-            }
-            catch (Exception e) {
-                log.warn("Could not decode JSON for additional information: " + json, e);
+            } catch (Exception e) {
+                log.warn("Json格式化异常：{}, {}" + json, e);
             }
         }
-
         return target;
     }
 }

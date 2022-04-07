@@ -7,32 +7,46 @@
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="">
     <meta name="author" content="">
-
-    <title>快速开发平台统一认证</title>
-
+    <title>星辉云认证平台</title>
     <link href="/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/css/signin.css" rel="stylesheet">
+    <link href="/css/auth.css" rel="stylesheet">
 </head>
 
-<body class="sign_body">
-<div class="container form-margin-top">
-    <form class="form-signin" action="/token/form" method="post" name="f">
-        <h2 class="form-signin-heading" align="center">统一认证系统</h2>
-        <input type="text" name="username" class="form-control form-margin-top" placeholder="账号" required autofocus>
+<body class="auth_body">
+<div class="container form-container">
+    <#if error??>
+        <div class="alert alert-warning" role="alert"><strong>警告!</strong> ${error}</div>
+    </#if>
+    <div class="header-container">
+        <img id="icon" src="https://xhuicloud.oss-cn-shenzhen.aliyuncs.com/xhuicloud-logo.png" alt="" class="icon">
+        <div class="title">星辉云</div>
+    </div>
+    <form class="form-auth" action="/auth/form" method="post">
+        <#if tenants??>
+            <select id="tenantSelect" class="form-control" placeholder="请选择租户" name="tenantId" onchange="selectTenant()">
+                <#list tenants as tenant>
+                    <option value="${tenant.id}" logo="${tenant.logo}">${tenant.name}</option>
+                </#list>
+            </select>
+        </#if>
+        </br>
+        <input type="text" name="username" class="form-control" placeholder="账号" required autofocus>
         </br>
         <input type="password" name="password" class="form-control" placeholder="密码" required>
-        <button class="btn btn-lg btn-primary btn-block" onclick="">sign in</button>
-        <#if error??>
-            <span style="color: red; ">${error}</span>
-        </#if>
+        <button class="btn btn-lg btn-primary btn-block" onclick="">登录</button>
+
     </form>
 </div>
 <footer>
-    <p>support by: www.zsinda.cn</p>
-    <p>email: <a href="mailto:sindazeng@gmain.com">sindazeng@gmain.com</a></p>
+    <p>support by: 星辉云</p>
+    <p>email: <a href="mailto:sindazeng@gmail.com">sindazeng@gmail.com</a></p>
 </footer>
 </body>
 <script type="text/javascript">
-
+function selectTenant() {
+    var dom = document.getElementById('tenantSelect');
+    var logo = dom.options[dom.selectedIndex].getAttribute('logo')
+    document.getElementById("icon").src = logo;
+}
 </script>
 </html>

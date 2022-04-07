@@ -27,10 +27,12 @@ package com.xhuicloud.auth.config;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xhuicloud.auth.service.XHuiClientDetailsServiceImpl;
 import com.xhuicloud.common.security.component.ResourceAuthExceptionEntryPoint;
+import com.xhuicloud.common.security.component.XHuiRedirectResolver;
 import com.xhuicloud.common.security.component.XHuiWebResponseExceptionTranslator;
 import com.xhuicloud.common.security.service.XHuiUserDetailsService;
 import com.xhuicloud.common.security.social.SocialTokenGranter;
 import lombok.AllArgsConstructor;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -44,7 +46,6 @@ import org.springframework.security.oauth2.provider.TokenGranter;
 import org.springframework.security.oauth2.provider.code.AuthorizationCodeServices;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenStore;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -74,6 +75,11 @@ public class XHuiAuthorizationServerConfig extends AuthorizationServerConfigurer
 
     private final TokenStore xHuiRedisTokenStore;
 
+    @Bean
+    public XHuiRedirectResolver xHuiRedirectResolver() {
+        return new XHuiRedirectResolver();
+    }
+
     /**
      * 配置客户端信息
      *
@@ -97,7 +103,7 @@ public class XHuiAuthorizationServerConfig extends AuthorizationServerConfigurer
      */
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
-        endpoints
+        endpoints.redirectResolver(xHuiRedirectResolver())
                 .allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST)
                 .tokenStore(xHuiRedisTokenStore)
                 .tokenEnhancer(xhuiTokenEnhancer)
@@ -105,7 +111,7 @@ public class XHuiAuthorizationServerConfig extends AuthorizationServerConfigurer
                 .authorizationCodeServices(xHuiAuthCodeServicesImpl)
                 .authenticationManager(authenticationManager)//校验用户信息是否合法
                 .reuseRefreshTokens(false)
-                .pathMapping("/oauth/confirm_access", "/token/confirm_access")//设置成自己的授权页面
+                .pathMapping("/oauth/confirm_access", "/auth/confirm_access")//设置成自己的授权页面
                 .exceptionTranslator(new XHuiWebResponseExceptionTranslator()); //修改Oauth2定义的错误信息 为我们定义的错误信息
         setSocialTokenGranter(endpoints);
     }

@@ -37,6 +37,7 @@ import com.xhuicloud.pay.entity.PayChannel;
 import com.xhuicloud.pay.service.PayChannelService;
 import com.xhuicloud.upms.entity.SysTenant;
 import com.xhuicloud.upms.feign.SysTenantServiceFeign;
+import com.xhuicloud.upms.vo.TenantVo;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -69,7 +70,7 @@ public class PayConfigInit {
 
     public final static Map<Integer,String> tenantIdAliPayAppIdMaps = Maps.newHashMap();
 
-    public final static Map<Integer, SysTenant> tenantMaps = Maps.newHashMap();
+    public final static Map<Integer, TenantVo> tenantMaps = Maps.newHashMap();
 
     @Async
     @Order

@@ -23,13 +23,12 @@
  */
 
 package com.xhuicloud.auth.handle;
-import java.time.LocalDateTime;
 
+import java.time.LocalDateTime;
 import cn.hutool.core.date.DateUtil;
 import com.google.common.collect.Maps;
 import com.xhuicloud.common.core.constant.CommonConstants;
 import com.xhuicloud.common.core.utils.WebUtils;
-import com.xhuicloud.common.data.tenant.XHuiCommonThreadLocalHolder;
 import com.xhuicloud.common.data.tenant.XHuiTenantThreadBroker;
 import com.xhuicloud.common.security.handle.AbstractAuthenticationSuccessEventHandler;
 import com.xhuicloud.common.security.service.XHuiUser;
@@ -43,12 +42,10 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Arrays;
 import java.util.Map;
-
 import static com.xhuicloud.common.core.constant.AuthorizationConstants.IS_COMMING_ANONYMOUS_YES;
 
 /**

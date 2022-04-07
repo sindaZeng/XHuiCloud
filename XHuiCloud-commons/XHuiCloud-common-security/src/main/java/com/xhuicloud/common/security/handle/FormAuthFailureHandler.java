@@ -24,6 +24,7 @@
 
 package com.xhuicloud.common.security.handle;
 
+import cn.hutool.core.util.CharsetUtil;
 import cn.hutool.http.HttpUtil;
 import com.xhuicloud.common.core.utils.WebUtils;
 import lombok.SneakyThrows;
@@ -49,7 +50,6 @@ public class FormAuthFailureHandler implements AuthenticationFailureHandler {
     @SneakyThrows
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) {
         log.debug("表单登录失败:{}", exception.getLocalizedMessage());
-        WebUtils.getResponse().sendRedirect(String.format("/token/login?error=%s"
-                , HttpUtil.encodeParams(exception.getMessage(), Charset.defaultCharset())));
+        WebUtils.getResponse().sendRedirect(HttpUtil.encodeParams(String.format("/oauth/login?error=%s", exception.getMessage()), CharsetUtil.CHARSET_UTF_8));
     }
 }

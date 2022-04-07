@@ -27,6 +27,9 @@ package com.xhuicloud.auth.controller;
 import cn.hutool.core.util.StrUtil;
 import com.xhuicloud.common.core.utils.Response;
 import com.xhuicloud.common.security.utils.SecurityHolder;
+import com.xhuicloud.upms.entity.SysTenant;
+import com.xhuicloud.upms.feign.SysTenantServiceFeign;
+import com.xhuicloud.upms.vo.TenantVo;
 import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -42,7 +45,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.List;
 import java.util.Map;
+
+import static com.xhuicloud.common.core.constant.AuthorizationConstants.IS_COMMING_ANONYMOUS_YES;
 
 /**
  * @program: XHuiCloud
@@ -52,7 +58,7 @@ import java.util.Map;
  **/
 @Slf4j
 @RestController
-@RequestMapping("/token")
+@RequestMapping("/auth")
 @AllArgsConstructor
 @Api(value = "auth", tags = "认证模块")
 public class AuthTokenEndpoint {
@@ -61,6 +67,8 @@ public class AuthTokenEndpoint {
 
     private final ClientDetailsService clientDetailsService;
 
+    private final SysTenantServiceFeign sysTenantServiceFeign;
+
     /**
      * 认证页面
      * @param modelAndView
@@ -68,8 +76,24 @@ public class AuthTokenEndpoint {
      * @return ModelAndView
      */
     @GetMapping("/login")
-    public ModelAndView require(ModelAndView modelAndView, @RequestParam(required = false) String error) {
+    public ModelAndView login(ModelAndView modelAndView, @RequestParam(required = false) String error) {
+        List<TenantVo> list = sysTenantServiceFeign.list(IS_COMMING_ANONYMOUS_YES).getData();
         modelAndView.setViewName("ftl/login");
+        modelAndView.addObject("error", error);
+        modelAndView.addObject("tenants", list);
+        return modelAndView;
+    }
+
+    /**
+     * 回调域错误页
+     * @param modelAndView
+     * @param error        回调域错 错误信息
+     * @return ModelAndView
+     */
+    @GetMapping("/notmatch")
+    public ModelAndView nomatch(ModelAndView modelAndView, @RequestParam(required = false) String error) {
+
+        modelAndView.setViewName("ftl/notmatch");
         modelAndView.addObject("error", error);
         return modelAndView;
     }
@@ -92,6 +116,7 @@ public class AuthTokenEndpoint {
             AuthorizationRequest authorizationRequest = (AuthorizationRequest) auth;
             ClientDetails clientDetails = clientDetailsService.loadClientByClientId(authorizationRequest.getClientId());
             modelAndView.addObject("app", clientDetails.getAdditionalInformation());
+            modelAndView.addObject("permission", clientDetails.getAdditionalInformation().get("permission"));
             modelAndView.addObject("user", SecurityHolder.getUser());
         }
         modelAndView.setViewName("ftl/confirm");
