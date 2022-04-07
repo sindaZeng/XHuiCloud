@@ -1,10 +1,67 @@
-- 基于 Spring Cloud Hoxton、Spring Boot、OAuth2 的RBAC权限管理系统
-- 提供对 Docker、Kubernetes、Rancher2 容器化支持
+<p align="center">
+     XHuiCloud - 星辉云快速开发 
+</p>
+<p align="center">
+  <a href="https://github.com/sindaZeng/XHuiCloud/blob/develop/LICENSE">
+    <img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="LICENSE">
+  </a>
+  <a href="#">
+    <img src="https://img.shields.io/badge/XHuiCloud-2.0.0-green.svg" alt="XHuiCloud">
+  </a>
+  <a href="#">
+    <img src="https://img.shields.io/badge/Spring--Boot-2.5.6-green.svg" alt="SpringBoot">
+  </a>
+  <a href="#">
+    <img src="https://img.shields.io/badge/Spring--Cloud-2020.0.4-green.svg" alt="SpringCloud">
+  </a>
+  <a href="#">
+    <img src="https://img.shields.io/badge/Spring--Cloud--Alibaba-2021.1-green.svg" alt="SpringCloudAlibaba">
+  </a>
+  <a href="#">
+    <img src="https://img.shields.io/badge/Spring--Security-5.0.3.RELEASE-green.svg" alt="SpringSecurity">
+  </a>
+  <a href="https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=gQHz8DwAAAAAAAAAAS5odHRwOi8vd2VpeGluLnFxLmNvbS9xLzAybV9pT1JlRmxjUEUxMDAwMHcwN0UAAgTet0ZiAwQAAAAA">
+    <img src="https://img.shields.io/badge/%E5%85%AC%E4%BC%97%E5%8F%B7-xhuicloud-brightgreen" alt="xhuicloud">
+  </a>
+</p>
 
 
-- [接口文档](http://127.0.0.1:15000/doc.html#/home)
-- [部署文档(编写中)]()
-- [在线预览](http://admin.xhuicloud.com/) 
+## 温馨提醒
+
+> 1. **快速体验项目**：[在线访问地址](http://xhuicloud.cn/)。
+> 2. **接口文档**：[swagger在线](http://api.xhuicloud.cn/doc.html)。
+> 3. **后端操作文档**：敬请期待。。。
+> 4. **微服务版本**：基于Spring Cloud 2020.0.4 & Alibaba 2021.1。
+
+## 前言
+
+本项目致力于采用现阶段流行技术，打造快速开发平台,做到适配各种场景的脚手架。
+
+#### 项目介绍
+
+`XHuiCloud`项目是基础脚手架系统，
+主要技术栈有：
+SpringBoot + SpringCloudAlibaba + SpringSecurity + Nacos + MyBatis-Plus 实现，采用Docker容器化部署。拥有Seata, 分布式锁，分布式发号器，分布式任务xxl-job，分布式任务elastic-Job，amazonaws oss等等的自动装配包。  
+
+#### 模块介绍(包含规划)
+
+- [x] 认证中心
+- [x] 权限管理
+- [x] 用户管理
+- [x] 租户管理
+- [x] 推送中心
+- [x] 文件管理
+- [x] 日志管理
+- [x] 代码生成
+- [x] 灰度发布 
+- [ ] 大屏系统
+- [ ] 报表系统
+- [ ] 监控平台
+- [ ] 聚合支付
+- [ ] 微信公众号运营管理
+- [ ] 基础运营系统
+- [ ] 内容管理
+- [ ] OA办公自动化
 
 #### 目录结构
 ```lua
@@ -13,13 +70,15 @@ XHuiCloud
 └── XHuiCloud-commons                      -- 公共模块 
      ├── XHuiCloud-common-core             -- 公共核心模块
      ├── XHuiCloud-common-data             -- 数据缓存模块
-     ├── XHuiCloud-common-dds       -- 动态数据源模块
+     ├── XHuiCloud-common-dds              -- 动态数据源模块
      ├── XHuiCloud-common-elasticJob       -- elasticJob自动配置模块
      ├── XHuiCloud-common-feign            -- 公共feign
      ├── XHuiCloud-common-gateway          -- 网关核心模块
      ├── XHuiCloud-common-gray             -- 灰度发布
      ├── XHuiCloud-common-lock             -- 分布式锁模块
      ├── XHuiCloud-common-log              -- 公共日志核心
+     ├── XHuiCloud-common-mybaits          -- 数据源模块
+     ├── XHuiCloud-common-oss              -- 公共存储桶配置模块
      ├── XHuiCloud-common-rabbitMq         -- rabbitMqp配置模块
      ├── XHuiCloud-common-security         -- 安全模块
      ├── XHuiCloud-common-sentinel         -- 高可用的保证,限流降级模块
@@ -53,20 +112,30 @@ XHuiCloud
      └── XHuiCloud-upms-service            -- 系统权限管理业务处理模块[17000]
 ```
 
-环境准备:
-yum install -y git java maven
+### 开发环境
 
-git clone https://github.com/sindaZeng/XHuiCloud.git
+| 工具          | 版本号 |
+| ------------- | ------ |
+| JDK           | 1.8    |
+| Mysql         | 8.0.28 |
+| Redis         | 6.2.6  |
+| RabbitMQ      | 3      |
+| Nginx         | 1.10   |
+| Minio         |        |
 
-# 运行方式一:
-Docker
+### 搭建步骤
 
+> Docker环境部署
+
+- yum install -y git java maven
+- git clone https://github.com/sindaZeng/XHuiCloud.git
 - cd 项目根目录
 - mvn clean install -Dmaven.test.skip=true
 - docker-compose build
 - docker-compose up -d
+ 
+## 许可证
 
-等待执行完毕,编译打包[XHuiCloud-UI 前端](https://github.com/sindaZeng/xhuicloud-ui)
-访问  http://localhost:9527/ 
+[MIT](https://github.com/sindaZeng/XHuiCloud/blob/develop/LICENSE)
 
-即可愉快玩耍啦~
+Copyright (c) <2021-2022> Sinda(xhuicloud@163.com)
