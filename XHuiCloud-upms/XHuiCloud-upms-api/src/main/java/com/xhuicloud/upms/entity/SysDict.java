@@ -39,6 +39,13 @@ import java.time.LocalDateTime;
 public class SysDict extends Model<SysDict> {
 
     /**
+     * 字典项主键
+     */
+    @TableId(type = IdType.AUTO)
+    @ApiModelProperty(value = "字典项主键")
+    private Integer id;
+
+    /**
      * 字典项类型
      */
     @ApiModelProperty(value = "字典项类型")
@@ -61,13 +68,6 @@ public class SysDict extends Model<SysDict> {
      */
     @ApiModelProperty(value = "排序")
     private Integer sort;
-
-    /**
-     * 字典项主键
-     */
-    @TableId(type = IdType.AUTO)
-    @ApiModelProperty(value = "字典项主键")
-    private Integer id;
 
     /**
      * 创建时间

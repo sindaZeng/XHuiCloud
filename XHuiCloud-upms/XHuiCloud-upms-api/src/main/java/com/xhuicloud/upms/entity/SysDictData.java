@@ -42,6 +42,13 @@ import java.time.LocalDateTime;
 public class SysDictData extends Model<SysDictData> {
 
     /**
+     * 字典数据id
+     */
+    @TableId(type = IdType.AUTO)
+    @ApiModelProperty(value="字典数据id")
+    private Integer id;
+
+    /**
      * 字典项id
      */
     @ApiModelProperty(value="字典项id")
@@ -82,13 +89,6 @@ public class SysDictData extends Model<SysDictData> {
      */
     @ApiModelProperty(value="排序")
     private Integer sort;
-
-    /**
-     * 字典数据id
-     */
-    @TableId(type = IdType.AUTO)
-    @ApiModelProperty(value="字典数据id")
-    private Integer id;
 
     /**
      * 创建时间

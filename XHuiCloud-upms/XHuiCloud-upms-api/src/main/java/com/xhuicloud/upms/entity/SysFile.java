@@ -42,6 +42,13 @@ import java.time.LocalDateTime;
 public class SysFile extends Model<SysFile> {
 
     /**
+     * 文件ID
+     */
+    @TableId(type = IdType.AUTO)
+    @ApiModelProperty(value = "文件ID")
+    private Integer id;
+
+    /**
      * 图片Url
      */
     @ApiModelProperty(value = "图片Url")
@@ -76,13 +83,6 @@ public class SysFile extends Model<SysFile> {
      */
     @ApiModelProperty(value = "桶名称")
     private String bucketName;
-
-    /**
-     * 文件ID
-     */
-    @TableId(type = IdType.AUTO)
-    @ApiModelProperty(value = "文件ID")
-    private Integer id;
 
     /**
      * 创建时间

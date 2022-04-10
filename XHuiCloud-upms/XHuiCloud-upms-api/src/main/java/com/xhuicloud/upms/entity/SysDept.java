@@ -43,6 +43,13 @@ import java.time.LocalDateTime;
 public class SysDept extends Model<SysDept> {
 
     /**
+     * 部门id
+     */
+    @TableId(type = IdType.AUTO)
+    @ApiModelProperty(value = "部门id")
+    private Integer id;
+
+    /**
      * 部门名称
      */
     @ApiModelProperty(value = "部门名称")
@@ -65,13 +72,6 @@ public class SysDept extends Model<SysDept> {
      */
     @ApiModelProperty(value = "排序")
     private Integer sort;
-
-    /**
-     * 部门id
-     */
-    @TableId(type = IdType.AUTO)
-    @ApiModelProperty(value = "部门id")
-    private Integer id;
 
     /**
      * 创建时间

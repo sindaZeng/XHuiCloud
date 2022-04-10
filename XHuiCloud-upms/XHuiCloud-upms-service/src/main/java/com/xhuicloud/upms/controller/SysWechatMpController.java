@@ -28,13 +28,16 @@ import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.http.HttpUtil;
 import cn.hutool.json.JSONUtil;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.xhuicloud.common.core.constant.SecurityConstants;
 import com.xhuicloud.common.core.constant.SysParamConstants;
 import com.xhuicloud.common.core.utils.Response;
 import com.xhuicloud.common.security.annotation.Anonymous;
 import com.xhuicloud.upms.entity.SysParam;
+import com.xhuicloud.upms.entity.SysSocial;
 import com.xhuicloud.upms.init.WeChatMpInit;
 import com.xhuicloud.upms.service.SysParamService;
+import com.xhuicloud.upms.service.SysSocialService;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -52,7 +55,7 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 @RestController
 @Anonymous(value = false)
-@RequestMapping("/wechat-mp")
+@RequestMapping("/wechat-mp/{appId}")
 @RequiredArgsConstructor
 @Api(value = "wechat-mp", tags = "微信公众号管理模块")
 public class SysWechatMpController {
@@ -77,14 +80,18 @@ public class SysWechatMpController {
 
     private static Integer expire_seconds = 30;
 
-    private final SysParamService sysParamService;
+    private final SysSocialService sysSocialService;
 
     private final RedisTemplate redisTemplate;
 
+    public SysSocial getSysSocial(String appId) {
+        return sysSocialService.getOne(Wrappers.<SysSocial>lambdaQuery().eq(SysSocial::getAppId, appId));
+    }
+
     @GetMapping("/login-qrcode")
-    public Response loginQrcode() {
+    public Response loginQrcode(@PathVariable("appId") String appId) {
         String sceneStr = RandomUtil.randomString(30);
-        SysParam sysParamByKey = sysParamService.getSysParamByKey(SysParamConstants.WECHAT_MP_TOKEN);
+        SysSocial sysSocial = getSysSocial(appId);
         Map<String, String> intMap = new HashMap<>();
         intMap.put("scene_str", sceneStr);
         Map<String, Map<String, String>> mapMap = new HashMap<>();
@@ -95,7 +102,7 @@ public class SysWechatMpController {
         paramsMap.put("action_name", QR_STR_SCENE);
         paramsMap.put("action_info", mapMap);
 
-        String post = HttpUtil.post(String.format(create_ticket_path, sysParamByKey.getParamValue()), JSONUtil.toJsonStr(paramsMap));
+        String post = HttpUtil.post(String.format(create_ticket_path, sysSocial.getAppAccessToken()), JSONUtil.toJsonStr(paramsMap));
         String ticket = JSONUtil.parseObj(post).get("ticket").toString();
         redisTemplate.opsForValue().set(
                 SecurityConstants.WECHAT_MP_SCAN + ticket
@@ -105,14 +112,15 @@ public class SysWechatMpController {
 
 
     @GetMapping("/scan-success")
-    public Response scanSuccess(@RequestParam String ticket) {
+    public Response scanSuccess(@PathVariable("appId") String appId, @RequestParam String ticket) {
         Object o = redisTemplate.opsForValue().get(
                 SecurityConstants.WECHAT_MP_SCAN_SUCCESS + ticket);
         return Response.success(o != null);
     }
 
     @GetMapping
-    public String wechatAuth(@RequestParam(name = "signature", required = false) String signature,
+    public String wechatAuth(@PathVariable("appId") String appId,
+                             @RequestParam(name = "signature", required = false) String signature,
                              @RequestParam(name = "timestamp", required = false) String timestamp,
                              @RequestParam(name = "nonce", required = false) String nonce,
                              @RequestParam(name = "echostr", required = false) String echostr) {
@@ -122,7 +130,7 @@ public class SysWechatMpController {
             throw new IllegalArgumentException("认证参数不合法");
         }
 
-        final WxMpService wxService = WeChatMpInit.service;
+        final WxMpService wxService = WeChatMpInit.getWxMpServiceMap().get(appId);
 
         if (wxService.checkSignature(timestamp, nonce, signature)) {
             return echostr;
@@ -131,7 +139,8 @@ public class SysWechatMpController {
     }
 
     @PostMapping
-    public String post(@RequestBody String requestBody,
+    public String post(@PathVariable("appId") String appId,
+                       @RequestBody String requestBody,
                        @RequestParam("signature") String signature,
                        @RequestParam("timestamp") String timestamp,
                        @RequestParam("nonce") String nonce,
@@ -143,8 +152,8 @@ public class SysWechatMpController {
                         + " timestamp=[{}], nonce=[{}], requestBody=[{}] ",
                 openid, signature, encType, msgSignature, timestamp, nonce, requestBody);
 
-        final WxMpService wxService = WeChatMpInit.service;
-        final WxMpMessageRouter router = WeChatMpInit.router;
+        final WxMpService wxService = WeChatMpInit.getWxMpServiceMap().get(appId);
+        final WxMpMessageRouter router = WeChatMpInit.getRouters().get(appId);
 
         if (!wxService.checkSignature(timestamp, nonce, signature)) {
             throw new IllegalArgumentException("参数不合法！");
