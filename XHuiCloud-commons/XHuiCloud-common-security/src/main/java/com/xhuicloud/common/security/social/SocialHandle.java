@@ -22,9 +22,10 @@
  * @Email:  xhuicloud@163.com
  */
 
-package com.xhuicloud.upms.handle.login;
+package com.xhuicloud.common.security.social;
 
 import com.xhuicloud.upms.dto.UserInfo;
+import com.xhuicloud.upms.entity.SysSocial;
 import com.xhuicloud.upms.entity.SysUser;
 
 /**
@@ -38,19 +39,27 @@ public interface SocialHandle {
     /**
      * 处理方法
      *
-     * @param loginStr 登录标识
+     * @param code 登录标识
      * @return
      */
-    UserInfo handle(String loginStr);
+    UserInfo handle(String code);
 
+    /**
+     * 获取社交实体
+     *
+     * @param type
+     * @return
+     */
+    SysSocial sysSocial(String type);
 
     /**
      * 通过授权码获取 openId
      *
-     * @param auth_code
+     * @param sysSocial
+     * @param code
      * @return
      */
-    String getOpenId(String auth_code);
+    String getOpenId(SysSocial sysSocial, String code);
 
     /**
      * 通过 openId 获取用户信息
@@ -61,12 +70,12 @@ public interface SocialHandle {
     UserInfo info(String openId);
 
     /**
-     * 校验授权码，由每个渠道登录校验
+     * 类型
      *
-     * @param auth_code
+     * @param openId
      * @return
      */
-    Boolean check(String auth_code);
+    String type();
 
     /**
      * 没有此用户的话。

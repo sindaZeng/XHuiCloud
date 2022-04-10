@@ -27,7 +27,7 @@ package com.xhuicloud.upms.service.impl;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xhuicloud.upms.dto.UserInfo;
 import com.xhuicloud.upms.entity.SysSocial;
-import com.xhuicloud.upms.handle.login.SocialHandle;
+import com.xhuicloud.common.security.social.SocialHandle;
 import com.xhuicloud.upms.mapper.SysSocialMapper;
 import com.xhuicloud.upms.service.SysSocialService;
 import lombok.AllArgsConstructor;

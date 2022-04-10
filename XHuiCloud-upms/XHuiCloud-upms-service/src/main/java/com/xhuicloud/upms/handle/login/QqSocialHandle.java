@@ -64,12 +64,16 @@ public class QqSocialHandle extends AbstractSocialHandle {
     private final SysUserService sysUserService;
 
     @Override
-    public String getOpenId(String auth_code) {
+    public SysSocial sysSocial(String type) {
         SysSocial sysSocial = new SysSocial();
-        sysSocial.setType(LoginTypeEnum.QQ.name());
-        sysSocial = sysSocialMapper.selectOne(new QueryWrapper<>(sysSocial));
+        sysSocial.setType(type);
+        return sysSocialMapper.selectOne(new QueryWrapper<>(sysSocial));
+    }
+
+    @Override
+    public String getOpenId(SysSocial sysSocial, String code) {
         String result = HttpUtil.get(String.format(ThirdLoginUrlConstants.getTokenUrl
-                , sysSocial.getAppId(), sysSocial.getAppSecret(), auth_code, URLUtil.encode(sysSocial.getRedirectUrl())));
+                , sysSocial.getAppId(), sysSocial.getAppSecret(), code, URLUtil.encode(sysSocial.getRedirectUrl())));
         String access_token = result.split("&")[0].split("=")[1];
         log.info("QQ return result:[{}]", result);
         result = HttpUtil.get(String.format(ThirdLoginUrlConstants.getOpenIdUrl, access_token));
@@ -104,9 +108,8 @@ public class QqSocialHandle extends AbstractSocialHandle {
     }
 
     @Override
-    public Boolean check(String auth_code) {
-        //不校验
-        return true;
+    public String type() {
+        return LoginTypeEnum.QQ.getType();
     }
 
     @Override

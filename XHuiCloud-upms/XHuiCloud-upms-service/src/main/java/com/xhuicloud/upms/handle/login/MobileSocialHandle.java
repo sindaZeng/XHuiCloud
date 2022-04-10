@@ -27,8 +27,10 @@ package com.xhuicloud.upms.handle.login;
 import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.xhuicloud.common.core.enums.login.LoginTypeEnum;
 import com.xhuicloud.common.data.tenant.XHuiCommonThreadLocalHolder;
 import com.xhuicloud.upms.dto.UserInfo;
+import com.xhuicloud.upms.entity.SysSocial;
 import com.xhuicloud.upms.entity.SysUser;
 import com.xhuicloud.upms.service.SysUserService;
 import lombok.AllArgsConstructor;
@@ -49,8 +51,8 @@ public class MobileSocialHandle extends AbstractSocialHandle {
     private final SysUserService sysUserService;
 
     @Override
-    public String getOpenId(String mobile) {
-        return mobile;
+    public String getOpenId(SysSocial sysSocial, String code) {
+        return code;
     }
 
     @Override
@@ -65,9 +67,8 @@ public class MobileSocialHandle extends AbstractSocialHandle {
     }
 
     @Override
-    public Boolean check(String mobile) {
-        //不校验
-        return true;
+    public String type() {
+        return LoginTypeEnum.SMS.getType();
     }
 
     @Override

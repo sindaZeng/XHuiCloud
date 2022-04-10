@@ -64,8 +64,26 @@ public class SysSocial extends Model<SysSocial> {
     /**
      * 开放平台密钥
      */
-    @TableField(value = "`app_ secret`")
+    @TableField(value = "`app_secret`")
     private String appSecret;
+
+    /**
+     * 平台授权码
+     */
+    @TableField(value = "`app_access_token`")
+    private String appAccessToken;
+
+    /**
+     * 平台认证token，例如公众号
+     */
+    @TableField(value = "`app_auth_token`")
+    private String appAuthToken;
+
+    /**
+     * 平台解密密钥
+     */
+    @TableField(value = "`app_decrypt`")
+    private String appDecrypt;
 
     /**
      * 开放平台描述
@@ -106,8 +124,15 @@ public class SysSocial extends Model<SysSocial> {
     private Integer updateId;
 
     /**
+     * 租户id
+     */
+    @ApiModelProperty(value = "租户id")
+    private Integer tenantId;
+
+    /**
      * 0:否 1:是
      */
     @ApiModelProperty(value = "0:否 1:是")
     private Integer isDel;
+
 }

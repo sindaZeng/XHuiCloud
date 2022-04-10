@@ -32,6 +32,7 @@ import com.xhuicloud.common.core.enums.login.LoginTypeEnum;
 import com.xhuicloud.common.core.exception.SysException;
 import com.xhuicloud.common.data.tenant.XHuiCommonThreadLocalHolder;
 import com.xhuicloud.upms.dto.UserInfo;
+import com.xhuicloud.upms.entity.SysSocial;
 import com.xhuicloud.upms.entity.SysUser;
 import com.xhuicloud.upms.entity.SysUserSocial;
 import com.xhuicloud.upms.mapper.SysUserSocialMapper;
@@ -53,9 +54,9 @@ public class WeChatMpSocialHandle extends AbstractSocialHandle {
     private final SysUserService sysUserService;
 
     @Override
-    public String getOpenId(String auth_code) {
+    public String getOpenId(SysSocial sysSocial, String code) {
         Object openId = redisTemplate.opsForValue().get(
-                SecurityConstants.WECHAT_MP_SCAN_SUCCESS + auth_code);
+                SecurityConstants.WECHAT_MP_SCAN_SUCCESS + code);
         if (openId == null) {
             throw SysException.sysFail(SysException.PARAM_EXCEPTION);
         }
@@ -86,8 +87,8 @@ public class WeChatMpSocialHandle extends AbstractSocialHandle {
     }
 
     @Override
-    public Boolean check(String auth_code) {
-        return true;
+    public String type() {
+        return LoginTypeEnum.WECHAT_MP.getType();
     }
 
     @Override

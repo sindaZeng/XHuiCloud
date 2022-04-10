@@ -24,7 +24,9 @@
 
 package com.xhuicloud.upms.handle.login;
 
+import com.xhuicloud.common.security.social.SocialHandle;
 import com.xhuicloud.upms.dto.UserInfo;
+import com.xhuicloud.upms.entity.SysSocial;
 
 /**
  * @program: XHuiCloud
@@ -35,10 +37,12 @@ import com.xhuicloud.upms.dto.UserInfo;
 public abstract class AbstractSocialHandle implements SocialHandle {
 
     @Override
-    public UserInfo handle(String auth_code) {
-        if (!check(auth_code)) {
-            return null;
-        }
-        return info(getOpenId(auth_code));
+    public UserInfo handle(String code) {
+        return info(getOpenId(sysSocial(type()) ,code));
+    }
+
+    @Override
+    public SysSocial sysSocial(String type) {
+        return null;
     }
 }

@@ -42,62 +42,46 @@ import lombok.*;
 public class SysClientDetails implements Serializable {
 
     @TableId(value = "id", type = IdType.AUTO)
-    @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "id")
     private Integer id;
 
-    @TableField(value = "client_id")
-    @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "客户端id")
     private String clientId;
 
-    @TableField(value = "resource_ids")
-    @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "资源id")
     private String resourceIds;
 
-    @TableField(value = "client_secret")
-    @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "客户端secret")
     private String clientSecret;
 
-    @TableField(value = "`scope`")
-    @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "scope")
     private String scope;
 
-    @TableField(value = "authorized_grant_types")
-    @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "grant_types")
     private String authorizedGrantTypes;
 
-    @TableField(value = "web_server_redirect_uri")
-    @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "回调地址")
     private String webServerRedirectUri;
 
-    @TableField(value = "authorities")
-    @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "权限集合")
     private String authorities;
 
-    @TableField(value = "access_token_validity")
-    @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "有效期")
     private Integer accessTokenValidity;
 
-    @TableField(value = "refresh_token_validity")
-    @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "有效期")
     private Integer refreshTokenValidity;
 
-    @TableField(value = "additional_information")
-    @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "额外信息")
     private String additionalInformation;
 
-    @TableField(value = "autoapprove")
-    @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "是否自动授权 true false")
     private String autoapprove;
 
-    /**
-     * 0: 否 1：是
-     */
-    @TableField(value = "is_del")
     @ApiModelProperty(value = "0: 否 1：是")
     private Integer isDel;
 
-    @TableField(value = "tenant_id")
-    @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "租户id")
     private Integer tenantId;
 
     private static final long serialVersionUID = 1L;

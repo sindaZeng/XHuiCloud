@@ -49,13 +49,13 @@ public class SampleGatewayFilterFactory extends AbstractGatewayFilterFactory {
     public GatewayFilter apply(Object config) {
         return (exchange, chain) -> {
             ServerHttpRequest request = exchange.getRequest();
-            if (StrUtil.equalsIgnoreCase(request.getMethodValue(), HttpMethod.GET.name()) ||
-                    StrUtil.containsIgnoreCase(request.getURI().getPath(), TOKEN)) {
+//            if (StrUtil.equalsIgnoreCase(request.getMethodValue(), HttpMethod.GET.name()) ||
+//                    StrUtil.containsIgnoreCase(request.getURI().getPath(), TOKEN)) {
                 return chain.filter(exchange);
-            }
-            ServerHttpResponse response = exchange.getResponse();
-            response.setStatusCode(HttpStatus.LOCKED);
-            return response.setComplete();
+//            }
+//            ServerHttpResponse response = exchange.getResponse();
+//            response.setStatusCode(HttpStatus.LOCKED);
+//            return response.setComplete();
         };
     }
 }
