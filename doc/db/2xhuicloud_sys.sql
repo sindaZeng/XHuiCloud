@@ -24,6 +24,7 @@
 
 USE xhuicloud_sys;
 
+
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 
@@ -52,7 +53,7 @@ CREATE TABLE `sys_client_details`  (
 -- ----------------------------
 -- Records of sys_client_details
 -- ----------------------------
-INSERT INTO `sys_client_details` VALUES (1, 'test', NULL, 'test', 'server', 'password,refresh_token,social', NULL, NULL, NULL, NULL, '{ \"enc_flag\":\"1\",\"captcha_flag\":\"0\"}', 'true', 0, 1);
+INSERT INTO `sys_client_details` VALUES (1, 'test', NULL, 'test', 'server', 'password,refresh_token,authorization_code,client_credentials,social', 'http://xhuicloud.cn', NULL, NULL, NULL, '{\"permission\":{\"avatar\":\"头像\",\"name\":\"用户名\"},\"name\":\"测试机\",\"enc_flag\":\"1\",\"captcha_flag\":\"1\"}', 'false', 0, 1);
 
 -- ----------------------------
 -- Table structure for sys_dept
@@ -65,37 +66,37 @@ CREATE TABLE `sys_dept`  (
                              `parent_id` int(11) NOT NULL DEFAULT 0 COMMENT '上级ID',
                              `sort` int(11) NULL DEFAULT 0 COMMENT '排序',
                              `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-                             `update_time` datetime NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-                             `is_del` tinyint(1) NULL DEFAULT 0 COMMENT '0: 否 1：是',
-                             `tenant_id` int(11) NULL DEFAULT NULL COMMENT '租户id',
                              `create_id` int(11) NOT NULL COMMENT '创建者id',
+                             `update_time` datetime NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
                              `update_id` int(11) NULL DEFAULT NULL COMMENT '更新者id',
+                             `tenant_id` int(11) NULL DEFAULT NULL COMMENT '租户id',
+                             `is_del` tinyint(1) NULL DEFAULT 0 COMMENT '0: 否 1：是',
                              PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 21 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '部门' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_dept
 -- ----------------------------
-INSERT INTO `sys_dept` VALUES (1, '董事会', NULL, 0, 1, '2020-03-21 15:17:09', '2022-03-07 13:59:27', 0, 1, 0, NULL);
-INSERT INTO `sys_dept` VALUES (2, '总经理', NULL, 1, 1, '2020-03-21 15:18:17', '2022-03-07 13:59:35', 0, 1, 0, NULL);
-INSERT INTO `sys_dept` VALUES (3, '营销策划中心', NULL, 2, 1, '2020-03-21 15:18:49', '2022-03-07 13:59:39', 0, 1, 0, NULL);
-INSERT INTO `sys_dept` VALUES (4, '工程管理中心', NULL, 2, 2, '2020-03-21 15:19:48', '2022-03-07 13:59:39', 0, 1, 0, NULL);
-INSERT INTO `sys_dept` VALUES (5, '运营中心', NULL, 2, 3, '2020-03-21 15:20:32', '2022-03-07 13:59:39', 0, 1, 0, NULL);
-INSERT INTO `sys_dept` VALUES (6, '财务中心', NULL, 2, 4, '2020-03-21 15:20:58', '2022-03-07 13:59:39', 0, 1, 0, NULL);
-INSERT INTO `sys_dept` VALUES (7, '行政人力资源中心', NULL, 2, 5, '2020-03-21 15:21:33', '2022-03-07 13:59:39', 0, 1, 0, NULL);
-INSERT INTO `sys_dept` VALUES (8, '策划部', NULL, 3, 1, '2020-03-21 15:22:13', '2022-03-07 13:59:39', 0, 1, 0, NULL);
-INSERT INTO `sys_dept` VALUES (9, '销售部', NULL, 3, 2, '2020-03-21 15:22:30', '2022-03-07 13:59:39', 0, 1, 0, NULL);
-INSERT INTO `sys_dept` VALUES (10, '项目开发部', NULL, 4, 1, '2020-03-21 15:22:52', '2022-03-07 13:59:39', 0, 1, 0, NULL);
-INSERT INTO `sys_dept` VALUES (11, '设计部', NULL, 4, 2, '2020-03-21 15:23:30', '2022-03-07 13:59:40', 0, 1, 0, NULL);
-INSERT INTO `sys_dept` VALUES (12, '工程部', NULL, 4, 3, '2020-03-21 15:24:00', '2022-03-07 13:59:40', 0, 1, 0, NULL);
-INSERT INTO `sys_dept` VALUES (13, '总工室', NULL, 4, 4, '2020-03-21 15:24:15', '2022-03-07 13:59:40', 0, 1, 0, NULL);
-INSERT INTO `sys_dept` VALUES (14, '项目一部', NULL, 4, 5, '2020-03-21 15:24:52', '2022-03-07 13:59:40', 0, 1, 0, NULL);
-INSERT INTO `sys_dept` VALUES (15, '战略投资部', NULL, 5, 1, '2020-03-21 15:25:38', '2022-03-07 13:59:40', 0, 1, 0, NULL);
-INSERT INTO `sys_dept` VALUES (16, '法律事务部', NULL, 5, 2, '2020-03-21 15:25:48', '2022-03-07 13:59:40', 0, 1, 0, NULL);
-INSERT INTO `sys_dept` VALUES (17, '财务部', NULL, 6, 1, '2020-03-21 15:26:17', '2022-03-07 13:59:40', 0, 1, 0, NULL);
-INSERT INTO `sys_dept` VALUES (18, '融资部', NULL, 6, 2, '2020-03-21 15:26:38', '2022-03-07 13:59:40', 0, 1, 0, NULL);
-INSERT INTO `sys_dept` VALUES (19, '人力资源部', NULL, 7, 1, '2020-03-21 15:27:47', '2022-03-07 13:59:40', 0, 1, 0, NULL);
-INSERT INTO `sys_dept` VALUES (20, '行政部', NULL, 7, 2, '2020-03-21 15:27:59', '2022-03-07 13:59:40', 0, 1, 0, NULL);
+INSERT INTO `sys_dept` VALUES (1, '董事会', NULL, 0, 1, '2020-03-21 15:17:09', 0, '2022-03-07 13:59:27', NULL, 1, 0);
+INSERT INTO `sys_dept` VALUES (2, '总经理', NULL, 1, 1, '2020-03-21 15:18:17', 0, '2022-03-07 13:59:35', NULL, 1, 0);
+INSERT INTO `sys_dept` VALUES (3, '营销策划中心', NULL, 2, 1, '2020-03-21 15:18:49', 0, '2022-03-07 13:59:39', NULL, 1, 0);
+INSERT INTO `sys_dept` VALUES (4, '工程管理中心', NULL, 2, 2, '2020-03-21 15:19:48', 0, '2022-03-07 13:59:39', NULL, 1, 0);
+INSERT INTO `sys_dept` VALUES (5, '运营中心', NULL, 2, 3, '2020-03-21 15:20:32', 0, '2022-03-07 13:59:39', NULL, 1, 0);
+INSERT INTO `sys_dept` VALUES (6, '财务中心', NULL, 2, 4, '2020-03-21 15:20:58', 0, '2022-03-07 13:59:39', NULL, 1, 0);
+INSERT INTO `sys_dept` VALUES (7, '行政人力资源中心', NULL, 2, 5, '2020-03-21 15:21:33', 0, '2022-03-07 13:59:39', NULL, 1, 0);
+INSERT INTO `sys_dept` VALUES (8, '策划部', NULL, 3, 1, '2020-03-21 15:22:13', 0, '2022-03-07 13:59:39', NULL, 1, 0);
+INSERT INTO `sys_dept` VALUES (9, '销售部', NULL, 3, 2, '2020-03-21 15:22:30', 0, '2022-03-07 13:59:39', NULL, 1, 0);
+INSERT INTO `sys_dept` VALUES (10, '项目开发部', NULL, 4, 1, '2020-03-21 15:22:52', 0, '2022-03-07 13:59:39', NULL, 1, 0);
+INSERT INTO `sys_dept` VALUES (11, '设计部', NULL, 4, 2, '2020-03-21 15:23:30', 0, '2022-03-07 13:59:40', NULL, 1, 0);
+INSERT INTO `sys_dept` VALUES (12, '工程部', NULL, 4, 3, '2020-03-21 15:24:00', 0, '2022-03-07 13:59:40', NULL, 1, 0);
+INSERT INTO `sys_dept` VALUES (13, '总工室', NULL, 4, 4, '2020-03-21 15:24:15', 0, '2022-03-07 13:59:40', NULL, 1, 0);
+INSERT INTO `sys_dept` VALUES (14, '项目一部', NULL, 4, 5, '2020-03-21 15:24:52', 0, '2022-03-07 13:59:40', NULL, 1, 0);
+INSERT INTO `sys_dept` VALUES (15, '战略投资部', NULL, 5, 1, '2020-03-21 15:25:38', 0, '2022-03-07 13:59:40', NULL, 1, 0);
+INSERT INTO `sys_dept` VALUES (16, '法律事务部', NULL, 5, 2, '2020-03-21 15:25:48', 0, '2022-03-07 13:59:40', NULL, 1, 0);
+INSERT INTO `sys_dept` VALUES (17, '财务部', NULL, 6, 1, '2020-03-21 15:26:17', 0, '2022-03-07 13:59:40', NULL, 1, 0);
+INSERT INTO `sys_dept` VALUES (18, '融资部', NULL, 6, 2, '2020-03-21 15:26:38', 0, '2022-03-07 13:59:40', NULL, 1, 0);
+INSERT INTO `sys_dept` VALUES (19, '人力资源部', NULL, 7, 1, '2020-03-21 15:27:47', 0, '2022-03-07 13:59:40', NULL, 1, 0);
+INSERT INTO `sys_dept` VALUES (20, '行政部', NULL, 7, 2, '2020-03-21 15:27:59', 0, '2022-03-07 13:59:40', NULL, 1, 0);
 
 -- ----------------------------
 -- Table structure for sys_dict
@@ -112,7 +113,6 @@ CREATE TABLE `sys_dict`  (
                              `update_time` datetime NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
                              `update_id` int(11) NULL DEFAULT NULL COMMENT '更新者id',
                              `is_del` tinyint(1) NULL DEFAULT 0 COMMENT '0: 否 1：是',
-                             `tenant_id` int(11) NULL DEFAULT NULL COMMENT '租户id',
                              PRIMARY KEY (`id`) USING BTREE,
                              UNIQUE INDEX `name`(`type`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '字典' ROW_FORMAT = DYNAMIC;
@@ -120,7 +120,7 @@ CREATE TABLE `sys_dict`  (
 -- ----------------------------
 -- Records of sys_dict
 -- ----------------------------
-INSERT INTO `sys_dict` VALUES (1, 'sys_parameters', '系统参数', '系统全局参数', NULL, '2020-03-23 09:47:52', 1, '2022-02-11 15:36:08', NULL, 0, 1);
+INSERT INTO `sys_dict` VALUES (1, 'sys_parameters', '系统参数', '系统全局参数', NULL, '2020-03-23 09:47:52', 1, '2022-02-11 15:36:08', NULL, 0);
 
 -- ----------------------------
 -- Table structure for sys_dict_data
@@ -161,13 +161,25 @@ CREATE TABLE `sys_file`  (
                              `file_type` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '文件类型',
                              `bucket_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '桶名称',
                              `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-                             `update_time` datetime NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-                             `is_del` tinyint(1) NULL DEFAULT 0 COMMENT '0: 否 1：是',
-                             `tenant_id` int(11) NULL DEFAULT NULL COMMENT '租户id',
                              `create_id` int(11) NOT NULL COMMENT '创建者id',
+                             `update_time` datetime NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
                              `update_id` int(11) NULL DEFAULT NULL COMMENT '更新者id',
+                             `tenant_id` int(11) NULL DEFAULT NULL COMMENT '租户id',
+                             `is_del` tinyint(1) NULL DEFAULT 0 COMMENT '0: 否 1：是',
                              PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 66 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '文件' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 67 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '文件' ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of sys_file
+-- ----------------------------
+INSERT INTO `sys_file` VALUES (59, '/xhuicloud/6ffac10f433f437c98f3d2a9fc03b650.svg', '6ffac10f433f437c98f3d2a9fc03b650.svg', '菜单管理 (1)', 1296, 'svg', 'xhuicloud', '2022-03-21 16:47:32', 1, NULL, NULL, 1, 0);
+INSERT INTO `sys_file` VALUES (60, '/xhuicloud/1fc73173a58343adae613352277498d0.svg', '1fc73173a58343adae613352277498d0.svg', '权限', 1213, 'svg', 'xhuicloud', '2022-03-21 16:47:48', 1, '2022-03-22 11:32:25', NULL, 1, 1);
+INSERT INTO `sys_file` VALUES (61, '/xhuicloud/ca05db63dacc436b94ec32c95121d22e.svg', 'ca05db63dacc436b94ec32c95121d22e.svg', '权限', 1213, 'svg', 'xhuicloud', '2022-03-21 19:06:28', 1, NULL, NULL, 1, 0);
+INSERT INTO `sys_file` VALUES (62, '/xhuicloud/922e64f2edd64d2d9f1407c50ca43e13.png', '922e64f2edd64d2d9f1407c50ca43e13.png', 'ncg_image_1642958309618', 856532, 'png', 'xhuicloud', '2022-03-21 19:09:21', 1, NULL, NULL, 1, 0);
+INSERT INTO `sys_file` VALUES (63, '/xhuicloud/505fe6f56aee4250b448357685874723.svg', '505fe6f56aee4250b448357685874723.svg', '取消全屏', 604, 'svg', 'xhuicloud', '2022-03-21 19:12:39', 1, NULL, NULL, 1, 0);
+INSERT INTO `sys_file` VALUES (64, '/xhuicloud/0abd3e3eb60d41189740fa20c37a68c4.svg', '0abd3e3eb60d41189740fa20c37a68c4.svg', '权限', 1213, 'svg', 'xhuicloud', '2022-03-21 19:16:50', 1, '2022-03-22 11:32:50', NULL, 1, 1);
+INSERT INTO `sys_file` VALUES (65, '/xhuicloud/fbb8a6a20a994610b9a6cc797fe302a2.svg', 'fbb8a6a20a994610b9a6cc797fe302a2.svg', '菜单管理', 1296, 'svg', 'xhuicloud', '2022-03-21 19:16:54', 1, NULL, NULL, 1, 0);
+INSERT INTO `sys_file` VALUES (66, '/xhuicloud/b15888255be64aa384b6ae4a6574d69d.jpg', 'b15888255be64aa384b6ae4a6574d69d.jpg', 'ab5c78d9fc1a6ed3f766a487d1700b1d58ae97a6e64d258356d0956ce1ece151_sg', 14973, 'jpg', 'xhuicloud', '2022-04-08 20:03:56', 1, NULL, NULL, 1, 0);
 
 -- ----------------------------
 -- Table structure for sys_log
@@ -189,16 +201,16 @@ CREATE TABLE `sys_log`  (
                             `ex_detail` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL COMMENT '异常描述',
                             `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
                             `finish_time` datetime NULL DEFAULT NULL COMMENT '结束时间',
-                            `time` mediumtext CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '执行时间',
+                            `time` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '执行时间',
                             `user_agent` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT '' COMMENT '浏览器',
-                            `is_del` tinyint(1) NULL DEFAULT 0 COMMENT '0: 否 1：是',
                             `tenant_id` int(11) NULL DEFAULT NULL COMMENT '租户id',
+                            `is_del` tinyint(1) NULL DEFAULT 0 COMMENT '0: 否 1：是',
                             PRIMARY KEY (`id`) USING BTREE,
                             INDEX `sys_log_create_by`(`user_name`) USING BTREE,
                             INDEX `sys_log_request_uri`(`request_uri`) USING BTREE,
                             INDEX `sys_log_type`(`type`) USING BTREE,
                             INDEX `sys_log_create_date`(`create_time`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1058 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '系统日志' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 1145 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '系统日志' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for sys_log_login
@@ -214,7 +226,7 @@ CREATE TABLE `sys_log_login`  (
                                   `status` tinyint(4) NOT NULL COMMENT '0:成功 1:失败',
                                   `remake` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注',
                                   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 116 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 124 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for sys_menu
@@ -311,7 +323,6 @@ INSERT INTO `sys_param` VALUES (1, '系统账号默认密码', 'SYS_USER_DEFAULT
 INSERT INTO `sys_param` VALUES (2, '系统账号默认角色', 'SYS_USER_DEFAULT_ROLE', '4', 0, '系统用户默认角色', 2, 1, '2020-03-23 15:06:52', 1, '2021-12-03 10:28:34', 0);
 INSERT INTO `sys_param` VALUES (3, '系统账号默认部门', 'SYS_USER_DEFAULT_DEPT', '1', 0, '系统用户默认部门', 3, 1, '2020-03-23 15:07:34', 1, '2021-12-03 10:28:41', 0);
 INSERT INTO `sys_param` VALUES (4, '系统默认cdn域名', 'SYS_CDN_DEFAULT_DOMAIN', 'http://cdn.xhuicloud.cn/', 0, '系统默认cdn域名', 4, 1, '2020-05-09 16:46:33', 1, '2022-04-01 20:36:13', 0);
-INSERT INTO `sys_param` VALUES (5, '系统默认域名', 'SYS_DEFAULT_DOMAIN', 'http://admin.xhuicloud.com/', 0, '系统默认域名', 5, 1, '2020-06-09 15:51:13', 1, '2022-04-01 20:36:13', 0);
 
 -- ----------------------------
 -- Table structure for sys_role
@@ -323,22 +334,38 @@ CREATE TABLE `sys_role`  (
                              `role_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '角色名称',
                              `role_desc` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '角色描述',
                              `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-                             `update_time` datetime NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-                             `is_del` tinyint(1) NULL DEFAULT 0 COMMENT '0: 否 1：是',
                              `create_id` int(11) NULL DEFAULT NULL COMMENT '创建者id',
+                             `update_time` datetime NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
                              `update_id` int(11) NULL DEFAULT NULL COMMENT '更新者id',
                              `tenant_id` int(11) NULL DEFAULT NULL COMMENT '租户id',
+                             `is_del` tinyint(1) NULL DEFAULT 0 COMMENT '0: 否 1：是',
                              PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 916 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '系统角色' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_role
 -- ----------------------------
-INSERT INTO `sys_role` VALUES (1, 'ORDINARY', 'ordinary', '普通用户', '2021-11-25 17:11:56', '2021-11-25 21:21:46', 0, 0, NULL, 1);
-INSERT INTO `sys_role` VALUES (2, 'ADMIN', 'ROOT', '系统管理员(勿删)', '2021-11-25 17:11:56', '2021-11-25 21:21:49', 0, 0, NULL, 1);
-INSERT INTO `sys_role` VALUES (3, 'TEST', 'Test', '测试专用123', '2021-11-25 17:11:56', '2022-03-16 09:57:02', 0, 0, NULL, 1);
-INSERT INTO `sys_role` VALUES (4, 'DEMO', 'Demo', '演示环境角色', '2021-11-25 17:11:56', '2022-03-03 11:16:45', 0, 0, NULL, 1);
-
+INSERT INTO `sys_role` VALUES (1, 'ORDINARY', 'ordinary', '普通用户', '2021-11-25 17:11:56', 0, '2021-11-25 21:21:46', NULL, 1, 0);
+INSERT INTO `sys_role` VALUES (2, 'ADMIN', 'ROOT', '系统管理员(勿删)', '2021-11-25 17:11:56', 0, '2021-11-25 21:21:49', NULL, 1, 0);
+INSERT INTO `sys_role` VALUES (3, 'TEST1', 'Test', '测试专用123', '2021-11-25 17:11:56', 0, '2022-03-16 09:57:02', NULL, 1, 0);
+INSERT INTO `sys_role` VALUES (4, 'DEMO', 'Demo', '演示环境角色', '2021-11-25 17:11:56', 0, '2022-03-03 11:16:45', NULL, 1, 0);
+INSERT INTO `sys_role` VALUES (12, 'ORDINARY', 'ordinary', '普通用户', '2021-11-25 17:11:56', 0, '2022-03-16 09:57:02', NULL, 1, 0);
+INSERT INTO `sys_role` VALUES (20, 'ORDINARY', 'ordinary', '普通用户', '2021-11-25 17:11:56', 0, '2022-03-16 09:57:02', NULL, 1, 0);
+INSERT INTO `sys_role` VALUES (27, 'admin2', 'admin2', 'admin2', '2022-03-04 11:26:47', NULL, '2022-03-16 09:57:02', NULL, 1, 0);
+INSERT INTO `sys_role` VALUES (52, 'ADMIN', 'ROOT', '系统管理员(勿删)', '2021-11-25 17:11:56', 0, '2022-03-16 09:57:02', NULL, 1, 0);
+INSERT INTO `sys_role` VALUES (63, 'TEST1', 'Test', '测试专用123', '2021-11-25 17:11:56', 0, '2022-03-16 09:57:02', NULL, 1, 0);
+INSERT INTO `sys_role` VALUES (74, 'DEMO', 'Demo', '演示环境角色', '2021-11-25 17:11:56', 0, '2022-03-20 00:07:00', NULL, 1, 1);
+INSERT INTO `sys_role` VALUES (112, 'ORDINARY', 'ordinary', '普通用户', '2021-11-25 17:11:56', 0, '2022-03-16 09:57:03', NULL, 1, 0);
+INSERT INTO `sys_role` VALUES (120, 'ORDINARY', 'ordinary', '普通用户', '2021-11-25 17:11:56', 0, '2022-03-16 09:57:03', NULL, 1, 0);
+INSERT INTO `sys_role` VALUES (252, 'ADMIN', 'ROOT', '系统管理员(勿删)', '2021-11-25 17:11:56', 0, '2022-03-16 09:57:03', NULL, 1, 0);
+INSERT INTO `sys_role` VALUES (527, 'admin2', 'admin2', 'admin2', '2022-03-04 11:26:47', NULL, '2022-03-16 09:57:03', NULL, 1, 0);
+INSERT INTO `sys_role` VALUES (633, 'TEST1', 'Test', '测试专用123', '2021-11-25 17:11:56', 0, '2022-03-16 09:57:03', NULL, 1, 0);
+INSERT INTO `sys_role` VALUES (714, 'DEMO', 'Demo', '演示环境角色', '2021-11-25 17:11:56', 0, '2022-03-16 09:57:03', NULL, 1, 0);
+INSERT INTO `sys_role` VALUES (827, 'admin2', 'admin2', 'admin2', '2022-03-04 11:26:47', NULL, '2022-03-16 09:57:03', NULL, 1, 0);
+INSERT INTO `sys_role` VALUES (912, 'ORDINARY', 'ordinary', '普通用户', '2021-11-25 17:11:56', 0, '2022-03-16 09:57:03', NULL, 1, 0);
+INSERT INTO `sys_role` VALUES (913, 'GUANLI', '管理员', '管理员', '2022-03-08 15:15:10', NULL, '2022-03-16 09:57:03', NULL, 1, 0);
+INSERT INTO `sys_role` VALUES (914, 'cccccccccccc111', 'ccccccccccc111', 'ccccccccccc111', '2022-03-16 09:35:42', 1, '2022-03-16 09:57:03', 1, 1, 0);
+INSERT INTO `sys_role` VALUES (915, 'ccc222', 'ccc222', '22', '2022-03-19 23:41:45', 1, NULL, NULL, 1, 0);
 
 -- ----------------------------
 -- Table structure for sys_role_menu
@@ -478,22 +505,22 @@ CREATE TABLE `sys_route_conf`  (
                                    `uri` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
                                    `sort` int(11) NULL DEFAULT 0 COMMENT '排序',
                                    `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-                                   `update_time` datetime NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-                                   `is_del` tinyint(1) NULL DEFAULT 0 COMMENT '0: 否 1：是',
                                    `create_id` int(11) NOT NULL COMMENT '创建者id',
+                                   `update_time` datetime NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
                                    `update_id` int(11) NULL DEFAULT NULL COMMENT '更新者id',
+                                   `is_del` tinyint(1) NULL DEFAULT 0 COMMENT '0: 否 1：是',
                                    PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '全局路由' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_route_conf
 -- ----------------------------
-INSERT INTO `sys_route_conf` VALUES (1, '认证中心', 'XHuiCloud-auth', '[{\"args\": {\"_genkey_0\": \"/auth/**\"}, \"name\": \"Path\"}]', '[{\"args\": {}, \"name\": \"CodeGatewayFilter\"}]', 'lb://XHuiCloud-auth', 1, '2021-11-25 21:05:43', NULL, 0, 0, NULL);
-INSERT INTO `sys_route_conf` VALUES (2, '用户中心', 'XHuiCloud-upms-service', '[{\"args\": {\"_genkey_0\": \"/admin/**\"}, \"name\": \"Path\"}]', '[]', 'lb://XHuiCloud-upms-service', 2, '2021-11-25 21:05:43', NULL, 0, 0, NULL);
-INSERT INTO `sys_route_conf` VALUES (3, '支付中心', 'XHuiCloud-pay-business', '[{\"args\": {\"_genkey_0\": \"/pay/**\"}, \"name\": \"Path\"}]', '[]', 'lb://XHuiCloud-pay-business', 3, '2021-11-25 21:05:43', NULL, 0, 0, NULL);
-INSERT INTO `sys_route_conf` VALUES (4, '开发管理', 'XHuiCloud-generator', '[{\"args\": {\"_genkey_0\": \"/dev/**\"}, \"name\": \"Path\"}]', '[]', 'lb://XHuiCloud-generator', 4, '2021-11-25 21:05:43', NULL, 0, 0, NULL);
-INSERT INTO `sys_route_conf` VALUES (5, '推送中心', 'XHuiCloud-push-service', '[{\"args\": {\"_genkey_0\": \"/push/**\"}, \"name\": \"Path\"}]', '[]', 'lb://XHuiCloud-push-service', 5, '2021-12-07 16:45:44', '2021-12-07 16:51:11', 0, 0, NULL);
-INSERT INTO `sys_route_conf` VALUES (6, '日志中心', 'XHuiCloud-logs-service', '[{\"args\": {\"_genkey_0\": \"/logs/**\"}, \"name\": \"Path\"}]', '[]', 'lb://XHuiCloud-logs-service', 6, '2021-12-07 16:45:44', '2021-12-07 16:51:11', 0, 0, NULL);
+INSERT INTO `sys_route_conf` VALUES (1, '认证中心', 'XHuiCloud-auth', '[{\"args\": {\"_genkey_0\": \"/auth/**\"}, \"name\": \"Path\"}]', '[{\"args\": {}, \"name\": \"Code\"}]', 'lb://XHuiCloud-auth', 1, '2021-11-25 21:05:43', 0, '2022-04-05 22:59:51', NULL, 0);
+INSERT INTO `sys_route_conf` VALUES (2, '用户中心', 'XHuiCloud-upms-service', '[{\"args\": {\"_genkey_0\": \"/admin/**\"}, \"name\": \"Path\"}]', '[{\"args\": {}, \"name\": \"Sample\"}]', 'lb://XHuiCloud-upms-service', 2, '2021-11-25 21:05:43', 0, '2022-04-05 23:04:21', NULL, 0);
+INSERT INTO `sys_route_conf` VALUES (3, '支付中心', 'XHuiCloud-pay-business', '[{\"args\": {\"_genkey_0\": \"/pay/**\"}, \"name\": \"Path\"}]', '[{\"args\": {}, \"name\": \"Sample\"}]', 'lb://XHuiCloud-pay-business', 3, '2021-11-25 21:05:43', 0, '2022-04-05 23:04:22', NULL, 0);
+INSERT INTO `sys_route_conf` VALUES (4, '开发管理', 'XHuiCloud-generator', '[{\"args\": {\"_genkey_0\": \"/dev/**\"}, \"name\": \"Path\"}]', '[{\"args\": {}, \"name\": \"Sample\"}]', 'lb://XHuiCloud-generator', 4, '2021-11-25 21:05:43', 0, '2022-04-05 23:04:23', NULL, 0);
+INSERT INTO `sys_route_conf` VALUES (5, '推送中心', 'XHuiCloud-push-service', '[{\"args\": {\"_genkey_0\": \"/push/**\"}, \"name\": \"Path\"}]', '[{\"args\": {}, \"name\": \"Sample\"}]', 'lb://XHuiCloud-push-service', 5, '2021-12-07 16:45:44', 0, '2022-04-05 23:04:23', NULL, 0);
+INSERT INTO `sys_route_conf` VALUES (6, '日志中心', 'XHuiCloud-logs-service', '[{\"args\": {\"_genkey_0\": \"/logs/**\"}, \"name\": \"Path\"}]', '[{\"args\": {}, \"name\": \"Sample\"}]', 'lb://XHuiCloud-logs-service', 6, '2021-12-07 16:45:44', 0, '2022-04-05 23:04:24', NULL, 0);
 
 -- ----------------------------
 -- Table structure for sys_social
@@ -504,16 +531,25 @@ CREATE TABLE `sys_social`  (
                                `type` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '类型',
                                `app_id` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '开放平台id',
                                `app_ secret` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '开放平台密钥',
+                               `app_access_token` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '平台授权码',
+                               `app_auth_token` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '平台认证token，例如公众号',
+                               `app_decrypt` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '平台解密密钥',
                                `app_desc` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '开放平台描述',
                                `redirect_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '重定向url',
                                `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                               `create_id` int(11) NULL DEFAULT NULL COMMENT '创建者id',
                                `update_time` datetime NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-                               `is_del` tinyint(1) NULL DEFAULT 0 COMMENT '0: 否 1：是',
-                               `create_id` int(11) NOT NULL COMMENT '创建者id',
                                `update_id` int(11) NULL DEFAULT NULL COMMENT '更新者id',
+                               `tenant_id` int(11) NULL DEFAULT NULL COMMENT '租户id',
+                               `is_del` tinyint(1) NULL DEFAULT 0 COMMENT '0: 否 1：是',
                                PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '系统开放平台' ROW_FORMAT = DYNAMIC;
 
+-- ----------------------------
+-- Records of sys_social
+-- ----------------------------
+INSERT INTO `sys_social` VALUES (1, 'QQ', '101887822', 'e3e1d28a222689591ed7a1256ffc4c62', NULL, NULL, NULL, 'QQ互联', 'http://xhuicloud.cn/#/auth-redirect', '2021-11-25 21:06:09', 1, '2022-04-09 16:05:34', NULL, 1, 0);
+INSERT INTO `sys_social` VALUES (2, 'WXMP', 'wxd89cb972e20e2070', '643b922acb6a3eabe530e95ad893bc28', '55_7GBcAqPc1EvKKlQdCOAj9t0Rt5qazIlz1h4HCN2TyDIDbyD3gune58pPwoDdVynLCay43_LNF0Q9j3nE3QG5nOGmraaAjIc_iuvgY1hk_wP0Wp5LYooHQwulvo4LqVQJfPWb1-KiHya8YAt6MOYdAHASUE', '11111111111111111111111', '7pqvX1TyV9PqbvbgOo12cca3o36PsUtbpZTwhWJ3fZD', '微信公众号', NULL, '2022-04-09 16:01:25', 1, '2022-04-09 16:06:14', NULL, 1, 0);
 
 -- ----------------------------
 -- Table structure for sys_tenant
@@ -527,21 +563,21 @@ CREATE TABLE `sys_tenant`  (
                                `logo` varchar(2048) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT '' COMMENT 'logo地址',
                                `remark` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL COMMENT '租户描述',
                                `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-                               `update_time` datetime NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-                               `is_del` tinyint(1) NULL DEFAULT 0 COMMENT '0: 否 1：是',
                                `create_id` int(11) NOT NULL COMMENT '创建者id',
+                               `update_time` datetime NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
                                `update_id` int(11) NULL DEFAULT NULL COMMENT '更新者id',
+                               `is_del` tinyint(1) NULL DEFAULT 0 COMMENT '0: 否 1：是',
                                PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '系统租户' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_tenant
 -- ----------------------------
-INSERT INTO `sys_tenant` VALUES (1, '星辉云', 1, '2027-03-29 18:12:28', 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimg.bq233.com%2Fkanqq%2Fpic%2Fupload%2F2018%2F0807%2F1533622762937587.jpg&refer=http%3A%2F%2Fimg.bq233.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1643242439&t=f2eba74c2b362625321525d5b426685d', NULL, '2020-05-11 18:13:31', '2021-12-28 08:14:09', 0, 0, NULL);
-INSERT INTO `sys_tenant` VALUES (2, '测试', 1, '2023-05-25 18:13:03', '876780536b8d4513850d5e1ebc052fc2.jpg', NULL, '2020-05-13 16:00:59', '2021-12-23 16:08:06', 0, 0, NULL);
-INSERT INTO `sys_tenant` VALUES (3, '分公司', 1, '2029-09-25 18:13:08', '932235ea685946fb963e4046243526fd.jpg', NULL, '2020-05-13 16:02:26', '2022-04-01 14:00:32', 0, 0, NULL);
-INSERT INTO `sys_tenant` VALUES (4, '广东公司', 1, '2021-05-21 00:00:00', '7d5cb2b6c60b42a3a78592d434bd5dce.jpg', NULL, '2020-05-25 18:18:38', '2022-04-01 14:00:32', 0, 0, NULL);
-INSERT INTO `sys_tenant` VALUES (5, '测试租户1', 1, '2029-12-06 00:00:00', '8b9b2db0a67445c5b55428bf122ccaef.jpg', '测试租户', '2020-05-29 16:38:52', '2021-12-23 16:08:06', 0, 0, NULL);
+INSERT INTO `sys_tenant` VALUES (1, '星辉云', 1, '2027-03-29 18:12:28', 'https://xhuicloud.oss-cn-shenzhen.aliyuncs.com/xhuicloud-logo.png', NULL, '2020-05-11 18:13:31', 0, '2022-04-07 17:38:56', NULL, 0);
+INSERT INTO `sys_tenant` VALUES (2, '测试', 1, '2023-05-25 18:13:03', 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fnimg.ws.126.net%2F%3Furl%3Dhttp%253A%252F%252Fdingyue.ws.126.net%252F2021%252F0915%252F1cea7c3bj00qzgw4s0015c000hs00hsc.jpg%26thumbnail%3D650x2147483647%26quality%3D80%26type%3Djpg&refer=http%3A%2F%2Fnimg.ws.126.net&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1651925977&t=1c2ce613aa75287b0101df72959f3d27', NULL, '2020-05-13 16:00:59', 0, '2022-04-07 20:19:52', NULL, 0);
+INSERT INTO `sys_tenant` VALUES (3, '分公司', 1, '2029-09-25 18:13:08', 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fpic2.zhimg.com%2F80%2Fv2-8a73940f010e56b63465be0b35ef5701_720w.jpg%3Fsource%3D1940ef5c&refer=http%3A%2F%2Fpic2.zhimg.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1651925851&t=da4d7b3e67d830baa6a438c5a7828f8c', NULL, '2020-05-13 16:02:26', 0, '2022-04-07 20:17:35', NULL, 0);
+INSERT INTO `sys_tenant` VALUES (4, '广东公司', 1, '2021-05-21 00:00:00', 'https://img0.baidu.com/it/u=2840206629,2327254830&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500', NULL, '2020-05-25 18:18:38', 0, '2022-04-07 20:17:42', NULL, 0);
+INSERT INTO `sys_tenant` VALUES (5, '测试租户1', 1, '2029-12-06 00:00:00', 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fp4.itc.cn%2Fq_70%2Fimages03%2F20210124%2F1cb2ea3b778a4759b02e93e68133d1dd.jpeg&refer=http%3A%2F%2Fp4.itc.cn&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1651925868&t=b3f8255134bd8493b98eaa2ee0389684', '测试租户', '2020-05-29 16:38:52', 0, '2022-04-07 20:17:52', NULL, 0);
 
 -- ----------------------------
 -- Table structure for sys_user
@@ -556,12 +592,12 @@ CREATE TABLE `sys_user`  (
                              `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '邮箱',
                              `sex` int(11) NULL DEFAULT 1 COMMENT '性别:0 女、1  男、2  其他',
                              `lock_flag` tinyint(1) NULL DEFAULT 1 COMMENT '0: 否 1：是',
-                             `tenant_id` int(11) NULL DEFAULT NULL COMMENT '租户id',
                              `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-                             `update_time` datetime NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-                             `is_del` tinyint(1) NULL DEFAULT 0 COMMENT '0: 否 1：是',
                              `create_id` int(11) NULL DEFAULT NULL COMMENT '创建者id',
+                             `update_time` datetime NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
                              `update_id` int(11) NULL DEFAULT NULL COMMENT '更新者id',
+                             `tenant_id` int(11) NULL DEFAULT NULL COMMENT '租户id',
+                             `is_del` tinyint(1) NULL DEFAULT 0 COMMENT '0: 否 1：是',
                              PRIMARY KEY (`user_id`) USING BTREE,
                              UNIQUE INDEX `username`(`username`) USING BTREE,
                              UNIQUE INDEX `phone`(`phone`) USING BTREE
@@ -570,7 +606,14 @@ CREATE TABLE `sys_user`  (
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
-INSERT INTO `sys_user` VALUES (1, 'admin', '{bcrypt}$2a$10$n2IGDxenvMUj0IJQo/104eHtkL3kLAVjRs/0ktT.JWsG4rRQYqIKC', 'https://img0.baidu.com/it/u=1056811702,4111096278&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500', '13333323333', 'sindazeng@gmail.com', 1, 0, 1, '2021-11-25 21:06:29', '2022-03-25 23:09:49', 0, 0, NULL);
+INSERT INTO `sys_user` VALUES (1, 'admin', '{bcrypt}$2a$10$n2IGDxenvMUj0IJQo/104eHtkL3kLAVjRs/0ktT.JWsG4rRQYqIKC', 'https://img0.baidu.com/it/u=1056811702,4111096278&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500', '13333323333', 'sindazeng@gmail.com', 1, 0, '2021-11-25 21:06:29', 0, '2022-03-25 23:09:49', NULL, 1, 0);
+INSERT INTO `sys_user` VALUES (55, 'ccccc', '$2a$10$BL2.s4TnW9Es2kVm5hqvlOvd7aVo0CM1xjvGRDwoTbsJm1gvnlScm', NULL, '13395666666', '16585555@qq.com', 1, 1, '2022-03-29 20:46:24', 1, NULL, NULL, 1, 0);
+INSERT INTO `sys_user` VALUES (56, 'sssssssss', '$2a$10$BL2.s4TnW9Es2kVm5hqvlOvd7aVo0CM1xjvGRDwoTbsJm1gvnlScm', NULL, '12333333323', 'asssssssss', 1, 1, '2022-03-29 20:47:09', 1, NULL, NULL, 1, 0);
+INSERT INTO `sys_user` VALUES (57, 'CASD', '$2a$10$BL2.s4TnW9Es2kVm5hqvlOvd7aVo0CM1xjvGRDwoTbsJm1gvnlScm', NULL, '15544454444', '2313123123', 0, 1, '2022-03-29 20:48:40', 1, NULL, NULL, 1, 0);
+INSERT INTO `sys_user` VALUES (58, '^_^', '$2a$10$BL2.s4TnW9Es2kVm5hqvlOvd7aVo0CM1xjvGRDwoTbsJm1gvnlScm', 'http://thirdqq.qlogo.cn/g?b=oidb&k=9qiboyggqmVRrlnu3wG4MgA&s=640&t=1646639273', NULL, NULL, 1, 0, '2022-03-29 20:57:32', NULL, '2022-03-29 21:06:28', NULL, 1, 0);
+INSERT INTO `sys_user` VALUES (59, '请修改昵称', '$2a$10$BL2.s4TnW9Es2kVm5hqvlOvd7aVo0CM1xjvGRDwoTbsJm1gvnlScm', NULL, NULL, NULL, 1, 0, '2022-04-02 16:18:44', NULL, NULL, NULL, 1, 0);
+INSERT INTO `sys_user` VALUES (63, '111', '$2a$10$BL2.s4TnW9Es2kVm5hqvlOvd7aVo0CM1xjvGRDwoTbsJm1gvnlScm', NULL, NULL, NULL, 1, 0, '2022-04-03 01:06:54', NULL, NULL, NULL, 1, 0);
+INSERT INTO `sys_user` VALUES (67, '戴降骂', '$2a$10$BL2.s4TnW9Es2kVm5hqvlOvd7aVo0CM1xjvGRDwoTbsJm1gvnlScm', NULL, NULL, NULL, 1, 0, '2022-04-03 13:58:28', NULL, NULL, NULL, 1, 0);
 
 -- ----------------------------
 -- Table structure for sys_user_dept
@@ -586,6 +629,16 @@ CREATE TABLE `sys_user_dept`  (
 -- Records of sys_user_dept
 -- ----------------------------
 INSERT INTO `sys_user_dept` VALUES (1, 1);
+INSERT INTO `sys_user_dept` VALUES (1, 9);
+INSERT INTO `sys_user_dept` VALUES (2, 11);
+INSERT INTO `sys_user_dept` VALUES (48, 4);
+INSERT INTO `sys_user_dept` VALUES (52, 4);
+INSERT INTO `sys_user_dept` VALUES (53, 8);
+INSERT INTO `sys_user_dept` VALUES (54, 13);
+INSERT INTO `sys_user_dept` VALUES (55, 9);
+INSERT INTO `sys_user_dept` VALUES (58, 4);
+INSERT INTO `sys_user_dept` VALUES (59, 4);
+INSERT INTO `sys_user_dept` VALUES (67, 4);
 
 -- ----------------------------
 -- Table structure for sys_user_role
@@ -601,6 +654,21 @@ CREATE TABLE `sys_user_role`  (
 -- Records of sys_user_role
 -- ----------------------------
 INSERT INTO `sys_user_role` VALUES (1, 2);
+INSERT INTO `sys_user_role` VALUES (1, 6);
+INSERT INTO `sys_user_role` VALUES (2, 2);
+INSERT INTO `sys_user_role` VALUES (43, 4);
+INSERT INTO `sys_user_role` VALUES (44, 4);
+INSERT INTO `sys_user_role` VALUES (47, 4);
+INSERT INTO `sys_user_role` VALUES (48, 4);
+INSERT INTO `sys_user_role` VALUES (52, 4);
+INSERT INTO `sys_user_role` VALUES (53, 4);
+INSERT INTO `sys_user_role` VALUES (54, 4);
+INSERT INTO `sys_user_role` VALUES (55, 4);
+INSERT INTO `sys_user_role` VALUES (56, 4);
+INSERT INTO `sys_user_role` VALUES (57, 4);
+INSERT INTO `sys_user_role` VALUES (58, 4);
+INSERT INTO `sys_user_role` VALUES (59, 4);
+INSERT INTO `sys_user_role` VALUES (67, 4);
 
 -- ----------------------------
 -- Table structure for sys_user_social
@@ -612,6 +680,14 @@ CREATE TABLE `sys_user_social`  (
                                     `user_openid` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '用户openid',
                                     PRIMARY KEY (`user_id`, `user_openid`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '用户社交' ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of sys_user_social
+-- ----------------------------
+INSERT INTO `sys_user_social` VALUES (1, 'WECHAT_MP', 'oadUz6PRmFLbb49ecB5suyNU6Lf4');
+INSERT INTO `sys_user_social` VALUES (58, 'QQ', 'EFAE57360D32F24CA01AD3B55A81F4B5');
+INSERT INTO `sys_user_social` VALUES (59, 'WECHAT', 'oadUz6PRmFLbb49ecB5suyNU6Lf4');
+INSERT INTO `sys_user_social` VALUES (67, 'WECHAT', 'oadUz6HJC63E-mDjLmmtsZK91mbY');
 
 -- ----------------------------
 -- Table structure for undo_log
