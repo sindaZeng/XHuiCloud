@@ -27,7 +27,6 @@ package com.xhuicloud.auth.controller;
 import cn.hutool.core.util.StrUtil;
 import com.xhuicloud.common.core.utils.Response;
 import com.xhuicloud.common.security.utils.SecurityHolder;
-import com.xhuicloud.upms.entity.SysTenant;
 import com.xhuicloud.upms.feign.SysTenantServiceFeign;
 import com.xhuicloud.upms.vo.TenantVo;
 import io.swagger.annotations.Api;
@@ -42,7 +41,6 @@ import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.List;
@@ -58,9 +56,9 @@ import static com.xhuicloud.common.core.constant.AuthorizationConstants.IS_COMMI
  **/
 @Slf4j
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/oauth2")
 @AllArgsConstructor
-@Api(value = "auth", tags = "认证模块")
+@Api(value = "oauth2", tags = "认证模块")
 public class AuthTokenEndpoint {
 
     private final TokenStore tokenStore;
@@ -92,7 +90,6 @@ public class AuthTokenEndpoint {
      */
     @GetMapping("/notmatch")
     public ModelAndView nomatch(ModelAndView modelAndView, @RequestParam(required = false) String error) {
-
         modelAndView.setViewName("ftl/notmatch");
         modelAndView.addObject("error", error);
         return modelAndView;

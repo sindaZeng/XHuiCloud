@@ -111,7 +111,7 @@ public class XHuiAuthorizationServerConfig extends AuthorizationServerConfigurer
                 .authorizationCodeServices(xHuiAuthCodeServicesImpl)
                 .authenticationManager(authenticationManager)//校验用户信息是否合法
                 .reuseRefreshTokens(false)
-                .pathMapping("/oauth/confirm_access", "/auth/confirm_access")//设置成自己的授权页面
+                .pathMapping("/oauth/confirm_access", "/oauth2/confirm_access")//设置成自己的授权页面
                 .exceptionTranslator(new XHuiWebResponseExceptionTranslator()); //修改Oauth2定义的错误信息 为我们定义的错误信息
         setSocialTokenGranter(endpoints);
     }

@@ -91,8 +91,8 @@ public class XHuiWebSecurityConfigurer extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authenticationProvider(new SocialAuthenticationProvider())
                 .formLogin()//表单登录
-                .loginPage("/auth/login")
-                .loginProcessingUrl("/auth/form")
+                .loginPage("/oauth2/login")
+                .loginProcessingUrl("/oauth2/form")
                 .successHandler(xHuiSimpleUrlAuthenticationSuccessHandler())
                 .failureHandler(authenticationFailureHandler())
                 .and()
@@ -102,11 +102,7 @@ public class XHuiWebSecurityConfigurer extends WebSecurityConfigurerAdapter {
                 .invalidateHttpSession(true)
                 .and()
                 .authorizeRequests()//对请求授权
-                .antMatchers("/auth/login", // 授权登录页
-                        "/auth/nomatch", // 回调域不匹配提醒页
-                        "/auth/form", // 授权登录接口
-                        "/auth/confirm", // 授权同意页
-                        "/mobile/**", "/actuator/**")
+                .antMatchers("/oauth2/**", "/mobile/**", "/actuator/**")
                 .permitAll() //匹配这个url 放行
                 .anyRequest().authenticated()//任何请求都要授权
                 .and().csrf().disable();//跨站请求伪造攻击
