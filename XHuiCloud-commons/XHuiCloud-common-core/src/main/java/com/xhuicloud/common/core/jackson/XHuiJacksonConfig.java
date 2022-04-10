@@ -30,7 +30,15 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.fasterxml.jackson.datatype.jsr310.deser.InstantDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalTimeDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -46,6 +54,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.Locale;
@@ -77,6 +89,30 @@ public class XHuiJacksonConfig implements WebMvcConfigurer {
                     return Date.class;
                 }
             });
+            SimpleModule simpleModule = new SimpleModule();
+            // 格式: yyyy-MM-dd
+            simpleModule.addDeserializer(LocalDate.class,
+                    new LocalDateDeserializer(DateTimeFormatter.ofPattern(DatePattern.NORM_DATE_PATTERN)));
+            // 格式: yyyy-MM-dd HH:mm:ss
+            simpleModule.addDeserializer(LocalDateTime.class,
+                    new LocalDateTimeDeserializer(DateTimeFormatter.ofPattern(DatePattern.NORM_DATETIME_PATTERN)));
+            // 格式: HH:mm:ss
+            simpleModule.addDeserializer(LocalTime.class,
+                    new LocalTimeDeserializer(DateTimeFormatter.ofPattern(DatePattern.NORM_TIME_PATTERN)));
+            simpleModule.addDeserializer(Instant.class, InstantDeserializer.INSTANT);
+
+            // 格式: yyyy-MM-dd
+            simpleModule.addSerializer(LocalDate.class,
+                    new LocalDateSerializer(DateTimeFormatter.ofPattern(DatePattern.NORM_DATE_PATTERN)));
+
+            // 格式: yyyy-MM-dd HH:mm:ss
+            simpleModule.addSerializer(LocalDateTime.class,
+                    new LocalDateTimeSerializer(DateTimeFormatter.ofPattern(DatePattern.NORM_DATETIME_PATTERN)));
+
+            // 格式: HH:mm:ss
+            simpleModule.addSerializer(LocalTime.class,
+                    new LocalTimeSerializer(DateTimeFormatter.ofPattern(DatePattern.NORM_TIME_PATTERN)));
+            builder.modules(simpleModule);
         };
     }
 

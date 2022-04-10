@@ -33,8 +33,10 @@ import com.xhuicloud.common.core.annotation.Scalpel;
 import com.xhuicloud.common.core.data.ScalpelTypeEnum;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
@@ -44,6 +46,8 @@ import java.time.LocalDateTime;
 @Data
 @Builder
 @ApiModel(value="租户表")
+@AllArgsConstructor
+@NoArgsConstructor
 public class SysTenant extends Model<SysTenant> {
     /**
      * 租户id
