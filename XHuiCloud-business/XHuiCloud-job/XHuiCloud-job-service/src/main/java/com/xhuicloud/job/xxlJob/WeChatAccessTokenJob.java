@@ -29,9 +29,11 @@ import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.xhuicloud.common.core.constant.SysParamConstants;
 import com.xhuicloud.common.core.constant.ThirdLoginUrlConstants;
+import com.xhuicloud.common.core.enums.login.LoginTypeEnum;
 import com.xhuicloud.common.core.utils.Response;
 import com.xhuicloud.upms.entity.SysParam;
 import com.xhuicloud.upms.feign.SysParamServiceFeign;
+import com.xhuicloud.upms.feign.SysSocialServiceFeign;
 import com.xxl.job.core.biz.model.ReturnT;
 import com.xxl.job.core.handler.annotation.XxlJob;
 import lombok.AllArgsConstructor;
@@ -46,7 +48,7 @@ import static com.xxl.job.core.biz.model.ReturnT.SUCCESS;
 @AllArgsConstructor
 public class WeChatAccessTokenJob {
 
-    private final SysParamServiceFeign sysParamServiceFeign;
+    private final SysSocialServiceFeign sysSocialServiceFeign;
 
     /**
      * 获取微信公众号token
@@ -55,15 +57,7 @@ public class WeChatAccessTokenJob {
      */
     @XxlJob("weChatAccessTokenJob")
     public ReturnT<String> weChatAccessTokenJob() {
-        Response<SysParam> appId = sysParamServiceFeign.get(SysParamConstants.WECHAT_MP_APPID, IS_COMMING_ANONYMOUS_YES);
-        Response<SysParam> secret = sysParamServiceFeign.get(SysParamConstants.WECHAT_MP_SECRET, IS_COMMING_ANONYMOUS_YES);
-        if (appId.getData() != null && secret.getData() != null) {
-            String url = String.format(ThirdLoginUrlConstants.MINI_WECHAT_ACCESS_TOKEN, appId.getData().getParamValue(), secret.getData().getParamValue());
-            String result = HttpUtil.get(url);
-            JSONObject response = JSONUtil.parseObj(result);
-            String access_token = response.getStr("access_token");
-            sysParamServiceFeign.updateValue(SysParam.builder().paramKey(SysParamConstants.WECHAT_MP_TOKEN).paramValue(access_token).build(), IS_COMMING_ANONYMOUS_YES);
-        }
+        sysSocialServiceFeign.updateSocialToken(LoginTypeEnum.WECHAT_MP.getType(), IS_COMMING_ANONYMOUS_YES);
         return SUCCESS;
     }
 }

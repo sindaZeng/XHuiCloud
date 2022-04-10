@@ -30,5 +30,7 @@ import com.xhuicloud.upms.entity.SysSocial;
 
 public interface SysSocialService extends IService<SysSocial> {
 
-    UserInfo getSysUser(String type, String auth_code);
+    UserInfo getSysUser(String type, String code);
+
+    Boolean updateSocialToken(String type);
 }

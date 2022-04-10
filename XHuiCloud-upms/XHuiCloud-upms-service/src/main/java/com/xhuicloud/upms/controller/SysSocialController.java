@@ -24,6 +24,7 @@
 
 package com.xhuicloud.upms.controller;
 
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xhuicloud.common.core.utils.Response;
 import com.xhuicloud.common.log.annotation.SysLog;
@@ -37,6 +38,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * @program: XHuiCloud
@@ -56,13 +58,25 @@ public class SysSocialController {
      * 渠道授权码查询用户
      * 第三方社交登录
      *
-     * @param auth_code
+     * @param code
      * @return
      */
     @Anonymous
-    @GetMapping("/{type}/{auth_code}")
-    public Response<UserInfo> getSysUser(@PathVariable(value = "type") String type, @PathVariable String auth_code) {
-        return Response.success(sysSocialService.getSysUser(type, auth_code));
+    @GetMapping("/{type}/{code}")
+    public Response<UserInfo> getSysUser(@PathVariable(value = "type") String type, @PathVariable String code) {
+        return Response.success(sysSocialService.getSysUser(type, code));
+    }
+
+    /**
+     * 定时批量更新 token
+     *
+     * @param type
+     * @return
+     */
+    @Anonymous
+    @PutMapping("/{type}")
+    public Response updateSocialToken(@PathVariable String type) {
+        return Response.success(sysSocialService.updateSocialToken(type));
     }
 
     /**

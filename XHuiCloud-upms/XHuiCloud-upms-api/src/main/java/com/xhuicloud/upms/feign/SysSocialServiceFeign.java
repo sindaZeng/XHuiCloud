@@ -30,6 +30,7 @@ import com.xhuicloud.common.core.utils.Response;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 
 import static com.xhuicloud.common.core.constant.AuthorizationConstants.FROM;
@@ -45,7 +46,9 @@ public interface SysSocialServiceFeign {
 
     String SYSSOCIALSERVICEFEIGN = "sysSocialServiceFeign";
 
-    @GetMapping("/{type}/{auth_code}")
-    Response<UserInfo> getSysUser(@PathVariable(value = "type") String type, @PathVariable(value = "auth_code") String auth_code, @RequestHeader(FROM) String from);
+    @GetMapping("/{type}/{code}")
+    Response<UserInfo> getSysUser(@PathVariable(value = "type") String type, @PathVariable(value = "code") String code, @RequestHeader(FROM) String from);
 
+    @PutMapping("/{type}")
+    Response updateSocialToken(@PathVariable String type, @RequestHeader(FROM) String from);
 }
