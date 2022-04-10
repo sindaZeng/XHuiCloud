@@ -50,5 +50,5 @@ public interface SysSocialServiceFeign {
     Response<UserInfo> getSysUser(@PathVariable(value = "type") String type, @PathVariable(value = "code") String code, @RequestHeader(FROM) String from);
 
     @PutMapping("/{type}")
-    Response updateSocialToken(@PathVariable String type, @RequestHeader(FROM) String from);
+    Response updateSocialToken(@PathVariable(value = "type") String type, @RequestHeader(FROM) String from);
 }
