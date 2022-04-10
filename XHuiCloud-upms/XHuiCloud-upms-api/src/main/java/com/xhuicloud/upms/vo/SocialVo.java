@@ -24,36 +24,15 @@
 
 package com.xhuicloud.upms.vo;
 
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-import java.io.Serializable;
-import java.util.Map;
-
 @Data
-@ApiModel(value = "租户列表")
-public class TenantVo implements Serializable {
+public class SocialVo {
 
-    @ApiModelProperty(value="租户id")
-    private Integer id;
+    @ApiModelProperty(value="appId")
+    private String appId;
 
-    /**
-     * 租户名称
-     */
-    @ApiModelProperty(value="租户名称")
-    private String name;
-
-    /**
-     * logo地址
-     */
-    @ApiModelProperty(value="logo地址")
-    private String logo;
-
-    /**
-     * 社交登录配置
-     */
-    @ApiModelProperty(value="社交登录配置")
-    private Map<String, SocialVo> socials;
-
+    @ApiModelProperty(value="redirectUrl")
+    private String redirectUrl;
 }

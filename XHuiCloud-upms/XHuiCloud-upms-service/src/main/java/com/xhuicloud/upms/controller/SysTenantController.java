@@ -25,16 +25,21 @@
 package com.xhuicloud.upms.controller;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.google.common.collect.Lists;
 import com.xhuicloud.common.core.utils.Response;
 import com.xhuicloud.common.log.annotation.SysLog;
 import com.xhuicloud.common.security.annotation.Anonymous;
 import com.xhuicloud.upms.dto.TenantDto;
+import com.xhuicloud.upms.entity.SysSocial;
 import com.xhuicloud.upms.entity.SysTenant;
+import com.xhuicloud.upms.service.SysSocialService;
 import com.xhuicloud.upms.service.SysTenantService;
+import com.xhuicloud.upms.vo.SocialVo;
 import com.xhuicloud.upms.vo.TenantVo;
 import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;
@@ -43,6 +48,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @program: XHuiCloud
@@ -58,6 +65,8 @@ public class SysTenantController {
 
     private final SysTenantService sysTenantService;
 
+    private final SysSocialService sysSocialService;
+
     /**
      * 查询系统租户列表
      *
@@ -66,8 +75,31 @@ public class SysTenantController {
     @Anonymous(value = false)
     @GetMapping("/list")
     public Response<List<TenantVo>> list(@RequestParam(required = false) String name) {
-        List<SysTenant> list = sysTenantService.list(Wrappers.query(SysTenant.builder().state(1).name(name).build()));
-        return Response.success(BeanUtil.copyToList(list, TenantVo.class));
+        List<SysTenant> sysTenants = sysTenantService.list(Wrappers.query(SysTenant.builder().state(1).name(name).build()));
+        Map<Integer, List<SysSocial>> sysSocialMap = sysSocialService.list()
+                .stream().collect(Collectors
+                        .toMap(SysSocial::getTenantId,
+                                sysSocial -> Lists.newArrayList(sysSocial),
+                                (oldVal, newVal) -> {
+                                    oldVal.addAll(newVal);
+                                    return oldVal;
+                                }));
+        List<TenantVo> tenantVos = sysTenants.stream().map(sysTenant -> {
+            TenantVo tenantVo = new TenantVo();
+            BeanUtil.copyProperties(sysTenant, tenantVo);
+            if (!sysSocialMap.isEmpty()) {
+                List<SysSocial> sysSocials = sysSocialMap.get(sysTenant.getId());
+                if (CollectionUtil.isNotEmpty(sysSocials))
+                    tenantVo.setSocials(sysSocials.stream().collect(Collectors.toMap(SysSocial::getType, x -> {
+                        SocialVo socialVo = new SocialVo();
+                        socialVo.setAppId(x.getAppId());
+                        socialVo.setRedirectUrl(x.getRedirectUrl());
+                        return socialVo;
+                    })));
+            }
+            return tenantVo;
+        }).collect(Collectors.toList());
+        return Response.success(tenantVos);
     }
 
     /**
@@ -94,7 +126,7 @@ public class SysTenantController {
      */
     @GetMapping("/page")
     public Response page(Page page, SysTenant sysTenant) {
-        return Response.success(sysTenantService.page(page,  Wrappers.query(sysTenant)));
+        return Response.success(sysTenantService.page(page, Wrappers.query(sysTenant)));
     }
 
     /**
