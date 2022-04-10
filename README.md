@@ -1,4 +1,5 @@
 <p align="center">
+     <img src="https://xhuicloud.oss-cn-shenzhen.aliyuncs.com/logo-transparent.png" width="200px" height="200px" alt="logo"> </br>
      XHuiCloud - 星辉云快速开发 
 </p>
 <p align="center">
@@ -35,17 +36,17 @@
 
 ## 前言
 
-本项目致力于采用现阶段流行技术，打造快速开发平台,做到适配各种场景的脚手架。
+本项目致力于采用现阶段流行技术，打造快速开发平台，做到适配各种场景的脚手架。
 
 #### 项目介绍
 
 `XHuiCloud`项目是基础脚手架系统，
 主要技术栈有：
-SpringBoot + SpringCloudAlibaba + SpringSecurity + Nacos + MyBatis-Plus 实现，采用Docker容器化部署。拥有Seata, 分布式锁，分布式发号器，分布式任务xxl-job，分布式任务elastic-Job，amazonaws oss等等的自动装配包。  
+SpringBoot + SpringCloudAlibaba + SpringSecurity + Nacos + MyBatis-Plus 实现，采用Docker容器化部署。拥有基于Seata的分布式事务, 基于redis，zk分布式锁，基于zk的分布式发号器，分布式任务xxl-job，分布式任务elastic-Job，amazonaws oss等等的自动装配包。  
 
 #### 模块介绍(包含规划)
 
-- [x] 认证中心
+- [x] [认证中心](http://oauth2.xhuicloud.cn/auth/login)
 - [x] 权限管理
 - [x] 用户管理
 - [x] 租户管理
