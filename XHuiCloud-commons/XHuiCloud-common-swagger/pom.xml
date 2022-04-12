@@ -30,10 +30,9 @@
             <artifactId>springfox-oas</artifactId>
             <version>${swagger.fox.version}</version>
         </dependency>
-
         <dependency>
-            <groupId>com.github.xiaoymin</groupId>
-            <artifactId>knife4j-spring-ui</artifactId>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
         </dependency>
 
         <dependency>

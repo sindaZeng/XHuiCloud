@@ -19,7 +19,7 @@
         <oracle.version>11.2.0.3</oracle.version>
         <logstash.version>5.3</logstash.version>
         <swagger.version>1.5.22</swagger.version>
-        <knife4j.version>2.0.9</knife4j.version>
+        <knife4j.version>3.0.3</knife4j.version>
         <redisson.version>3.12.1</redisson.version>
         <ttl.version>2.11.2</ttl.version>
         <xxl.job.version>2.3.0</xxl.job.version>
@@ -193,12 +193,6 @@
             <dependency>
                 <groupId>com.github.xiaoymin</groupId>
                 <artifactId>knife4j-micro-spring-boot-starter</artifactId>
-                <version>${knife4j.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.github.xiaoymin</groupId>
-                <artifactId>knife4j-spring-ui</artifactId>
                 <version>${knife4j.version}</version>
             </dependency>
 
