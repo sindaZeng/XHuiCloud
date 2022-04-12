@@ -1,0 +1,41 @@
+spring:
+  datasource:
+    platform: mysql
+  security:
+    enabled: true
+  application:
+    name: @project.artifactId@
+
+server:
+  tomcat:
+    basedir: logs/@project.artifactId@
+
+db:
+  num: 1
+  user: ${MYSQL_USER:root}
+  password: ${MYSQL_PASSWORD:root}
+  url:
+    0: jdbc:mysql://${MYSQL_HOST:xhuicloud-mysql}:${MYSQL_PORT:3306}/xhuicloud_register?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&allowMultiQueries=true&allowPublicKeyRetrieval=true
+
+nacos:
+  core:
+    auth:
+      system.type: nacos
+      default.token.secret.key: SecretKey012345678901234567890123456789012345678901234567890123456789
+  security:
+    ignore:
+      urls: /,/error,/**/*.css,/**/*.js,/**/*.html,/**/*.map,/**/*.svg,/**/*.png,/**/*.ico,/console-fe/public/**,/v1/auth/**,/v1/console/health/**,/actuator/**,/v1/console/server/**
+
+useAddressServer: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  metrics:
+    export:
+      influx:
+        enabled: false
+      elastic:
+        enabled: false

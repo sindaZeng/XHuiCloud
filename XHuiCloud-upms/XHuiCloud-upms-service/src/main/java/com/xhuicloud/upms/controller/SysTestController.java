@@ -30,7 +30,7 @@ import com.xhuicloud.logs.feign.SysLogServiceFeign;
 import com.xhuicloud.push.feign.PushTestFeign;
 import com.xhuicloud.upms.entity.SysRole;
 import com.xhuicloud.upms.service.SysRoleService;
-import io.seata.spring.annotation.GlobalTransactional;
+//import io.seata.spring.annotation.GlobalTransactional;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
@@ -54,7 +54,7 @@ public class SysTestController {
 
     @GetMapping("/tm")
     @ApiOperation(value = "分布式事务测试", notes = "分布式事务测试")
-    @GlobalTransactional
+//    @GlobalTransactional
     public Response tm() {
         SysRole sysRole = new SysRole();
         sysRole.setRoleCode("SINDA");

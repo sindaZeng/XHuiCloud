@@ -17,14 +17,13 @@
         <dds.version>3.4.1</dds.version>
         <mysql.connector.version>8.0.27</mysql.connector.version>
         <oracle.version>11.2.0.3</oracle.version>
-        <swagger.version>3.0.0</swagger.version>
         <logstash.version>5.3</logstash.version>
-        <swagger.core.version>1.5.22</swagger.core.version>
+        <swagger.version>1.5.22</swagger.version>
         <knife4j.version>2.0.9</knife4j.version>
         <redisson.version>3.12.1</redisson.version>
         <ttl.version>2.11.2</ttl.version>
         <xxl.job.version>2.3.0</xxl.job.version>
-        <security.oauth.version>2.3.6.RELEASE</security.oauth.version>
+        <security.oauth.version>2.5.1.RELEASE</security.oauth.version>
     </properties>
 
     <dependencyManagement>
@@ -180,31 +179,14 @@
             </dependency>
 
             <dependency>
-                <groupId>io.springfox</groupId>
-                <artifactId>springfox-swagger-ui</artifactId>
-                <version>${swagger.version}</version>
-            </dependency>
-
-            <dependency>
                 <groupId>io.swagger</groupId>
                 <artifactId>swagger-models</artifactId>
-                <version>${swagger.core.version}</version>
+                <version>${swagger.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>io.swagger</groupId>
                 <artifactId>swagger-annotations</artifactId>
-                <version>${swagger.core.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>io.springfox</groupId>
-                <artifactId>springfox-swagger2</artifactId>
-                <version>${swagger.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.springfox</groupId>
-                <artifactId>springfox-oas</artifactId>
                 <version>${swagger.version}</version>
             </dependency>
 

@@ -19,9 +19,9 @@ package com.alibaba.nacos.controller;
 import com.alibaba.nacos.auth.annotation.Secured;
 import com.alibaba.nacos.auth.common.ActionTypes;
 import com.alibaba.nacos.common.model.RestResultUtils;
+import com.alibaba.nacos.common.utils.StringUtils;
 import com.alibaba.nacos.security.nacos.NacosAuthConfig;
 import com.alibaba.nacos.security.nacos.roles.NacosRoleServiceImpl;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

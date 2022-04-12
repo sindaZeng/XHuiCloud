@@ -28,6 +28,7 @@ import com.xhuicloud.common.swagger.properties.SwaggerProperties;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;
@@ -54,7 +55,7 @@ import java.util.function.Predicate;
 @Configuration
 @EnableAutoConfiguration
 @RequiredArgsConstructor
-@ConditionalOnProperty(name = "swagger.enabled", matchIfMissing = true)
+@ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
 public class SwaggerConfiguration {
 
     /**

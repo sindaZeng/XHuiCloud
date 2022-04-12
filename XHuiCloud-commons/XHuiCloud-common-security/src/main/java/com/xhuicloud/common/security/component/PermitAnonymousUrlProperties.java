@@ -92,22 +92,22 @@ public class PermitAnonymousUrlProperties implements InitializingBean {
 
             // 1. 首先获取类上边 @Anonymous 注解
             Anonymous controller = AnnotationUtils.findAnnotation(handlerMethod.getBeanType(), Anonymous.class);
-
-            // 2. 当类上不包含 @Anonymous 注解则获取该方法的注解
-            if (controller == null) {
-                Anonymous method = AnnotationUtils.findAnnotation(handlerMethod.getMethod(), Anonymous.class);
-                Optional.ofNullable(method).ifPresent(inner -> info.getPatternsCondition().getPatterns()
-                        .forEach(url -> this.filterPath(url, info, map)));
-                continue;
-            }
-
-            // 3. 当类上包含 @Anonymous 注解 判断handlerMethod 是否包含在 inner 类中
-            Class<?> beanType = handlerMethod.getBeanType();
-            Method[] methods = beanType.getDeclaredMethods();
-            Method method = handlerMethod.getMethod();
-            if (ArrayUtil.contains(methods, method)) {
-                info.getPatternsCondition().getPatterns().forEach(url -> filterPath(url, info, map));
-            }
+            // TODO解决异常
+//            // 2. 当类上不包含 @Anonymous 注解则获取该方法的注解
+//            if (controller == null) {
+//                Anonymous method = AnnotationUtils.findAnnotation(handlerMethod.getMethod(), Anonymous.class);
+//                Optional.ofNullable(method).ifPresent(inner -> info.getPatternsCondition().getPatterns()
+//                        .forEach(url -> this.filterPath(url, info, map)));
+//                continue;
+//            }
+//
+//            // 3. 当类上包含 @Anonymous 注解 判断handlerMethod 是否包含在 inner 类中
+//            Class<?> beanType = handlerMethod.getBeanType();
+//            Method[] methods = beanType.getDeclaredMethods();
+//            Method method = handlerMethod.getMethod();
+//            if (ArrayUtil.contains(methods, method)) {
+//                info.getPatternsCondition().getPatterns().forEach(url -> filterPath(url, info, map));
+//            }
         }
     }
 

@@ -11,18 +11,24 @@
     <packaging>jar</packaging>
     <artifactId>XHuiCloud-common-swagger</artifactId>
 
+    <properties>
+        <swagger.fox.version>3.0.0</swagger.fox.version>
+    </properties>
     <dependencies>
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger-ui</artifactId>
+            <version>${swagger.fox.version}</version>
         </dependency>
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger2</artifactId>
+            <version>${swagger.fox.version}</version>
         </dependency>
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-oas</artifactId>
+            <version>${swagger.fox.version}</version>
         </dependency>
 
         <dependency>
@@ -42,6 +48,16 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-gateway-server</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-commons</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
             <scope>provided</scope>
         </dependency>
     </dependencies>

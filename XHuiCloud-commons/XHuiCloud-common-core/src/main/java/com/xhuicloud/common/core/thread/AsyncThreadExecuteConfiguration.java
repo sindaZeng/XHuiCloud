@@ -57,6 +57,8 @@ public class AsyncThreadExecuteConfiguration {
         executor.setKeepAliveSeconds(properties.getKeepAliveSeconds());
         //线程名字前缀
         executor.setThreadNamePrefix(THREAD_NAME);
+        // 等待执行完再关闭
+        executor.setWaitForTasksToCompleteOnShutdown(Boolean.TRUE);
         // ThreadPoolExecutor.AbortPolicy 丢弃任务并抛出RejectedExecutionException异常(默认)。
         // ThreadPoolExecutor.DiscardPolic 丢弃任务，但是不抛出异常。
         // ThreadPoolExecutor.DiscardOldestPolicy 丢弃队列最前面的任务，然后重新尝试执行任务
