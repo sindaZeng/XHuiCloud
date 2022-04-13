@@ -52,10 +52,10 @@
             <artifactId>XHuiCloud-common-swagger</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>XHuiCloud-common-sentinel</artifactId>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>${project.groupId}</groupId>-->
+<!--            <artifactId>XHuiCloud-common-sentinel</artifactId>-->
+<!--        </dependency>-->
 
         <dependency>
             <groupId>${project.groupId}</groupId>
@@ -75,6 +75,11 @@
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-undertow</artifactId>
         </dependency>
 
     </dependencies>

@@ -23,7 +23,7 @@
         <redisson.version>3.12.1</redisson.version>
         <ttl.version>2.11.2</ttl.version>
         <xxl.job.version>2.3.0</xxl.job.version>
-        <security.oauth.version>2.5.1.RELEASE</security.oauth.version>
+        <security.oauth.version>2.3.6.RELEASE</security.oauth.version>
     </properties>
 
     <dependencyManagement>

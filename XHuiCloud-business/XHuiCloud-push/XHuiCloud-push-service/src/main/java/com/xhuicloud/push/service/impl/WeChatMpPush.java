@@ -55,9 +55,9 @@ import static com.xhuicloud.common.core.constant.AuthorizationConstants.IS_COMMI
 @AllArgsConstructor
 public class WeChatMpPush implements PushService {
 
-    private final SysParamServiceFeign sysParamServiceFeign;
+//    private final SysParamServiceFeign sysParamServiceFeign;
 
-    private final SysUserServiceFeign sysUserServiceFeign;
+//    private final SysUserServiceFeign sysUserServiceFeign;
 
     /**
      * 模板发送地址
@@ -67,53 +67,53 @@ public class WeChatMpPush implements PushService {
     @Override
     public boolean pushSingle(PushTemplate pushTemplate, PushSingle pushSingle) {
 
-        Response<SysParam> response = sysParamServiceFeign.get(SysParamConstants.WECHAT_MP_TOKEN, IS_COMMING_ANONYMOUS_YES);
-        String token = response.getData().getParamValue();
-
-        String url = String.format(TEMPLATE_SEND, token);
-        HttpResponse httpResponse = HttpUtil.createPost(url)
-                .body(JSONUtil.toJsonStr(getMsgBody(pushTemplate, pushSingle)))
-                .timeout(10 * 10000)
-                .execute();
-        String body = httpResponse.body();
+//        Response<SysParam> response = sysParamServiceFeign.get(SysParamConstants.WECHAT_MP_TOKEN, IS_COMMING_ANONYMOUS_YES);
+//        String token = response.getData().getParamValue();
+//
+//        String url = String.format(TEMPLATE_SEND, token);
+//        HttpResponse httpResponse = HttpUtil.createPost(url)
+//                .body(JSONUtil.toJsonStr(getMsgBody(pushTemplate, pushSingle)))
+//                .timeout(10 * 10000)
+//                .execute();
+//        String body = httpResponse.body();
         return false;
     }
 
-    private Map<String, Object> getMsgBody(PushTemplate pushTemplate, PushSingle pushSingle) {
-        Response<SysUserSocial> sysUserSocialResponse = sysUserServiceFeign.getUserSocial(pushSingle.getUserId(), PushChannelEnum.WECHAT_MP.name(), IS_COMMING_ANONYMOUS_YES);
-
-        Map<String, Object> templateParams = new HashMap<>();
-        templateParams.put("touser", sysUserSocialResponse.getData().getUserOpenid());
-        templateParams.put("template_id", pushTemplate.getChannelId());
-        List<BasePushData.Parameter> params = pushSingle.getParams();
-        Map<String, Object> dataMap = new HashMap<>();
-        if (CollectionUtil.isNotEmpty(params)) {
-            Map<String, String> paramMap = new HashMap<>();
-            params.stream().forEach(param -> {
-                paramMap.put(param.getKey(), param.getValue());
-            });
-
-            String kv = pushTemplate.getKv();
-            JSONObject jsonObject = JSONUtil.parseObj(kv);
-            if (StrUtil.isNotEmpty(kv)) {
-                if (jsonObject != null) {
-                    for (Map.Entry<String, Object> templateKv : jsonObject.entrySet()) {
-                        Map<String,String> valueMap = new HashMap<>();
-                        valueMap.put("value", paramMap.get(templateKv.getValue()));
-                        dataMap.put(templateKv.getKey(), valueMap);
-                    }
-                }
-            }else {
-                for (Map.Entry<String, String> templateKv : paramMap.entrySet()) {
-                    Map<String,String> valueMap = new HashMap<>();
-                    valueMap.put("value", paramMap.get(templateKv.getValue()));
-                    dataMap.put(templateKv.getKey(), valueMap);
-                }
-            }
-        }
-        templateParams.put("data", dataMap);
-        return templateParams;
-    }
+//    private Map<String, Object> getMsgBody(PushTemplate pushTemplate, PushSingle pushSingle) {
+//        Response<SysUserSocial> sysUserSocialResponse = sysUserServiceFeign.getUserSocial(pushSingle.getUserId(), PushChannelEnum.WECHAT_MP.name(), IS_COMMING_ANONYMOUS_YES);
+//
+//        Map<String, Object> templateParams = new HashMap<>();
+//        templateParams.put("touser", sysUserSocialResponse.getData().getUserOpenid());
+//        templateParams.put("template_id", pushTemplate.getChannelId());
+//        List<BasePushData.Parameter> params = pushSingle.getParams();
+//        Map<String, Object> dataMap = new HashMap<>();
+//        if (CollectionUtil.isNotEmpty(params)) {
+//            Map<String, String> paramMap = new HashMap<>();
+//            params.stream().forEach(param -> {
+//                paramMap.put(param.getKey(), param.getValue());
+//            });
+//
+//            String kv = pushTemplate.getKv();
+//            JSONObject jsonObject = JSONUtil.parseObj(kv);
+//            if (StrUtil.isNotEmpty(kv)) {
+//                if (jsonObject != null) {
+//                    for (Map.Entry<String, Object> templateKv : jsonObject.entrySet()) {
+//                        Map<String,String> valueMap = new HashMap<>();
+//                        valueMap.put("value", paramMap.get(templateKv.getValue()));
+//                        dataMap.put(templateKv.getKey(), valueMap);
+//                    }
+//                }
+//            }else {
+//                for (Map.Entry<String, String> templateKv : paramMap.entrySet()) {
+//                    Map<String,String> valueMap = new HashMap<>();
+//                    valueMap.put("value", paramMap.get(templateKv.getValue()));
+//                    dataMap.put(templateKv.getKey(), valueMap);
+//                }
+//            }
+//        }
+//        templateParams.put("data", dataMap);
+//        return templateParams;
+//    }
 
     @Override
     public boolean pushMultiple(PushTemplate pushTemplate, PushMultiple pushMultiple) {

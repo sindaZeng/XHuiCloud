@@ -63,6 +63,11 @@
             <artifactId>XHuiCloud-common-sentinel</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-undertow</artifactId>
+        </dependency>
+
         <!--        分布式锁-->
         <!--        <dependency>-->
         <!--            <groupId>${project.groupId}</groupId>-->

@@ -29,6 +29,7 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.ReUtil;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.json.JSONUtil;
 import com.xhuicloud.common.security.annotation.Anonymous;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -49,6 +50,7 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
+import org.springframework.web.util.pattern.PathPattern;
 
 import java.lang.reflect.Method;
 import java.util.*;
@@ -93,21 +95,21 @@ public class PermitAnonymousUrlProperties implements InitializingBean {
             // 1. 首先获取类上边 @Anonymous 注解
             Anonymous controller = AnnotationUtils.findAnnotation(handlerMethod.getBeanType(), Anonymous.class);
             // TODO解决异常
-//            // 2. 当类上不包含 @Anonymous 注解则获取该方法的注解
-//            if (controller == null) {
-//                Anonymous method = AnnotationUtils.findAnnotation(handlerMethod.getMethod(), Anonymous.class);
-//                Optional.ofNullable(method).ifPresent(inner -> info.getPatternsCondition().getPatterns()
-//                        .forEach(url -> this.filterPath(url, info, map)));
-//                continue;
-//            }
-//
-//            // 3. 当类上包含 @Anonymous 注解 判断handlerMethod 是否包含在 inner 类中
-//            Class<?> beanType = handlerMethod.getBeanType();
-//            Method[] methods = beanType.getDeclaredMethods();
-//            Method method = handlerMethod.getMethod();
-//            if (ArrayUtil.contains(methods, method)) {
-//                info.getPatternsCondition().getPatterns().forEach(url -> filterPath(url, info, map));
-//            }
+            // 2. 当类上不包含 @Anonymous 注解则获取该方法的注解
+            if (controller == null) {
+                Anonymous method = AnnotationUtils.findAnnotation(handlerMethod.getMethod(), Anonymous.class);
+                Optional.ofNullable(method).ifPresent(inner -> info.getPathPatternsCondition().getPatterns()
+                        .forEach(pathPattern -> this.filterPath(pathPattern.getPatternString(), info, map)));
+                continue;
+            }
+
+            // 3. 当类上包含 @Anonymous 注解 判断handlerMethod 是否包含在 inner 类中
+            Class<?> beanType = handlerMethod.getBeanType();
+            Method[] methods = beanType.getDeclaredMethods();
+            Method method = handlerMethod.getMethod();
+            if (ArrayUtil.contains(methods, method)) {
+                info.getPathPatternsCondition().getPatterns().forEach(pathPattern -> filterPath(pathPattern.getPatternString(), info, map));
+            }
         }
     }
 
@@ -154,14 +156,14 @@ public class PermitAnonymousUrlProperties implements InitializingBean {
             }
 
             // 如果请求方法路径匹配
-            Set<String> patterns = info.getPatternsCondition().getPatterns();
-            for (String pattern : patterns) {
+            Set<PathPattern> patterns = info.getPathPatternsCondition().getPatterns();
+            for (PathPattern pattern : patterns) {
                 // 跳过自身
-                if (StrUtil.equals(url, pattern)) {
+                if (StrUtil.equals(url, pattern.getPatternString())) {
                     continue;
                 }
 
-                if (PATHMATCHER.match(url, pattern)) {
+                if (PATHMATCHER.match(url, pattern.getPatternString())) {
                     HandlerMethod rqMethod = map.get(rq);
                     HandlerMethod infoMethod = map.get(info);
                     log.error("@anonymous 标记接口 ==> {}.{} 使用不当，会额外暴露接口 ==> {}.{}", rqMethod.getBeanType().getName(),
