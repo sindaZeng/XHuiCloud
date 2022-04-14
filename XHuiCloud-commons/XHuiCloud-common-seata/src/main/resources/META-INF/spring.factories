@@ -1,0 +1,2 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+    com.xhuicloud.common.transaction.configuration.XHuiSeataConfiguration

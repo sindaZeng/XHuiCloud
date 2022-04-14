@@ -46,7 +46,7 @@ import static io.seata.core.constants.RedisKeyConstants.*;
  * The redis transaction store manager
  *
  * @author funkye
- * @author wangzhongxiang 
+ * @author wangzhongxiang
  */
 public class RedisTransactionStoreManager extends AbstractTransactionStoreManager implements TransactionStoreManager {
 
@@ -54,7 +54,7 @@ public class RedisTransactionStoreManager extends AbstractTransactionStoreManage
 
     /**the prefix of the branch transactions*/
     private static final String REDIS_SEATA_BRANCHES_PREFIX = "SEATA_BRANCHES_";
-    
+
     /**the prefix of the branch transaction*/
     private static final String REDIS_SEATA_BRANCH_PREFIX = "SEATA_BRANCH_";
 
@@ -443,9 +443,9 @@ public class RedisTransactionStoreManager extends AbstractTransactionStoreManage
             for (Object branchInfo : branchInfos) {
                 if (branchInfo != null) {
                     Map<String, String> branchInfoMap = (Map<String, String>) branchInfo;
-                    BranchTransactionDO branchTransactionDO =
-                            (BranchTransactionDO) BeanUtils.mapToObject(branchInfoMap, BranchTransactionDO.class);
-                    branchTransactionDOs.add(branchTransactionDO);
+                    Optional<BranchTransactionDO> branchTransactionDO =
+                            Optional.ofNullable((BranchTransactionDO) BeanUtils.mapToObject(branchInfoMap, BranchTransactionDO.class));
+                    branchTransactionDO.ifPresent(branchTransactionDOs::add);
                 }
             }
         }

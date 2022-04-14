@@ -26,6 +26,7 @@ package com.xhuicloud.common.security.interceptor;
 
 import feign.Feign;
 import feign.RequestInterceptor;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.cloud.commons.security.AccessTokenContextRelay;
@@ -39,6 +40,7 @@ import org.springframework.security.oauth2.client.resource.OAuth2ProtectedResour
 public class XHuiInterceptorConfiguration {
 
     @Bean
+    @ConditionalOnProperty("security.oauth2.client.client-id")
     public RequestInterceptor oauth2FeignRequestInterceptor(OAuth2ClientContext oAuth2ClientContext,
                                                             OAuth2ProtectedResourceDetails resource, AccessTokenContextRelay accessTokenContextRelay) {
         return new XHuiOAuth2FeignRequestInterceptor(oAuth2ClientContext, resource, accessTokenContextRelay);

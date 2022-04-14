@@ -24,7 +24,7 @@
         <module>XHuiCloud-common-security</module>
         <module>XHuiCloud-common-sentinel</module>
         <module>XHuiCloud-common-swagger</module>
-        <module>XHuiCloud-common-transaction</module>
+        <module>XHuiCloud-common-seata</module>
         <module>XHuiCloud-common-zero</module>
         <module>XHuiCloud-common-xxl</module>
         <module>XHuiCloud-common-rabbitMq</module>

@@ -72,7 +72,6 @@ public class RedisLocker extends AbstractLocker {
         if (CollectionUtils.isEmpty(rowLocks)) {
             return true;
         }
-        Integer status = SUCCEED;
         String needLockXid = rowLocks.get(0).getXid();
         Long branchId = rowLocks.get(0).getBranchId();
 
@@ -113,29 +112,29 @@ public class RedisLocker extends AbstractLocker {
                 pipeline.hsetnx(key, XID, value.getXid());
                 pipeline.hsetnx(key, TRANSACTION_ID, value.getTransactionId().toString());
                 pipeline.hsetnx(key, BRANCH_ID, value.getBranchId().toString());
-                pipeline.hsetnx(key, RESOURCE_ID, value.getResourceId());
-                pipeline.hsetnx(key, TABLE_NAME, value.getTableName());
-                pipeline.hsetnx(key, ROW_KEY, value.getRowKey());
-                pipeline.hsetnx(key, PK, value.getPk());
+                pipeline.hset(key, ROW_KEY, value.getRowKey());
+                pipeline.hset(key, RESOURCE_ID, value.getResourceId());
+                pipeline.hset(key, TABLE_NAME, value.getTableName());
+                pipeline.hset(key, PK, value.getPk());
                 readyKeys.add(key);
             });
             List<Integer> results = (List<Integer>) (List) pipeline.syncAndReturnAll();
             List<List<Integer>> partitions = Lists.partition(results, 7);
 
-            String[] success = new String[partitions.size()];
+            ArrayList<String> success = new ArrayList<>(partitions.size());
+            Integer status = SUCCEED;
             for (int i = 0; i < partitions.size(); i++) {
-                String key = readyKeys.get(i);
-                if (partitions.get(i).contains(FAILED)) {
+                if (Objects.equals(partitions.get(i).get(0),FAILED)) {
                     status = FAILED;
                 } else {
-                    success[0] = key;
+                    success.add(readyKeys.get(i));
                 }
             }
 
             //If someone has failed,all the lockkey which has been added need to be delete.
             if (FAILED.equals(status)) {
-                if (success.length > 0) {
-                    jedis.del(success);
+                if (success.size() > 0) {
+                    jedis.del(success.toArray(new String[0]));
                 }
                 return false;
             }

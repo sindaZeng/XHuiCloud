@@ -15,6 +15,7 @@
  */
 package io.seata.server.coordinator;
 
+import io.seata.core.context.RootContext;
 import io.seata.core.exception.BranchTransactionException;
 import io.seata.core.exception.GlobalTransactionException;
 import io.seata.core.exception.TransactionException;
@@ -35,6 +36,7 @@ import io.seata.server.session.SessionHelper;
 import io.seata.server.session.SessionHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
@@ -55,6 +57,9 @@ public abstract class AbstractCore implements Core {
     protected RemotingServer remotingServer;
 
     public AbstractCore(RemotingServer remotingServer) {
+        if (remotingServer == null) {
+            throw new IllegalArgumentException("remotingServer must be not null");
+        }
         this.remotingServer = remotingServer;
     }
 
@@ -69,6 +74,7 @@ public abstract class AbstractCore implements Core {
             globalSession.addSessionLifecycleListener(SessionHolder.getRootSessionManager());
             BranchSession branchSession = SessionHelper.newBranchByGlobal(globalSession, branchType, resourceId,
                     applicationData, lockKeys, clientId);
+            MDC.put(RootContext.MDC_KEY_BRANCH_ID, String.valueOf(branchSession.getBranchId()));
             branchSessionLock(globalSession, branchSession);
             try {
                 globalSession.addBranch(branchSession);

@@ -61,7 +61,7 @@
 <!--        </dependency>-->
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>XHuiCloud-common-transaction</artifactId>
+            <artifactId>XHuiCloud-common-seata</artifactId>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>

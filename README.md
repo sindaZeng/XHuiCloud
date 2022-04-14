@@ -84,7 +84,7 @@ XHuiCloud
      ├── XHuiCloud-common-security         -- 安全模块
      ├── XHuiCloud-common-sentinel         -- 高可用的保证,限流降级模块
      ├── XHuiCloud-common-swagger          -- 接口文档模块
-     ├── XHuiCloud-common-transaction      -- 分布式事务模块
+     ├── XHuiCloud-common-seata      -- 分布式事务模块
      ├── XHuiCloud-common-xxl              -- XXL-JOB配置模块
      └── XHuiCloud-common-zero             -- 分布式发号器
 ├── XHuiCloud-dependencies-bom             -- 统一依赖管理

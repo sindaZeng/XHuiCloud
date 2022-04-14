@@ -24,32 +24,28 @@
 
 package com.xhuicloud.common.transaction.configuration;
 
+import io.seata.spring.annotation.GlobalTransactionScanner;
+import io.seata.spring.boot.autoconfigure.properties.SeataProperties;
+import io.seata.tm.api.FailureHandler;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.config.BeanPostProcessor;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.DependsOn;
+import static io.seata.common.Constants.BEAN_NAME_FAILURE_HANDLER;
+import static io.seata.common.Constants.BEAN_NAME_SPRING_APPLICATION_CONTEXT_PROVIDER;
 
 
 /**
  * @program: XHuiCloud
- * @description: 分布式事务配置 seata提供自动代理DataSource
+ * @description: 适配 oauth2 避免报错
  * @author: Sinda
- * @create: 2020-01-29 00:59
+ * @create: 2022年4月14日11:53:43
  */
 @Slf4j
-public class XHuiSeataConfiguration implements BeanPostProcessor {
+public class XHuiSeataConfiguration {
 
-    /**
-     *  修改为Seata的代理数据源
-     * @param bean
-     * @param beanName
-     * @return
-     * @throws BeansException
-     */
-    @Override
-    public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
-//        if (bean instanceof DataSource){
-//            return new DataSourceProxy((DataSource) bean);
-//        }
-        return bean;
+    @Bean
+    @DependsOn({BEAN_NAME_SPRING_APPLICATION_CONTEXT_PROVIDER, BEAN_NAME_FAILURE_HANDLER})
+    public GlobalTransactionScanner globalTransactionScanner(SeataProperties seataProperties, FailureHandler failureHandler) {
+        return new GlobalTransactionScanner(seataProperties.getApplicationId(), seataProperties.getTxServiceGroup(), failureHandler);
     }
 }
