@@ -25,6 +25,7 @@
 package com.xhuicloud.common.security.annotation;
 
 import com.xhuicloud.common.security.component.ResourceServerAutoConfiguration;
+import com.xhuicloud.common.security.component.XHuiGlobalMethodSecurityConfiguration;
 import com.xhuicloud.common.security.component.XHuiSecurityBeanDefinitionRegistrar;
 import org.springframework.context.annotation.Import;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -41,7 +42,7 @@ import java.lang.annotation.*;
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-@Import({ResourceServerAutoConfiguration.class, XHuiSecurityBeanDefinitionRegistrar.class})
+@Import({ResourceServerAutoConfiguration.class, XHuiSecurityBeanDefinitionRegistrar.class, XHuiGlobalMethodSecurityConfiguration.class})
 public @interface EnableXHuiResourceServer {
 
 }

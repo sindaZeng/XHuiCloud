@@ -74,7 +74,7 @@ public class GlobalExceptionHandlerResolver {
 				.getMessage("AbstractAccessDecisionManager.accessDenied"
 						, e.getMessage());
 		log.error("拒绝授权异常信息 ex={}", msg, e);
-		return Response.failed(e.getLocalizedMessage());
+		return Response.failed(msg);
 	}
 
 	/**

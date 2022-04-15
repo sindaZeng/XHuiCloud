@@ -27,7 +27,6 @@ package com.xhuicloud.common.security.component;
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.StrUtil;
 import com.xhuicloud.common.core.constant.CommonConstants;
-import com.xhuicloud.common.core.constant.SecurityConstants;
 import com.xhuicloud.common.security.exception.XHuiOAuth2Exception;
 import com.xhuicloud.common.security.service.XHuiUser;
 import com.xhuicloud.common.security.utils.SecurityMessageUtil;

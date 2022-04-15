@@ -154,22 +154,23 @@ public class SysTenantController {
     }
 
     /**
-     * 开启禁用租户
+     * 删除租户
      *
      * @param id
      * @return
      */
-    @SysLog("开启/禁用租户")
+    @SysLog("删除租户")
     @DeleteMapping("/{id}")
     @PreAuthorize("@authorize.hasPermission('sys_delete_tenant')")
     public Response delete(@PathVariable Integer id) {
-        return Response.success(sysTenantService.deleteTenant(id));
+        return Response.success(sysTenantService.removeById(id));
     }
 
     /**
      * 改变租户状态
      *
      * @param id
+     * @param state
      * @return
      */
     @SysLog("改变租户状态")
