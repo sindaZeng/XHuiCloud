@@ -26,7 +26,7 @@ package com.xhuicloud.pay.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.xhuicloud.common.data.tenant.XHuiCommonThreadLocalHolder;
+import com.xhuicloud.common.data.ttl.XHuiCommonThreadLocalHolder;
 import com.xhuicloud.common.zero.base.IDGenerate;
 import com.xhuicloud.pay.dto.PayOrderDto;
 import com.xhuicloud.pay.entity.PayOrderAll;

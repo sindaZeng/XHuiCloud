@@ -92,10 +92,9 @@ public class PermitAnonymousUrlProperties implements InitializingBean {
         for (RequestMappingInfo info : map.keySet()) {
             HandlerMethod handlerMethod = map.get(info);
 
-            // 1. 首先获取类上边 @Anonymous 注解
+            // 1. 首先获取类上注解
             Anonymous controller = AnnotationUtils.findAnnotation(handlerMethod.getBeanType(), Anonymous.class);
-            // TODO解决异常
-            // 2. 当类上不包含 @Anonymous 注解则获取该方法的注解
+            // 2. 获取该方法的注解
             if (controller == null) {
                 Anonymous method = AnnotationUtils.findAnnotation(handlerMethod.getMethod(), Anonymous.class);
                 Optional.ofNullable(method).ifPresent(inner -> info.getPathPatternsCondition().getPatterns()
@@ -121,7 +120,7 @@ public class PermitAnonymousUrlProperties implements InitializingBean {
      * </p>
      *
      * @param url  mapping路径
-     * @param info 请求犯法
+     * @param info 请求方法
      * @param map  路由映射信息
      */
     private void filterPath(String url, RequestMappingInfo info, Map<RequestMappingInfo, HandlerMethod> map) {
@@ -188,7 +187,6 @@ public class PermitAnonymousUrlProperties implements InitializingBean {
                 registry.antMatchers(strings.get(0)).permitAll();
                 continue;
             }
-
             // 当配置对外的URL|GET,POST 这种形式，则获取方法列表 并注册到 spring security
             if (strings.size() == 2) {
                 for (String method : StrUtil.split(strings.get(1), StrUtil.COMMA)) {
@@ -196,7 +194,6 @@ public class PermitAnonymousUrlProperties implements InitializingBean {
                 }
                 continue;
             }
-
             log.warn("{} 配置无效，无法配置对外暴露", url);
         }
     }

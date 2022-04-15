@@ -25,10 +25,8 @@
 package com.xhuicloud.common.mybatis.meta;
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
-import com.xhuicloud.common.data.tenant.XHuiCommonThreadLocalHolder;
 import com.xhuicloud.common.security.utils.SecurityHolder;
 import org.apache.ibatis.reflection.MetaObject;
-import org.springframework.security.core.Authentication;
 
 import java.time.LocalDateTime;
 

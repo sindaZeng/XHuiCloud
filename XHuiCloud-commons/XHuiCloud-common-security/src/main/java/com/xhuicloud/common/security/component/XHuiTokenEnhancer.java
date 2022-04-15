@@ -24,10 +24,8 @@
 
 package com.xhuicloud.common.security.component;
 
-import cn.hutool.core.map.MapUtil;
 import com.xhuicloud.common.core.constant.AuthorizationConstants;
 import com.xhuicloud.common.core.constant.CommonConstants;
-import com.xhuicloud.common.core.constant.SecurityConstants;
 import com.xhuicloud.common.security.service.XHuiUser;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;

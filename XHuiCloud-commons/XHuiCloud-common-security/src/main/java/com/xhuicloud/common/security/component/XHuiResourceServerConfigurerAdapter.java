@@ -27,13 +27,21 @@ package com.xhuicloud.common.security.component;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.env.EnvironmentPostProcessor;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Bean;
+import org.springframework.core.Ordered;
+import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.authentication.TokenExtractor;
+import org.springframework.security.oauth2.provider.expression.OAuth2WebSecurityExpressionHandler;
 import org.springframework.security.oauth2.provider.token.DefaultAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.RemoteTokenServices;
+import org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler;
 import org.springframework.web.client.RestTemplate;
 
 /**
@@ -43,7 +51,7 @@ import org.springframework.web.client.RestTemplate;
  * @create: 2019-12-28 00:12
  **/
 @Slf4j
-public class XHuiResourceServerConfigurerAdapter extends ResourceServerConfigurerAdapter {
+public class XHuiResourceServerConfigurerAdapter extends ResourceServerConfigurerAdapter implements EnvironmentPostProcessor, Ordered {
 
     @Autowired
     protected RemoteTokenServices remoteTokenServices;
@@ -88,4 +96,18 @@ public class XHuiResourceServerConfigurerAdapter extends ResourceServerConfigure
                 .and().csrf().disable();
     }
 
+    /**
+     * 允许覆写
+     * @param environment
+     * @param application
+     */
+    @Override
+    public void postProcessEnvironment(ConfigurableEnvironment environment, SpringApplication application) {
+        System.setProperty("allow-bean-definition-overriding", "true");
+    }
+
+    @Override
+    public int getOrder() {
+        return Ordered.LOWEST_PRECEDENCE;
+    }
 }

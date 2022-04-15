@@ -33,7 +33,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.xhuicloud.common.core.constant.ThirdLoginUrlConstants;
 import com.xhuicloud.common.core.enums.login.LoginTypeEnum;
 import com.xhuicloud.common.core.exception.SysException;
-import com.xhuicloud.common.data.tenant.XHuiCommonThreadLocalHolder;
+import com.xhuicloud.common.data.ttl.XHuiCommonThreadLocalHolder;
 import com.xhuicloud.upms.dto.UserInfo;
 import com.xhuicloud.upms.entity.SysSocial;
 import com.xhuicloud.upms.entity.SysUser;

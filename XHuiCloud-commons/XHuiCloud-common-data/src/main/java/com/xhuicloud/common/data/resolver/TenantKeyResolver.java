@@ -25,7 +25,7 @@
 package com.xhuicloud.common.data.resolver;
 
 import com.xhuicloud.common.core.utils.KeyStrResolver;
-import com.xhuicloud.common.data.tenant.XHuiCommonThreadLocalHolder;
+import com.xhuicloud.common.data.ttl.XHuiCommonThreadLocalHolder;
 
 public class TenantKeyResolver implements KeyStrResolver {
 

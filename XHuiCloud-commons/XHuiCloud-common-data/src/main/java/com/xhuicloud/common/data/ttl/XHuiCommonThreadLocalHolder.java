@@ -22,7 +22,7 @@
  * @Email:  xhuicloud@163.com
  */
 
-package com.xhuicloud.common.data.tenant;
+package com.xhuicloud.common.data.ttl;
 
 import com.alibaba.ttl.TransmittableThreadLocal;
 import lombok.experimental.UtilityClass;
@@ -41,6 +41,8 @@ public class XHuiCommonThreadLocalHolder {
      */
     private static final ThreadLocal<Integer> TENANT = new TransmittableThreadLocal<>();
 
+    private static final ThreadLocal<Integer> USER = new TransmittableThreadLocal<>();
+
     public void setTenant(Integer id) {
         TENANT.set(id);
     }
@@ -51,6 +53,18 @@ public class XHuiCommonThreadLocalHolder {
 
     public void removeTenant() {
         TENANT.remove();
+    }
+
+    public void setUser(Integer id) {
+        USER.set(id);
+    }
+
+    public Integer getUser() {
+        return USER.get();
+    }
+
+    public void removeUser() {
+        USER.remove();
     }
 
 }

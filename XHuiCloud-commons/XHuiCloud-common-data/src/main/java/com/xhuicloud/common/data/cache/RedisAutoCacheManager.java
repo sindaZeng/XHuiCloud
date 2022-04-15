@@ -26,7 +26,7 @@ package com.xhuicloud.common.data.cache;
 
 import cn.hutool.core.util.StrUtil;
 import com.xhuicloud.common.core.constant.CacheConstants;
-import com.xhuicloud.common.data.tenant.XHuiCommonThreadLocalHolder;
+import com.xhuicloud.common.data.ttl.XHuiCommonThreadLocalHolder;
 import org.springframework.boot.convert.DurationStyle;
 import org.springframework.cache.Cache;
 import org.springframework.data.redis.cache.RedisCache;

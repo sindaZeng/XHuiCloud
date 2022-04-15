@@ -25,7 +25,7 @@
 package com.xhuicloud.pay.controller;
 
 import cn.hutool.core.util.ObjectUtil;
-import com.xhuicloud.common.data.tenant.XHuiCommonThreadLocalHolder;
+import com.xhuicloud.common.data.ttl.XHuiCommonThreadLocalHolder;
 import com.xhuicloud.common.security.annotation.Anonymous;
 import com.xhuicloud.common.core.constant.CommonConstants;
 import com.xhuicloud.common.core.enums.pay.PayTypeEnum;
@@ -35,7 +35,6 @@ import com.xhuicloud.pay.dto.PayOrderDto;
 import com.xhuicloud.pay.handle.impl.AliPayServiceImpl;
 import com.xhuicloud.pay.properties.PayProperties;
 import com.xhuicloud.pay.utils.UserAgentUtil;
-import com.xhuicloud.upms.entity.SysTenant;
 import com.xhuicloud.upms.vo.TenantVo;
 import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;

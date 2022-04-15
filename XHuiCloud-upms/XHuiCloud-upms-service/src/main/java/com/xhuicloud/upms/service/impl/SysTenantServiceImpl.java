@@ -38,21 +38,6 @@ public class SysTenantServiceImpl extends ServiceImpl<SysTenantMapper, SysTenant
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Boolean deleteTenant(Integer id) {
-        SysTenant sysTenant = getById(id);
-        if (ObjectUtil.isEmpty(sysTenant)) {
-            throw SysException.sysFail(SysException.TENANT_NOT_EXIST_DATA_EXCEPTION);
-        }
-        if (sysTenant.getIsDel() == 1) {
-            sysTenant.setIsDel(0);
-        } else {
-            sysTenant.setIsDel(1);
-        }
-        return updateById(sysTenant);
-    }
-
-    @Override
-    @Transactional(rollbackFor = Exception.class)
     public Boolean state(Integer id, Integer state) {
         SysTenant sysTenant = getById(id);
         if (ObjectUtil.isEmpty(sysTenant)) {
