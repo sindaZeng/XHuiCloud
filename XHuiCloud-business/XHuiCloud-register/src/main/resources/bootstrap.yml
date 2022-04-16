@@ -5,7 +5,9 @@ spring:
     enabled: true
   application:
     name: @project.artifactId@
-
+server:
+  tomcat:
+    basedir: logs
 db:
   num: 1
   user: ${MYSQL_USER:root}
