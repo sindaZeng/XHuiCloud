@@ -6,10 +6,6 @@ spring:
   application:
     name: @project.artifactId@
 
-server:
-  tomcat:
-    basedir: logs/@project.artifactId@
-
 db:
   num: 1
   user: ${MYSQL_USER:root}
