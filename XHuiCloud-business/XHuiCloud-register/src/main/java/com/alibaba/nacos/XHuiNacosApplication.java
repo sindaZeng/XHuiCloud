@@ -26,9 +26,22 @@ import static com.alibaba.nacos.sys.env.Constants.STANDALONE_MODE_PROPERTY_NAME;
 @SpringBootApplication
 public class XHuiNacosApplication {
 
+	public static String STANDALONE_MODE = "nacos.standalone";
+
+	public static String AUTH_ENABLED = "nacos.core.auth.enabled";
+
+	public static String LOG_BASEDIR = "server.tomcat.basedir";
+
+	public static String LOG_ENABLED = "server.tomcat.accesslog.enabled";
+
 	public static void main(String[] args) {
-		System.setProperty(STANDALONE_MODE_PROPERTY_NAME, "true");
+		// 注入环境 以防止被覆盖
+		System.setProperty(STANDALONE_MODE, "true");
+		System.setProperty(AUTH_ENABLED, "false");
+		System.setProperty(LOG_BASEDIR, "logs");
+		System.setProperty(LOG_ENABLED, "false");
 		System.setProperty("server.port", "13000");
+
 		SpringApplication.run(XHuiNacosApplication.class, args);
 	}
 
