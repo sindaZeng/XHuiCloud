@@ -7,3 +7,5 @@ org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
   com.xhuicloud.common.security.token.XHuiTokenStoreAutoConfiguration,\
   com.xhuicloud.common.security.handle.XHuiLogoutSuccessHandler
 
+org.springframework.boot.env.EnvironmentPostProcessor=\
+  com.xhuicloud.common.security.component.XHuiInitResourceEnv
