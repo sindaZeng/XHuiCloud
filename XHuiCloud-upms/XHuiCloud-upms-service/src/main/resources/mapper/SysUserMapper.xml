@@ -55,7 +55,7 @@
         FROM
         sys_user u
         <where>
-            1 = 1
+            u.is_del = 0
             <if test="userQueryDto.roleName != null and userQueryDto.roleName != ''">
                 <!--      角色筛选条件      -->
                 AND u.user_id in (
