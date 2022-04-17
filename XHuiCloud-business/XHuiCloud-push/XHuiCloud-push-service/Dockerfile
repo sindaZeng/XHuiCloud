@@ -14,4 +14,4 @@ EXPOSE 22000
 
 ADD ./target/XHuiCloud-push-service.jar ./
 
-CMD sleep 90;java -Xms256m -Xmx512m -Djava.security.egd=file:/dev/./urandom -jar XHuiCloud-push-service.jar
+CMD sleep 90;java -Xms512m -Xmx512m -Xss256k -Djava.security.egd=file:/dev/./urandom -jar XHuiCloud-push-service.jar

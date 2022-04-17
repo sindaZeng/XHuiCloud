@@ -14,6 +14,6 @@ EXPOSE 13000
 
 ADD ./target/XHuiCloud-register.jar ./
 
-CMD sleep 30;java -Xms128m -Xmx256m -Djava.security.egd=file:/dev/./urandom -jar XHuiCloud-register.jar
+CMD sleep 30;java -Xms256m -Xmx256m -Xss256k -Djava.security.egd=file:/dev/./urandom -jar XHuiCloud-register.jar
 
 
