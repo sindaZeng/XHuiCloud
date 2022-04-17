@@ -5,13 +5,14 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.expression.spel.support.StandardEvaluationContext;
 import org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.oauth2.provider.expression.OAuth2ExpressionParser;
 import org.springframework.security.oauth2.provider.expression.OAuth2SecurityExpressionMethods;
 
 public class XHuiOAuth2MethodSecurityExpressionHandler extends DefaultMethodSecurityExpressionHandler {
 
     public XHuiOAuth2MethodSecurityExpressionHandler(ApplicationContext applicationContext) {
         setApplicationContext(applicationContext);
-        setExpressionParser(new XHuiOAuth2ExpressionParser(getExpressionParser()));
+        setExpressionParser(new OAuth2ExpressionParser(getExpressionParser()));
     }
 
     @Override
