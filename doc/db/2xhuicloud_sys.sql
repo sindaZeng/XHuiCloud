@@ -167,7 +167,7 @@ CREATE TABLE `sys_file`  (
                              `tenant_id` int(11) NULL DEFAULT NULL COMMENT '租户id',
                              `is_del` tinyint(1) NULL DEFAULT 0 COMMENT '0: 否 1：是',
                              PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 67 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '文件' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 81 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '文件' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_file
@@ -180,6 +180,20 @@ INSERT INTO `sys_file` VALUES (63, '/xhuicloud/505fe6f56aee4250b448357685874723.
 INSERT INTO `sys_file` VALUES (64, '/xhuicloud/0abd3e3eb60d41189740fa20c37a68c4.svg', '0abd3e3eb60d41189740fa20c37a68c4.svg', '权限', 1213, 'svg', 'xhuicloud', '2022-03-21 19:16:50', 1, '2022-03-22 11:32:50', NULL, 1, 1);
 INSERT INTO `sys_file` VALUES (65, '/xhuicloud/fbb8a6a20a994610b9a6cc797fe302a2.svg', 'fbb8a6a20a994610b9a6cc797fe302a2.svg', '菜单管理', 1296, 'svg', 'xhuicloud', '2022-03-21 19:16:54', 1, NULL, NULL, 1, 0);
 INSERT INTO `sys_file` VALUES (66, '/xhuicloud/b15888255be64aa384b6ae4a6574d69d.jpg', 'b15888255be64aa384b6ae4a6574d69d.jpg', 'ab5c78d9fc1a6ed3f766a487d1700b1d58ae97a6e64d258356d0956ce1ece151_sg', 14973, 'jpg', 'xhuicloud', '2022-04-08 20:03:56', 1, NULL, NULL, 1, 0);
+INSERT INTO `sys_file` VALUES (67, '/xhuicloud/cb4ff382e0a3444187bde2c2ccd020f0.jpg', 'cb4ff382e0a3444187bde2c2ccd020f0.jpg', 'ab5c78d9fc1a6ed3f766a487d1700b1d58ae97a6e64d258356d0956ce1ece151_sg', 14973, 'jpg', 'xhuicloud', '2022-04-10 14:47:31', 1, NULL, NULL, 1, 0);
+INSERT INTO `sys_file` VALUES (68, '/xhuicloud/f8473befbecd4894a2f6261c2464619a.jpg', 'f8473befbecd4894a2f6261c2464619a.jpg', 'ab5c78d9fc1a6ed3f766a487d1700b1d58ae97a6e64d258356d0956ce1ece151_sg', 14973, 'jpg', 'xhuicloud', '2022-04-10 14:47:38', 1, NULL, NULL, 1, 0);
+INSERT INTO `sys_file` VALUES (69, '/xhuicloud/e8d8a2df2e984d709014007502b0c63e.jpg', 'e8d8a2df2e984d709014007502b0c63e.jpg', 'ab5c78d9fc1a6ed3f766a487d1700b1d58ae97a6e64d258356d0956ce1ece151_sg', 14973, 'jpg', 'xhuicloud', '2022-04-10 14:48:48', 1, NULL, NULL, 1, 0);
+INSERT INTO `sys_file` VALUES (70, '/xhuicloud/9b580b55937b479fa24d6f47a4c1bc9c.jpg', '9b580b55937b479fa24d6f47a4c1bc9c.jpg', 'ab5c78d9fc1a6ed3f766a487d1700b1d58ae97a6e64d258356d0956ce1ece151_sg', 14973, 'jpg', 'xhuicloud', '2022-04-10 14:49:13', 1, NULL, NULL, 1, 0);
+INSERT INTO `sys_file` VALUES (71, '/xhuicloud/617cc903df0549a3b28e1c43c1991242.jpg', '617cc903df0549a3b28e1c43c1991242.jpg', 'ab5c78d9fc1a6ed3f766a487d1700b1d58ae97a6e64d258356d0956ce1ece151_sg', 14973, 'jpg', 'xhuicloud', '2022-04-10 14:54:24', 1, NULL, NULL, 1, 0);
+INSERT INTO `sys_file` VALUES (72, '/xhuicloud/fb89d7dbf638468dbab105e64ff0095a.jpg', 'fb89d7dbf638468dbab105e64ff0095a.jpg', 'ab5c78d9fc1a6ed3f766a487d1700b1d58ae97a6e64d258356d0956ce1ece151_sg', 14973, 'jpg', 'xhuicloud', '2022-04-10 14:54:32', 1, NULL, NULL, 1, 0);
+INSERT INTO `sys_file` VALUES (73, '/xhuicloud/0b2d257d1a6f4b86b2624a8f8f905b81.jpg', '0b2d257d1a6f4b86b2624a8f8f905b81.jpg', 'ab5c78d9fc1a6ed3f766a487d1700b1d58ae97a6e64d258356d0956ce1ece151_sg', 14973, 'jpg', 'xhuicloud', '2022-04-10 14:56:02', 1, NULL, NULL, 1, 0);
+INSERT INTO `sys_file` VALUES (74, '/xhuicloud/24e4e03fc1764c1186cf2ab2069ea7c2.jpg', '24e4e03fc1764c1186cf2ab2069ea7c2.jpg', 'fb9ddf761305772c6af4511ae4e7f49', 156653, 'jpg', 'xhuicloud', '2022-04-10 14:56:13', 1, NULL, NULL, 1, 0);
+INSERT INTO `sys_file` VALUES (75, '/xhuicloud/23bde7e13a1a45e8adc6f5431f1db5de.jpg', '23bde7e13a1a45e8adc6f5431f1db5de.jpg', 'fb9ddf761305772c6af4511ae4e7f49', 156653, 'jpg', 'xhuicloud', '2022-04-10 14:58:34', 1, NULL, NULL, 1, 0);
+INSERT INTO `sys_file` VALUES (76, '/xhuicloud/2b10b75d4e1f4d58b679fc961b6af4fe.jpg', '2b10b75d4e1f4d58b679fc961b6af4fe.jpg', 'fb9ddf761305772c6af4511ae4e7f49', 156653, 'jpg', 'xhuicloud', '2022-04-10 15:00:12', 1, NULL, NULL, 1, 0);
+INSERT INTO `sys_file` VALUES (77, '/xhuicloud/3acd15c00d71442da037d85f3fa4b5f4.jpg', '3acd15c00d71442da037d85f3fa4b5f4.jpg', 'fb9ddf761305772c6af4511ae4e7f49', 156653, 'jpg', 'xhuicloud', '2022-04-10 15:01:15', 1, NULL, NULL, 1, 0);
+INSERT INTO `sys_file` VALUES (78, '/xhuicloud/54301af74ac04ae78517bc2df025f7f8.jpg', '54301af74ac04ae78517bc2df025f7f8.jpg', 'fb9ddf761305772c6af4511ae4e7f49', 156653, 'jpg', 'xhuicloud', '2022-04-15 17:16:04', 1, NULL, NULL, 1, 0);
+INSERT INTO `sys_file` VALUES (79, '/xhuicloud/da0f5da25cf945099e8806bef1588805.jpg', 'da0f5da25cf945099e8806bef1588805.jpg', 'fb9ddf761305772c6af4511ae4e7f49', 156653, 'jpg', 'xhuicloud', '2022-04-15 21:10:44', 1, NULL, NULL, 1, 0);
+INSERT INTO `sys_file` VALUES (80, '/xhuicloud/61ab685b84154b81bf9dcd2f3d7dd328.jpg', '61ab685b84154b81bf9dcd2f3d7dd328.jpg', 'fb9ddf761305772c6af4511ae4e7f49', 156653, 'jpg', 'xhuicloud', '2022-04-15 21:12:16', 1, NULL, NULL, 1, 0);
 
 -- ----------------------------
 -- Table structure for sys_log
@@ -210,7 +224,8 @@ CREATE TABLE `sys_log`  (
                             INDEX `sys_log_request_uri`(`request_uri`) USING BTREE,
                             INDEX `sys_log_type`(`type`) USING BTREE,
                             INDEX `sys_log_create_date`(`create_time`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1145 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '系统日志' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 1303 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '系统日志' ROW_FORMAT = DYNAMIC;
+
 
 -- ----------------------------
 -- Table structure for sys_log_login
@@ -226,7 +241,7 @@ CREATE TABLE `sys_log_login`  (
                                   `status` tinyint(4) NOT NULL COMMENT '0:成功 1:失败',
                                   `remake` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注',
                                   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 124 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 164 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for sys_menu
@@ -323,6 +338,12 @@ INSERT INTO `sys_param` VALUES (1, '系统账号默认密码', 'SYS_USER_DEFAULT
 INSERT INTO `sys_param` VALUES (2, '系统账号默认角色', 'SYS_USER_DEFAULT_ROLE', '4', 0, '系统用户默认角色', 2, 1, '2020-03-23 15:06:52', 1, '2021-12-03 10:28:34', 0);
 INSERT INTO `sys_param` VALUES (3, '系统账号默认部门', 'SYS_USER_DEFAULT_DEPT', '1', 0, '系统用户默认部门', 3, 1, '2020-03-23 15:07:34', 1, '2021-12-03 10:28:41', 0);
 INSERT INTO `sys_param` VALUES (4, '系统默认cdn域名', 'SYS_CDN_DEFAULT_DOMAIN', 'http://cdn.xhuicloud.cn/', 0, '系统默认cdn域名', 4, 1, '2020-05-09 16:46:33', 1, '2022-04-01 20:36:13', 0);
+INSERT INTO `sys_param` VALUES (5, '系统默认域名', 'SYS_DEFAULT_DOMAIN', 'http://admin.xhuicloud.com/', 0, '系统默认域名', 5, 1, '2020-06-09 15:51:13', 1, '2022-04-01 20:36:13', 0);
+INSERT INTO `sys_param` VALUES (6, '微信公众号appid', 'WECHAT_MP_APPID', 'wxd89cb972e20e2070', 0, '微信公众号配置', 6, 1, '2021-12-03 10:19:48', 1, '2022-04-01 20:36:13', 0);
+INSERT INTO `sys_param` VALUES (7, '微信公众号secret', 'WECHAT_MP_SECRET', '643b922acb6a3eabe530e95ad893bc28', 0, '微信公众号配置', 7, 1, '2021-12-03 10:21:00', 1, '2022-04-01 20:36:13', 0);
+INSERT INTO `sys_param` VALUES (8, '微信公众号token', 'WECHAT_MP_TOKEN', '55_8ZvVeOhmQY6d7OJEuJs6rnsKoERIoObFYQwF8K_DA4KoAbikSLxhIfBji25tAj6GYHKaVdASsHKquuATHsspF08jx0pbjZj0dFL0n8yaW1o5eLRB9CZO9t75f7KxAAET9b3jCCch6APNKVTMEGYcACALNF', 0, '微信公众号配置', 8, 1, '2021-12-03 10:24:19', 1, '2022-04-01 20:36:13', 0);
+INSERT INTO `sys_param` VALUES (9, '微信公众号aeskey', 'WECHAT_MP_AES', '7pqvX1TyV9PqbvbgOo12cca3o36PsUtbpZTwhWJ3fZD', 0, '微信公众号配置', 9, 1, '2022-04-01 20:35:38', 1, '2022-04-01 21:01:59', 0);
+INSERT INTO `sys_param` VALUES (10, '微信公众号authToken', 'WECHAT_MP_AUTH_TOKEN', '11111111111111111111111', 0, '微信公众号配置', 9, 1, '2022-04-01 20:35:38', 1, '2022-04-01 21:04:21', 0);
 
 -- ----------------------------
 -- Table structure for sys_role
@@ -345,27 +366,8 @@ CREATE TABLE `sys_role`  (
 -- ----------------------------
 -- Records of sys_role
 -- ----------------------------
-INSERT INTO `sys_role` VALUES (1, 'ORDINARY', 'ordinary', '普通用户', '2021-11-25 17:11:56', 0, '2021-11-25 21:21:46', NULL, 1, 0);
-INSERT INTO `sys_role` VALUES (2, 'ADMIN', 'ROOT', '系统管理员(勿删)', '2021-11-25 17:11:56', 0, '2021-11-25 21:21:49', NULL, 1, 0);
-INSERT INTO `sys_role` VALUES (3, 'TEST1', 'Test', '测试专用123', '2021-11-25 17:11:56', 0, '2022-03-16 09:57:02', NULL, 1, 0);
-INSERT INTO `sys_role` VALUES (4, 'DEMO', 'Demo', '演示环境角色', '2021-11-25 17:11:56', 0, '2022-03-03 11:16:45', NULL, 1, 0);
-INSERT INTO `sys_role` VALUES (12, 'ORDINARY', 'ordinary', '普通用户', '2021-11-25 17:11:56', 0, '2022-03-16 09:57:02', NULL, 1, 0);
-INSERT INTO `sys_role` VALUES (20, 'ORDINARY', 'ordinary', '普通用户', '2021-11-25 17:11:56', 0, '2022-03-16 09:57:02', NULL, 1, 0);
-INSERT INTO `sys_role` VALUES (27, 'admin2', 'admin2', 'admin2', '2022-03-04 11:26:47', NULL, '2022-03-16 09:57:02', NULL, 1, 0);
-INSERT INTO `sys_role` VALUES (52, 'ADMIN', 'ROOT', '系统管理员(勿删)', '2021-11-25 17:11:56', 0, '2022-03-16 09:57:02', NULL, 1, 0);
-INSERT INTO `sys_role` VALUES (63, 'TEST1', 'Test', '测试专用123', '2021-11-25 17:11:56', 0, '2022-03-16 09:57:02', NULL, 1, 0);
-INSERT INTO `sys_role` VALUES (74, 'DEMO', 'Demo', '演示环境角色', '2021-11-25 17:11:56', 0, '2022-03-20 00:07:00', NULL, 1, 1);
-INSERT INTO `sys_role` VALUES (112, 'ORDINARY', 'ordinary', '普通用户', '2021-11-25 17:11:56', 0, '2022-03-16 09:57:03', NULL, 1, 0);
-INSERT INTO `sys_role` VALUES (120, 'ORDINARY', 'ordinary', '普通用户', '2021-11-25 17:11:56', 0, '2022-03-16 09:57:03', NULL, 1, 0);
-INSERT INTO `sys_role` VALUES (252, 'ADMIN', 'ROOT', '系统管理员(勿删)', '2021-11-25 17:11:56', 0, '2022-03-16 09:57:03', NULL, 1, 0);
-INSERT INTO `sys_role` VALUES (527, 'admin2', 'admin2', 'admin2', '2022-03-04 11:26:47', NULL, '2022-03-16 09:57:03', NULL, 1, 0);
-INSERT INTO `sys_role` VALUES (633, 'TEST1', 'Test', '测试专用123', '2021-11-25 17:11:56', 0, '2022-03-16 09:57:03', NULL, 1, 0);
-INSERT INTO `sys_role` VALUES (714, 'DEMO', 'Demo', '演示环境角色', '2021-11-25 17:11:56', 0, '2022-03-16 09:57:03', NULL, 1, 0);
-INSERT INTO `sys_role` VALUES (827, 'admin2', 'admin2', 'admin2', '2022-03-04 11:26:47', NULL, '2022-03-16 09:57:03', NULL, 1, 0);
-INSERT INTO `sys_role` VALUES (912, 'ORDINARY', 'ordinary', '普通用户', '2021-11-25 17:11:56', 0, '2022-03-16 09:57:03', NULL, 1, 0);
-INSERT INTO `sys_role` VALUES (913, 'GUANLI', '管理员', '管理员', '2022-03-08 15:15:10', NULL, '2022-03-16 09:57:03', NULL, 1, 0);
-INSERT INTO `sys_role` VALUES (914, 'cccccccccccc111', 'ccccccccccc111', 'ccccccccccc111', '2022-03-16 09:35:42', 1, '2022-03-16 09:57:03', 1, 1, 0);
-INSERT INTO `sys_role` VALUES (915, 'ccc222', 'ccc222', '22', '2022-03-19 23:41:45', 1, NULL, NULL, 1, 0);
+INSERT INTO `sys_role` VALUES (1, 'ADMIN', 'ROOT', '系统管理员(勿删)', '2021-11-25 17:11:56', 0, '2022-04-17 20:55:00', NULL, 1, 0);
+INSERT INTO `sys_role` VALUES (2, 'ORDINARY', 'ordinary', '普通用户', '2021-11-25 17:11:56', 0, '2022-04-17 20:55:01', NULL, 1, 0);
 
 -- ----------------------------
 -- Table structure for sys_role_menu
@@ -415,82 +417,8 @@ INSERT INTO `sys_role_menu` VALUES (1, 33);
 INSERT INTO `sys_role_menu` VALUES (1, 34);
 INSERT INTO `sys_role_menu` VALUES (1, 35);
 INSERT INTO `sys_role_menu` VALUES (1, 36);
-INSERT INTO `sys_role_menu` VALUES (1, 37);
-INSERT INTO `sys_role_menu` VALUES (1, 38);
-INSERT INTO `sys_role_menu` VALUES (2, 1);
-INSERT INTO `sys_role_menu` VALUES (2, 2);
-INSERT INTO `sys_role_menu` VALUES (2, 3);
-INSERT INTO `sys_role_menu` VALUES (2, 4);
-INSERT INTO `sys_role_menu` VALUES (2, 5);
-INSERT INTO `sys_role_menu` VALUES (2, 6);
-INSERT INTO `sys_role_menu` VALUES (2, 7);
-INSERT INTO `sys_role_menu` VALUES (2, 8);
-INSERT INTO `sys_role_menu` VALUES (2, 9);
-INSERT INTO `sys_role_menu` VALUES (2, 10);
-INSERT INTO `sys_role_menu` VALUES (2, 11);
-INSERT INTO `sys_role_menu` VALUES (2, 12);
-INSERT INTO `sys_role_menu` VALUES (2, 13);
-INSERT INTO `sys_role_menu` VALUES (2, 14);
-INSERT INTO `sys_role_menu` VALUES (2, 15);
-INSERT INTO `sys_role_menu` VALUES (2, 16);
-INSERT INTO `sys_role_menu` VALUES (2, 17);
-INSERT INTO `sys_role_menu` VALUES (2, 18);
-INSERT INTO `sys_role_menu` VALUES (2, 19);
-INSERT INTO `sys_role_menu` VALUES (2, 20);
-INSERT INTO `sys_role_menu` VALUES (2, 21);
-INSERT INTO `sys_role_menu` VALUES (2, 22);
-INSERT INTO `sys_role_menu` VALUES (2, 23);
-INSERT INTO `sys_role_menu` VALUES (2, 24);
-INSERT INTO `sys_role_menu` VALUES (2, 25);
-INSERT INTO `sys_role_menu` VALUES (2, 26);
-INSERT INTO `sys_role_menu` VALUES (2, 27);
-INSERT INTO `sys_role_menu` VALUES (2, 28);
-INSERT INTO `sys_role_menu` VALUES (2, 29);
-INSERT INTO `sys_role_menu` VALUES (2, 31);
-INSERT INTO `sys_role_menu` VALUES (2, 32);
-INSERT INTO `sys_role_menu` VALUES (2, 33);
-INSERT INTO `sys_role_menu` VALUES (2, 34);
-INSERT INTO `sys_role_menu` VALUES (2, 35);
-INSERT INTO `sys_role_menu` VALUES (2, 36);
-INSERT INTO `sys_role_menu` VALUES (2, 58);
-INSERT INTO `sys_role_menu` VALUES (2, 59);
-INSERT INTO `sys_role_menu` VALUES (4, 1);
-INSERT INTO `sys_role_menu` VALUES (4, 2);
-INSERT INTO `sys_role_menu` VALUES (4, 3);
-INSERT INTO `sys_role_menu` VALUES (4, 4);
-INSERT INTO `sys_role_menu` VALUES (4, 5);
-INSERT INTO `sys_role_menu` VALUES (4, 6);
-INSERT INTO `sys_role_menu` VALUES (4, 7);
-INSERT INTO `sys_role_menu` VALUES (4, 8);
-INSERT INTO `sys_role_menu` VALUES (4, 9);
-INSERT INTO `sys_role_menu` VALUES (4, 10);
-INSERT INTO `sys_role_menu` VALUES (4, 11);
-INSERT INTO `sys_role_menu` VALUES (4, 12);
-INSERT INTO `sys_role_menu` VALUES (4, 13);
-INSERT INTO `sys_role_menu` VALUES (4, 14);
-INSERT INTO `sys_role_menu` VALUES (4, 15);
-INSERT INTO `sys_role_menu` VALUES (4, 16);
-INSERT INTO `sys_role_menu` VALUES (4, 17);
-INSERT INTO `sys_role_menu` VALUES (4, 18);
-INSERT INTO `sys_role_menu` VALUES (4, 19);
-INSERT INTO `sys_role_menu` VALUES (4, 20);
-INSERT INTO `sys_role_menu` VALUES (4, 21);
-INSERT INTO `sys_role_menu` VALUES (4, 22);
-INSERT INTO `sys_role_menu` VALUES (4, 23);
-INSERT INTO `sys_role_menu` VALUES (4, 24);
-INSERT INTO `sys_role_menu` VALUES (4, 25);
-INSERT INTO `sys_role_menu` VALUES (4, 26);
-INSERT INTO `sys_role_menu` VALUES (4, 27);
-INSERT INTO `sys_role_menu` VALUES (4, 28);
-INSERT INTO `sys_role_menu` VALUES (4, 29);
-INSERT INTO `sys_role_menu` VALUES (4, 31);
-INSERT INTO `sys_role_menu` VALUES (4, 32);
-INSERT INTO `sys_role_menu` VALUES (4, 33);
-INSERT INTO `sys_role_menu` VALUES (4, 34);
-INSERT INTO `sys_role_menu` VALUES (4, 35);
-INSERT INTO `sys_role_menu` VALUES (4, 36);
-INSERT INTO `sys_role_menu` VALUES (4, 58);
-INSERT INTO `sys_role_menu` VALUES (4, 59);
+INSERT INTO `sys_role_menu` VALUES (1, 58);
+INSERT INTO `sys_role_menu` VALUES (1, 59);
 
 -- ----------------------------
 -- Table structure for sys_route_conf
@@ -549,7 +477,7 @@ CREATE TABLE `sys_social`  (
 -- Records of sys_social
 -- ----------------------------
 INSERT INTO `sys_social` VALUES (1, 'QQ', '101887822', 'e3e1d28a222689591ed7a1256ffc4c62', NULL, NULL, NULL, 'QQ互联', 'http://xhuicloud.cn/#/auth-redirect', '2021-11-25 21:06:09', 1, '2022-04-09 16:05:34', NULL, 1, 0);
-INSERT INTO `sys_social` VALUES (2, 'WXMP', 'wxd89cb972e20e2070', '643b922acb6a3eabe530e95ad893bc28', '55_7GBcAqPc1EvKKlQdCOAj9t0Rt5qazIlz1h4HCN2TyDIDbyD3gune58pPwoDdVynLCay43_LNF0Q9j3nE3QG5nOGmraaAjIc_iuvgY1hk_wP0Wp5LYooHQwulvo4LqVQJfPWb1-KiHya8YAt6MOYdAHASUE', '11111111111111111111111', '7pqvX1TyV9PqbvbgOo12cca3o36PsUtbpZTwhWJ3fZD', '微信公众号', NULL, '2022-04-09 16:01:25', 1, '2022-04-09 16:06:14', NULL, 1, 0);
+INSERT INTO `sys_social` VALUES (2, 'WXMP', 'wxd89cb972e20e2070', '643b922acb6a3eabe530e95ad893bc28', '55_YcreWU1TYjrHDWYaCsT6C-qsC7uK1JPUnoD8pvIk1wOiwoNxxMRoG1oIJQp4dYdkGgnodS8JIWI-jH759w7hUM940PewlwwecmkFmBK6_s0uU9kREEWXYWjfB2dTbIWX7PR8Zj_msmwRauzCQBFhAGAVGK', '11111111111111111111111', '7pqvX1TyV9PqbvbgOo12cca3o36PsUtbpZTwhWJ3fZD', '微信公众号', 'http://xhuicloud.cn/#/auth-redirect', '2022-04-09 16:01:25', 1, '2022-04-10 19:38:53', NULL, 1, 0);
 
 -- ----------------------------
 -- Table structure for sys_tenant
@@ -568,7 +496,7 @@ CREATE TABLE `sys_tenant`  (
                                `update_id` int(11) NULL DEFAULT NULL COMMENT '更新者id',
                                `is_del` tinyint(1) NULL DEFAULT 0 COMMENT '0: 否 1：是',
                                PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '系统租户' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '系统租户' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_tenant
@@ -578,6 +506,10 @@ INSERT INTO `sys_tenant` VALUES (2, '测试', 1, '2023-05-25 18:13:03', 'https:/
 INSERT INTO `sys_tenant` VALUES (3, '分公司', 1, '2029-09-25 18:13:08', 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fpic2.zhimg.com%2F80%2Fv2-8a73940f010e56b63465be0b35ef5701_720w.jpg%3Fsource%3D1940ef5c&refer=http%3A%2F%2Fpic2.zhimg.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1651925851&t=da4d7b3e67d830baa6a438c5a7828f8c', NULL, '2020-05-13 16:02:26', 0, '2022-04-07 20:17:35', NULL, 0);
 INSERT INTO `sys_tenant` VALUES (4, '广东公司', 1, '2021-05-21 00:00:00', 'https://img0.baidu.com/it/u=2840206629,2327254830&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500', NULL, '2020-05-25 18:18:38', 0, '2022-04-07 20:17:42', NULL, 0);
 INSERT INTO `sys_tenant` VALUES (5, '测试租户1', 1, '2029-12-06 00:00:00', 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fp4.itc.cn%2Fq_70%2Fimages03%2F20210124%2F1cb2ea3b778a4759b02e93e68133d1dd.jpeg&refer=http%3A%2F%2Fp4.itc.cn&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1651925868&t=b3f8255134bd8493b98eaa2ee0389684', '测试租户', '2020-05-29 16:38:52', 0, '2022-04-07 20:17:52', NULL, 0);
+INSERT INTO `sys_tenant` VALUES (6, '广州', 1, '2022-04-29 00:01:00', 'http://127.0.0.1:9000/xhuicloud/2b10b75d4e1f4d58b679fc961b6af4fe.jpg', NULL, '2022-04-10 15:00:50', 1, '2022-04-10 15:51:16', 1, 0);
+INSERT INTO `sys_tenant` VALUES (7, '测试', 0, NULL, 'http://127.0.0.1:9000/xhuicloud/3acd15c00d71442da037d85f3fa4b5f4.jpg', NULL, '2022-04-10 15:01:26', 1, '2022-04-15 21:10:35', 1, 1);
+INSERT INTO `sys_tenant` VALUES (8, '123213', 1, '2022-04-29 00:00:00', 'http://127.0.0.1:9000/xhuicloud/54301af74ac04ae78517bc2df025f7f8.jpg', NULL, '2022-04-15 17:16:09', 1, '2022-04-15 21:10:30', 1, 1);
+INSERT INTO `sys_tenant` VALUES (9, '测试11111', 1, '2022-04-15 21:10:49', 'http://127.0.0.1:9000/xhuicloud/da0f5da25cf945099e8806bef1588805.jpg', NULL, '2022-04-15 21:10:52', 1, NULL, NULL, 0);
 
 -- ----------------------------
 -- Table structure for sys_user
@@ -606,14 +538,7 @@ CREATE TABLE `sys_user`  (
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
-INSERT INTO `sys_user` VALUES (1, 'admin', '{bcrypt}$2a$10$n2IGDxenvMUj0IJQo/104eHtkL3kLAVjRs/0ktT.JWsG4rRQYqIKC', 'https://img0.baidu.com/it/u=1056811702,4111096278&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500', '13333323333', 'sindazeng@gmail.com', 1, 0, '2021-11-25 21:06:29', 0, '2022-03-25 23:09:49', NULL, 1, 0);
-INSERT INTO `sys_user` VALUES (55, 'ccccc', '$2a$10$BL2.s4TnW9Es2kVm5hqvlOvd7aVo0CM1xjvGRDwoTbsJm1gvnlScm', NULL, '13395666666', '16585555@qq.com', 1, 1, '2022-03-29 20:46:24', 1, NULL, NULL, 1, 0);
-INSERT INTO `sys_user` VALUES (56, 'sssssssss', '$2a$10$BL2.s4TnW9Es2kVm5hqvlOvd7aVo0CM1xjvGRDwoTbsJm1gvnlScm', NULL, '12333333323', 'asssssssss', 1, 1, '2022-03-29 20:47:09', 1, NULL, NULL, 1, 0);
-INSERT INTO `sys_user` VALUES (57, 'CASD', '$2a$10$BL2.s4TnW9Es2kVm5hqvlOvd7aVo0CM1xjvGRDwoTbsJm1gvnlScm', NULL, '15544454444', '2313123123', 0, 1, '2022-03-29 20:48:40', 1, NULL, NULL, 1, 0);
-INSERT INTO `sys_user` VALUES (58, '^_^', '$2a$10$BL2.s4TnW9Es2kVm5hqvlOvd7aVo0CM1xjvGRDwoTbsJm1gvnlScm', 'http://thirdqq.qlogo.cn/g?b=oidb&k=9qiboyggqmVRrlnu3wG4MgA&s=640&t=1646639273', NULL, NULL, 1, 0, '2022-03-29 20:57:32', NULL, '2022-03-29 21:06:28', NULL, 1, 0);
-INSERT INTO `sys_user` VALUES (59, '请修改昵称', '$2a$10$BL2.s4TnW9Es2kVm5hqvlOvd7aVo0CM1xjvGRDwoTbsJm1gvnlScm', NULL, NULL, NULL, 1, 0, '2022-04-02 16:18:44', NULL, NULL, NULL, 1, 0);
-INSERT INTO `sys_user` VALUES (63, '111', '$2a$10$BL2.s4TnW9Es2kVm5hqvlOvd7aVo0CM1xjvGRDwoTbsJm1gvnlScm', NULL, NULL, NULL, 1, 0, '2022-04-03 01:06:54', NULL, NULL, NULL, 1, 0);
-INSERT INTO `sys_user` VALUES (67, '戴降骂', '$2a$10$BL2.s4TnW9Es2kVm5hqvlOvd7aVo0CM1xjvGRDwoTbsJm1gvnlScm', NULL, NULL, NULL, 1, 0, '2022-04-03 13:58:28', NULL, NULL, NULL, 1, 0);
+INSERT INTO `sys_user` VALUES (1, 'admin', '{bcrypt}$2a$10$fPy0E7nudgbFdBV8eIWM8eOwTO8Z1WoV8TVaSKpDlLmrIdmWUSjge', 'https://xhuicloud.oss-cn-shenzhen.aliyuncs.com/xhuicloud-logo.png', '13333323333', 'sindazeng@gmail.com', 1, 0, '2021-11-25 21:06:29', 0, '2022-04-17 21:22:05', 1, 1, 0);
 
 -- ----------------------------
 -- Table structure for sys_user_dept
@@ -630,15 +555,6 @@ CREATE TABLE `sys_user_dept`  (
 -- ----------------------------
 INSERT INTO `sys_user_dept` VALUES (1, 1);
 INSERT INTO `sys_user_dept` VALUES (1, 9);
-INSERT INTO `sys_user_dept` VALUES (2, 11);
-INSERT INTO `sys_user_dept` VALUES (48, 4);
-INSERT INTO `sys_user_dept` VALUES (52, 4);
-INSERT INTO `sys_user_dept` VALUES (53, 8);
-INSERT INTO `sys_user_dept` VALUES (54, 13);
-INSERT INTO `sys_user_dept` VALUES (55, 9);
-INSERT INTO `sys_user_dept` VALUES (58, 4);
-INSERT INTO `sys_user_dept` VALUES (59, 4);
-INSERT INTO `sys_user_dept` VALUES (67, 4);
 
 -- ----------------------------
 -- Table structure for sys_user_role
@@ -653,22 +569,7 @@ CREATE TABLE `sys_user_role`  (
 -- ----------------------------
 -- Records of sys_user_role
 -- ----------------------------
-INSERT INTO `sys_user_role` VALUES (1, 2);
-INSERT INTO `sys_user_role` VALUES (1, 6);
-INSERT INTO `sys_user_role` VALUES (2, 2);
-INSERT INTO `sys_user_role` VALUES (43, 4);
-INSERT INTO `sys_user_role` VALUES (44, 4);
-INSERT INTO `sys_user_role` VALUES (47, 4);
-INSERT INTO `sys_user_role` VALUES (48, 4);
-INSERT INTO `sys_user_role` VALUES (52, 4);
-INSERT INTO `sys_user_role` VALUES (53, 4);
-INSERT INTO `sys_user_role` VALUES (54, 4);
-INSERT INTO `sys_user_role` VALUES (55, 4);
-INSERT INTO `sys_user_role` VALUES (56, 4);
-INSERT INTO `sys_user_role` VALUES (57, 4);
-INSERT INTO `sys_user_role` VALUES (58, 4);
-INSERT INTO `sys_user_role` VALUES (59, 4);
-INSERT INTO `sys_user_role` VALUES (67, 4);
+INSERT INTO `sys_user_role` VALUES (1, 1);
 
 -- ----------------------------
 -- Table structure for sys_user_social
