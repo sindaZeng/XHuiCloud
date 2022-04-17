@@ -107,6 +107,7 @@ public class SysUserController {
      */
     @Anonymous
     @GetMapping("/social/{userId}/{type}")
+    @PreAuthorize("#oauth2.hasScope('read')")
     public Response getUserSocial(@PathVariable("userId") Integer userId, @PathVariable("type") String type) {
         return Response.success(sysUserSocialService.getOne(Wrappers.<SysUserSocial>lambdaQuery()
                 .eq(SysUserSocial::getUserId, userId).eq(SysUserSocial::getSocialType, type)));

@@ -20,6 +20,15 @@
         <result column="update_id" jdbcType="INTEGER" property="updateId" />
     </resultMap>
 
+    <resultMap id="BaseUserVoResultMap" type="com.xhuicloud.upms.vo.UserVo" extends="BaseResultMap">
+        <collection property="roleVos" ofType="java.util.List"
+                    select="com.xhuicloud.upms.mapper.SysRoleMapper.listRolesNameByUserId" column="user_id">
+        </collection>
+        <collection property="deptVos" ofType="java.util.List"
+                    select="com.xhuicloud.upms.mapper.SysDeptMapper.listDeptNameByUserId" column="user_id">
+        </collection>
+    </resultMap>
+
     <sql id="Base_Column_List">
         <!--@mbg.generated-->
         user_id, username, `password`, avatar, phone, email, sex, create_time, update_time, lock_flag,
@@ -40,7 +49,7 @@
     </sql>
 
 
-    <select id="userPage" resultMap="BaseResultMap">
+    <select id="userPage" resultMap="BaseUserVoResultMap">
         SELECT
         <include refid="userPageDto"/>
         FROM

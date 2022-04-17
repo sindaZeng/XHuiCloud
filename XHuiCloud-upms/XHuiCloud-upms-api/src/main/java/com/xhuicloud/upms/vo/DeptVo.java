@@ -42,7 +42,7 @@ public class DeptVo implements Serializable {
     /**
      * 部门id
      */
-    private Integer id;
+    private Integer deptId;
 
     /**
      * 部门名称

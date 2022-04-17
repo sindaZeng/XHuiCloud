@@ -36,7 +36,7 @@ import org.apache.ibatis.annotations.Param;
 @Mapper
 public interface SysUserMapper extends BaseMapper<SysUser> {
 
-    IPage<UserVo> userPage(Page page, @Param("userQueryDto") UserQueryDto userQueryDto);
+    Page<UserVo> userPage(Page page, @Param("userQueryDto") UserQueryDto userQueryDto);
 
 
 }

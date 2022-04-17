@@ -20,9 +20,9 @@
   </sql>
     <select id="listDeptNameByUserId" resultType="com.xhuicloud.upms.vo.DeptVo">
       SELECT
-      d.id,
+      d.id deptId,
       d.name deptName
       FROM
-      sys_dept d, sys_user_dept ud WHERE d.id = ud.dept_id AND d.is_del = 1 and  ud.user_id IN (#{userId})
+      sys_dept d, sys_user_dept ud WHERE d.id = ud.dept_id AND d.is_del = 0 and ud.user_id IN (#{userId})
     </select>
 </mapper>

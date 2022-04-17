@@ -29,7 +29,7 @@
 
   <select id="listRolesNameByUserId" resultType="com.xhuicloud.upms.vo.RoleVo">
     SELECT
-    r.id,
+    r.id roleId,
     r.role_name roleName
     FROM
     sys_role r, sys_user_role ur WHERE r.id = ur.role_id AND r.is_del = 0 and  ur.user_id IN (#{userId})

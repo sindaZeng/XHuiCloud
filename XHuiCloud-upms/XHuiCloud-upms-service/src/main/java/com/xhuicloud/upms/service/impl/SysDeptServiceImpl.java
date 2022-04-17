@@ -76,7 +76,7 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
         List<List<Integer>> depts = Lists.newArrayList();
         for (DeptVo deptVo : deptVos) {
             List<Integer> oneDepts = Lists.newArrayList();
-            completeDepts(sysDepts, deptVo.getId(), oneDepts);
+            completeDepts(sysDepts, deptVo.getDeptId(), oneDepts);
             Collections.sort(oneDepts);
             depts.add(oneDepts);
         }
