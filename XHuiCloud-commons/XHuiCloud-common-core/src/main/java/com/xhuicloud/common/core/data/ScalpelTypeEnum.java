@@ -30,7 +30,7 @@ package com.xhuicloud.common.core.data;
  * @author: Sinda
  * @create: 2020-05-29 17:13
  */
-public enum  ScalpelTypeEnum {
+public enum ScalpelTypeEnum {
 
     /**
      * 自定义

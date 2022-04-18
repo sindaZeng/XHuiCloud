@@ -46,14 +46,14 @@ import java.lang.annotation.Target;
 @JsonSerialize(using = ScalpelSerialize.class)
 public @interface Scalpel {
 
-    ScalpelTypeEnum type() default ScalpelTypeEnum.CUSTOMER;
+    ScalpelTypeEnum type() default ScalpelTypeEnum.MOSAIC;
 
     /**
-     * 域
+     * 前缀添加域
      *
      * @return
      */
-    String domain() default "http://cdn.zsinda.cn/";
+    String domain() default "";
 
     /**
      * 打码保留前几位 默认保留前2
