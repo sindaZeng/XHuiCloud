@@ -27,6 +27,7 @@ package com.xhuicloud.upms.init;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.json.JSONArray;
 import cn.hutool.json.JSONUtil;
+import com.xhuicloud.common.core.constant.CacheConstants;
 import com.xhuicloud.common.core.constant.CommonConstants;
 import com.xhuicloud.common.gateway.support.DynamicRouteInitEvent;
 import com.xhuicloud.common.gateway.vo.RouteDefinitionVo;
@@ -98,7 +99,7 @@ public class RouteInit {
         }else {
             throw new NullPointerException("获取初始化网关路由异常!");
         }
-
+        redisTemplate.convertAndSend(CommonConstants.GATEWAY_JVM_ROUTE_RELOAD, "路由信息更新");
     }
 
     /**

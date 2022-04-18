@@ -30,6 +30,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.cloud.gateway.config.GatewayProperties;
 import org.springframework.cloud.gateway.config.PropertiesRouteDefinitionLocator;
+import org.springframework.cloud.gateway.event.RefreshRoutesEvent;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -42,9 +44,9 @@ import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 @ComponentScan("com.xhuicloud.common.gateway")
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.REACTIVE)
 public class DynamicRouteAutoConfiguration {
+
 	/**
-	 * 配置文件设置为空
-	 * redis 加载为准
+	 * redis 加载配置
 	 *
 	 * @return
 	 */
@@ -60,14 +62,15 @@ public class DynamicRouteAutoConfiguration {
 	 * @return
 	 */
 	@Bean
-	public RedisMessageListenerContainer redisContainer(RedisConnectionFactory redisConnectionFactory) {
+	public RedisMessageListenerContainer redisContainer(RedisConnectionFactory redisConnectionFactory, ApplicationContext applicationContext) {
 		RedisMessageListenerContainer container
 				= new RedisMessageListenerContainer();
 		container.setConnectionFactory(redisConnectionFactory);
 		container.addMessageListener((message, bytes) -> {
 			log.warn("接收到重新JVM 重新加载路由事件");
 			RouteCacheHolder.removeRouteList();
-		}, new ChannelTopic(CommonConstants.ROUTE_RELOAD_TIME));
+			applicationContext.publishEvent(new RefreshRoutesEvent(this));
+		}, new ChannelTopic(CommonConstants.GATEWAY_JVM_ROUTE_RELOAD));
 		return container;
 	}
 

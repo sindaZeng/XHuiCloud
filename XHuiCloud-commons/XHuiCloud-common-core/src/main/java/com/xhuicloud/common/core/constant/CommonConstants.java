@@ -63,9 +63,9 @@ public interface CommonConstants {
     String ROUTE_RELOAD = "gateway:route:reload";
 
     /**
-     * 内存reload 时间
+     * 网关路由加载
      */
-    String ROUTE_RELOAD_TIME = "gateway:route:reload:time";
+    String GATEWAY_JVM_ROUTE_RELOAD= "gateway:jvm:route:reload";
 
     /**
      * 请求头 中租户ID
