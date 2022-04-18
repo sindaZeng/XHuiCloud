@@ -42,8 +42,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @EnableXHuiFeignClients
 @EnableXHuiResourceServer
 @EnableXHuiSwagger
-public class XHuiCodeGeneratorApplication {
+public class XHuiCodeGenApplication {
     public static void main(String[] args) {
-        SpringApplication.run(XHuiCodeGeneratorApplication.class, args);
+        SpringApplication.run(XHuiCodeGenApplication.class, args);
     }
 }

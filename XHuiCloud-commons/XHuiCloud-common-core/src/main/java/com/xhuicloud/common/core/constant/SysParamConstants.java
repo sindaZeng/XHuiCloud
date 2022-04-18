@@ -47,39 +47,5 @@ public interface SysParamConstants {
      */
     String SYS_USER_DEFAULT_DEPT = "SYS_USER_DEFAULT_DEPT";
 
-    /**
-     * 系统默认cdn域名
-     */
-    String SYS_CDN_DEFAULT_DOMAIN = "SYS_CDN_DEFAULT_DOMAIN";
-
-    /**
-     * 系统默认域名
-     */
-    String SYS_DEFAULT_DOMAIN = "SYS_DEFAULT_DOMAIN";
-
-    /**
-     * 微信公众号
-     */
-    String WECHAT_MP_APPID = "WECHAT_MP_APPID";
-
-    /**
-     * 微信公众号
-     */
-    String WECHAT_MP_SECRET = "WECHAT_MP_SECRET";
-
-    /**
-     * 微信公众号
-     */
-    String WECHAT_MP_TOKEN = "WECHAT_MP_TOKEN";
-
-    /**
-     * 微信公众号
-     */
-    String WECHAT_MP_AES = "WECHAT_MP_AES";
-
-    /**
-     * 微信公众号
-     */
-    String WECHAT_MP_AUTH_TOKEN = "WECHAT_MP_AUTH_TOKEN";
 
 }
