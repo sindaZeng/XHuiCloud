@@ -97,8 +97,8 @@ public class PermitAnonymousUrlProperties implements InitializingBean {
             // 2. 获取该方法的注解
             if (controller == null) {
                 Anonymous method = AnnotationUtils.findAnnotation(handlerMethod.getMethod(), Anonymous.class);
-                Optional.ofNullable(method).ifPresent(inner -> info.getPathPatternsCondition().getPatterns()
-                        .forEach(pathPattern -> this.filterPath(pathPattern.getPatternString(), info, map)));
+                Optional.ofNullable(method).ifPresent(inner -> info.getPatternsCondition().getPatterns()
+                        .forEach(url -> this.filterPath(url, info, map)));
                 continue;
             }
 
@@ -107,7 +107,7 @@ public class PermitAnonymousUrlProperties implements InitializingBean {
             Method[] methods = beanType.getDeclaredMethods();
             Method method = handlerMethod.getMethod();
             if (ArrayUtil.contains(methods, method)) {
-                info.getPathPatternsCondition().getPatterns().forEach(pathPattern -> filterPath(pathPattern.getPatternString(), info, map));
+                info.getPatternsCondition().getPatterns().forEach(url -> filterPath(url, info, map));
             }
         }
     }
@@ -155,14 +155,14 @@ public class PermitAnonymousUrlProperties implements InitializingBean {
             }
 
             // 如果请求方法路径匹配
-            Set<PathPattern> patterns = info.getPathPatternsCondition().getPatterns();
-            for (PathPattern pattern : patterns) {
+            Set<String> patterns = info.getPatternsCondition().getPatterns();
+            for (String pattern : patterns) {
                 // 跳过自身
-                if (StrUtil.equals(url, pattern.getPatternString())) {
+                if (StrUtil.equals(url, pattern)) {
                     continue;
                 }
 
-                if (PATHMATCHER.match(url, pattern.getPatternString())) {
+                if (PATHMATCHER.match(url, pattern)) {
                     HandlerMethod rqMethod = map.get(rq);
                     HandlerMethod infoMethod = map.get(info);
                     log.error("@anonymous 标记接口 ==> {}.{} 使用不当，会额外暴露接口 ==> {}.{}", rqMethod.getBeanType().getName(),

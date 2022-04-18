@@ -29,6 +29,7 @@ import com.xhuicloud.common.swagger.config.SwaggerConfiguration;
 import com.xhuicloud.common.swagger.properties.SwaggerProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Import;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.lang.annotation.*;
 
@@ -42,6 +43,7 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
+@EnableSwagger2
 @EnableConfigurationProperties(SwaggerProperties.class)
 @Import({SwaggerConfiguration.class, SwaggerAutoConfiguration.class})
 public @interface EnableXHuiSwagger {
