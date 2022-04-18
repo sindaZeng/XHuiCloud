@@ -40,18 +40,16 @@ import java.nio.charset.StandardCharsets;
  */
 public class AesUtil {
 
-    private static String encodeKey = "KjQlb%1aV1Jrli79";  //16位
+    private static String encodeKey = "xhuicloud0000000";  //16位
 
     private static String KEY_ALGORITHM = "AES";
 
     public static String decrypt(String arg) {
-//        AES aes = new AES(Mode.CBC, Padding.NoPadding, new SecretKeySpec(encodeKey.getBytes(), KEY_ALGORITHM),
-//                new IvParameterSpec(encodeKey.getBytes()));
-//        // 获取请求密码并解密
-//        return new String(aes.decrypt(Base64.decode(arg.getBytes(StandardCharsets.UTF_8))), StandardCharsets.UTF_8).trim();
-        return arg;
+        AES aes = new AES(Mode.CFB, Padding.NoPadding, new SecretKeySpec(encodeKey.getBytes(), KEY_ALGORITHM),
+                new IvParameterSpec(encodeKey.getBytes()));
+        // 获取请求密码并解密
+        return aes.decryptStr(Base64.decode(arg.getBytes(StandardCharsets.UTF_8)));
     }
-
 
 }
 
