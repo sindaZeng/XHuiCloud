@@ -24,11 +24,9 @@
 
 package com.xhuicloud.generator.handle;
 
+import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.util.ObjectUtil;
-import cn.hutool.extra.spring.SpringUtil;
-import com.baomidou.dynamic.datasource.DynamicRoutingDataSource;
-import com.xhuicloud.common.datasource.entity.GenDsInfo;
 import com.xhuicloud.generator.dto.GenCodeDto;
 import com.xhuicloud.generator.entity.TableColumnsInfo;
 import com.xhuicloud.generator.entity.TableInfo;
@@ -53,13 +51,22 @@ public abstract class AbstractJdbcHandle implements JdbcHandle {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         ZipOutputStream zip = new ZipOutputStream(outputStream);
 
-        genCodeDto.getTableName().forEach(name -> {
-            TableInfo tableInfo = getTableInfo(name);
-            if (ObjectUtil.isNotEmpty(tableInfo)) {
-                List<TableColumnsInfo> tableColumnsInfo = getTableColumnsInfo(name);
-                GenCodeUtil.get(genCodeDto, tableInfo, tableColumnsInfo, zip);
-            }
-        });
+        if (CollectionUtil.isEmpty(genCodeDto.getTableName())) {
+            getTableInfos().forEach(tableInfo -> {
+                if (ObjectUtil.isNotEmpty(tableInfo)) {
+                    List<TableColumnsInfo> tableColumnsInfo = getTableColumnsInfo(tableInfo.getTableName());
+                    GenCodeUtil.get(genCodeDto, tableInfo, tableColumnsInfo, zip);
+                }
+            });
+        } else {
+            genCodeDto.getTableName().forEach(name -> {
+                TableInfo tableInfo = getTableInfo(name);
+                if (ObjectUtil.isNotEmpty(tableInfo)) {
+                    List<TableColumnsInfo> tableColumnsInfo = getTableColumnsInfo(name);
+                    GenCodeUtil.get(genCodeDto, tableInfo, tableColumnsInfo, zip);
+                }
+            });
+        }
         IoUtil.close(zip);
         return outputStream.toByteArray();
     }

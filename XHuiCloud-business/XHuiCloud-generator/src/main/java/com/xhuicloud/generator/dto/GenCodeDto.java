@@ -39,9 +39,13 @@ import java.util.List;
 public class GenCodeDto {
 
     /**
+     * 库id
+     */
+    private Integer id;
+
+    /**
      * 表名
      */
-    @NotNull
     private List<String> tableName;
 
     /**
@@ -58,5 +62,10 @@ public class GenCodeDto {
      * 作者名
      */
     private String author;
+
+    /**
+     * 是否生成前端代码 0否 1是
+     */
+    private Integer genVue = 0;
 
 }

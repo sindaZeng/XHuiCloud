@@ -25,7 +25,6 @@
 package com.xhuicloud.generator.controller;
 
 import com.baomidou.dynamic.datasource.toolkit.DynamicDataSourceContextHolder;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xhuicloud.common.core.utils.Response;
 import com.xhuicloud.common.datasource.entity.GenDsInfo;
@@ -36,9 +35,11 @@ import com.xhuicloud.common.core.utils.AesUtil;
 import com.xhuicloud.generator.service.GenDsInfoService;
 import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -49,8 +50,8 @@ import java.util.Map;
  */
 @RestController
 @AllArgsConstructor
-@RequestMapping("/dataSource")
-@Api(value = "dataSource", tags = "数据源管理模块")
+@RequestMapping("/db")
+@Api(value = "db", tags = "数据源管理模块")
 public class GenDatasourceInfoController {
 
     private final GenDsInfoService genDsInfoService;
@@ -59,10 +60,10 @@ public class GenDatasourceInfoController {
 
     /**
      * 预测试数据库连接是否有效
-     * TODO 后面入参需要加密
      */
-    @GetMapping("/test")
-    public Response test(GenDsInfo genDsInfo) {
+    @PutMapping("/test/{id}")
+    public Response test(@PathVariable Integer id) {
+        GenDsInfo genDsInfo = genDsInfoService.getById(id);
         return Response.success(handle.get(genDsInfo.getType()).test(genDsInfo));
     }
 
@@ -77,26 +78,14 @@ public class GenDatasourceInfoController {
         return Response.success(genDsInfoService.page(page));
     }
 
-    @GetMapping("/queryPageTableForMysql/{name}")
-    public Response queryPageTableForMysql(@PathVariable String name, Page page) {
-        DynamicDataSourceContextHolder.push(name);
-        IPage<TableInfo> tableInfoIPage = genDsInfoService.queryPageTableForMysql(page);
-        DynamicDataSourceContextHolder.clear();
-        return Response.success(tableInfoIPage);
-    }
-
-    /**
-     * 分页查询数据源的表信息
-     *
-     * @param id 数据源
-     * @return
-     */
-    @GetMapping("/{id}")
-    public Response getTableInfoById(Page page, @PathVariable Integer id) {
+    @GetMapping("/info/{id}")
+    public Response info(@PathVariable Integer id) {
         GenDsInfo genDsInfo = genDsInfoService.getById(id);
+        DynamicDataSourceContextHolder.push(genDsInfo.getName());
         JdbcHandle jdbcHandle = handle.get(genDsInfo.getType());
-        jdbcHandle.test(genDsInfo);
-        return Response.success(jdbcHandle.getPageTableInfo(page));
+        List<TableInfo> tableInfos = jdbcHandle.getTableInfos();
+        DynamicDataSourceContextHolder.clear();
+        return Response.success(tableInfos);
     }
 
     /**
@@ -105,7 +94,7 @@ public class GenDatasourceInfoController {
      * TODO 后面入参需要加密
      */
     @PostMapping
-//    @PreAuthorize("@authorize.hasPermission('sys_add_dataSource')")
+    @PreAuthorize("@authorize.hasPermission('sys_add_db')")
     public Response save(@RequestBody GenDsInfo genDsInfo) throws Exception {
         // 构建前端对应解密AES 因子
         genDsInfo.setPassword(AesUtil.decrypt(genDsInfo.getPassword()));
@@ -127,7 +116,7 @@ public class GenDatasourceInfoController {
      */
     @SysLog("编辑数据源")
     @PutMapping
-//    @PreAuthorize("@authorize.hasPermission('sys_editor_dataSource')")
+    @PreAuthorize("@authorize.hasPermission('sys_editor_db')")
     public Response update(@Valid @RequestBody GenDsInfo genDsInfo) {
         return Response.success(genDsInfoService.updateDynamicDataSource(genDsInfo));
     }
@@ -140,7 +129,7 @@ public class GenDatasourceInfoController {
      */
     @SysLog("删除")
     @DeleteMapping("/{id}")
-//    @PreAuthorize("@authorize.hasPermission('sys_delete_dataSource')")
+    @PreAuthorize("@authorize.hasPermission('sys_delete_db')")
     public Response delete(@PathVariable Integer id) {
         return Response.success(genDsInfoService.removeById(id));
     }

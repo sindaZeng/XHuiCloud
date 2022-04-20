@@ -24,7 +24,6 @@
 
 package com.xhuicloud.generator.handle;
 
-import com.alibaba.druid.pool.DruidDataSource;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xhuicloud.common.datasource.entity.GenDsInfo;
@@ -59,6 +58,13 @@ public interface JdbcHandle {
     TableInfo getTableInfo(String tableName);
 
     /**
+     * 获取 表信息
+     *
+     * @return
+     */
+    List<TableInfo> getTableInfos();
+
+    /**
      * 分页获取 表信息
      *
      * @param page
@@ -73,13 +79,6 @@ public interface JdbcHandle {
      * @return
      */
     List<TableColumnsInfo> getTableColumnsInfo(String tableName);
-
-    /**
-     * 创建数据源
-     *
-     * @return
-     */
-    DruidDataSource createDataSource(GenDsInfo genDsInfo);
 
     /**
      * 生成代码

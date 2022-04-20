@@ -59,20 +59,19 @@ public class GenCodeController {
     @SneakyThrows
     @PostMapping
     @PreAuthorize("@authorize.hasPermission('sys_download_code')")
-    public void generator(@RequestParam Integer dataSourceId,
-                          @Valid @RequestBody GenCodeDto genCodeDto,
+    public void generator(@Valid @RequestBody GenCodeDto genCodeDto,
                           HttpServletResponse response) {
-        GenDsInfo genDsInfo = genDsInfoService.getById(dataSourceId);
+        GenDsInfo genDsInfo = genDsInfoService.getById(genCodeDto.getId());
         JdbcHandle jdbcHandle = handle.get(genDsInfo.getType());
         if (ObjectUtil.isNotNull(jdbcHandle) && jdbcHandle.test(genDsInfo)) {
             DynamicDataSourceContextHolder.push(genDsInfo.getName());
             byte[] data = jdbcHandle.genCode(genCodeDto);
             response.reset();
-            response.setHeader(HttpHeaders.CONTENT_DISPOSITION, String.format("attachment; filename=%s.zip", genCodeDto.getModuleName()));
+            response.setHeader(HttpHeaders.CONTENT_DISPOSITION, String.format("attachment;filename=%s.zip", genCodeDto.getModuleName()));
             response.addHeader(HttpHeaders.CONTENT_LENGTH, String.valueOf(data.length));
             response.setContentType("application/octet-stream; charset=UTF-8");
-            IoUtil.write(response.getOutputStream(), Boolean.TRUE, data);
             DynamicDataSourceContextHolder.clear();
+            IoUtil.write(response.getOutputStream(), Boolean.TRUE, data);
         }
     }
 

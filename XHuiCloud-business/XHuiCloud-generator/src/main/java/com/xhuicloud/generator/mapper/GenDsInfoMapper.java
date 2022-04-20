@@ -1,6 +1,6 @@
 package com.xhuicloud.generator.mapper;
 
-import com.baomidou.dynamic.datasource.annotation.DS;
+import com.baomidou.mybatisplus.annotation.InterceptorIgnore;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -21,7 +21,16 @@ public interface GenDsInfoMapper extends BaseMapper<GenDsInfo> {
      * @param tableName 表名称
      * @return
      */
+    @InterceptorIgnore(tenantLine = "true")
     TableInfo queryTableForMysql(@Param("tableName") String tableName);
+
+    /**
+     * 表信息列表
+     *
+     * @return
+     */
+    @InterceptorIgnore(tenantLine = "true")
+    List<TableInfo> queryPageTableForMysql();
 
     /**
      * 分页查询表信息
@@ -29,6 +38,7 @@ public interface GenDsInfoMapper extends BaseMapper<GenDsInfo> {
      * @param page
      * @return
      */
+    @InterceptorIgnore(tenantLine = "true")
     IPage<TableInfo> queryPageTableForMysql(@Param("page") Page page);
 
     /**
@@ -37,5 +47,6 @@ public interface GenDsInfoMapper extends BaseMapper<GenDsInfo> {
      * @param tableName
      * @return
      */
+    @InterceptorIgnore(tenantLine = "true")
     List<TableColumnsInfo> queryColumnsForMysql(@Param("tableName") String tableName);
 }

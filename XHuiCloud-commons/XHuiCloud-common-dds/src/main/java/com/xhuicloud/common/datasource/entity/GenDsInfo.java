@@ -25,19 +25,18 @@
 package com.xhuicloud.common.datasource.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.xhuicloud.common.core.annotation.Scalpel;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Date;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@ApiModel(value="gen_ds_info")
+@ApiModel(value = "gen_ds_info")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -73,6 +72,7 @@ public class GenDsInfo implements Serializable {
      * password
      */
     @ApiModelProperty(value = "password")
+    @Scalpel(before = 0, after = 0)
     private String password;
 
     /**

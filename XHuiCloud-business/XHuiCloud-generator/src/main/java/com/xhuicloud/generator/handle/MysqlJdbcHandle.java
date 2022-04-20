@@ -24,11 +24,9 @@
 
 package com.xhuicloud.generator.handle;
 
-import com.alibaba.druid.pool.DruidDataSource;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xhuicloud.common.core.constant.JdbcConnectConstants;
-import com.xhuicloud.common.core.utils.AesUtil;
 import com.xhuicloud.common.datasource.entity.GenDsInfo;
 import com.xhuicloud.generator.entity.TableColumnsInfo;
 import com.xhuicloud.generator.entity.TableInfo;
@@ -60,7 +58,7 @@ public class MysqlJdbcHandle extends AbstractJdbcHandle {
     public Boolean test(GenDsInfo genDsInfo) {
         Connection connection = DriverManager.getConnection(String.format(JdbcConnectConstants.MYSQL_URL,
                 genDsInfo.getHost(), genDsInfo.getPort(), genDsInfo.getName()),
-                AesUtil.decrypt(genDsInfo.getUsername()), AesUtil.decrypt(genDsInfo.getPassword()));
+                genDsInfo.getUsername(), genDsInfo.getPassword());
         connection.close();
         return true;
     }
@@ -68,6 +66,11 @@ public class MysqlJdbcHandle extends AbstractJdbcHandle {
     @Override
     public TableInfo getTableInfo(String tableName) {
         return genDsInfoMapper.queryTableForMysql(tableName);
+    }
+
+    @Override
+    public List<TableInfo> getTableInfos() {
+        return genDsInfoMapper.queryPageTableForMysql();
     }
 
     @Override
@@ -80,18 +83,5 @@ public class MysqlJdbcHandle extends AbstractJdbcHandle {
         return genDsInfoMapper.queryColumnsForMysql(tableName);
     }
 
-    @SneakyThrows
-    @Override
-    public DruidDataSource createDataSource(GenDsInfo genDsInfo) {
-        DruidDataSource druidDataSource = new DruidDataSource();
-        String URL = String.format(JdbcConnectConstants.MYSQL_URL,
-                genDsInfo.getHost(), genDsInfo.getPort(), genDsInfo.getName());
-        druidDataSource.setUsername(genDsInfo.getUsername());
-        druidDataSource.setPassword(genDsInfo.getPassword());
-        druidDataSource.setUrl(URL);
-        druidDataSource.setUseGlobalDataSourceStat(true);
-        druidDataSource.setDriverClassName(JdbcConnectConstants.MYSQL_DRIVER);
-        return druidDataSource;
-    }
 }
 

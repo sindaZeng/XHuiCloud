@@ -26,13 +26,12 @@ package com.xhuicloud.generator.utils;
 
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.io.IoUtil;
-import cn.hutool.core.util.CharsetUtil;
 import cn.hutool.core.util.ObjectUtil;
-import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.template.Template;
 import cn.hutool.extra.template.TemplateConfig;
 import cn.hutool.extra.template.TemplateEngine;
 import cn.hutool.extra.template.TemplateUtil;
+import cn.hutool.json.JSONUtil;
 import com.xhuicloud.common.core.exception.SysException;
 import com.xhuicloud.generator.dto.GenCodeDto;
 import com.xhuicloud.generator.entity.TableColumnsInfo;
@@ -44,6 +43,7 @@ import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.WordUtils;
+
 import java.io.File;
 import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
@@ -114,7 +114,12 @@ public class GenCodeUtil {
             Template template = engine.getTemplate(templateName);
             // 渲染模板
             StringWriter sw = new StringWriter();
-            template.render(map, sw);
+            try {
+                template.render(map, sw);
+            } catch (Exception e) {
+                System.out.println(JSONUtil.toJsonStr(map));
+                throw e;
+            }
 
             //添加到zip
             zip.putNextEntry(new ZipEntry(Objects
