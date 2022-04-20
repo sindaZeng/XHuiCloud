@@ -97,11 +97,8 @@ public class XHuiTenantHandler implements TenantLineHandler {
     @Override
     public boolean ignoreTable(String tableName) {
         Integer tenantId = XHuiCommonThreadLocalHolder.getTenant();
-        if (tenantId == null) {
+        if (tenantId == null || TENANT_CACHE == null) {
             return Boolean.TRUE;
-        }
-        if (null == TENANT_CACHE || TENANT_CACHE.size() == 0) {
-            init();
         }
         return !TENANT_CACHE.contains(tableName);
     }
