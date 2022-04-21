@@ -22,47 +22,68 @@
 * @Email:  xhuicloud@163.com
 */
 
-package ${package}.entity;
-
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
-import java.io.Serializable;
-<#if auto??>
-import com.baomidou.mybatisplus.annotation.IdType;
-</#if>
-<#if hasBigDecimal??>
-import java.math.BigDecimal;
-</#if>
-<#if datePath??>
-import ${datePath};
-</#if>
-
+import request from '@/utils/request'
 
 /**
-* @program: ${projectName}
-* @description: ${tableComment}
-* @author: ${author}
-* @create: ${datetime}
+* ${tableComment}分页
+* @param query
+* @returns {*}
 */
-@Data
-@TableName("${tableName}")
-@ApiModel(value = "${tableComment}")
-public class ${ClassName} implements Serializable{
+export const ${className}Page = query => {
+    return request({
+        url: '/${projectName}/${pathName}/page',
+        method: 'get',
+        params: query
+    })
+}
 
-    private static final long serialVersionUID = 1L;
+/**
+* 通过id查询${tableComment}
+* @param data
+* @returns {*}
+*/
+export const get${ClassName} = data => {
+    return request({
+        url: '/${projectName}/${pathName}',
+        method: 'post',
+        data
+    })
+}
 
-<#if columns??>
-    <#list columns as column>
-    <#if column.columnKey = 'PRI'>
-    @TableId<#if auto?? && column.extra = 'auto_increment'>(value = "${column.columnName}", type = IdType.AUTO)</#if>
-    </#if>
-    @ApiModelProperty(value="${column.columnComment}")
-    private ${column.javaDataType} ${column.smallColumnName};
+/**
+* 新增${tableComment}
+* @param data
+* @returns {*}
+*/
+export const create${ClassName} = data => {
+    return request({
+        url: '/${projectName}/${pathName}',
+        method: 'post',
+        data
+    })
+}
 
-    </#list>
-</#if>
+/**
+* 删除${tableComment}
+* @param id
+* @returns {*}
+*/
+export const del${ClassName} = id => {
+    return request({
+        url: '/${projectName}/${pathName}/' + id,
+        method: 'delete'
+    })
+}
 
+/**
+* 更新${tableComment}
+* @param data
+* @returns {*}
+*/
+export const update${ClassName} = data => {
+    return request({
+        url: '/${projectName}/${pathName}',
+        method: 'put',
+        data
+    })
 }

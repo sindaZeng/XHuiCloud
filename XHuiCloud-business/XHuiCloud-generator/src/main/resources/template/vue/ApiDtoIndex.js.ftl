@@ -21,48 +21,32 @@
 * @Author: Sinda
 * @Email:  xhuicloud@163.com
 */
-
-package ${package}.entity;
-
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
-import java.io.Serializable;
-<#if auto??>
-import com.baomidou.mybatisplus.annotation.IdType;
-</#if>
-<#if hasBigDecimal??>
-import java.math.BigDecimal;
-</#if>
 <#if datePath??>
-import ${datePath};
+import { parseTime } from '@/utils/date'
 </#if>
-
-
-/**
-* @program: ${projectName}
-* @description: ${tableComment}
-* @author: ${author}
-* @create: ${datetime}
-*/
-@Data
-@TableName("${tableName}")
-@ApiModel(value = "${tableComment}")
-public class ${ClassName} implements Serializable{
-
-    private static final long serialVersionUID = 1L;
-
+export const tableAttributes = {
+  enableSearch: true, // 开启搜索栏 字段得添加可搜索属性!
+  enableOperations: true, // 开启操作栏
+  operationWidth: '250',
+  columns: [
 <#if columns??>
-    <#list columns as column>
+  <#list columns as column>
+    {
+      label: '${column.columnComment}',
+      prop: '${column.smallColumnName}'<#if column.columnKey = 'PRI' || ["datetime", "date", "timestamp"]?seq_contains(column.dataType)>,</#if>
     <#if column.columnKey = 'PRI'>
-    @TableId<#if auto?? && column.extra = 'auto_increment'>(value = "${column.columnName}", type = IdType.AUTO)</#if>
+      editDisabled: true,
+      createDisabled: true
     </#if>
-    @ApiModelProperty(value="${column.columnComment}")
-    private ${column.javaDataType} ${column.smallColumnName};
-
-    </#list>
+    <#if ["datetime", "date", "timestamp"]?seq_contains(column.dataType)>
+      type: 'datetime',
+      formatter: parseTime,
+      editDisplay: true,
+      createDisplay: true,
+      valueFormat: 'YYYY-MM-DD HH:mm:ss'
+    </#if>
+    }<#if column_has_next>,</#if>
+  </#list>
 </#if>
-
+  ]
 }

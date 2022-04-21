@@ -49,6 +49,11 @@ public class GenCodeDto {
     private List<String> tableName;
 
     /**
+     * 去表前缀 0后端 1前缀
+     */
+    private List<Integer> toReplace;
+
+    /**
      * 模块名称
      */
     private String moduleName;
@@ -62,6 +67,11 @@ public class GenCodeDto {
      * 作者名
      */
     private String author;
+
+    /**
+     * 表前缀
+     */
+    private String tablePrefix;
 
     /**
      * 是否生成前端代码 0否 1是
