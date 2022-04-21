@@ -24,6 +24,7 @@
 
 package com.xhuicloud.upms.utils;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.xhuicloud.upms.dto.DeptTree;
 import com.xhuicloud.upms.dto.MenuTree;
 import com.xhuicloud.upms.dto.TreeNode;
@@ -91,11 +92,9 @@ public class TreeUtil {
                 .sorted(Comparator.comparingInt(SysDept::getSort))
                 .map(dept -> {
                     DeptTree node = new DeptTree();
+                    BeanUtil.copyProperties(dept, node);
                     node.setId(dept.getId());
                     node.setValue(dept.getId());
-                    node.setParentId(dept.getParentId());
-                    node.setAddress(dept.getAddress());
-                    node.setName(dept.getName());
                     node.setLabel(dept.getName());
                     return node;
                 }).collect(Collectors.toList());

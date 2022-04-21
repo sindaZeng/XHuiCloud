@@ -89,19 +89,19 @@ const toSaveRow = data => {
 }
 
 const toDelRow = row => {
-  ElMessageBox.confirm(`Are you confirm to delete?`)
-    .then(() => {
-       return del${ClassName}(row.id).then(res => {
-         ElNotification({
-           title: 'Success',
-           message: 'Delete success',
-           type: 'success'
-         })
-       })
-    }).catch(() => {
-  }).then(() => {
-      getTableData()
-  })
+ ElMessageBox.confirm('Are you confirm to delete?')
+         .then(() => {
+          return del${ClassName}(row.id).then(res => {
+           ElNotification({
+            title: 'Success',
+            message: 'Delete success',
+            type: 'success'
+           })
+          })
+         }).catch(() => {
+ }).then(() => {
+  getTableData()
+ })
 }
 </script>
 

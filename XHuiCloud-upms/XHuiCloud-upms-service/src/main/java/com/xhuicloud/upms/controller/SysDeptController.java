@@ -25,30 +25,29 @@
 package com.xhuicloud.upms.controller;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xhuicloud.common.core.utils.Response;
 import com.xhuicloud.common.log.annotation.SysLog;
 import com.xhuicloud.upms.entity.SysDept;
 import com.xhuicloud.upms.service.SysDeptService;
 import com.xhuicloud.upms.utils.TreeUtil;
-import com.xhuicloud.upms.vo.DeptVo;
-import io.swagger.annotations.Api;
-import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
-import java.util.List;
 
 /**
- * @program: XHuiCloud
- * @description: SysDeptController
+ * @program: admin
+ * @description: 部门
  * @author: Sinda
- * @create: 2020-03-21 15:48
+ * @create: 2022-04-21 22:24:04
  */
 @RestController
-@RequestMapping("/dept")
 @AllArgsConstructor
-@Api(value = "dept", tags = "部门管理模块")
+@RequestMapping("/dept" )
+@Api(value = "dept", tags = "部门管理")
 public class SysDeptController {
 
     private final SysDeptService sysDeptService;
@@ -66,52 +65,70 @@ public class SysDeptController {
     }
 
     /**
+     * 分页查询
+     *
+     * @param page 分页对象
+     * @param sysDept 部门
+     * @return Response
+     */
+    @GetMapping("/page" )
+    @ApiOperation(value = "分页查询", notes = "分页查询")
+    public Response page(Page page, SysDept sysDept) {
+        return Response.success(sysDeptService.page(page, Wrappers.query(sysDept)));
+    }
+
+
+    /**
+     * 通过id查询部门
+     * @param id
+     * @return Response
+     */
+    @GetMapping("/{id}")
+    @ApiOperation(value = "通过id查询部门", notes = "通过id查询部门")
+    public Response getById(@PathVariable Integer id) {
+        return Response.success(sysDeptService.getById(id));
+    }
+
+    /**
      * 新增部门
      *
-     * @param sysDept
-     * @return
+     * @param sysDept 部门
+     * @return Response
      */
-    @SysLog("新增部门")
+    @SysLog("新增部门" )
     @PostMapping
-    @PreAuthorize("@authorize.hasPermission('sys_add_dept')")
-    public Response save(@Valid @RequestBody SysDept sysDept) {
-        return Response.success(sysDeptService.saveDept(sysDept));
+    @PreAuthorize("@authorize.hasPermission('sys_add_dept')" )
+    @ApiOperation(value = "新增部门", notes = "新增部门")
+    public Response save(@RequestBody SysDept sysDept) {
+        return Response.success(sysDeptService.save(sysDept));
     }
 
     /**
-     * 禁用，启用 部门
+     * 修改部门
+     *
+     * @param sysDept 部门
+     * @return Response
+     */
+    @SysLog("编辑部门" )
+    @PutMapping
+    @PreAuthorize("@authorize.hasPermission('sys_editor_dept')" )
+    @ApiOperation(value = "修改部门", notes = "修改部门")
+    public Response update(@RequestBody SysDept sysDept) {
+        return Response.success(sysDeptService.updateById(sysDept));
+    }
+
+    /**
+     * 通过id删除部门
      *
      * @param id
-     * @return
+     * @return Response
      */
-    @SysLog("开启禁用部门")
-    @DeleteMapping("/{id}")
-    @PreAuthorize("@authorize.hasPermission('sys_delete_dept')")
+    @SysLog("通过id删除部门" )
+    @DeleteMapping("/{id}" )
+    @PreAuthorize("@authorize.hasPermission('sys_delete_dept')" )
+    @ApiOperation(value = "通过id删除部门", notes = "通过id删除部门")
     public Response delete(@PathVariable Integer id) {
-        return Response.success(sysDeptService.deleteDept(id));
-    }
-
-    /**
-     * 编辑部门
-     *
-     * @param sysDept
-     * @return
-     */
-    @SysLog("编辑部门")
-    @PutMapping
-    @PreAuthorize("@authorize.hasPermission('sys_editor_dept')")
-    public Response update(@Valid @RequestBody SysDept sysDept) {
-        return Response.success(sysDeptService.updateDept(sysDept));
-    }
-
-    /**
-     * 补全部门树
-     *
-     * @return
-     */
-    @PostMapping(value = "/tree")
-    public Response getDeptTree(@RequestBody List<DeptVo> deptVos) {
-        return Response.success(sysDeptService.getDeptTree(deptVos));
+        return Response.success(sysDeptService.removeById(id));
     }
 
 }
