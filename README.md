@@ -31,7 +31,7 @@
 
 > 1. **快速体验项目**：[在线访问地址](http://xhuicloud.cn/)。
 > 2. **接口文档**：[swagger在线](http://api.xhuicloud.cn/doc.html)。
-> 3. **后端操作文档**：敬请期待。。。
+> 3. **后端操作文档**：[建设中](http://doc.xhuicloud.cn/#/)
 > 4. **微服务版本**：基于Spring Cloud 2020.0.4 & Alibaba 2021.1。
 
 ## 前言
