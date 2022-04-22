@@ -50,6 +50,6 @@ public class FormAuthFailureHandler implements AuthenticationFailureHandler {
     @SneakyThrows
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) {
         log.debug("表单登录失败:{}", exception.getLocalizedMessage());
-        WebUtils.getResponse().sendRedirect(HttpUtil.encodeParams(String.format("/oauth/login?error=%s", exception.getMessage()), CharsetUtil.CHARSET_UTF_8));
+        WebUtils.getResponse().sendRedirect(HttpUtil.encodeParams(String.format("/oauth2/login?error=%s", exception.getMessage()), CharsetUtil.CHARSET_UTF_8));
     }
 }

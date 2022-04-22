@@ -134,7 +134,6 @@ public class AuthTokenEndpoint {
         if (accessToken == null || StrUtil.isBlank(accessToken.getValue())) {
             return Response.success(Boolean.TRUE, "退出失败,未找到此token!");
         }
-        // todo 清空失败
         // 清空access token
         tokenStore.removeAccessToken(accessToken);
         // 清空 refresh token

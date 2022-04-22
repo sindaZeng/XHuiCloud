@@ -10,6 +10,8 @@
     <title>星辉云认证平台</title>
     <link href="/css/bootstrap.min.css" rel="stylesheet">
     <link href="/css/auth.css" rel="stylesheet">
+    <script type="text/javascript" src="/js/crypto-js.js"></script>
+    <script type="text/javascript" src="/js/login.js"></script>
 </head>
 
 <body class="auth_body">
@@ -33,8 +35,7 @@
         <input type="text" name="username" class="form-control" placeholder="账号" required autofocus>
         </br>
         <input type="password" name="password" class="form-control" placeholder="密码" required>
-        <button class="btn btn-lg btn-primary btn-block" onclick="">登录</button>
-
+        <button class="btn btn-lg btn-primary btn-block" onclick="submitForm()">登录</button>
     </form>
 </div>
 <footer>
@@ -43,10 +44,5 @@
 </footer>
 </body>
 <script type="text/javascript">
-function selectTenant() {
-    var dom = document.getElementById('tenantSelect');
-    var logo = dom.options[dom.selectedIndex].getAttribute('logo')
-    document.getElementById("icon").src = logo;
-}
 </script>
 </html>
