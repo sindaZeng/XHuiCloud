@@ -75,14 +75,14 @@ public class SysFileController {
     }
 
     /**
-     * 七牛文件上传
+     * 文件上传
      *
      * @param file
      * @return
      */
     @SysLog("上传文件")
     @PostMapping("/upload")
-    @PreAuthorize("@authorize.hasPermission('sys_upload_file')")
+    @PreAuthorize("@authorize.hasPermission('sys_upload_file', 'sys_upload_icon')")
     public Response upload(@RequestPart("file") MultipartFile file) {
         return Response.success(sysFileService.upload(file));
     }
@@ -95,7 +95,7 @@ public class SysFileController {
      */
     @SysLog("删除文件")
     @DeleteMapping("/{id}")
-    @PreAuthorize("@authorize.hasPermission('sys_delete_file')")
+    @PreAuthorize("@authorize.hasPermission('sys_delete_file', 'sys_delete_icon')")
     public Response delete(@PathVariable Integer id) {
         return Response.success(sysFileService.deleteFileById(id));
     }
