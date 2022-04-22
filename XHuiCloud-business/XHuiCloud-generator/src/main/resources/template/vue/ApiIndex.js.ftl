@@ -30,11 +30,11 @@ import request from '@/utils/request'
 * @returns {*}
 */
 export const ${className}Page = query => {
-    return request({
-        url: '/${projectName}/${pathName}/page',
-        method: 'get',
-        params: query
-    })
+  return request({
+    url: '/${projectName}/${pathName}/page',
+    method: 'get',
+    params: query
+  })
 }
 
 /**
@@ -43,11 +43,11 @@ export const ${className}Page = query => {
 * @returns {*}
 */
 export const get${ClassName} = data => {
-    return request({
-        url: '/${projectName}/${pathName}',
-        method: 'post',
-        data
-    })
+  return request({
+    url: '/${projectName}/${pathName}',
+    method: 'post',
+    data
+  })
 }
 
 /**
@@ -56,11 +56,11 @@ export const get${ClassName} = data => {
 * @returns {*}
 */
 export const create${ClassName} = data => {
-    return request({
-        url: '/${projectName}/${pathName}',
-        method: 'post',
-        data
-    })
+  return request({
+    url: '/${projectName}/${pathName}',
+    method: 'post',
+    data
+  })
 }
 
 /**
@@ -69,10 +69,10 @@ export const create${ClassName} = data => {
 * @returns {*}
 */
 export const del${ClassName} = id => {
-    return request({
-        url: '/${projectName}/${pathName}/' + id,
-        method: 'delete'
-    })
+  return request({
+    url: '/${projectName}/${pathName}/' + id,
+    method: 'delete'
+  })
 }
 
 /**
@@ -81,9 +81,9 @@ export const del${ClassName} = id => {
 * @returns {*}
 */
 export const update${ClassName} = data => {
-    return request({
-        url: '/${projectName}/${pathName}',
-        method: 'put',
-        data
-    })
+  return request({
+    url: '/${projectName}/${pathName}',
+    method: 'put',
+    data
+  })
 }
