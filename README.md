@@ -46,7 +46,7 @@ SpringBoot + SpringCloudAlibaba + SpringSecurity + Nacos + MyBatis-Plus 实现�
 
 #### 模块介绍(包含规划)
 
-- [x] [认证中心](http://oauth2.xhuicloud.cn/auth/login)
+- [x] [认证中心(快速体验授权登录 U:admin P:123456)](http://oauth2.xhuicloud.cn/oauth/authorize?client_id=test&response_type=code&scop=server&redirect_uri=http://xhuicloud.cn)
 - [x] 权限管理
 - [x] 用户管理
 - [x] 租户管理
