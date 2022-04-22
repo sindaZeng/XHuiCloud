@@ -101,10 +101,4 @@ public class SysDict extends Model<SysDict> {
     @ApiModelProperty(value = "0:否 1:是")
     private Integer isDel;
 
-    /**
-     * 租户id
-     */
-    @ApiModelProperty(value = "租户id")
-    private Integer tenantId;
-
 }

@@ -24,6 +24,7 @@
 
 package com.xhuicloud.upms.controller;
 
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xhuicloud.common.core.constant.CacheConstants;
 import com.xhuicloud.common.core.utils.Response;
@@ -54,8 +55,8 @@ public class SysDictController {
      */
     @GetMapping("/page")
     @ApiOperation(value = "分页查询字典列表", notes = "分页查询字典列表")
-    public Response page(Page page) {
-        return Response.success(sysDictService.page(page));
+    public Response page(Page page, SysDict sysDict) {
+        return Response.success(sysDictService.page(page, Wrappers.lambdaQuery(sysDict)));
     }
 
     /**

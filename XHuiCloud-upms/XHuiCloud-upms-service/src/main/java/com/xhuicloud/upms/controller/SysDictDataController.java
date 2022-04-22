@@ -38,9 +38,9 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/dict-data")
+@RequestMapping("/dictData")
 @AllArgsConstructor
-@Api(value = "dict-data", tags = "字典模块")
+@Api(value = "dictData", tags = "字典模块")
 public class SysDictDataController {
 
     private final SysDictDataService sysDictDataService;
