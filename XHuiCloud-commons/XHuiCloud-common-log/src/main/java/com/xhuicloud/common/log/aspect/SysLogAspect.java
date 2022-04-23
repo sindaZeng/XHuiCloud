@@ -24,6 +24,7 @@
 
 package com.xhuicloud.common.log.aspect;
 
+import cn.hutool.json.JSONUtil;
 import com.xhuicloud.common.log.annotation.SysLog;
 import com.xhuicloud.common.log.event.SysLogEvent;
 import com.xhuicloud.common.log.utils.LogUtil;
@@ -70,6 +71,7 @@ public class SysLogAspect {
             Object obj = point.proceed();
             log.setFinishTime(LocalDateTime.now());
             log.setTime(log.getCreateTime().until(log.getFinishTime(), ChronoUnit.MILLIS) + "");
+            log.setResult(JSONUtil.toJsonStr(obj));
             publisher.publishEvent(new SysLogEvent(log));
             return obj;
         } catch (Throwable e) {

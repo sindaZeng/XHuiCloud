@@ -24,16 +24,16 @@
 
 package com.xhuicloud.logs.controller;
 
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xhuicloud.common.security.annotation.Anonymous;
 import com.xhuicloud.logs.entity.SysLog;
 import com.xhuicloud.logs.service.SysLogService;
 import com.xhuicloud.common.core.utils.Response;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @program: XHuiCloud
@@ -48,6 +48,19 @@ import org.springframework.web.bind.annotation.RestController;
 public class SysLogController {
 
     private final SysLogService sysLogService;
+
+    /**
+     * 分页查询
+     *
+     * @param page 分页对象
+     * @param sysLog 系统日志
+     * @return Response
+     */
+    @GetMapping("/page" )
+    @ApiOperation(value = "分页查询", notes = "分页查询")
+    public Response page(Page page, SysLog sysLog) {
+        return Response.success(sysLogService.page(page, Wrappers.query(sysLog).orderByDesc("id")));
+    }
 
     @Anonymous
     @PostMapping("/save")
