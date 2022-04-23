@@ -7,19 +7,19 @@
     <img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="LICENSE">
   </a>
   <a href="#">
-    <img src="https://img.shields.io/badge/XHuiCloud-2.0.0-green.svg" alt="XHuiCloud">
+    <img src="https://img.shields.io/badge/XHuiCloud-2.0.1-green.svg" alt="XHuiCloud">
   </a>
   <a href="#">
-    <img src="https://img.shields.io/badge/Spring--Boot-2.5.6-green.svg" alt="SpringBoot">
+    <img src="https://img.shields.io/badge/Spring--Boot-2.6.6-green.svg" alt="SpringBoot">
   </a>
   <a href="#">
-    <img src="https://img.shields.io/badge/Spring--Cloud-2020.0.4-green.svg" alt="SpringCloud">
+    <img src="https://img.shields.io/badge/Spring--Cloud-2021.0.1-green.svg" alt="SpringCloud">
   </a>
   <a href="#">
-    <img src="https://img.shields.io/badge/Spring--Cloud--Alibaba-2021.1-green.svg" alt="SpringCloudAlibaba">
+    <img src="https://img.shields.io/badge/Spring--Cloud--Alibaba-2021.0.1.0-green.svg" alt="SpringCloudAlibaba">
   </a>
   <a href="#">
-    <img src="https://img.shields.io/badge/Spring--Security-5.0.3.RELEASE-green.svg" alt="SpringSecurity">
+    <img src="https://img.shields.io/badge/Spring--Security-5.6.2.RELEASE-green.svg" alt="SpringSecurity">
   </a>
   <a href="https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=gQHz8DwAAAAAAAAAAS5odHRwOi8vd2VpeGluLnFxLmNvbS9xLzAybV9pT1JlRmxjUEUxMDAwMHcwN0UAAgTet0ZiAwQAAAAA">
     <img src="https://img.shields.io/badge/%E5%85%AC%E4%BC%97%E5%8F%B7-xhuicloud-brightgreen" alt="xhuicloud">
@@ -31,7 +31,7 @@
 
 > 1. **快速体验项目**：[在线访问地址](http://xhuicloud.cn/)。
 > 2. **接口文档**：[swagger在线](http://api.xhuicloud.cn/doc.html)。
-> 3. **后端操作文档**：敬请期待。。。
+> 3. **后端操作文档**：[建设中](http://doc.xhuicloud.cn/#/)
 > 4. **微服务版本**：基于Spring Cloud 2020.0.4 & Alibaba 2021.1。
 
 ## 前言
