@@ -1,7 +1,8 @@
 <p align="center">
      <img src="https://xhuicloud.oss-cn-shenzhen.aliyuncs.com/logo-transparent.png" width="200px" height="200px" alt="logo"> </br>
-     XHuiCloud - 星辉云快速开发 
 </p>
+<h1 align="center" style="margin: 20px 20px; font-weight: bold;">XHuiCloud - 星辉云快速开发</h1> 
+
 <p align="center">
   <a href="https://github.com/sindaZeng/XHuiCloud/blob/develop/LICENSE">
     <img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="LICENSE">
@@ -32,7 +33,7 @@
 > 1. **快速体验项目**：[在线访问地址](http://xhuicloud.cn/)。
 > 2. **接口文档**：[swagger在线](http://api.xhuicloud.cn/doc.html)。
 > 3. **后端操作文档**：[建设中](http://doc.xhuicloud.cn/#/)
-> 4. **微服务版本**：基于Spring Cloud 2020.0.4 & Alibaba 2021.1。
+> 4. **前端代码**：[Go](https://github.com/sindaZeng/xhuicloud-ui)
 
 ## 前言
 
@@ -40,21 +41,47 @@
 
 #### 项目介绍
 
-`XHuiCloud`项目是基础脚手架系统，
-主要技术栈有：
-SpringBoot + SpringCloudAlibaba + SpringSecurity + Nacos + MyBatis-Plus 实现，采用Docker容器化部署。拥有基于Seata的分布式事务, 基于redis，zk分布式锁，基于zk的分布式发号器，分布式任务xxl-job，分布式任务elastic-Job，amazonaws oss等等的自动装配包。  
+快速开发平台是基于(SpringBoot + SpringCloudAlibaba + SpringSecurity + MyBatis-Plus) 支持Docker容器化部署，主要目的让我们注重业务，降低技术门槛，节省人力成本，缩短项目周期，提高工程的安全与质量。
 
-#### 模块介绍(包含规划)
+#### 技术栈支持
+- 基于`spring-security`Rbac权限验证
+- 支持`OAuth2.0`协议授权校验
+- 支持`Seata`分布式事务
+- 支持`Nacos`注册中心
+- 支持`Sentinel`
+- 支持`灰度发布` 以及自定义灰度发布策略入口
+- 支持`Mybatis-plus`多租户模式
+- 支持`多数据源`，简单配置即可动态切换数据源
+- 支持`Rabbit-mq` 并自动注册队列以及错误队列，以及通用发送组件
+- 支持`redission`以及`zookeeper`的分布式锁
+- 基于`zookeeper`分布式发号器
+- 支持分布式任务`xxl-job`并且扩展使其可动态发布任务
+- 支持分布式任务`elastic-Job`
+- 支持`swagger`接口文档，ui界面使用`knife4j-ui`
+- 支持`注解方式`对敏感信息进行脱敏打码
+- 拥有超级强大的代码生成器`一键生成前后端代码`（控制层、持久层、视图层）
+- 支持细化的按钮权限及数据权限以及客户端权限
+- 支持`Amazonaws S3`协议的通用oss接口
+- 支持`bom` 模块版本管理，尽可能的松耦合，方便模块升级、 增减模块
+
+
+#### 模块规划
 
 - [x] [认证中心(快速体验授权登录 U:admin P:123456)](http://oauth2.xhuicloud.cn/oauth/authorize?client_id=test&response_type=code&scop=server&redirect_uri=http://xhuicloud.cn)
-- [x] 权限管理
 - [x] 用户管理
+- [x] 角色管理
+- [x] 部门管理
+- [x] 菜单管理
 - [x] 租户管理
-- [x] 推送中心
+- [x] 公共参数
+- [x] 登录记录
+- [x] 操作记录
 - [x] 文件管理
-- [x] 日志管理
+- [x] 图库管理
+- [x] 数据字典
 - [x] 代码生成
 - [x] 灰度发布 
+- [x] 推送中心 
 - [ ] 大屏系统
 - [ ] 报表系统
 - [ ] 监控平台
@@ -112,6 +139,14 @@ XHuiCloud
      └── XHuiCloud-upms-api                -- 系统权限管理公共api模块
      └── XHuiCloud-upms-service            -- 系统权限管理业务处理模块[17000]
 ```
+### 架构
+
+####系统架构图:
+<img src="https://xhuicloud.oss-cn-shenzhen.aliyuncs.com/%E6%9E%B6%E6%9E%84%E5%9B%BE%E9%9D%9E%E9%80%8F%E6%98%8E.png" alt="logo"> </br>
+
+####业务架构图:
+待整理
+
 
 ### 开发环境
 
@@ -120,20 +155,9 @@ XHuiCloud
 | JDK           | 1.8    |
 | Mysql         | 8.0.28 |
 | Redis         | 6.2.6  |
-| RabbitMQ      | 3      |
+| RabbitMQ      | 3.x      |
 | Nginx         | 1.10   |
 | Minio         |        |
-
-### 搭建步骤
-
-> Docker环境部署
-
-- yum install -y git java maven
-- git clone https://github.com/sindaZeng/XHuiCloud.git
-- cd 项目根目录
-- mvn clean install -Dmaven.test.skip=true
-- docker-compose build
-- docker-compose up -d
  
 ## 许可证
 
