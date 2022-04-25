@@ -44,6 +44,7 @@ import static com.xhuicloud.common.core.constant.AuthorizationConstants.ROLE_PRE
  */
 @UtilityClass
 public class SecurityHolder {
+
 	/**
 	 * 获取Authentication
 	 */

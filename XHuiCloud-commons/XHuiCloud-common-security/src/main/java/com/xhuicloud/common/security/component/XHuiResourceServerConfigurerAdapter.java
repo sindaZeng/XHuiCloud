@@ -27,10 +27,6 @@ package com.xhuicloud.common.security.component;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.env.EnvironmentPostProcessor;
-import org.springframework.core.Ordered;
-import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
@@ -38,6 +34,7 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Res
 import org.springframework.security.oauth2.provider.authentication.TokenExtractor;
 import org.springframework.security.oauth2.provider.token.DefaultAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.RemoteTokenServices;
+import org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter;
 import org.springframework.web.client.RestTemplate;
 
 /**
@@ -83,6 +80,7 @@ public class XHuiResourceServerConfigurerAdapter extends ResourceServerConfigure
     @Override
     @SneakyThrows
     public void configure(HttpSecurity httpSecurity) {
+        httpSecurity.addFilterAfter(new XHuiUserFilter(), SecurityContextHolderAwareRequestFilter.class);
         httpSecurity.headers().frameOptions().disable();
         ExpressionUrlAuthorizationConfigurer<HttpSecurity>
                 .ExpressionInterceptUrlRegistry registry = httpSecurity
