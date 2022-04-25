@@ -32,11 +32,6 @@
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
         </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>XHuiCloud-common-security</artifactId>
-            <optional>true</optional>
-        </dependency>
     </dependencies>
 
 </project>
