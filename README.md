@@ -30,8 +30,8 @@
 
 ## 温馨提醒
 
-> 1. **快速体验项目**：[在线访问地址](http://xhuicloud.cn/)。
-> 2. **接口文档**：[swagger在线](http://api.xhuicloud.cn/doc.html)。
+> 1. **快速体验项目**：[在线访问地址](http://xhuicloud.cn/)
+> 2. **接口文档**：[swagger在线](http://api.xhuicloud.cn/doc.html)
 > 3. **后端操作文档**：[建设中](http://doc.xhuicloud.cn/#/)
 > 4. **前端代码**：[Go](https://github.com/sindaZeng/xhuicloud-ui)
 
@@ -141,10 +141,10 @@ XHuiCloud
 ```
 ### 架构
 
-####系统架构图:
+#### 系统架构图:
 <img src="https://xhuicloud.oss-cn-shenzhen.aliyuncs.com/%E6%9E%B6%E6%9E%84%E5%9B%BE%E9%9D%9E%E9%80%8F%E6%98%8E.png" alt="logo"> </br>
 
-####业务架构图:
+#### 业务架构图:
 待整理
 
 
@@ -158,7 +158,14 @@ XHuiCloud
 | RabbitMQ      | 3.x      |
 | Nginx         | 1.10   |
 | Minio         |        |
- 
+
+## 交流
+
+`XHuiCloud` 是遵从`MIT协议`完全开源免费的项目，由作者空闲时间开发，所以如果有写的粗糙的地方，可以发邮件加我好友，在帮助作者更方便地进行系统的开发，同时欢迎提问使用方面问题。
+
+- 邮箱： `xhuicloud@163.com`
+- 邮箱： `sindazeng@gmail.com`
+
 ## 许可证
 
 [MIT](https://github.com/sindaZeng/XHuiCloud/blob/develop/LICENSE)
