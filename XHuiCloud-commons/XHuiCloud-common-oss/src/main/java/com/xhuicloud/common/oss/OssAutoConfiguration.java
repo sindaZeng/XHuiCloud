@@ -32,7 +32,9 @@ import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.client.builder.AwsClientBuilder;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
+import com.xhuicloud.common.oss.endpoint.OssCommonEndpoint;
 import com.xhuicloud.common.oss.properties.OssProperties;
+import com.xhuicloud.common.oss.service.BucketService;
 import com.xhuicloud.common.oss.service.OssService;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -63,4 +65,15 @@ public class OssAutoConfiguration {
     public OssService ossService(AmazonS3 amazonS3){
         return new OssService(amazonS3);
     }
+
+    @Bean
+    public BucketService bucketService(AmazonS3 amazonS3){
+        return new BucketService(amazonS3);
+    }
+
+    @Bean
+    public OssCommonEndpoint ossCommonEndpoint(OssService ossService, BucketService bucketService){
+        return new OssCommonEndpoint(ossService, bucketService);
+    }
+
 }

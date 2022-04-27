@@ -27,8 +27,10 @@ package com.xhuicloud.common.oss.service;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectResult;
+import com.amazonaws.services.s3.model.S3Object;
 import com.amazonaws.util.IOUtils;
 import lombok.AllArgsConstructor;
+import lombok.Cleanup;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -78,4 +80,18 @@ public class OssService {
     public void remove(String bucketName, String fileName) {
         amazonS3.deleteObject(bucketName, fileName);
     }
+
+    /**
+     * 获取文件
+     * @param bucketName
+     * @param fileName
+     * @return
+     * @throws Exception
+     */
+    public S3Object getFile(String bucketName, String fileName) throws Exception {
+        @Cleanup
+        S3Object s3Object = amazonS3.getObject(bucketName, fileName);
+        return s3Object;
+    }
+
 }
