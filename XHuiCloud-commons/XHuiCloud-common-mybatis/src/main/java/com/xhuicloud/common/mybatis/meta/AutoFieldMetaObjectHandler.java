@@ -54,16 +54,15 @@ public class AutoFieldMetaObjectHandler implements MetaObjectHandler {
 
     @Override
     public void insertFill(MetaObject metaObject) {
-        get(metaObject, CREATER_ID, CREATE_TIME);
+        set(metaObject, CREATER_ID, CREATE_TIME);
     }
 
     @Override
     public void updateFill(MetaObject metaObject) {
-        get(metaObject, UPDATE_ID, UPDATE_TIME);
-
+        set(metaObject, UPDATE_ID, UPDATE_TIME);
     }
 
-    private void get(MetaObject metaObject, String field, String field2) {
+    private void set(MetaObject metaObject, String field, String field2) {
         Object fieldObj = metaObject.getValue(field);
         if (fieldObj == null) {
             Integer userId = XHuiCommonThreadLocalHolder.getUser();
