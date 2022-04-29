@@ -232,7 +232,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
             // 系统默认角色配置
             SysParam sysParamRole = sysParamService.getSysParamByKey(SYS_USER_DEFAULT_ROLE);
             // 系统默认部门
-            SysParam sysParamDept = sysParamService.getSysParamByKey(SYS_USER_DEFAULT_ROLE);
+            SysParam sysParamDept = sysParamService.getSysParamByKey(SYS_USER_DEFAULT_DEPT);
             // 用户部门
             List<Integer> deptIds = getDeptIds(allDeptIds, sysUser.getDeptIds(), sysParamDept);
             // 用户角色
@@ -255,14 +255,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
      * @return
      */
     private List<Integer> getDeptIds(List<Integer> allDeptIds, List<Integer> userDeptIds, SysParam sysParamDept) {
-        if (CollectionUtil.isNotEmpty(userDeptIds)) {
-            return userDeptIds.stream()
-                    .distinct().filter(id -> allDeptIds.contains(id)).collect(Collectors.toList());
-        } else {
-            userDeptIds = new ArrayList(1);
-            userDeptIds.add(Integer.valueOf(sysParamDept.getParamValue()));
-            return userDeptIds;
-        }
+        return deduplication(allDeptIds, userDeptIds, sysParamDept);
     }
 
     /**
@@ -276,13 +269,17 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
      * @return
      */
     private List<Integer> getRoleIds(List<Integer> allRoleIds, List<Integer> userRoleIds, SysParam sysParamRole) {
-        if (CollectionUtil.isNotEmpty(userRoleIds)) {
-            return userRoleIds.stream()
-                    .distinct().filter(id -> allRoleIds.contains(id)).collect(Collectors.toList());
+        return deduplication(allRoleIds, userRoleIds, sysParamRole);
+    }
+
+    private List<Integer> deduplication(List<Integer> allIds, List<Integer> ids, SysParam sysParam) {
+        if (CollectionUtil.isNotEmpty(ids)) {
+            return ids.stream()
+                    .distinct().filter(id -> allIds.contains(id)).collect(Collectors.toList());
         } else {
-            userRoleIds = new ArrayList(1);
-            userRoleIds.add(Integer.valueOf(sysParamRole.getParamValue()));
-            return userRoleIds;
+            ids = new ArrayList(1);
+            ids.add(Integer.valueOf(sysParam.getParamValue()));
+            return ids;
         }
     }
 
