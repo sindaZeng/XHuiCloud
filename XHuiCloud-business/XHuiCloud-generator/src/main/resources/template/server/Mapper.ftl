@@ -29,7 +29,7 @@ import ${package}.entity.${ClassName};
 import org.apache.ibatis.annotations.Mapper;
 
 /**
-* @program: ${projectName}
+* @program: ${moduleName}
 * @description: ${tableComment}
 * @author: ${author}
 * @create: ${datetime}

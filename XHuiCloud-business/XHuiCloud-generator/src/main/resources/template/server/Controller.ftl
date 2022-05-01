@@ -38,7 +38,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 /**
-* @program: ${projectName}
+* @program: ${moduleName}
 * @description: ${tableComment}
 * @author: ${author}
 * @create: ${datetime}
