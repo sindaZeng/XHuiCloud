@@ -40,7 +40,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/client")
 @AllArgsConstructor
-@Api(value = "client", tags = "客户端管理")
+@Api(value = "client", tags = "客户授权管理")
 public class SysClientDetailController {
 
     private final SysClientDetailsService sysClientDetailsService;
@@ -73,7 +73,7 @@ public class SysClientDetailController {
      */
     @SysLog("新增终端信息")
     @PostMapping
-    @PreAuthorize("@authorize.hasPermission('sys_add_sysClientDetails')")
+    @PreAuthorize("@authorize.hasPermission('sys_add_client')")
     @ApiOperation(value = "新增终端信息", notes = "新增终端信息")
     public Response save(@RequestBody SysClientDetails sysClientDetails) {
         return Response.success(sysClientDetailsService.save(sysClientDetails));
@@ -87,7 +87,7 @@ public class SysClientDetailController {
      */
     @SysLog("编辑终端信息")
     @PutMapping
-    @PreAuthorize("@authorize.hasPermission('sys_editor_sysClientDetails')")
+    @PreAuthorize("@authorize.hasPermission('sys_editor_client')")
     @ApiOperation(value = "修改终端信息", notes = "修改终端信息")
     public Response update(@RequestBody SysClientDetails sysClientDetails) {
         return Response.success(sysClientDetailsService.updateById(sysClientDetails));
@@ -101,7 +101,7 @@ public class SysClientDetailController {
      */
     @SysLog("通过id删除终端信息")
     @DeleteMapping("/{id}")
-    @PreAuthorize("@authorize.hasPermission('sys_delete_sysClientDetails')")
+    @PreAuthorize("@authorize.hasPermission('sys_delete_client')")
     @ApiOperation(value = "通过id删除终端信息", notes = "通过id删除终端信息")
     public Response delete(@PathVariable Integer id) {
         return Response.success(sysClientDetailsService.removeById(id));

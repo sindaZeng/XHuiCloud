@@ -25,7 +25,6 @@
 package com.xhuicloud.upms.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -38,7 +37,7 @@ import lombok.*;
  * 终端信息
  */
 @Data
-@ApiModel(value = "终端信息")
+@ApiModel(value = "客户端信息")
 public class SysClientDetails implements Serializable {
 
     @TableId(value = "id", type = IdType.AUTO)
@@ -48,34 +47,34 @@ public class SysClientDetails implements Serializable {
     @ApiModelProperty(value = "客户端id")
     private String clientId;
 
-    @ApiModelProperty(value = "资源id")
+    @ApiModelProperty(value = "客户端资源id")
     private String resourceIds;
 
-    @ApiModelProperty(value = "客户端secret")
+    @ApiModelProperty(value = "客户端密钥")
     private String clientSecret;
 
-    @ApiModelProperty(value = "scope")
+    @ApiModelProperty(value = "权限范围")
     private String scope;
 
-    @ApiModelProperty(value = "grant_types")
+    @ApiModelProperty(value = "授权类型")
     private String authorizedGrantTypes;
 
-    @ApiModelProperty(value = "回调地址")
+    @ApiModelProperty(value = "重定向地址")
     private String webServerRedirectUri;
 
-    @ApiModelProperty(value = "权限集合")
+    @ApiModelProperty(value = "客户端权限")
     private String authorities;
 
-    @ApiModelProperty(value = "有效期")
+    @ApiModelProperty(value = "access_token的有效时间值(单位:秒)")
     private Integer accessTokenValidity;
 
-    @ApiModelProperty(value = "有效期")
+    @ApiModelProperty(value = "refresh_token的有效时间值(单位:秒)")
     private Integer refreshTokenValidity;
 
-    @ApiModelProperty(value = "额外信息")
+    @ApiModelProperty(value = "预留的字段(必须是JSON格式)")
     private String additionalInformation;
 
-    @ApiModelProperty(value = "是否自动授权 true false")
+    @ApiModelProperty(value = "是否自动批准授予权限操作, 默认值为 ‘false’, (‘true’,‘false’, ‘read’,‘write’)")
     private String autoapprove;
 
     @ApiModelProperty(value = "0: 否 1：是")
