@@ -44,6 +44,9 @@ public class SysClientDetails implements Serializable {
     @ApiModelProperty(value = "id")
     private Integer id;
 
+    @ApiModelProperty(value = "客户端名称")
+    private String name;
+
     @ApiModelProperty(value = "客户端id")
     private String clientId;
 
@@ -74,7 +77,7 @@ public class SysClientDetails implements Serializable {
     @ApiModelProperty(value = "预留的字段(必须是JSON格式)")
     private String additionalInformation;
 
-    @ApiModelProperty(value = "是否自动批准授予权限操作, 默认值为 ‘false’, (‘true’,‘false’, ‘read’,‘write’)")
+    @ApiModelProperty(value = "自动授权")
     private String autoapprove;
 
     @ApiModelProperty(value = "0: 否 1：是")
