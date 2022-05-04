@@ -27,6 +27,7 @@ package com.xhuicloud.common.mq;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xhuicloud.common.mq.aspect.MqListenerAop;
 import com.xhuicloud.common.mq.config.RabbitTemplateConfig;
+import com.xhuicloud.common.mq.config.XHuiDefaultRabbitMqCallback;
 import com.xhuicloud.common.mq.config.XHuiRabbitMqCallback;
 import com.xhuicloud.common.mq.properties.XHuiRabbitMqProperties;
 import com.xhuicloud.common.mq.config.XHuiRabbitAutoRegister;
@@ -110,6 +111,12 @@ public class XHuiRabbitMqAutoConfiguration {
         Map<String, Object> args = new HashMap<>();
         args.put("x-delayed-type", "direct");
         return new CustomExchange(xHuiRabbitMqProperties.getDelayedExchange(), "x-delayed-message", true, false, args);
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public XHuiDefaultRabbitMqCallback defaultRabbitMqCallback() {
+        return new XHuiDefaultRabbitMqCallback();
     }
 
     @Bean

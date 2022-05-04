@@ -5,11 +5,8 @@ import org.springframework.amqp.rabbit.connection.CorrelationData;
 
 public interface XHuiRabbitMqCallback {
 
-    default void confirm(CorrelationData correlationData, boolean ack, String cause) {
+    void confirm(CorrelationData correlationData, boolean ack, String cause);
 
-    }
+    void returnedMessage(ReturnedMessage returnedMessage);
 
-    default void returnedMessage(ReturnedMessage returnedMessage) {
-
-    }
 }
