@@ -40,7 +40,6 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import java.util.Date;
 
 @Slf4j
-@RequiredArgsConstructor
 public class CommonMqService {
 
     private final RabbitTemplate rabbitTemplate;
@@ -50,9 +49,23 @@ public class CommonMqService {
     // 默认不持久化
     private MessageDeliveryMode messageDeliveryMode = MessageDeliveryMode.NON_PERSISTENT;
 
+    public CommonMqService(RabbitTemplate rabbitTemplate, XHuiRabbitMqProperties xHuiRabbitMqProperties) {
+        this.rabbitTemplate = rabbitTemplate;
+        this.xHuiRabbitMqProperties = xHuiRabbitMqProperties;
+        // 默认不持久化
+        persistent(xHuiRabbitMqProperties.isPersistent());
+    }
+
+    /**
+     * 可手动选择消息是否持久化
+     * @param persistent
+     * @return
+     */
     public CommonMqService persistent(boolean persistent) {
         if (persistent) {
             this.messageDeliveryMode = MessageDeliveryMode.PERSISTENT;
+        } else {
+            this.messageDeliveryMode = MessageDeliveryMode.NON_PERSISTENT;
         }
         return this;
     }
@@ -136,6 +149,7 @@ public class CommonMqService {
 
     /**
      * 消息载体
+     *
      * @param entity
      * @return
      */

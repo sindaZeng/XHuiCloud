@@ -48,4 +48,9 @@ public class XHuiRabbitMqProperties {
      */
     private List<String> queues;
 
+    /**
+     * 是否持久化
+     */
+    private boolean persistent;
+
 }
