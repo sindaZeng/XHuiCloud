@@ -42,7 +42,7 @@ import ${datePath};
 
 
 /**
-* @program: ${projectName}
+* @program: ${moduleName}
 * @description: ${tableComment}
 * @author: ${author}
 * @create: ${datetime}

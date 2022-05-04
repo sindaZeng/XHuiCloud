@@ -31,7 +31,7 @@ import request from '@/utils/request'
 */
 export const ${className}Page = query => {
   return request({
-    url: '/${projectName}/${pathName}/page',
+    url: '/${moduleName}/${pathName}/page',
     method: 'get',
     params: query
   })
@@ -39,14 +39,13 @@ export const ${className}Page = query => {
 
 /**
 * 通过id查询${tableComment}
-* @param data
+* @param id
 * @returns {*}
 */
-export const get${ClassName} = data => {
+export const get${ClassName}ById = id => {
   return request({
-    url: '/${projectName}/${pathName}',
-    method: 'post',
-    data
+    url: '/${moduleName}/${pathName}' + id,
+    method: 'post'
   })
 }
 
@@ -57,7 +56,7 @@ export const get${ClassName} = data => {
 */
 export const create${ClassName} = data => {
   return request({
-    url: '/${projectName}/${pathName}',
+    url: '/${moduleName}/${pathName}',
     method: 'post',
     data
   })
@@ -70,7 +69,7 @@ export const create${ClassName} = data => {
 */
 export const del${ClassName} = id => {
   return request({
-    url: '/${projectName}/${pathName}/' + id,
+    url: '/${moduleName}/${pathName}/' + id,
     method: 'delete'
   })
 }
@@ -82,7 +81,7 @@ export const del${ClassName} = id => {
 */
 export const update${ClassName} = data => {
   return request({
-    url: '/${projectName}/${pathName}',
+    url: '/${moduleName}/${pathName}',
     method: 'put',
     data
   })

@@ -142,7 +142,7 @@ XHuiCloud
 ### 架构
 
 #### 系统架构图:
-<img src="https://xhuicloud.oss-cn-shenzhen.aliyuncs.com/%E6%9E%B6%E6%9E%84%E5%9B%BE%E9%9D%9E%E9%80%8F%E6%98%8E.png" alt="logo"> </br>
+![系统架构图](http://xhuicloud.oss-cn-shenzhen.aliyuncs.com/architecture.png)
 
 #### 业务架构图:
 待整理

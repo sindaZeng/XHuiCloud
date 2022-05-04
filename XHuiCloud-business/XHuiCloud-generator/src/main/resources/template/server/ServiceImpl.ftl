@@ -31,7 +31,7 @@ import ${package}.service.${ClassName}Service;
 import org.springframework.stereotype.Service;
 
 /**
-* @program: ${projectName}
+* @program: ${moduleName}
 * @description: ${tableComment}
 * @author: ${author}
 * @create: ${datetime}

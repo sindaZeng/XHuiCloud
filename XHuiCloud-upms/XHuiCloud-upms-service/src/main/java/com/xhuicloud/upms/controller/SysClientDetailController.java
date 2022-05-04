@@ -25,21 +25,22 @@
 package com.xhuicloud.upms.controller;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xhuicloud.common.core.utils.Response;
+import com.xhuicloud.common.log.annotation.SysLog;
 import com.xhuicloud.common.security.annotation.Anonymous;
 import com.xhuicloud.upms.entity.SysClientDetails;
 import com.xhuicloud.upms.service.SysClientDetailsService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/client")
 @AllArgsConstructor
-@Api(value = "client", tags = "客户端管理")
+@Api(value = "client", tags = "客户授权管理")
 public class SysClientDetailController {
 
     private final SysClientDetailsService sysClientDetailsService;
@@ -50,4 +51,60 @@ public class SysClientDetailController {
         return Response.success(sysClientDetailsService.getOne(
                 Wrappers.<SysClientDetails>lambdaQuery().eq(SysClientDetails::getClientId, clientId)));
     }
+
+    /**
+     * 分页查询
+     *
+     * @param page             分页对象
+     * @param sysClientDetails 终端信息
+     * @return Response
+     */
+    @GetMapping("/page")
+    @ApiOperation(value = "分页查询", notes = "分页查询")
+    public Response page(Page page, SysClientDetails sysClientDetails) {
+        return Response.success(sysClientDetailsService.page(page, Wrappers.query(sysClientDetails)));
+    }
+
+    /**
+     * 新增终端信息
+     *
+     * @param sysClientDetails 终端信息
+     * @return Response
+     */
+    @SysLog("新增终端信息")
+    @PostMapping
+    @PreAuthorize("@authorize.hasPermission('sys_add_client')")
+    @ApiOperation(value = "新增终端信息", notes = "新增终端信息")
+    public Response save(@RequestBody SysClientDetails sysClientDetails) {
+        return Response.success(sysClientDetailsService.save(sysClientDetails));
+    }
+
+    /**
+     * 修改终端信息
+     *
+     * @param sysClientDetails 终端信息
+     * @return Response
+     */
+    @SysLog("编辑终端信息")
+    @PutMapping
+    @PreAuthorize("@authorize.hasPermission('sys_editor_client')")
+    @ApiOperation(value = "修改终端信息", notes = "修改终端信息")
+    public Response update(@RequestBody SysClientDetails sysClientDetails) {
+        return Response.success(sysClientDetailsService.updateById(sysClientDetails));
+    }
+
+    /**
+     * 通过id删除终端信息
+     *
+     * @param id
+     * @return Response
+     */
+    @SysLog("通过id删除终端信息")
+    @DeleteMapping("/{id}")
+    @PreAuthorize("@authorize.hasPermission('sys_delete_client')")
+    @ApiOperation(value = "通过id删除终端信息", notes = "通过id删除终端信息")
+    public Response delete(@PathVariable Integer id) {
+        return Response.success(sysClientDetailsService.removeById(id));
+    }
+
 }

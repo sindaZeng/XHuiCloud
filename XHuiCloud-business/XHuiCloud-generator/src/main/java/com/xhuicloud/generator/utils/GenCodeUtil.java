@@ -138,7 +138,7 @@ public class GenCodeUtil {
 
         Map<String, Object> map = new HashMap<>(16);
         map.put("package", genCodeDto.getPackagePath());
-        map.put("projectName", genCodeDto.getModuleName());
+        map.put("moduleName", genCodeDto.getModuleName());
         map.put("tableComment", tableInfo.getTableComment());
         map.put("author", genCodeDto.getAuthor());
         map.put("datetime", DateUtil.now());

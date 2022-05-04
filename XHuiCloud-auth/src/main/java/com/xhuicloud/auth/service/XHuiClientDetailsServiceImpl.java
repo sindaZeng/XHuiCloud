@@ -68,7 +68,6 @@ public class XHuiClientDetailsServiceImpl implements ClientDetailsService {
 
     private ClientDetails clientDetailsWrapper(SysClientDetails origin) {
         BaseClientDetails target = new BaseClientDetails();
-        // 必选项
         target.setClientId(origin.getClientId());
         target.setClientSecret(String.format("{noop}%s", origin.getClientSecret()));
 
@@ -108,6 +107,7 @@ public class XHuiClientDetailsServiceImpl implements ClientDetailsService {
         if (StrUtil.isNotBlank(json)) {
             try {
                 Map<String, Object> additionalInformation = JSONUtil.toBean(json, Map.class);
+                additionalInformation.put("name", origin.getName());
                 target.setAdditionalInformation(additionalInformation);
             } catch (Exception e) {
                 log.warn("Json格式化异常：{}, {}" + json, e);

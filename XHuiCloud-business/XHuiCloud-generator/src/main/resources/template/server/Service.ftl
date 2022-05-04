@@ -28,7 +28,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import ${package}.entity.${ClassName};
 
 /**
-* @program: ${projectName}
+* @program: ${moduleName}
 * @description: ${tableComment}
 * @author: ${author}
 * @create: ${datetime}
