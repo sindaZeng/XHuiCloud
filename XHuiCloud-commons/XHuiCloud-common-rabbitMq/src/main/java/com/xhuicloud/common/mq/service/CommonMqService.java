@@ -29,19 +29,33 @@ import cn.hutool.core.date.DateUtil;
 import com.xhuicloud.common.mq.constant.XHuiRabbitMqConstant;
 import com.xhuicloud.common.mq.entity.MqEntity;
 import com.xhuicloud.common.mq.properties.XHuiRabbitMqProperties;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.core.Message;
+import org.springframework.amqp.core.MessageDeliveryMode;
+import org.springframework.amqp.core.MessageProperties;
+import org.springframework.amqp.rabbit.connection.CorrelationData;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 
 import java.util.Date;
 
 @Slf4j
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class CommonMqService {
 
     private final RabbitTemplate rabbitTemplate;
 
     private final XHuiRabbitMqProperties xHuiRabbitMqProperties;
+
+    // 默认不持久化
+    private MessageDeliveryMode messageDeliveryMode = MessageDeliveryMode.NON_PERSISTENT;
+
+    public CommonMqService persistent(boolean persistent) {
+        if (persistent) {
+            this.messageDeliveryMode = MessageDeliveryMode.PERSISTENT;
+        }
+        return this;
+    }
 
     /**
      * 向 queue 队列发送 data 的json数据
@@ -64,7 +78,7 @@ public class CommonMqService {
      * @param entity
      */
     public void sendDirect(String queue, MqEntity entity) {
-        rabbitTemplate.convertAndSend(xHuiRabbitMqProperties.getDirectExchange(), queue, entity);
+        rabbitTemplate.convertAndSend(xHuiRabbitMqProperties.getDirectExchange(), queue, getMessage(entity), (CorrelationData) null);
     }
 
     /**
@@ -76,7 +90,7 @@ public class CommonMqService {
      */
     public void sendError(String queue, MqEntity entity, Throwable throwable) {
         entity.setErrorMsg(String.format("{%s}:{%s}", throwable.getClass().getSimpleName(), throwable.getMessage()));
-        rabbitTemplate.convertAndSend(xHuiRabbitMqProperties.getDirectExchange(), XHuiRabbitMqConstant.ERROR_QUEUE_PREFIX + queue, entity);
+        rabbitTemplate.convertAndSend(xHuiRabbitMqProperties.getDirectExchange(), XHuiRabbitMqConstant.ERROR_QUEUE_PREFIX + queue, getMessage(entity));
     }
 
     /**
@@ -109,15 +123,25 @@ public class CommonMqService {
     /**
      * 发送延时消息
      *
-     * @param queueName
+     * @param queue
      * @param entity
      * @param delayedSecond 延时秒数
      */
-    public void sendDelayed(String queueName, MqEntity entity, Long delayedSecond) {
-        log.info("发送延时消息 queueName:{} data: {} delayedSecond: {}", queueName, entity, delayedSecond);
-        rabbitTemplate.convertAndSend(xHuiRabbitMqProperties.getDelayedExchange(), queueName, entity, message -> {
-            message.getMessageProperties().setHeader("x-delay", delayedSecond * 1000);
-            return message;
-        });
+    public void sendDelayed(String queue, MqEntity entity, Long delayedSecond) {
+        Message message = getMessage(entity);
+        message.getMessageProperties().setHeader("x-delay", delayedSecond * 1000);
+        log.info("发送延时消息 queueName:{} data: {} delayedSecond: {}", queue, entity, delayedSecond);
+        rabbitTemplate.convertAndSend(xHuiRabbitMqProperties.getDelayedExchange(), queue, message, (CorrelationData) null);
+    }
+
+    /**
+     * 消息载体
+     * @param entity
+     * @return
+     */
+    private Message getMessage(MqEntity entity) {
+        MessageProperties messageProperties = new MessageProperties();
+        messageProperties.setDeliveryMode(messageDeliveryMode);
+        return rabbitTemplate.getMessageConverter().toMessage(entity, messageProperties);
     }
 }

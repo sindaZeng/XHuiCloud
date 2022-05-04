@@ -22,7 +22,7 @@
  * @Email:  xhuicloud@163.com
  */
 
-package com.xhuicloud.common.mq.registrar;
+package com.xhuicloud.common.mq.config;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
@@ -38,31 +38,10 @@ import org.springframework.context.ConfigurableApplicationContext;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @AllArgsConstructor
 public class XHuiRabbitAutoRegister {
-
-    /**
-     * 错误队列的前缀
-     */
-    private static final String ERROR_QUEUE_PREFIX = "error.";
-
-    /**
-     * Binding bean 后缀名
-     */
-    private static final  String BINDING_SUFFIX = "Binding";
-
-    /**
-     * direct Binding bean 后缀名
-     */
-    private static final  String DIRECT_BINDING_SUFFIX = "Direct" + BINDING_SUFFIX;
-
-    /**
-     * delayed Binding bean 后缀名
-     */
-    private static final  String DELAYED_BINDING_SUFFIX = "Delayed" + BINDING_SUFFIX;
 
     private final XHuiRabbitMqProperties xHuiRabbitMqProperties;
 
@@ -114,7 +93,7 @@ public class XHuiRabbitAutoRegister {
                 Queue queueBean = factory.getBean(queueBeanName, Queue.class);
                 return BindingBuilder.bind(queueBean).to(directExchange).with(queue);
             });
-            ((DefaultListableBeanFactory) factory).registerBeanDefinition(queueBeanName + DIRECT_BINDING_SUFFIX, directBindingBuilder.getRawBeanDefinition());
+            ((DefaultListableBeanFactory) factory).registerBeanDefinition(queueBeanName + XHuiRabbitMqConstant.DIRECT_BINDING_SUFFIX, directBindingBuilder.getRawBeanDefinition());
 
             /**
              * 延时 队列绑定
@@ -123,7 +102,7 @@ public class XHuiRabbitAutoRegister {
                 Queue queueBean = factory.getBean(queueBeanName, Queue.class);
                 return BindingBuilder.bind(queueBean).to(delayedExchange).with(queue).noargs();
             });
-            ((DefaultListableBeanFactory) factory).registerBeanDefinition(queueBeanName + DELAYED_BINDING_SUFFIX, delayedBindingBuilder.getRawBeanDefinition());
+            ((DefaultListableBeanFactory) factory).registerBeanDefinition(queueBeanName + XHuiRabbitMqConstant.DELAYED_BINDING_SUFFIX, delayedBindingBuilder.getRawBeanDefinition());
 
             /**
              * 错误队列绑定
@@ -133,7 +112,7 @@ public class XHuiRabbitAutoRegister {
                 Queue queueBean = factory.getBean(getQueueBeanName(errorQueueName), Queue.class);
                 return BindingBuilder.bind(queueBean).to(directExchange).with(errorQueueName);
             });
-            ((DefaultListableBeanFactory) factory).registerBeanDefinition(errorQueueName + BINDING_SUFFIX, errorBindingBuilder.getRawBeanDefinition());
+            ((DefaultListableBeanFactory) factory).registerBeanDefinition(errorQueueName + XHuiRabbitMqConstant.BINDING_SUFFIX, errorBindingBuilder.getRawBeanDefinition());
 
         }
     }

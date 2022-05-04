@@ -22,12 +22,14 @@
  * @Email:  xhuicloud@163.com
  */
 
-package com.xhuicloud.common.mq.config;
+package com.xhuicloud.common.mq;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xhuicloud.common.mq.aspect.MqListenerAop;
+import com.xhuicloud.common.mq.config.RabbitTemplateConfig;
+import com.xhuicloud.common.mq.config.XHuiRabbitMqCallback;
 import com.xhuicloud.common.mq.properties.XHuiRabbitMqProperties;
-import com.xhuicloud.common.mq.registrar.XHuiRabbitAutoRegister;
+import com.xhuicloud.common.mq.config.XHuiRabbitAutoRegister;
 import com.xhuicloud.common.mq.service.CommonMqService;
 import org.springframework.amqp.core.CustomExchange;
 import org.springframework.amqp.core.DirectExchange;
@@ -38,11 +40,15 @@ import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Scope;
+
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
 
-public class XHuiRabbitMqBaseConfig {
+import static org.springframework.beans.factory.config.ConfigurableBeanFactory.SCOPE_PROTOTYPE;
+
+public class XHuiRabbitMqAutoConfiguration {
 
     public static final String UTC_MS_WITH_ZONE_OFFSET_PATTERN = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
 
@@ -107,8 +113,14 @@ public class XHuiRabbitMqBaseConfig {
     }
 
     @Bean
+    @Scope(SCOPE_PROTOTYPE)
     public CommonMqService commonMqService(RabbitTemplate rabbitTemplate, XHuiRabbitMqProperties xHuiRabbitMqProperties) {
         return new CommonMqService(rabbitTemplate, xHuiRabbitMqProperties);
+    }
+
+    @Bean
+    public RabbitTemplateConfig rabbitTemplateConfig(RabbitTemplate rabbitTemplate, XHuiRabbitMqCallback xHuiRabbitMqCallback) {
+        return new RabbitTemplateConfig(rabbitTemplate, xHuiRabbitMqCallback);
     }
 
     @Bean

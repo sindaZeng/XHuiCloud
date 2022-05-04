@@ -91,9 +91,9 @@ public class PushCommonServiceImpl implements PushCommonService {
         pushMqEntity.setTenantId(basePush.getTenantId());
         pushMqEntity.setJson(JSON.toJSONString(basePush));
         if (basePush.getSendTime() != null) {
-            commonMqService.send(PushConsumer.QUEUE_NAME, pushMqEntity, basePush.getSendTime());
+            commonMqService.persistent(true).send(PushConsumer.QUEUE_NAME, pushMqEntity, basePush.getSendTime());
         } else {
-            commonMqService.sendDirect(PushConsumer.QUEUE_NAME, pushMqEntity);
+            commonMqService.persistent(true).sendDirect(PushConsumer.QUEUE_NAME, pushMqEntity);
         }
     }
 
