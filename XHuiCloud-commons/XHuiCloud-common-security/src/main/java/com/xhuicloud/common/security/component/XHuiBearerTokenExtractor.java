@@ -46,6 +46,7 @@ public class XHuiBearerTokenExtractor extends BearerTokenExtractor {
 
     @Override
     public Authentication extract(HttpServletRequest request) {
+        // @Anonymous(false) 不用获取信息
         boolean result = permitAnonymousUrlProperties.getIgnoreUrls().stream().anyMatch(url -> {
             List<String> strings = StrUtil.split(url, "|");
             boolean match = pathMatcher.match(strings.get(0), request.getRequestURI());

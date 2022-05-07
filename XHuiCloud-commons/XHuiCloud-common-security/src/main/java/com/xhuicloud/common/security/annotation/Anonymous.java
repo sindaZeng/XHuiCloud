@@ -32,13 +32,14 @@ import java.lang.annotation.*;
  * @author: Sinda
  * @create: 2019-12-27 00:10
  **/
-@Target({ElementType.METHOD, ElementType.TYPE})
-@Retention(RetentionPolicy.RUNTIME)
 @Documented
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ElementType.METHOD, ElementType.TYPE})
 public @interface Anonymous {
 
     /**
-     * false 外部可访问, true 外部不可访问
+     * false 外部可访问 内部也可以访问
+     * true 外部不可访问,但内部可以访问
      * @return
      */
     boolean value() default true;
