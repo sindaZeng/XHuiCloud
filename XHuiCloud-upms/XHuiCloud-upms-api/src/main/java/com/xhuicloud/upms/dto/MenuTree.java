@@ -24,6 +24,7 @@
 
 package com.xhuicloud.upms.dto;
 
+import com.xhuicloud.upms.entity.SysMenu;
 import com.xhuicloud.upms.vo.MenuVo;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -100,15 +101,15 @@ public class MenuTree extends TreeNode {
         this.internationalization = internationalization;
     }
 
-    public MenuTree(MenuVo menuVo) {
-        this.id = menuVo.getId();
-        this.parentId = menuVo.getParentId();
-        this.icon = menuVo.getIcon();
-        this.name = menuVo.getName();
-        this.internationalization = menuVo.getInternationalization();
-        this.path = menuVo.getPath();
-        this.type = menuVo.getType();
-        this.sort = menuVo.getSort();
+    public MenuTree(SysMenu sysMenu) {
+        this.id = sysMenu.getId();
+        this.parentId = sysMenu.getParentId();
+        this.icon = sysMenu.getIcon();
+        this.name = sysMenu.getName();
+        this.internationalization = sysMenu.getInternationalization();
+        this.path = sysMenu.getPath();
+        this.type = sysMenu.getType();
+        this.sort = sysMenu.getSort();
     }
 
 

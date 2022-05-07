@@ -10,6 +10,7 @@
         <result column="permission" jdbcType="VARCHAR" property="permission"/>
         <result column="redirect" jdbcType="VARCHAR" property="redirect"/>
         <result column="path" jdbcType="VARCHAR" property="path"/>
+        <result column="url" jdbcType="VARCHAR" property="url"/>
         <result column="icon" jdbcType="VARCHAR" property="icon"/>
         <result column="parent_id" property="parentId"/>
         <result column="sort" property="sort"/>
@@ -21,25 +22,8 @@
         <result column="is_del" jdbcType="INTEGER" property="isDel" />
     </resultMap>
 
-    <resultMap id="MenuVoResultMap" type="com.xhuicloud.upms.vo.MenuVo">
-        <!--@mbg.generated-->
-        <!--@Table sys_menu-->
-        <id column="id" property="id"/>
-        <result column="name" property="name"/>
-        <result column="permission" property="permission"/>
-        <result column="redirect" property="redirect"/>
-        <result column="parent_id" property="parentId"/>
-        <result column="icon" property="icon"/>
-        <result column="path" property="path"/>
-        <result column="sort" property="sort"/>
-        <result column="type" property="type"/>
-        <result column="create_time" property="createTime" />
-        <result column="update_time"  property="updateTime" />
-        <result column="is_del" property="isDel" />
-    </resultMap>
-
     <!--通过角色查询菜单信息-->
-    <select id="listMenusByRoleId" resultMap="MenuVoResultMap">
+    <select id="listMenusByRoleId" resultMap="BaseResultMap">
         SELECT
             sys_menu.*
             FROM
@@ -50,7 +34,7 @@
             AND sys_role_menu.role_id = #{roleId}
     </select>
 
-    <select id="listMenusByRoleCode" resultMap="MenuVoResultMap">
+    <select id="listMenusByRoleCode" resultMap="BaseResultMap">
         SELECT
         sm.*
         FROM

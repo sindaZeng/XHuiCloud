@@ -32,7 +32,6 @@ import com.xhuicloud.upms.entity.SysMenu;
 import com.xhuicloud.upms.mapper.SysMenuMapper;
 import com.xhuicloud.upms.service.SysMenuService;
 import com.xhuicloud.upms.service.SysRoleMenuService;
-import com.xhuicloud.upms.vo.MenuVo;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -49,12 +48,12 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     private final SysRoleMenuService sysRoleMenuService;
 
     @Override
-    public List<MenuVo> findMenuByRoleId(Integer roleId) {
+    public List<SysMenu> findMenuByRoleId(Integer roleId) {
         return baseMapper.listMenusByRoleId(roleId);
     }
 
     @Override
-    public List<MenuVo> findMenuByRoleCode(String roleCode) {
+    public List<SysMenu> findMenuByRoleCode(String roleCode) {
         return baseMapper.listMenusByRoleCode(roleCode);
     }
 

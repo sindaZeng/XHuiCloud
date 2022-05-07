@@ -26,15 +26,14 @@ package com.xhuicloud.upms.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.xhuicloud.upms.entity.SysMenu;
-import com.xhuicloud.upms.vo.MenuVo;
 
 import java.util.List;
 
 public interface SysMenuService extends IService<SysMenu> {
 
-    List<MenuVo> findMenuByRoleId(Integer roleId);
+    List<SysMenu> findMenuByRoleId(Integer roleId);
 
-    List<MenuVo> findMenuByRoleCode(String roleCode);
+    List<SysMenu> findMenuByRoleCode(String roleCode);
 
     /**
      * 新增菜单

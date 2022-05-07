@@ -61,14 +61,19 @@ public class SysMenu extends Model<SysMenu> {
     private String internationalization;
 
     /**
-     * 权限
+     * 权限值
      */
     private String permission;
 
     /**
-     * 路径
+     * 前端路径
      */
     private String path;
+
+    /**
+     * 资源url
+     */
+    private String url;
 
 
     /**
@@ -80,7 +85,6 @@ public class SysMenu extends Model<SysMenu> {
      * 图标
      */
     private String icon;
-
 
     /**
      * 父菜单ID

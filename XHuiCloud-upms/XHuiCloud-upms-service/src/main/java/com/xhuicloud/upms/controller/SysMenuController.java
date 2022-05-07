@@ -32,7 +32,6 @@ import com.xhuicloud.upms.dto.MenuTree;
 import com.xhuicloud.upms.entity.SysMenu;
 import com.xhuicloud.upms.service.SysMenuService;
 import com.xhuicloud.upms.utils.TreeUtil;
-import com.xhuicloud.upms.vo.MenuVo;
 import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -66,7 +65,7 @@ public class SysMenuController {
      */
     @GetMapping
     public Response getUserMenu() {
-        Set<MenuVo> all = new HashSet<>();
+        Set<SysMenu> all = new HashSet<>();
         SecurityHolder.getRoles()
                 .forEach(roleCode -> all.addAll(sysMenuService.findMenuByRoleCode(roleCode)));
         List<MenuTree> menuTreeList = all.stream()
@@ -87,7 +86,7 @@ public class SysMenuController {
     public Response getRoleTree(@PathVariable Integer roleId) {
         return Response.success(sysMenuService.findMenuByRoleId(roleId)
                 .stream()
-                .map(MenuVo::getId)
+                .map(SysMenu::getId)
                 .collect(Collectors.toList()));
     }
 
