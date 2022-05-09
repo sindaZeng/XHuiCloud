@@ -34,12 +34,12 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xhuicloud.common.core.exception.SysException;
 import com.xhuicloud.upms.dto.UserQueryDto;
 import com.xhuicloud.upms.dto.UserInfo;
+import com.xhuicloud.upms.entity.SysMenu;
 import com.xhuicloud.upms.entity.SysParam;
 import com.xhuicloud.upms.entity.SysRole;
 import com.xhuicloud.upms.entity.SysUser;
 import com.xhuicloud.upms.mapper.SysUserMapper;
 import com.xhuicloud.upms.service.*;
-import com.xhuicloud.upms.vo.MenuVo;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -94,12 +94,22 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         Set<String> permissions = new HashSet<>();
 
         roleIds.forEach(roleId -> {
-            List<String> permissionList = sysMenuService.findMenuByRoleId(roleId)
+            List<SysMenu> sysMenus = sysMenuService.findMenuByRoleId(roleId);
+
+            List<String> permissionList = sysMenus
                     .stream()
                     .filter(menu -> StringUtils.isNotEmpty(menu.getPermission()))
-                    .map(MenuVo::getPermission)
+                    .map(SysMenu::getPermission)
                     .collect(Collectors.toList());
+
+            List<String> urlList = sysMenus
+                    .stream()
+                    .filter(menu -> StringUtils.isNotEmpty(menu.getPermission()))
+                    .map(SysMenu::getUrl)
+                    .collect(Collectors.toList());
+
             permissions.addAll(permissionList);
+            permissions.addAll(urlList);
         });
         userInfo.setPermissions(ArrayUtil.toArray(permissions, String.class));
         userInfo.setTenantName(sysTenantService.getById(sysUser.getTenantId()).getName());
@@ -238,7 +248,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
             // 用户角色
             List<Integer> roleIds = getRoleIds(allRoleIds, sysUser.getRoleIds(), sysParamRole);
             return saveUserAndRoleAndDept(sysUser, deptIds, roleIds);
-        }catch (Exception e){
+        } catch (Exception e) {
             log.error(e.getMessage());
             throw SysException.sysFail(SysException.USER_IS_EXIST_EXCEPTION);
         }

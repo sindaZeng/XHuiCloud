@@ -100,7 +100,7 @@ public class XHuiUserDetailsServiceImpl implements XHuiUserDetailsService {
         Set<String> dbAuthsSet = new HashSet<>();
         if (ArrayUtil.isNotEmpty(userInfo.getRoles())) {
             // 获取角色
-            Arrays.stream(userInfo.getRoles()).forEach(roleId -> dbAuthsSet.add(ROLE_PREFIX + roleId));
+            Arrays.stream(userInfo.getRoles()).forEach(role -> dbAuthsSet.add(ROLE_PREFIX + role));
             // 获取资源
             dbAuthsSet.addAll(Arrays.asList(userInfo.getPermissions()));
         }

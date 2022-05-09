@@ -56,7 +56,7 @@ public class XHuiResourceServerConfigurerAdapter extends ResourceServerConfigure
     private PermitAnonymousUrlProperties permitAnonymousUrlProperties;
 
     @Autowired
-    protected ResourceAuthExceptionEntryPoint resourceAuthExceptionEntryPoint;
+    private ResourceAuthExceptionEntryPoint resourceAuthExceptionEntryPoint;
 
     @Autowired
     private TokenExtractor tokenExtractor;
