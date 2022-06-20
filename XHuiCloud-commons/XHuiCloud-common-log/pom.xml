@@ -8,6 +8,7 @@
         <version>${revision}</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
+    <description>日志模块</description>
     <packaging>jar</packaging>
     <artifactId>XHuiCloud-common-log</artifactId>
 
@@ -21,7 +22,7 @@
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-core</artifactId>
         </dependency>
-        
+
         <dependency>
             <groupId>net.logstash.logback</groupId>
             <artifactId>logstash-logback-encoder</artifactId>
