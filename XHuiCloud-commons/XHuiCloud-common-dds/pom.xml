@@ -8,6 +8,7 @@
         <version>${revision}</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
+    <description>动态数据源模块</description>
     <packaging>jar</packaging>
     <artifactId>XHuiCloud-common-dds</artifactId>
 

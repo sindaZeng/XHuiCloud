@@ -8,6 +8,7 @@
         <version>${revision}</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
+    <description>核心包</description>
 
     <artifactId>XHuiCloud-common-core</artifactId>
     <packaging>jar</packaging>

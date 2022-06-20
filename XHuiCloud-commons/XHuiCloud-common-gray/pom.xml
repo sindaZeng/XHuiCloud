@@ -8,6 +8,7 @@
         <version>${revision}</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
+    <description>灰度发布依赖</description>
     <artifactId>XHuiCloud-common-gray</artifactId>
     <packaging>jar</packaging>
 

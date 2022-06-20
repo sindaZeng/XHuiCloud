@@ -8,7 +8,7 @@
         <version>${revision}</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-
+    <description>feign 模块</description>
     <artifactId>XHuiCloud-common-feign</artifactId>
     <packaging>jar</packaging>
 
