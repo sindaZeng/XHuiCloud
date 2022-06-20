@@ -30,6 +30,7 @@
         <module>XHuiCloud-common-rabbitMq</module>
         <module>XHuiCloud-common-mybatis</module>
         <module>XHuiCloud-common-oss</module>
+        <module>XHuiCloud-common-authorization</module>
     </modules>
 
 </project>
