@@ -11,7 +11,7 @@
     <name>${project.artifactId} ${project.description}</name>
 
     <properties>
-        <revision>2.0.1</revision>
+        <revision>2.0.2</revision>
         <mybatis-plus.version>3.5.1</mybatis-plus.version>
         <druid.version>1.2.8</druid.version>
         <dds.version>3.4.1</dds.version>
@@ -104,6 +104,18 @@
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>XHuiCloud-common-security</artifactId>
+                <version>${revision}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>XHuiCloud-common-authorization</artifactId>
+                <version>${revision}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>XHuiCloud-common-authorization</artifactId>
                 <version>${revision}</version>
             </dependency>
 

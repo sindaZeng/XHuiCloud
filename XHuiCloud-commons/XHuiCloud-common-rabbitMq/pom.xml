@@ -8,6 +8,7 @@
         <version>${revision}</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
+    <description>MQ模块</description>
     <packaging>jar</packaging>
     <artifactId>XHuiCloud-common-rabbitMq</artifactId>
 
