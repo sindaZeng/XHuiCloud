@@ -12,6 +12,7 @@
     <packaging>pom</packaging>
 
     <modules>
+        <module>XHuiCloud-common-authorization</module>
         <module>XHuiCloud-common-core</module>
         <module>XHuiCloud-common-data</module>
         <module>XHuiCloud-common-dds</module>

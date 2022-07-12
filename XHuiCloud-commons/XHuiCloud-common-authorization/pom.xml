@@ -8,8 +8,19 @@
         <version>${revision}</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <description>spring-authorization-server 支持</description>
     <packaging>jar</packaging>
+    <description>通用认证模块</description>
     <artifactId>XHuiCloud-common-authorization</artifactId>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-oauth2-authorization-server</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+        </dependency>
+    </dependencies>
 
 </project>

@@ -24,6 +24,7 @@
         <ttl.version>2.11.2</ttl.version>
         <xxl.job.version>2.3.0</xxl.job.version>
         <security.oauth.version>2.3.6.RELEASE</security.oauth.version>
+        <spring-security-oauth2-authorization-server.version>0.3.1</spring-security-oauth2-authorization-server.version>
     </properties>
 
     <dependencyManagement>
@@ -274,6 +275,12 @@
                 <groupId>org.springframework.security.oauth</groupId>
                 <artifactId>spring-security-oauth2</artifactId>
                 <version>${security.oauth.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.security</groupId>
+                <artifactId>spring-security-oauth2-authorization-server</artifactId>
+                <version>${spring-security-oauth2-authorization-server.version}</version>
             </dependency>
 
             <dependency>
