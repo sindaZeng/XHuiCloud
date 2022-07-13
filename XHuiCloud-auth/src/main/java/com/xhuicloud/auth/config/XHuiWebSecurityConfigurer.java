@@ -24,25 +24,12 @@
 
 package com.xhuicloud.auth.config;
 
-import com.xhuicloud.common.security.handle.FormAuthFailureHandler;
-import com.xhuicloud.common.security.handle.MobileAuthSuccessHandler;
-import com.xhuicloud.common.security.handle.XHuiLogoutSuccessHandler;
-import com.xhuicloud.common.security.handle.XHuiSimpleUrlAuthenticationSuccessHandler;
-import com.xhuicloud.common.security.social.SocialAuthenticationProvider;
-import lombok.SneakyThrows;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
-import org.springframework.core.annotation.Order;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.AuthenticationFailureHandler;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
+import org.springframework.security.web.SecurityFilterChain;
 
 /**
  * @program: XHuiCloud
@@ -50,15 +37,8 @@ import org.springframework.security.web.authentication.logout.LogoutSuccessHandl
  * @author: Sinda
  * @create: 2019-12-25 23:49
  **/
-@Primary
-@Order(80)
-@Configuration
-public class XHuiWebSecurityConfigurer extends WebSecurityConfigurerAdapter {
-
-    @Bean
-    public AuthenticationFailureHandler authenticationFailureHandler() {
-        return new FormAuthFailureHandler();
-    }
+@EnableWebSecurity
+public class XHuiWebSecurityConfigurer {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -66,56 +46,27 @@ public class XHuiWebSecurityConfigurer extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    @Override
-    @SneakyThrows
-    public AuthenticationManager authenticationManagerBean() {
-        return super.authenticationManagerBean();
-    }
-
-    @Bean
-    public MobileAuthSuccessHandler mobileAuthSuccessHandler() {
-        return new MobileAuthSuccessHandler();
-    }
-
-    @Bean
-    public AuthenticationSuccessHandler xHuiSimpleUrlAuthenticationSuccessHandler() {
-        return new XHuiSimpleUrlAuthenticationSuccessHandler();
-    }
-
-    @Bean
-    public LogoutSuccessHandler xHuiLogoutSuccessHandler() {
-        return new XHuiLogoutSuccessHandler();
-    }
-
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.authenticationProvider(new SocialAuthenticationProvider())
-                .formLogin()//表单登录
-                .loginPage("/oauth2/login")
-                .loginProcessingUrl("/oauth2/form")
-                .successHandler(xHuiSimpleUrlAuthenticationSuccessHandler())
-                .failureHandler(authenticationFailureHandler())
+    SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
+        http.authorizeRequests(authorizeRequests ->
+                        authorizeRequests.antMatchers("/authorize/**", "/mobile/**", "/actuator/**").permitAll()
+                                .anyRequest().authenticated()).headers().frameOptions().sameOrigin()
                 .and()
+                .formLogin(form -> form.loginPage("/authorize/login").loginProcessingUrl("/oauth2/form"))
                 .logout()
-                .logoutSuccessHandler(xHuiLogoutSuccessHandler())
                 .deleteCookies("JSESSIONID")
-                .invalidateHttpSession(true)
-                .and()
-                .authorizeRequests()//对请求授权
-                .antMatchers("/oauth2/**", "/mobile/**", "/actuator/**")
-                .permitAll() //匹配这个url 放行
-                .anyRequest().authenticated()//任何请求都要授权
-                .and().csrf().disable();//跨站请求伪造攻击
+                .invalidateHttpSession(true).and().csrf().disable();
+        return http.build();
     }
 
     /**
      * 不拦截静态资源
-     *
-     * @param web
      */
-    @Override
-    public void configure(WebSecurity web) {
-        web.ignoring().antMatchers("/favicon.ico", "/css/**", "/js/**", "/error");
+    @Bean
+    public SecurityFilterChain staticResources(HttpSecurity http) throws Exception {
+        http.requestMatchers(matchers -> matchers.antMatchers("/favicon.ico", "/css/**", "/js/**", "/error"))
+                .authorizeHttpRequests(authorize -> authorize.anyRequest().permitAll()).requestCache().disable()
+                .securityContext().disable().sessionManagement().disable();
+        return http.build();
     }
 
 }

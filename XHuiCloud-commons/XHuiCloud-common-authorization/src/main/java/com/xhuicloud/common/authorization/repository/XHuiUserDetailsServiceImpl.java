@@ -22,9 +22,10 @@
  * @Email:  xhuicloud@163.com
  */
 
-package com.xhuicloud.common.security.service;
+package com.xhuicloud.common.authorization.repository;
 
 import cn.hutool.core.util.ArrayUtil;
+import com.xhuicloud.common.authorization.resource.userdetails.XHuiUser;
 import com.xhuicloud.common.core.constant.CacheConstants;
 import com.xhuicloud.upms.dto.UserInfo;
 import com.xhuicloud.upms.entity.SysUser;

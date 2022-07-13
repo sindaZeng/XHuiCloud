@@ -13,6 +13,7 @@
         <module>XHuiCloud-upms</module>
         <module>XHuiCloud-business</module>
         <module>XHuiCloud-commons/XHuiCloud-common-authorization</module>
+        <module>XHuiCloud-commons/XHuiCloud-common-authorization-resource</module>
     </modules>
     <packaging>pom</packaging>
     <properties>
@@ -21,8 +22,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.plugin.version>3.8.1</maven.compiler.plugin.version>
         <maven.resource.plugin.version>3.1.0</maven.resource.plugin.version>
-        <spring-boot.version>2.6.6</spring-boot.version>
-        <spring-cloud.version>2021.0.1</spring-cloud.version>
+        <spring-boot.version>2.7.1</spring-boot.version>
+        <spring-cloud.version>2021.0.3</spring-cloud.version>
         <spring-cloud-alibaba-dependencies.version>2021.0.1.0</spring-cloud-alibaba-dependencies.version>
         <seata.version>1.4.2</seata.version>
         <hutool.version>5.7.21</hutool.version>

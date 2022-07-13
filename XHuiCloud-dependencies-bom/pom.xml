@@ -115,7 +115,7 @@
 
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>XHuiCloud-common-authorization</artifactId>
+                <artifactId>XHuiCloud-common-authorization-resource</artifactId>
                 <version>${revision}</version>
             </dependency>
 
