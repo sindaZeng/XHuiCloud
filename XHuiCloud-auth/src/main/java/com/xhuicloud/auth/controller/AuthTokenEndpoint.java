@@ -24,21 +24,11 @@
 
 package com.xhuicloud.auth.controller;
 
-import cn.hutool.core.util.StrUtil;
-import com.xhuicloud.common.core.utils.Response;
-import com.xhuicloud.common.security.utils.SecurityHolder;
 import com.xhuicloud.upms.feign.SysTenantServiceFeign;
 import com.xhuicloud.upms.vo.TenantVo;
 import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpHeaders;
-import org.springframework.security.oauth2.common.OAuth2AccessToken;
-import org.springframework.security.oauth2.common.OAuth2RefreshToken;
-import org.springframework.security.oauth2.provider.AuthorizationRequest;
-import org.springframework.security.oauth2.provider.ClientDetails;
-import org.springframework.security.oauth2.provider.ClientDetailsService;
-import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
@@ -56,14 +46,14 @@ import static com.xhuicloud.common.core.constant.AuthorizationConstants.IS_COMMI
  **/
 @Slf4j
 @RestController
-@RequestMapping("/oauth2")
+@RequestMapping("/authorize")
 @AllArgsConstructor
-@Api(value = "oauth2", tags = "认证模块")
+@Api(value = "authorize", tags = "认证模块")
 public class AuthTokenEndpoint {
 
-    private final TokenStore tokenStore;
-
-    private final ClientDetailsService clientDetailsService;
+//    private final TokenStore tokenStore;
+//
+//    private final ClientDetailsService clientDetailsService;
 
     private final SysTenantServiceFeign sysTenantServiceFeign;
 
@@ -103,46 +93,46 @@ public class AuthTokenEndpoint {
      * @param modelAndView
      * @return
      */
-    @GetMapping("/confirm_access")
-    public ModelAndView confirm(HttpServletRequest request, HttpSession session, ModelAndView modelAndView) {
-        Map<String, Object> scopeList = (Map<String, Object>) request.getAttribute("scopes");
-        modelAndView.addObject("scopeList", scopeList.keySet());
-
-        Object auth = session.getAttribute("authorizationRequest");
-        if (auth != null) {
-            AuthorizationRequest authorizationRequest = (AuthorizationRequest) auth;
-            ClientDetails clientDetails = clientDetailsService.loadClientByClientId(authorizationRequest.getClientId());
-            modelAndView.addObject("app", clientDetails.getAdditionalInformation());
-            modelAndView.addObject("permission", clientDetails.getAdditionalInformation().get("permission"));
-            modelAndView.addObject("user", SecurityHolder.getUser());
-        }
-        modelAndView.setViewName("ftl/confirm");
-        return modelAndView;
-    }
-
-    /**
-     * 退出登录
-     */
-    @PostMapping("/logout")
-    public Response logout(@RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String authorization) {
-        if (StrUtil.isBlank(authorization)) {
-            return Response.success(Boolean.FALSE, "退出失败,未找到此token!");
-        }
-        String tokenValue = authorization.replace(OAuth2AccessToken.BEARER_TYPE, StrUtil.EMPTY).trim();
-
-        OAuth2AccessToken accessToken = tokenStore.readAccessToken(tokenValue);
-        if (accessToken == null || StrUtil.isBlank(accessToken.getValue())) {
-            return Response.success(Boolean.TRUE, "退出失败,未找到此token!");
-        }
-        // 清空access token
-        tokenStore.removeAccessToken(accessToken);
-        // 清空 refresh token
-        OAuth2RefreshToken refreshToken = accessToken.getRefreshToken();
-        if (refreshToken != null) {
-            tokenStore.removeRefreshToken(refreshToken);
-        }
-        return Response.success(Boolean.TRUE);
-    }
+//    @GetMapping("/confirm_access")
+//    public ModelAndView confirm(HttpServletRequest request, HttpSession session, ModelAndView modelAndView) {
+//        Map<String, Object> scopeList = (Map<String, Object>) request.getAttribute("scopes");
+//        modelAndView.addObject("scopeList", scopeList.keySet());
+//
+//        Object auth = session.getAttribute("authorizationRequest");
+//        if (auth != null) {
+//            AuthorizationRequest authorizationRequest = (AuthorizationRequest) auth;
+//            ClientDetails clientDetails = clientDetailsService.loadClientByClientId(authorizationRequest.getClientId());
+//            modelAndView.addObject("app", clientDetails.getAdditionalInformation());
+//            modelAndView.addObject("permission", clientDetails.getAdditionalInformation().get("permission"));
+//            modelAndView.addObject("user", SecurityHolder.getUser());
+//        }
+//        modelAndView.setViewName("ftl/confirm");
+//        return modelAndView;
+//    }
+//
+//    /**
+//     * 退出登录
+//     */
+//    @PostMapping("/logout")
+//    public Response logout(@RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String authorization) {
+//        if (StrUtil.isBlank(authorization)) {
+//            return Response.success(Boolean.FALSE, "退出失败,未找到此token!");
+//        }
+//        String tokenValue = authorization.replace(OAuth2AccessToken.BEARER_TYPE, StrUtil.EMPTY).trim();
+//
+//        OAuth2AccessToken accessToken = tokenStore.readAccessToken(tokenValue);
+//        if (accessToken == null || StrUtil.isBlank(accessToken.getValue())) {
+//            return Response.success(Boolean.TRUE, "退出失败,未找到此token!");
+//        }
+//        // 清空access token
+//        tokenStore.removeAccessToken(accessToken);
+//        // 清空 refresh token
+//        OAuth2RefreshToken refreshToken = accessToken.getRefreshToken();
+//        if (refreshToken != null) {
+//            tokenStore.removeRefreshToken(refreshToken);
+//        }
+//        return Response.success(Boolean.TRUE);
+//    }
 
 }
 
