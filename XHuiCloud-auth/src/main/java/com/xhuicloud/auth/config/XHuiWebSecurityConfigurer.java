@@ -37,7 +37,7 @@ import org.springframework.security.web.SecurityFilterChain;
  * @author: Sinda
  * @create: 2019-12-25 23:49
  **/
-@EnableWebSecurity
+@EnableWebSecurity(debug = true)
 public class XHuiWebSecurityConfigurer {
 
     @Bean
@@ -51,7 +51,7 @@ public class XHuiWebSecurityConfigurer {
                         authorizeRequests.antMatchers("/authorize/**", "/mobile/**", "/actuator/**").permitAll()
                                 .anyRequest().authenticated()).headers().frameOptions().sameOrigin()
                 .and()
-                .formLogin(form -> form.loginPage("/authorize/login").loginProcessingUrl("/oauth2/form"))
+                .formLogin(form -> form.loginPage("/authorize/login").loginProcessingUrl("/authorize/form"))
                 .logout()
                 .deleteCookies("JSESSIONID")
                 .invalidateHttpSession(true).and().csrf().disable();

@@ -1,4 +1,10 @@
 spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:16000
+          jwk-set-uri: http://127.0.0.1:16000/oauth2/jwks
   application:
     name: @artifactId@
   profiles:
@@ -23,9 +29,6 @@ spring:
 security:
   oauth2:
     client:
-      client-id: test
-      client-secret: test
-      scope: server
       ignore-urls:
         - /error
         - /druid/**
@@ -34,3 +37,9 @@ security:
 
 server:
   port: 17000
+
+logging:
+  level:
+    org.springframework.web: INFO
+    org.springframework.security: debug
+    org.springframework.security.oauth2: debug

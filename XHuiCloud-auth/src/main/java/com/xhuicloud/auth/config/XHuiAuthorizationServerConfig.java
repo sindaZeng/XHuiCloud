@@ -37,12 +37,12 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.oauth2.server.authorization.OAuth2AuthorizationServerConfigurer;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
 import org.springframework.security.oauth2.server.authorization.config.ProviderSettings;
 import org.springframework.security.oauth2.server.authorization.token.JwtGenerator;
-import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenGenerator;
 import org.springframework.security.oauth2.server.authorization.web.authentication.*;
 import org.springframework.security.web.DefaultSecurityFilterChain;
 import org.springframework.security.web.SecurityFilterChain;
@@ -64,15 +64,18 @@ public class XHuiAuthorizationServerConfig {
     @Bean
     @Order(Ordered.HIGHEST_PRECEDENCE)
     public SecurityFilterChain authorizationServerSecurityFilterChain(HttpSecurity http) throws Exception {
-
         OAuth2AuthorizationServerConfigurer<HttpSecurity> authorizationServerConfigurer = new OAuth2AuthorizationServerConfigurer<>();
-        authorizationServerConfigurer.tokenEndpoint(tokenEndpoint -> {// 个性化认证授权端点
+
+        http.apply(authorizationServerConfigurer.tokenEndpoint(tokenEndpoint -> {// 个性化认证授权端点
             tokenEndpoint.accessTokenRequestConverter(authenticationConverter()); // 注入自定义的授权认证Converter
-        }).authorizationEndpoint(authorizationEndpoint -> authorizationEndpoint// 授权码端点个性化confirm页面
-                .consentPage("confirm_access"));
+        }).clientAuthentication(Customizer.withDefaults())
+                .authorizationEndpoint(authorizationEndpoint -> authorizationEndpoint// 授权码端点个性化confirm页面
+                .consentPage("confirm_access")));
+
         RequestMatcher endpointsMatcher = authorizationServerConfigurer.getEndpointsMatcher();
         DefaultSecurityFilterChain securityFilterChain = http.requestMatcher(endpointsMatcher)
                 .authorizeRequests(authorizeRequests -> authorizeRequests.anyRequest().authenticated())
+                .csrf(csrf -> csrf.ignoringRequestMatchers(endpointsMatcher))
                 .apply(authorizationServerConfigurer)
                 .and().build();
         addCustomOAuth2AuthenticationProvider(http);

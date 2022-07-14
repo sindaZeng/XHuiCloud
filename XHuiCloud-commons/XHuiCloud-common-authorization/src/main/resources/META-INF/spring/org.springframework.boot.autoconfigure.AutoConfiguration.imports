@@ -1,1 +1,2 @@
 com.xhuicloud.common.authorization.repository.CustomRegisteredClientRepository
+com.xhuicloud.common.authorization.repository.XHuiUserDetailsServiceImpl

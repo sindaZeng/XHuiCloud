@@ -22,27 +22,69 @@
  * @Email:  xhuicloud@163.com
  */
 
-package com.xhuicloud.upms.handle.login;
+package com.xhuicloud.common.authorization.resource.social;
 
-import com.xhuicloud.common.authorization.resource.social.SocialHandle;
 import com.xhuicloud.upms.dto.UserInfo;
 import com.xhuicloud.upms.entity.SysSocial;
+import com.xhuicloud.upms.entity.SysUser;
 
 /**
  * @program: XHuiCloud
- * @description: AbstractSocialHandle
+ * @description: SocialHandle
  * @author: Sinda
- * @create: 2020-06-17 14:35
+ * @create: 2020-06-17 14:32
  */
-public abstract class AbstractSocialHandle implements SocialHandle {
+public interface SocialHandle {
 
-    @Override
-    public UserInfo handle(String code) {
-        return info(getOpenId(sysSocial(type()) ,code));
-    }
+    /**
+     * 处理方法
+     *
+     * @param code 登录标识
+     * @return
+     */
+    UserInfo handle(String code);
 
-    @Override
-    public SysSocial sysSocial(String type) {
-        return null;
-    }
+    /**
+     * 获取社交实体
+     *
+     * @param type
+     * @return
+     */
+    SysSocial sysSocial(String type);
+
+    /**
+     * 通过授权码获取 openId
+     *
+     * @param sysSocial
+     * @param code
+     * @return
+     */
+    String getOpenId(SysSocial sysSocial, String code);
+
+    /**
+     * 通过 openId 获取用户信息
+     *
+     * @param openId
+     * @return
+     */
+    UserInfo info(String openId);
+
+    /**
+     * 类型
+     *
+     * @param openId
+     * @return
+     */
+    String type();
+
+    /**
+     * 没有此用户的话。
+     * 1、直接注册
+     * 2、返回空，在页面上引导注册
+     *
+     * @param obj
+     * @return
+     */
+    SysUser createDefaultUser(Object obj);
+
 }

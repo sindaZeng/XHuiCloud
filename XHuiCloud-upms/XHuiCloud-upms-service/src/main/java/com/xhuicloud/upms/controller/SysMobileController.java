@@ -25,7 +25,7 @@
 package com.xhuicloud.upms.controller;
 
 import com.xhuicloud.common.core.utils.Response;
-import com.xhuicloud.common.security.annotation.Anonymous;
+import com.xhuicloud.common.authorization.resource.annotation.Anonymous;
 import com.xhuicloud.upms.service.SysMobileService;
 import com.xxl.job.admin.api.entity.XxlJobInfo;
 import com.xxl.job.admin.api.feign.JobInfoFeign;

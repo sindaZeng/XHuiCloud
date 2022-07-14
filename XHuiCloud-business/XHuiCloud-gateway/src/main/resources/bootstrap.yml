@@ -21,3 +21,7 @@ spring:
 swagger:
   ignore-providers:
     - XHuiCloud-auth
+
+logging:
+  level:
+    root: debug

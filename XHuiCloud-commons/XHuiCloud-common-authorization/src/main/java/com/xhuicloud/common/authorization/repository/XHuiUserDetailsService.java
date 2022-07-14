@@ -24,9 +24,7 @@
 
 package com.xhuicloud.common.authorization.repository;
 
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 /**
  * @program: XHuiCloud
@@ -35,6 +33,4 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
  * @create: 2019-12-26 00:11
  **/
 public interface XHuiUserDetailsService extends UserDetailsService {
-
-    UserDetails loadUserBySocial(String type, String code) throws UsernameNotFoundException;
 }
