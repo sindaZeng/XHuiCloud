@@ -78,27 +78,12 @@ public class PermitAnonymousUrlProperties implements InitializingBean {
             // 1. 首先获取类上注解
             Anonymous controller = AnnotationUtils.findAnnotation(handlerMethod.getBeanType(), Anonymous.class);
             Optional.ofNullable(controller).ifPresent(anonymous -> info.getPatternsCondition().getPatterns()
-                    .forEach(url -> this.filterPath(url, info)));
+                    .forEach(url -> ignoreUrls.add(ReUtil.replaceAll(url, PATTERN, "*"))));
             // 2. 获取该方法的注解
             Anonymous method = AnnotationUtils.findAnnotation(handlerMethod.getMethod(), Anonymous.class);
             Optional.ofNullable(method).ifPresent(anonymous -> info.getPatternsCondition().getPatterns()
-                    .forEach(url -> this.filterPath(url, info)));
+                    .forEach(url -> ignoreUrls.add(ReUtil.replaceAll(url, PATTERN, "*"))));
         }
     }
 
-    /**
-     * 过滤 Anonymous 设置
-     * <p>
-     * 0. 暴露安全检查 1. 路径转换： 如果为restful(/xx/{xx}) --> /xx/* ant 表达式 2.
-     * 构建表达式：允许暴露的接口|允许暴露的方法类型,允许暴露的方法类型 URL|GET,POST,DELETE,PUT
-     * </p>
-     *
-     * @param url  mapping路径
-     * @param info 请求方法
-     */
-    private void filterPath(String url, RequestMappingInfo info) {
-        String resultUrl = ReUtil.replaceAll(url, PATTERN, "*");
-        ignoreUrls.add(resultUrl);
-        System.out.println();
-    }
 }
