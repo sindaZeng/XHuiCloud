@@ -22,23 +22,26 @@
  * @Email:  xhuicloud@163.com
  */
 
-package com.xhuicloud.upms;
+package com.xhuicloud.common.authorization.resource.annotation;
 
-import com.xhuicloud.common.authorization.resource.annotation.EnableResourceServer;
-import com.xhuicloud.common.feign.annotation.EnableXHuiFeignClients;
-import com.xhuicloud.common.swagger.annotation.EnableXHuiSwagger;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import java.lang.annotation.*;
 
-@EnableXHuiSwagger
-@SpringBootApplication
-@EnableDiscoveryClient
-@EnableXHuiFeignClients
-@EnableResourceServer
-public class XHuiUserManagementApplication {
+/**
+ * @program: XHuiCloud
+ * @description: anonymous 匿名访问
+ * @author: Sinda
+ * @create: 2019-12-27 00:10
+ **/
+@Documented
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ElementType.METHOD, ElementType.TYPE})
+public @interface Anonymous {
 
-    public static void main(String[] args) {
-        SpringApplication.run(XHuiUserManagementApplication.class, args);
-    }
+    /**
+     * false 外部可访问 内部也可以访问
+     * true 外部不可访问,但内部可以访问
+     * @return
+     */
+    boolean value() default true;
+
 }

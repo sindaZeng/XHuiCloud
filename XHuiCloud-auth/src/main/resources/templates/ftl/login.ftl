@@ -23,7 +23,7 @@
         <img id="icon" src="https://xhuicloud.oss-cn-shenzhen.aliyuncs.com/xhuicloud-logo.png" alt="" class="icon">
         <div class="title">星辉云</div>
     </div>
-    <form class="form-auth" action="/oauth2/form" method="post">
+    <form class="form-auth" action="/authorize/form" method="post">
         <#if tenants??>
             <select id="tenantSelect" class="form-control" placeholder="请选择租户" name="tenantId" onchange="selectTenant()">
                 <#list tenants as tenant>

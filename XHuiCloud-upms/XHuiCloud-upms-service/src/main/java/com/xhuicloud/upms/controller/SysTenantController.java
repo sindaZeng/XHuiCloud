@@ -33,7 +33,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.collect.Lists;
 import com.xhuicloud.common.core.utils.Response;
 import com.xhuicloud.common.log.annotation.SysLog;
-import com.xhuicloud.common.security.annotation.Anonymous;
+import com.xhuicloud.common.authorization.resource.annotation.Anonymous;
 import com.xhuicloud.upms.dto.TenantDto;
 import com.xhuicloud.upms.entity.SysSocial;
 import com.xhuicloud.upms.entity.SysTenant;

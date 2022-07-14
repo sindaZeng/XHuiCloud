@@ -3,7 +3,6 @@ org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
   com.xhuicloud.common.security.component.XHuiTenantFilter,\
   com.xhuicloud.common.security.exception.GlobalExceptionHandlerResolver,\
   com.xhuicloud.common.security.component.AnonymousAspect,\
-  com.xhuicloud.common.authorization.repository.XHuiUserDetailsServiceImpl,\
   com.xhuicloud.common.security.token.XHuiTokenStoreAutoConfiguration,\
   com.xhuicloud.common.security.handle.XHuiLogoutSuccessHandler
 

@@ -27,7 +27,7 @@ package com.xhuicloud.upms.controller;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.xhuicloud.common.core.utils.Response;
 import com.xhuicloud.common.log.annotation.SysLog;
-import com.xhuicloud.common.security.utils.SecurityHolder;
+import com.xhuicloud.common.authorization.resource.utils.SecurityHolder;
 import com.xhuicloud.upms.dto.MenuTree;
 import com.xhuicloud.upms.entity.SysMenu;
 import com.xhuicloud.upms.service.SysMenuService;

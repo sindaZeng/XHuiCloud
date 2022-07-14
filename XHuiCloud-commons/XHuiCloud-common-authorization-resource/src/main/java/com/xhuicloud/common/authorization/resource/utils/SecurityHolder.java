@@ -35,6 +35,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import static com.xhuicloud.common.core.constant.AuthorizationConstants.ROLE_PREFIX;
+
 /**
  * @program: XHuiCloud
  * @description:  SpringSecurity工具类
@@ -82,18 +84,18 @@ public class SecurityHolder {
 	 *
 	 * @return 角色集合
 	 */
-//	public List<String> getRoles() {
-//		Authentication authentication = getAuthentication();
-//		Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-//
-//		List<String> roleCodes = new ArrayList<>();
-//		authorities.stream()
-//				.filter(granted -> StrUtil.startWith(granted.getAuthority(), ROLE_PREFIX))
-//				.forEach(granted -> {
-//					String code = StrUtil.removePrefix(granted.getAuthority(), ROLE_PREFIX);
-//					roleCodes.add(code);
-//				});
-//		return roleCodes;
-//	}
+	public List<String> getRoles() {
+		Authentication authentication = getAuthentication();
+		Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+
+		List<String> roleCodes = new ArrayList<>();
+		authorities.stream()
+				.filter(granted -> StrUtil.startWith(granted.getAuthority(), ROLE_PREFIX))
+				.forEach(granted -> {
+					String code = StrUtil.removePrefix(granted.getAuthority(), ROLE_PREFIX);
+					roleCodes.add(code);
+				});
+		return roleCodes;
+	}
 
 }
