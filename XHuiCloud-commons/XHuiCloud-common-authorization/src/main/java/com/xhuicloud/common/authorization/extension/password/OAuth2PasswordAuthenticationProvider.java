@@ -20,8 +20,11 @@ import org.springframework.security.oauth2.server.authorization.token.OAuth2Toke
 import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenGenerator;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
+
+import java.security.Principal;
 import java.util.LinkedHashSet;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 public class OAuth2PasswordAuthenticationProvider implements AuthenticationProvider {
@@ -81,16 +84,17 @@ public class OAuth2PasswordAuthenticationProvider implements AuthenticationProvi
         // @formatter:off
         DefaultOAuth2TokenContext.Builder tokenContextBuilder = DefaultOAuth2TokenContext.builder()
                 .registeredClient(registeredClient)
-                .principal(clientPrincipal)
+                .principal(usernamePasswordAuthentication)
                 .providerContext(ProviderContextHolder.getProviderContext())
                 .authorizedScopes(authorizedScopes)
                 .tokenType(OAuth2TokenType.ACCESS_TOKEN)
-                .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
+                .authorizationGrantType(AuthorizationGrantType.PASSWORD)
                 .authorizationGrant(authenticationToken);
         // @formatter:on
 
         OAuth2Authorization.Builder authorizationBuilder = OAuth2Authorization
-                .withRegisteredClient(registeredClient).principalName(usernamePasswordAuthentication.getName())
+                .withRegisteredClient(registeredClient)
+                .principalName(usernamePasswordAuthentication.getName())
                 .authorizationGrantType(AuthorizationGrantType.PASSWORD)
                 .attribute(OAuth2Authorization.AUTHORIZED_SCOPE_ATTRIBUTE_NAME, authorizedScopes);
 
@@ -108,7 +112,8 @@ public class OAuth2PasswordAuthenticationProvider implements AuthenticationProvi
                 generatedAccessToken.getExpiresAt(), tokenContext.getAuthorizedScopes());
         if (generatedAccessToken instanceof ClaimAccessor) {
             authorizationBuilder.token(accessToken, (metadata) ->
-                    metadata.put(OAuth2Authorization.Token.CLAIMS_METADATA_NAME, ((ClaimAccessor) generatedAccessToken).getClaims()));
+                    metadata.put(OAuth2Authorization.Token.CLAIMS_METADATA_NAME, ((ClaimAccessor) generatedAccessToken).getClaims()))
+                    .attribute(Principal.class.getName(), usernamePasswordAuthentication);
         } else {
             authorizationBuilder.accessToken(accessToken);
         }
@@ -135,7 +140,7 @@ public class OAuth2PasswordAuthenticationProvider implements AuthenticationProvi
         this.authorizationService.save(authorization);
 
         return new OAuth2AccessTokenAuthenticationToken(
-                registeredClient, clientPrincipal, accessToken, refreshToken, additionalParameters);
+                registeredClient, clientPrincipal, accessToken, refreshToken, Objects.requireNonNull(authorization.getAccessToken().getClaims()));
     }
 
     @Override
