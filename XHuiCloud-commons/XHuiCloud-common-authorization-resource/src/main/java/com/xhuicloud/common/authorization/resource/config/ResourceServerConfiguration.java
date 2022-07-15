@@ -25,7 +25,9 @@ public class ResourceServerConfiguration {
                         .antMatchers(ArrayUtil.toArray(urlProperties.getIgnoreUrls(), String.class)).permitAll()
                         .requestMatchers(EndpointRequest.toAnyEndpoint()).permitAll()
                         .anyRequest().authenticated())
-                .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
+                .oauth2ResourceServer(configurer ->
+                        configurer
+                                .jwt().jwtAuthenticationConverter(new CustomJwtAuthenticationConverter()))
                 .headers().frameOptions().disable().and().csrf().disable();
         return http.build();
     }

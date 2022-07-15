@@ -70,12 +70,12 @@ public class XHuiUserDetailsServiceImpl implements XHuiUserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
 
-        Cache cache = cacheManager.getCache(CacheConstants.SYS_USER);
-        if (cache != null && cache.get(userName) != null) {
-            return cache.get(userName, UserDetails.class);
-        }
+//        Cache cache = cacheManager.getCache(CacheConstants.SYS_USER);
+//        if (cache != null && cache.get(userName) != null) {
+//            return cache.get(userName, UserDetails.class);
+//        }
         UserDetails userDetails = getUserDetails(sysUserServiceFeign.getSysUser(userName, IS_COMMING_ANONYMOUS_YES).getData());
-        cache.put(userName, userDetails);
+//        cache.put(userName, userDetails);
         return userDetails;
     }
 
@@ -92,7 +92,7 @@ public class XHuiUserDetailsServiceImpl implements XHuiUserDetailsService {
             dbAuthsSet.addAll(Arrays.asList(userInfo.getPermissions()));
         }
         Collection<? extends GrantedAuthority> authorities
-                = AuthorityUtils.createAuthorityList(dbAuthsSet.toArray(new String[0]));
+                = AuthorityUtils.createAuthorityList(ArrayUtil.toArray(dbAuthsSet, String.class));
         SysUser user = userInfo.getSysUser();
         // 构造security用户
         return new XHuiUser(user.getUserId(), user.getPhone(), user.getTenantId(), userInfo.getTenantName(), user.getUsername(), user.getPassword(), true,

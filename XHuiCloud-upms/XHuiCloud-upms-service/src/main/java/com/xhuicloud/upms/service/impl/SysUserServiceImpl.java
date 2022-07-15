@@ -104,7 +104,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
             List<String> urlList = sysMenus
                     .stream()
-                    .filter(menu -> StringUtils.isNotEmpty(menu.getPermission()))
+                    .filter(menu -> StringUtils.isNotEmpty(menu.getPermission()) && StringUtils.isNotEmpty(menu.getUrl()))
                     .map(SysMenu::getUrl)
                     .collect(Collectors.toList());
 
