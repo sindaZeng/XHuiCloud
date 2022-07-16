@@ -1,6 +1,7 @@
 package com.xhuicloud.common.authorization.repository;
 
 import cn.hutool.core.util.BooleanUtil;
+import com.xhuicloud.common.authorization.resource.properties.SecurityProperties;
 import com.xhuicloud.common.core.constant.AuthorizationConstants;
 import com.xhuicloud.upms.entity.SysClientDetails;
 import com.xhuicloud.upms.feign.SysClientDetailFeign;
@@ -20,17 +21,9 @@ import java.util.Optional;
 @AllArgsConstructor
 public class CustomRegisteredClientRepository implements RegisteredClientRepository {
 
-    /**
-     * 默认请求令牌有效期
-     */
-    private final static int defaultAccessTokenValiditySeconds = 60 * 60 * 12;
-
-    /**
-     * 默认刷新令牌有效期
-     */
-    private final static int defaultRefreshTokenValiditySeconds = 60 * 60 * 24 * 30;
-
     private final SysClientDetailFeign sysClientDetailFeign;
+
+    private final SecurityProperties securityProperties;
 
     @Override
     public void save(RegisteredClient registeredClient) {
@@ -69,11 +62,14 @@ public class CustomRegisteredClientRepository implements RegisteredClientReposit
 
     public TokenSettings getTokenSettings(SysClientDetails sysClientDetails) {
         return TokenSettings.builder()
-                .accessTokenTimeToLive(Duration.ofSeconds(Optional
-                        .ofNullable(sysClientDetails.getAccessTokenValidity()).orElse(defaultAccessTokenValiditySeconds)))
+                .accessTokenTimeToLive(
+                        Duration.ofSeconds(Optional
+                                .ofNullable(sysClientDetails.getAccessTokenValidity())
+                                .orElse(securityProperties.getAuthorization().getAccessTokenValiditySeconds())))
                 .refreshTokenTimeToLive(
-                        Duration.ofSeconds(Optional.ofNullable(sysClientDetails.getRefreshTokenValidity())
-                                .orElse(defaultAccessTokenValiditySeconds)))
+                        Duration.ofSeconds(Optional
+                                .ofNullable(sysClientDetails.getRefreshTokenValidity())
+                                .orElse(securityProperties.getAuthorization().getRefreshTokenValiditySeconds())))
                 .build();
     }
 

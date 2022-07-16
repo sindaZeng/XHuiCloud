@@ -24,11 +24,13 @@
 
 package com.xhuicloud.auth;
 
+import com.xhuicloud.common.authorization.annotation.EnableAuthorizationServer;
 import com.xhuicloud.common.feign.annotation.EnableXHuiFeignClients;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
+@EnableAuthorizationServer
 @EnableXHuiFeignClients
 @SpringBootApplication
 @EnableDiscoveryClient
