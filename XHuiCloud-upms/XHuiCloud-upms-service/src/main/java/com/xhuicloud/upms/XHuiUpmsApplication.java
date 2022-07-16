@@ -36,9 +36,9 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 @EnableDiscoveryClient
 @EnableXHuiFeignClients
 @EnableResourceServer
-public class XHuiUserManagementApplication {
+public class XHuiUpmsApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(XHuiUserManagementApplication.class, args);
+        SpringApplication.run(XHuiUpmsApplication.class, args);
     }
 }

@@ -30,11 +30,11 @@ import lombok.experimental.UtilityClass;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
 import static com.xhuicloud.common.core.constant.AuthorizationConstants.ROLE_PREFIX;
 
 /**
@@ -45,6 +45,14 @@ import static com.xhuicloud.common.core.constant.AuthorizationConstants.ROLE_PRE
  */
 @UtilityClass
 public class SecurityHolder {
+
+	public PasswordEncoder passwordEncoder() {
+		return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+	}
+
+	public String encoder(String password) {
+		return passwordEncoder().encode(password);
+	}
 
 	/**
 	 * 获取Authentication

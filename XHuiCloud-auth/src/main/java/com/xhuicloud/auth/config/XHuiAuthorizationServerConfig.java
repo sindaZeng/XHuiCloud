@@ -50,6 +50,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.core.OAuth2TokenType;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
+import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
 import org.springframework.security.oauth2.server.authorization.authentication.OAuth2ClientAuthenticationToken;
 import org.springframework.security.oauth2.server.authorization.config.ProviderSettings;
@@ -117,12 +118,21 @@ public class XHuiAuthorizationServerConfig {
                 new OAuth2AuthorizationCodeRequestAuthenticationConverter()));
     }
 
+
+
     @Bean
     public JWKSource<SecurityContext> jwkSource() {
         RSAKey rsaKey = Jwks.generateRsa();
         JWKSet jwkSet = new JWKSet(rsaKey);
         return (jwkSelector, securityContext) -> jwkSelector.select(jwkSet);
     }
+
+//    @Bean
+//    public JwtGenerator jwtGenerator(JWKSource<SecurityContext> jwkSource) {
+//        NimbusJwtEncoder nimbusJwtEncoder = new NimbusJwtEncoder(jwkSource);
+//        nimbusJwtEncoder.
+//        return (jwkSelector, securityContext) -> jwkSelector.select(jwkSet);
+//    }
 
     public OAuth2TokenCustomizer<JwtEncodingContext> accessTokenCustomizer() {
         return context -> {
@@ -139,16 +149,20 @@ public class XHuiAuthorizationServerConfig {
                     Set<String> authorizedScopes;
                     if (authentication instanceof UsernamePasswordAuthenticationToken) {
                         XHuiUser principal = (XHuiUser) authentication.getPrincipal();
-                        Integer userId = principal.getId();
-                        authorities = principal.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toSet());
-                        authorizedScopes = context.getAuthorizedScopes();
                         Map<String, Object> attributes = new HashMap();
-                        attributes.put("openid", userId);
-                        attributes.put("authorities", authorities);
-                        attributes.put("scope", authorizedScopes);
+                        attributes.put("userId", principal.getId());
+                        if (CollectionUtils.isNotEmpty(principal.getAuthorities())) {
+                            authorities = principal.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toSet());
+                            attributes.put("authorities", authorities);
+                        }
+
+                        if (CollectionUtils.isNotEmpty(context.getAuthorizedScopes())) {
+                            authorizedScopes = context.getAuthorizedScopes();
+                            attributes.put("scope", authorizedScopes);
+                        }
 
                         JwtClaimsSet.Builder jwtClaimSetBuilder = context.getClaims();
-                        jwtClaimSetBuilder.claims((claims) -> {
+                        jwtClaimSetBuilder.claims(claims -> {
                             claims.putAll(attributes);
                         });
                     }
@@ -157,7 +171,7 @@ public class XHuiAuthorizationServerConfig {
                         OAuth2ClientAuthenticationToken clientAuthenticationToken = (OAuth2ClientAuthenticationToken) authentication;
                         Map<String, Object> attributes = new HashMap();
                         if (CollectionUtils.isNotEmpty(clientAuthenticationToken.getAuthorities())) {
-                            authorities = (Set) clientAuthenticationToken.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toSet());
+                            authorities = clientAuthenticationToken.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toSet());
                             attributes.put("authorities", authorities);
                         }
 

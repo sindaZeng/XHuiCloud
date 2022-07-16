@@ -1,13 +1,15 @@
 package com.xhuicloud.common.authorization.constant;
 
+import org.springframework.security.oauth2.core.AuthorizationGrantType;
+
 /**
  * 自定义GrantType
  */
 public interface CustomAuthorizationGrantType {
 
     /**
-     * 密码模式
+     * 社交登录
      */
-    String PASSWORD = "password";
+    AuthorizationGrantType SOCIAL = new AuthorizationGrantType("social");
 
 }
