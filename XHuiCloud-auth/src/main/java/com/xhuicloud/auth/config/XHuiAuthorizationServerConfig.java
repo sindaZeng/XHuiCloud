@@ -118,15 +118,6 @@ public class XHuiAuthorizationServerConfig {
                 new OAuth2AuthorizationCodeRequestAuthenticationConverter()));
     }
 
-
-
-    @Bean
-    public JWKSource<SecurityContext> jwkSource() {
-        RSAKey rsaKey = Jwks.generateRsa();
-        JWKSet jwkSet = new JWKSet(rsaKey);
-        return (jwkSelector, securityContext) -> jwkSelector.select(jwkSet);
-    }
-
 //    @Bean
 //    public JwtGenerator jwtGenerator(JWKSource<SecurityContext> jwkSource) {
 //        NimbusJwtEncoder nimbusJwtEncoder = new NimbusJwtEncoder(jwkSource);
