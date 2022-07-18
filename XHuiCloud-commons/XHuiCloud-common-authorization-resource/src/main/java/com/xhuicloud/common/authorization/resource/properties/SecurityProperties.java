@@ -30,6 +30,27 @@ public class SecurityProperties {
          */
         private int refreshTokenValiditySeconds = 60 * 60 * 24 * 30;
 
+        /**
+         * 自定义jwk
+         */
+        private Jwk jwk = new Jwk();
+
+    }
+
+    @Getter
+    @Setter
+    public static class Jwk {
+
+        private String keyStore;
+
+        private String keyPath;
+
+        private String keyPassword;
+
+        private String storePass;
+
+        private String alias;
+
     }
 
 }

@@ -1,18 +1,18 @@
 package com.xhuicloud.common.authorization;
 
+import cn.hutool.core.util.ObjectUtil;
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
 import com.xhuicloud.common.authorization.jose.Jwks;
+import com.xhuicloud.common.authorization.resource.properties.SecurityProperties;
 import com.xhuicloud.common.authorization.resource.utils.SecurityHolder;
 import org.springframework.context.annotation.Bean;
-import org.springframework.core.io.Resource;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.util.ResourceUtils;
 
 import java.security.KeyStore;
-import java.security.KeyStoreException;
 
 public class AuthorizationServerAutoConfiguration {
 
@@ -29,15 +29,20 @@ public class AuthorizationServerAutoConfiguration {
      * @return
      */
     @Bean
-    public JWKSource<SecurityContext> jwkSource() {
-        RSAKey rsaKey;
-        try {
-            String alias = "xhuicloud";
-            String storePass = "xhuicloud.cn";
-            KeyStore jks = KeyStore.getInstance("jks");
-            char[] pin = storePass.toCharArray();
-            rsaKey = RSAKey.load(jks, alias, pin);
-        } catch (Exception e) {
+    public JWKSource<SecurityContext> jwkSource(SecurityProperties securityProperties) {
+        RSAKey rsaKey = null;
+        SecurityProperties.Jwk jwk = securityProperties.getAuthorization().getJwk();
+        if (ObjectUtil.isAllNotEmpty(jwk)) {
+            try {
+                char[] pin = jwk.getStorePass().toCharArray();
+                KeyStore jks = KeyStore.getInstance(jwk.getKeyStore());
+                jks.load(new ClassPathResource(jwk.getKeyPath()).getInputStream(), pin);
+                rsaKey = RSAKey.load(jks, jwk.getAlias(), pin);
+            } catch (Exception e) {
+            }
+        }
+
+        if (rsaKey == null){
             rsaKey = Jwks.generateRsa();
         }
         JWKSet jwkSet = new JWKSet(rsaKey);
