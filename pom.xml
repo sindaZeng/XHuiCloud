@@ -12,8 +12,6 @@
         <module>XHuiCloud-dependencies-bom</module>
         <module>XHuiCloud-upms</module>
         <module>XHuiCloud-business</module>
-        <module>XHuiCloud-commons/XHuiCloud-common-authorization</module>
-        <module>XHuiCloud-commons/XHuiCloud-common-authorization-resource</module>
     </modules>
     <packaging>pom</packaging>
     <properties>

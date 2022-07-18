@@ -13,6 +13,7 @@
 
     <modules>
         <module>XHuiCloud-common-authorization</module>
+        <module>XHuiCloud-common-authorization-resource</module>
         <module>XHuiCloud-common-core</module>
         <module>XHuiCloud-common-data</module>
         <module>XHuiCloud-common-dds</module>
@@ -31,7 +32,6 @@
         <module>XHuiCloud-common-rabbitMq</module>
         <module>XHuiCloud-common-mybatis</module>
         <module>XHuiCloud-common-oss</module>
-        <module>XHuiCloud-common-authorization</module>
     </modules>
 
 </project>
