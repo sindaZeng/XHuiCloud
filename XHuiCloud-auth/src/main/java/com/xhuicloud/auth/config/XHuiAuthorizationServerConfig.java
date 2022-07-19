@@ -24,6 +24,7 @@
 
 package com.xhuicloud.auth.config;
 
+import cn.hutool.core.util.ObjectUtil;
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.JWKSource;
@@ -31,14 +32,17 @@ import com.nimbusds.jose.proc.SecurityContext;
 import com.xhuicloud.common.authorization.extension.password.OAuth2PasswordAuthenticationConverter;
 import com.xhuicloud.common.authorization.extension.password.OAuth2PasswordAuthenticationProvider;
 import com.xhuicloud.common.authorization.jose.Jwks;
+import com.xhuicloud.common.authorization.resource.properties.SecurityProperties;
 import com.xhuicloud.common.authorization.resource.userdetails.XHuiUser;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -61,6 +65,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationConverter;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 
+import java.security.KeyStore;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -73,6 +78,7 @@ import java.util.stream.Collectors;
  * @author: Sinda
  * @create: 2019-12-27 22:26
  **/
+@Slf4j
 @Configuration
 @AllArgsConstructor
 public class XHuiAuthorizationServerConfig {
