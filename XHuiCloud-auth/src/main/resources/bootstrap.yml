@@ -18,3 +18,12 @@ spring:
 
 server:
   port: 16000
+
+xhuicloud:
+  security:
+    authorization:
+      jwk:
+        alias: xhuicloud
+        storePass: xhuicloud.cn
+        keyStore: PKCS12
+        key-path: xhuicloud.jks

@@ -22,5 +22,4 @@
             <artifactId>XHuiCloud-common-authorization-resource</artifactId>
         </dependency>
     </dependencies>
-
 </project>

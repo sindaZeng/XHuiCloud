@@ -8,12 +8,14 @@ import com.nimbusds.jose.proc.SecurityContext;
 import com.xhuicloud.common.authorization.jose.Jwks;
 import com.xhuicloud.common.authorization.resource.properties.SecurityProperties;
 import com.xhuicloud.common.authorization.resource.utils.SecurityHolder;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.security.KeyStore;
 
+@Slf4j
 public class AuthorizationServerAutoConfiguration {
 
     @Bean
@@ -39,6 +41,7 @@ public class AuthorizationServerAutoConfiguration {
                 jks.load(new ClassPathResource(jwk.getKeyPath()).getInputStream(), pin);
                 rsaKey = RSAKey.load(jks, jwk.getAlias(), pin);
             } catch (Exception e) {
+                log.error(e.getMessage());
             }
         }
 
