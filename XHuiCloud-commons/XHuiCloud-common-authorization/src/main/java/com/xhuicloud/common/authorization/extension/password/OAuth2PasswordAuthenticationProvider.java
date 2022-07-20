@@ -140,7 +140,7 @@ public class OAuth2PasswordAuthenticationProvider implements AuthenticationProvi
         this.authorizationService.save(authorization);
 
         return new OAuth2AccessTokenAuthenticationToken(
-                registeredClient, clientPrincipal, accessToken, refreshToken, Objects.requireNonNull(authorization.getAccessToken().getClaims()));
+                registeredClient, clientPrincipal, accessToken, refreshToken);
     }
 
     @Override

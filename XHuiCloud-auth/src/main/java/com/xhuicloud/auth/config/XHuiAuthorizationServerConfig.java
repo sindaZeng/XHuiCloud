@@ -24,6 +24,7 @@
 
 package com.xhuicloud.auth.config;
 
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
@@ -146,13 +147,7 @@ public class XHuiAuthorizationServerConfig {
                     Set<String> authorizedScopes;
                     if (authentication instanceof UsernamePasswordAuthenticationToken) {
                         XHuiUser principal = (XHuiUser) authentication.getPrincipal();
-                        Map<String, Object> attributes = new HashMap();
-                        attributes.put("userId", principal.getId());
-                        if (CollectionUtils.isNotEmpty(principal.getAuthorities())) {
-                            authorities = principal.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toSet());
-                            attributes.put("authorities", authorities);
-                        }
-
+                        Map<String, Object> attributes = BeanUtil.beanToMap(principal);
                         if (CollectionUtils.isNotEmpty(context.getAuthorizedScopes())) {
                             authorizedScopes = context.getAuthorizedScopes();
                             attributes.put("scope", authorizedScopes);
