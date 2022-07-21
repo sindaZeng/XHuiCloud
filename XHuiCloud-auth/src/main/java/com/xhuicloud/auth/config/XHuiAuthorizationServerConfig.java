@@ -152,6 +152,9 @@ public class XHuiAuthorizationServerConfig {
                             authorizedScopes = context.getAuthorizedScopes();
                             attributes.put("scope", authorizedScopes);
                         }
+                        if (CollectionUtils.isNotEmpty(principal.getAuthorities())) {
+                            attributes.put("attributes", principal.getAuthorities());
+                        }
 
                         JwtClaimsSet.Builder jwtClaimSetBuilder = context.getClaims();
                         jwtClaimSetBuilder.claims(claims -> {
