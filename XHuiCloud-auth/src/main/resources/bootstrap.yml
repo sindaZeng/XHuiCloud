@@ -25,5 +25,6 @@ xhuicloud:
       jwk:
         alias: xhuicloud
         storePass: xhuicloud.cn
-        keyStore: PKCS12
-        key-path: xhuicloud.jks
+        keyStore: jks
+        key-path: static/xhuicloud.jks
+      access-token-validity-seconds: 200000
