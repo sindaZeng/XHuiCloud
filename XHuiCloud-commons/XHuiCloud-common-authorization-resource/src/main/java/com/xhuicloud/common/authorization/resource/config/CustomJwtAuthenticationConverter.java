@@ -1,65 +1,29 @@
 package com.xhuicloud.common.authorization.resource.config;
 
+import com.xhuicloud.common.authorization.resource.userdetails.XHuiUser;
+import com.xhuicloud.common.authorization.resource.userdetails.XHuiUserDetailsService;
+import lombok.AllArgsConstructor;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
-import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.oauth2.core.OAuth2AccessToken;
 import org.springframework.security.oauth2.jwt.Jwt;
-import org.springframework.security.oauth2.jwt.JwtClaimNames;
-import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
-import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
-import org.springframework.util.Assert;
+import org.springframework.security.oauth2.server.resource.authentication.BearerTokenAuthentication;
 
-import java.util.Collection;
-
+/**
+ * 自定义token 转换器
+ */
+@AllArgsConstructor
 public class CustomJwtAuthenticationConverter implements Converter<Jwt, AbstractAuthenticationToken> {
 
-    private Converter<Jwt, Collection<GrantedAuthority>> jwtGrantedAuthoritiesConverter = new CustomJwtGrantedAuthoritiesConverter();
-
-    private String principalClaimName = JwtClaimNames.SUB;
+    private final XHuiUserDetailsService xHuiUserDetailsService;
 
     @Override
-    public final AbstractAuthenticationToken convert(Jwt jwt) {
-        Collection<GrantedAuthority> authorities = extractAuthorities(jwt);
-
-        String principalClaimValue = jwt.getClaimAsString(this.principalClaimName);
-        return new JwtAuthenticationToken(jwt, authorities, principalClaimValue);
-    }
-
-    /**
-     * Extracts the {@link GrantedAuthority}s from scope attributes typically found in a
-     * {@link Jwt}
-     * @param jwt The token
-     * @return The collection of {@link GrantedAuthority}s found on the token
-     * @deprecated Since 5.2. Use your own custom converter instead
-     * @see JwtGrantedAuthoritiesConverter
-     * @see #setJwtGrantedAuthoritiesConverter(Converter)
-     */
-    @Deprecated
-    protected Collection<GrantedAuthority> extractAuthorities(Jwt jwt) {
-        return this.jwtGrantedAuthoritiesConverter.convert(jwt);
-    }
-
-    /**
-     * Sets the {@link Converter Converter&lt;Jwt, Collection&lt;GrantedAuthority&gt;&gt;}
-     * to use. Defaults to {@link JwtGrantedAuthoritiesConverter}.
-     * @param jwtGrantedAuthoritiesConverter The converter
-     * @since 5.2
-     * @see JwtGrantedAuthoritiesConverter
-     */
-    public void setJwtGrantedAuthoritiesConverter(
-            Converter<Jwt, Collection<GrantedAuthority>> jwtGrantedAuthoritiesConverter) {
-        Assert.notNull(jwtGrantedAuthoritiesConverter, "jwtGrantedAuthoritiesConverter cannot be null");
-        this.jwtGrantedAuthoritiesConverter = jwtGrantedAuthoritiesConverter;
-    }
-
-    /**
-     * Sets the principal claim name. Defaults to {@link JwtClaimNames#SUB}.
-     * @param principalClaimName The principal claim name
-     * @since 5.4
-     */
-    public void setPrincipalClaimName(String principalClaimName) {
-        Assert.hasText(principalClaimName, "principalClaimName cannot be empty");
-        this.principalClaimName = principalClaimName;
+    public AbstractAuthenticationToken convert(Jwt jwt) {
+        OAuth2AccessToken accessToken = new OAuth2AccessToken(OAuth2AccessToken.TokenType.BEARER, jwt.getTokenValue(),
+                jwt.getIssuedAt(), jwt.getExpiresAt());
+        String username = jwt.getClaimAsString("sub");
+        XHuiUser userDetails = (XHuiUser) xHuiUserDetailsService.getUserDetails(username);
+        return new BearerTokenAuthentication(userDetails, accessToken, userDetails.getAuthorities());
     }
 
 }

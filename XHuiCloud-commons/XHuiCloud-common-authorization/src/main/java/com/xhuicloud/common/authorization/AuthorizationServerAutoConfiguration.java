@@ -1,19 +1,14 @@
 package com.xhuicloud.common.authorization;
 
-import cn.hutool.core.util.ObjectUtil;
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
 import com.xhuicloud.common.authorization.jose.Jwks;
-import com.xhuicloud.common.authorization.resource.properties.SecurityProperties;
 import com.xhuicloud.common.authorization.resource.utils.SecurityHolder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
-import java.security.KeyStore;
 
 @Slf4j
 public class AuthorizationServerAutoConfiguration {
@@ -31,25 +26,9 @@ public class AuthorizationServerAutoConfiguration {
      * @return
      */
     @Bean
-    public JWKSource<SecurityContext> jwkSource(SecurityProperties securityProperties) {
-        RSAKey rsaKey = null;
-        SecurityProperties.Jwk jwk = securityProperties.getAuthorization().getJwk();
-        if (ObjectUtil.isAllNotEmpty(jwk)) {
-            try {
-                char[] pin = jwk.getStorePass().toCharArray();
-                KeyStore jks = KeyStore.getInstance(jwk.getKeyStore());
-                jks.load(new ClassPathResource(jwk.getKeyPath()).getInputStream(), pin);
-                rsaKey = RSAKey.load(jks, jwk.getAlias(), pin);
-            } catch (Exception e) {
-                log.error(e.getMessage());
-            }
-        }
-
-        if (rsaKey == null){
-            rsaKey = Jwks.generateRsa();
-        }
-        JWKSet jwkSet = new JWKSet(rsaKey);
-        return (jwkSelector, securityContext) -> jwkSelector.select(jwkSet);
+    public JWKSource<SecurityContext> jwkSource() {
+        RSAKey rsaKey = Jwks.generateRsa();
+        return (jwkSelector, securityContext) -> jwkSelector.select(new JWKSet(rsaKey));
     }
 
 }

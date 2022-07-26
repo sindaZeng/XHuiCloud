@@ -29,14 +29,15 @@ import com.baomidou.mybatisplus.core.metadata.TableInfo;
 import com.baomidou.mybatisplus.core.metadata.TableInfoHelper;
 import com.baomidou.mybatisplus.extension.plugins.handler.TenantLineHandler;
 import com.xhuicloud.common.data.ttl.XHuiCommonThreadLocalHolder;
+import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import net.sf.jsqlparser.expression.LongValue;
 import net.sf.jsqlparser.expression.NullValue;
-import org.springframework.beans.factory.annotation.Autowired;
 import net.sf.jsqlparser.expression.Expression;
 
-import javax.annotation.PostConstruct;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @program: XHuiCloud
@@ -44,25 +45,12 @@ import java.util.List;
  * @author: Sinda
  * @create: 2020-05-12 16:56
  */
+@RequiredArgsConstructor
 public class XHuiTenantHandler implements TenantLineHandler {
 
-    @Autowired
-    private TenantCoreProperties tenantCoreProperties;
+    private final TenantCoreProperties tenantCoreProperties;
 
-    private static List<String> TENANT_CACHE = null;
-
-    @PostConstruct
-    private void init() {
-        List<TableInfo> tableInfos = TableInfoHelper.getTableInfos();
-        if (CollectionUtil.isNotEmpty(tableInfos)) {
-            TENANT_CACHE = new ArrayList<>();
-            tableInfos.stream().forEach(tableInfo -> {
-                if (tableInfo.getFieldList().stream().anyMatch(fieldInfo -> fieldInfo.getColumn().equals(tenantCoreProperties.getColumn()))) {
-                    TENANT_CACHE.add(tableInfo.getTableName());
-                }
-            });
-        }
-    }
+    private Set<String> table;
 
     /**
      * 设置租户id
@@ -97,9 +85,26 @@ public class XHuiTenantHandler implements TenantLineHandler {
     @Override
     public boolean ignoreTable(String tableName) {
         Integer tenantId = XHuiCommonThreadLocalHolder.getTenant();
-        if (tenantId == null || TENANT_CACHE == null) {
+        if (tenantId == null || getTable() == null) {
             return Boolean.TRUE;
         }
-        return !TENANT_CACHE.contains(tableName);
+        return !getTable().contains(tableName);
+    }
+
+
+    public Set<String> getTable() {
+        if (table == null) {
+            table = new HashSet<>();
+            List<TableInfo> tableInfos = TableInfoHelper.getTableInfos();
+            if (CollectionUtil.isNotEmpty(tableInfos)) {
+                tableInfos.stream().forEach(tableInfo -> {
+                    if (tableInfo.getFieldList().stream().anyMatch(fieldInfo -> fieldInfo.getColumn().equals(tenantCoreProperties.getColumn()))) {
+                        table.add(tableInfo.getTableName());
+                    }
+                });
+            }
+            table.addAll(tenantCoreProperties.getTable());
+        }
+        return table;
     }
 }

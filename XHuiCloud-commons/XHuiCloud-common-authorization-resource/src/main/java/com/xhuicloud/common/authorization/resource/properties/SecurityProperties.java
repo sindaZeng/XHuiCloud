@@ -14,8 +14,6 @@ public class SecurityProperties {
      */
     private Authorization authorization = new Authorization();
 
-
-
     @Getter
     @Setter
     public static class Authorization {
@@ -34,6 +32,8 @@ public class SecurityProperties {
          * 自定义jwk
          */
         private Jwk jwk = new Jwk();
+
+        private String consentPage = "confirm_access";
 
     }
 

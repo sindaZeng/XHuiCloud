@@ -1,7 +1,6 @@
 package com.xhuicloud.common.authorization.resource.annotation;
 
 import com.xhuicloud.common.authorization.resource.ResourceServerAutoConfiguration;
-import com.xhuicloud.common.authorization.resource.config.ResourceServerConfiguration;
 import com.xhuicloud.common.authorization.resource.properties.PermitAnonymousUrlProperties;
 import com.xhuicloud.common.authorization.resource.properties.SecurityProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -18,6 +17,6 @@ import java.lang.annotation.*;
 @EnableWebSecurity(debug = true)
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @EnableConfigurationProperties({PermitAnonymousUrlProperties.class, SecurityProperties.class})
-@Import({ResourceServerAutoConfiguration.class, ResourceServerConfiguration.class})
+@Import(ResourceServerAutoConfiguration.class)
 public @interface EnableResourceServer {
 }
