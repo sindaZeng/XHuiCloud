@@ -25,9 +25,11 @@
 package com.xhuicloud.common.mybatis.tenant;
 
 import lombok.Data;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
-import org.springframework.context.annotation.Configuration;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @program: XHuiCloud
@@ -36,7 +38,6 @@ import org.springframework.context.annotation.Configuration;
  * @create: 2020-05-13 11:52
  */
 @Data
-@Configuration
 @RefreshScope
 @ConfigurationProperties(prefix = "xhuicloud.tenant")
 public class TenantCoreProperties {
@@ -46,4 +47,12 @@ public class TenantCoreProperties {
      */
     private String column = "tenant_id";
 
+    /**
+     * 租户表
+     */
+    private Set<String> table = new HashSet<>();
+
+    public Set<String> getTable() {
+        return table;
+    }
 }

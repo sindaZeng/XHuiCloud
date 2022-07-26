@@ -12,9 +12,9 @@
 
     <properties>
         <revision>2.0.2</revision>
-        <mybatis-plus.version>3.5.1</mybatis-plus.version>
+        <mybatis-plus.version>3.5.2</mybatis-plus.version>
         <druid.version>1.2.8</druid.version>
-        <dds.version>3.4.1</dds.version>
+        <dds.version>3.5.1</dds.version>
         <mysql.connector.version>8.0.27</mysql.connector.version>
         <oracle.version>11.2.0.3</oracle.version>
         <logstash.version>5.3</logstash.version>
@@ -232,13 +232,6 @@
                 <groupId>mysql</groupId>
                 <artifactId>mysql-connector-java</artifactId>
                 <version>${mysql.connector.version}</version>
-            </dependency>
-
-            <!--oracle 驱动-->
-            <dependency>
-                <groupId>com.oracle</groupId>
-                <artifactId>ojdbc6</artifactId>
-                <version>${oracle.version}</version>
             </dependency>
 
             <!--mybatis-->

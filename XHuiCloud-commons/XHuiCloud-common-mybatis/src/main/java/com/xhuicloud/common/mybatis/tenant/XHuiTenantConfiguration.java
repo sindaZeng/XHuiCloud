@@ -24,6 +24,11 @@
 
 package com.xhuicloud.common.mybatis.tenant;
 
+import com.baomidou.mybatisplus.core.MybatisConfiguration;
+import com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean;
+import org.springframework.boot.autoconfigure.AutoConfigureAfter;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
@@ -34,12 +39,17 @@ import org.springframework.http.client.ClientHttpRequestInterceptor;
  * @author: Sinda
  * @create: 2020/9/27 11:10 上午
  */
-@Configuration
+@EnableConfigurationProperties(TenantCoreProperties.class)
 public class XHuiTenantConfiguration {
 
     @Bean
     public ClientHttpRequestInterceptor clientHttpRequestInterceptor() {
         return new XHuiRequestInterceptor();
+    }
+
+    @Bean
+    public XHuiTenantHandler tenantHandler(TenantCoreProperties tenantCoreProperties) {
+        return new XHuiTenantHandler(tenantCoreProperties);
     }
 
 }

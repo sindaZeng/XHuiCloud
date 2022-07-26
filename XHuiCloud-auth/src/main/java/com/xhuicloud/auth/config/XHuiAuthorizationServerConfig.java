@@ -24,40 +24,21 @@
 
 package com.xhuicloud.auth.config;
 
-import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.util.ObjectUtil;
-import com.nimbusds.jose.jwk.JWKSet;
-import com.nimbusds.jose.jwk.RSAKey;
-import com.nimbusds.jose.jwk.source.JWKSource;
-import com.nimbusds.jose.proc.SecurityContext;
+import com.xhuicloud.common.authorization.extension.core.CustomJWTOAuth2TokenCustomizer;
 import com.xhuicloud.common.authorization.extension.password.OAuth2PasswordAuthenticationConverter;
 import com.xhuicloud.common.authorization.extension.password.OAuth2PasswordAuthenticationProvider;
-import com.xhuicloud.common.authorization.jose.Jwks;
 import com.xhuicloud.common.authorization.resource.properties.SecurityProperties;
-import com.xhuicloud.common.authorization.resource.userdetails.XHuiUser;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.oauth2.server.authorization.OAuth2AuthorizationServerConfigurer;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.core.OAuth2TokenType;
-import org.springframework.security.oauth2.jwt.JwtClaimsSet;
-import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
-import org.springframework.security.oauth2.server.authorization.authentication.OAuth2ClientAuthenticationToken;
 import org.springframework.security.oauth2.server.authorization.config.ProviderSettings;
 import org.springframework.security.oauth2.server.authorization.token.*;
 import org.springframework.security.oauth2.server.authorization.web.authentication.*;
@@ -66,12 +47,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationConverter;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 
-import java.security.KeyStore;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * @program: XHuiCloud
@@ -84,6 +60,8 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class XHuiAuthorizationServerConfig {
 
+    private final SecurityProperties securityProperties;
+
     @Bean
     @Order(Ordered.HIGHEST_PRECEDENCE)
     public SecurityFilterChain authorizationServerSecurityFilterChain(HttpSecurity http) throws Exception {
@@ -93,7 +71,7 @@ public class XHuiAuthorizationServerConfig {
                     tokenEndpoint.accessTokenRequestConverter(authenticationConverter()); // 注入自定义的授权认证Converter
                 }).clientAuthentication(Customizer.withDefaults())
                 .authorizationEndpoint(authorizationEndpoint -> authorizationEndpoint// 授权码端点个性化confirm页面
-                        .consentPage("confirm_access")));
+                        .consentPage(securityProperties.getAuthorization().getConsentPage())));
 
         RequestMatcher endpointsMatcher = authorizationServerConfigurer.getEndpointsMatcher();
         DefaultSecurityFilterChain securityFilterChain = http.requestMatcher(endpointsMatcher)
@@ -109,7 +87,7 @@ public class XHuiAuthorizationServerConfig {
         AuthenticationManager authenticationManager = http.getSharedObject(AuthenticationManager.class);
         OAuth2AuthorizationService authorizationService = http.getSharedObject(OAuth2AuthorizationService.class);
         JwtGenerator jwtGenerator = http.getSharedObject(JwtGenerator.class);
-        jwtGenerator.setJwtCustomizer(accessTokenCustomizer());
+        jwtGenerator.setJwtCustomizer(new CustomJWTOAuth2TokenCustomizer());
         DelegatingOAuth2TokenGenerator tokenGenerator = new DelegatingOAuth2TokenGenerator(jwtGenerator, new OAuth2RefreshTokenGenerator());
         OAuth2PasswordAuthenticationProvider passwordAuthenticationProvider = new OAuth2PasswordAuthenticationProvider(authenticationManager, authorizationService, tokenGenerator);
 
@@ -123,67 +101,6 @@ public class XHuiAuthorizationServerConfig {
                 new OAuth2ClientCredentialsAuthenticationConverter(),
                 new OAuth2AuthorizationCodeAuthenticationConverter(),
                 new OAuth2AuthorizationCodeRequestAuthenticationConverter()));
-    }
-
-//    @Bean
-//    public JwtGenerator jwtGenerator(JWKSource<SecurityContext> jwkSource) {
-//        NimbusJwtEncoder nimbusJwtEncoder = new NimbusJwtEncoder(jwkSource);
-//        nimbusJwtEncoder.
-//        return (jwkSelector, securityContext) -> jwkSelector.select(jwkSet);
-//    }
-
-    public OAuth2TokenCustomizer<JwtEncodingContext> accessTokenCustomizer() {
-        return context -> {
-            AbstractAuthenticationToken token = null;
-            Authentication clientAuthentication = SecurityContextHolder.getContext().getAuthentication();
-            if (clientAuthentication instanceof OAuth2ClientAuthenticationToken) {
-                token = (OAuth2ClientAuthenticationToken) clientAuthentication;
-            }
-
-            if (ObjectUtils.isNotEmpty(token) && token.isAuthenticated() && OAuth2TokenType.ACCESS_TOKEN.equals(context.getTokenType())) {
-                Authentication authentication = context.getPrincipal();
-                if (ObjectUtils.isNotEmpty(authentication)) {
-                    Set<String> authorities;
-                    Set<String> authorizedScopes;
-                    if (authentication instanceof UsernamePasswordAuthenticationToken) {
-                        XHuiUser principal = (XHuiUser) authentication.getPrincipal();
-                        Map<String, Object> attributes = BeanUtil.beanToMap(principal);
-                        if (CollectionUtils.isNotEmpty(context.getAuthorizedScopes())) {
-                            authorizedScopes = context.getAuthorizedScopes();
-                            attributes.put("scope", authorizedScopes);
-                        }
-                        if (CollectionUtils.isNotEmpty(principal.getAuthorities())) {
-                            attributes.put("attributes", principal.getAuthorities());
-                        }
-
-                        JwtClaimsSet.Builder jwtClaimSetBuilder = context.getClaims();
-                        jwtClaimSetBuilder.claims(claims -> {
-                            claims.putAll(attributes);
-                        });
-                    }
-
-                    if (authentication instanceof OAuth2ClientAuthenticationToken) {
-                        OAuth2ClientAuthenticationToken clientAuthenticationToken = (OAuth2ClientAuthenticationToken) authentication;
-                        Map<String, Object> attributes = new HashMap();
-                        if (CollectionUtils.isNotEmpty(clientAuthenticationToken.getAuthorities())) {
-                            authorities = clientAuthenticationToken.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toSet());
-                            attributes.put("authorities", authorities);
-                        }
-
-                        authorizedScopes = context.getAuthorizedScopes();
-                        if (CollectionUtils.isNotEmpty(authorizedScopes)) {
-                            attributes.put("scope", authorizedScopes);
-                        }
-
-                        JwtClaimsSet.Builder jwtClaimSetBuilder = context.getClaims();
-                        jwtClaimSetBuilder.claims((claims) -> {
-                            claims.putAll(attributes);
-                        });
-                    }
-                }
-            }
-
-        };
     }
 
     @Bean

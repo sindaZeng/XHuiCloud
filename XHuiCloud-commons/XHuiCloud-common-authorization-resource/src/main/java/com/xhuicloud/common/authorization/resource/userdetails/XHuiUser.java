@@ -28,8 +28,11 @@ import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.SpringSecurityCoreVersion;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.oauth2.core.OAuth2AuthenticatedPrincipal;
 
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @program: XHuiCloud
@@ -37,7 +40,7 @@ import java.util.Collection;
  * @author: Sinda
  * @create: 2019-12-26 00:52
  **/
-public class XHuiUser extends User {
+public class XHuiUser extends User implements OAuth2AuthenticatedPrincipal {
 
     private static final long serialVersionUID = SpringSecurityCoreVersion.SERIAL_VERSION_UID;
 
@@ -76,5 +79,15 @@ public class XHuiUser extends User {
         this.phone = phone;
         this.tenantId = tenantId;
         this.tenantName = tenantName;
+    }
+
+    @Override
+    public Map<String, Object> getAttributes() {
+        return new HashMap<>();
+    }
+
+    @Override
+    public String getName() {
+        return this.getUsername();
     }
 }

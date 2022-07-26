@@ -24,13 +24,46 @@
 
 package com.xhuicloud.common.authorization.repository;
 
+import com.xhuicloud.common.authorization.resource.userdetails.XHuiUserDetailsService;
+import com.xhuicloud.common.core.constant.CacheConstants;
+import lombok.AllArgsConstructor;
+import org.springframework.cache.Cache;
+import org.springframework.cache.CacheManager;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 /**
  * @program: XHuiCloud
- * @description: XHuiUserDetailsService
+ * @description: XHuiUserDetailsServiceImpl
  * @author: Sinda
- * @create: 2019-12-26 00:11
+ * @create: 2019-12-26 00:12
  **/
-public interface XHuiUserDetailsService extends UserDetailsService {
+@AllArgsConstructor
+public class UserDetailsServiceImpl implements UserDetailsService {
+
+
+    private final CacheManager cacheManager;
+
+    private final XHuiUserDetailsService xHuiUserDetailsService;
+
+    /**
+     * 用户名登录
+     *
+     * @param username
+     * @return
+     * @throws UsernameNotFoundException
+     */
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+
+        Cache cache = cacheManager.getCache(CacheConstants.SYS_USER);
+        if (cache != null && cache.get(username) != null) {
+            return cache.get(username, UserDetails.class);
+        }
+        UserDetails userDetails = xHuiUserDetailsService.getUserDetails(username);
+        cache.put(username, userDetails);
+        return userDetails;
+    }
+
 }
