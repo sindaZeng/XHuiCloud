@@ -20,7 +20,7 @@
     <img src="https://img.shields.io/badge/Spring--Cloud--Alibaba-2021.0.1.0-green.svg" alt="SpringCloudAlibaba">
   </a>
   <a href="#">
-    <img src="https://img.shields.io/badge/Spring--Security-5.6.2.RELEASE-green.svg" alt="SpringSecurity">
+    <img src="https://img.shields.io/badge/Spring--Authorization--Server-0.3.1-green.svg" alt="SpringAuthorizationServer">
   </a>
   <a href="https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=gQHz8DwAAAAAAAAAAS5odHRwOi8vd2VpeGluLnFxLmNvbS9xLzAybV9pT1JlRmxjUEUxMDAwMHcwN0UAAgTet0ZiAwQAAAAA">
     <img src="https://img.shields.io/badge/%E5%85%AC%E4%BC%97%E5%8F%B7-xhuicloud-brightgreen" alt="xhuicloud">
@@ -41,7 +41,7 @@
 
 #### 项目介绍
 
-快速开发平台是基于(SpringBoot + SpringCloudAlibaba + SpringSecurity + MyBatis-Plus) 支持Docker容器化部署，主要目的让我们注重业务，降低技术门槛，节省人力成本，缩短项目周期，提高工程的安全与质量。
+星辉云是基于(SpringBoot + SpringCloudAlibaba + SpringAuthorizationServer + MyBatis-Plus) 支持Docker容器化部署，主要目的让我们注重业务，降低技术门槛，节省人力成本，缩短项目周期，提高工程的安全与质量。
 
 #### 技术栈支持
 - 基于`spring-security`Rbac权限验证
@@ -67,7 +67,7 @@
 
 #### 模块规划
 
-- [x] [认证中心(快速体验授权登录 U:admin P:123456)](http://oauth2.xhuicloud.cn/oauth/authorize?client_id=test&response_type=code&scop=server&redirect_uri=http://xhuicloud.cn)
+- [x] [认证中心(快速体验授权登录 U:admin P:123456)](http://oauth2.xhuicloud.cn/oauth2/authorize?client_id=test&response_type=code&scop=server&redirect_uri=http://xhuicloud.cn)
 - [x] 用户管理
 - [x] 角色管理
 - [x] 部门管理
@@ -82,9 +82,9 @@
 - [x] 代码生成
 - [x] 灰度发布 
 - [x] 推送中心 
+- [x] 监控平台
 - [ ] 大屏系统
 - [ ] 报表系统
-- [ ] 监控平台
 - [ ] 聚合支付
 - [ ] 微信公众号运营管理
 - [ ] 基础运营系统
