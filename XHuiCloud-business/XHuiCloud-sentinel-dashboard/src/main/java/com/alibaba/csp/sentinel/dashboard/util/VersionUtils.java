@@ -15,11 +15,10 @@
  */
 package com.alibaba.csp.sentinel.dashboard.util;
 
-import java.util.Optional;
-
+import com.alibaba.csp.sentinel.dashboard.datasource.entity.SentinelVersion;
 import com.alibaba.csp.sentinel.util.StringUtil;
 
-import com.alibaba.csp.sentinel.dashboard.datasource.entity.SentinelVersion;
+import java.util.Optional;
 
 /**
  * Util class for parsing version.
@@ -32,16 +31,16 @@ public final class VersionUtils {
     /**
      * Parse version of Sentinel from raw string.
      *
-     * @param versionFull version string
+     * @param verStr version string
      * @return parsed {@link SentinelVersion} if the version is valid; empty if
      * there is something wrong with the format
      */
-    public static Optional<SentinelVersion> parseVersion(String s) {
-        if (StringUtil.isBlank(s)) {
+    public static Optional<SentinelVersion> parseVersion(String verStr) {
+        if (StringUtil.isBlank(verStr)) {
             return Optional.empty();
         }
         try {
-            String versionFull = s;
+            String versionFull = verStr;
             SentinelVersion version = new SentinelVersion();
             
             // postfix

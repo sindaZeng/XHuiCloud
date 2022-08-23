@@ -23,7 +23,6 @@
         <module>XHuiCloud-common-gray</module>
         <module>XHuiCloud-common-lock</module>
         <module>XHuiCloud-common-log</module>
-        <module>XHuiCloud-common-security</module>
         <module>XHuiCloud-common-sentinel</module>
         <module>XHuiCloud-common-swagger</module>
         <module>XHuiCloud-common-seata</module>

@@ -34,7 +34,6 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.security.access.AccessDeniedException;
-import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -43,7 +42,7 @@ import static com.xhuicloud.common.core.constant.AuthorizationConstants.IS_COMMI
 
 /**
  * @program: XHuiCloud
- * @description: 配合feign 服务内部只见调用不需要走网关的不用授权认证
+ * @description: 服务内部调用不授权认证
  * @author: Sinda
  * @create: 2019-12-27 00:11
  **/

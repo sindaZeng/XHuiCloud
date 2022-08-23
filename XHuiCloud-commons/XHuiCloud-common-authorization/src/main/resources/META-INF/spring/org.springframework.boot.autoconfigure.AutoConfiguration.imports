@@ -1,2 +1,6 @@
+com.xhuicloud.common.authorization.AuthorizationServerAutoConfiguration
+com.xhuicloud.common.authorization.BaseWebSecurityConfigurer
+com.xhuicloud.common.authorization.extension.RedisOAuth2AuthorizationService
 com.xhuicloud.common.authorization.repository.CustomRegisteredClientRepository
-com.xhuicloud.common.authorization.repository.UserDetailsServiceImpl
+com.xhuicloud.common.authorization.handler.DelegatingAuthenticationSuccessHandler
+com.xhuicloud.common.authorization.handler.DelegatingAuthenticationFailureHandler

@@ -51,10 +51,10 @@
             <groupId>${project.groupId}</groupId>
             <artifactId>XHuiCloud-common-swagger</artifactId>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>${project.groupId}</groupId>-->
-<!--            <artifactId>XHuiCloud-common-sentinel</artifactId>-->
-<!--        </dependency>-->
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>XHuiCloud-common-sentinel</artifactId>
+        </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>XHuiCloud-common-seata</artifactId>

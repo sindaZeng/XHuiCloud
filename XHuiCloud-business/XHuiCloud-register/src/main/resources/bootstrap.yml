@@ -1,4 +1,8 @@
 spring:
+  boot:  # spring-boot admin 配置
+    admin:
+      client:
+        url: http://xhuicloud-monitor:9090
   datasource:
     platform: mysql
   security:

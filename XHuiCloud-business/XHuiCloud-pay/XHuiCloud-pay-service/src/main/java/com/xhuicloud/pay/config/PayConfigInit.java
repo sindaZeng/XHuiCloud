@@ -24,6 +24,7 @@
 
 package com.xhuicloud.pay.config;
 
+import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.CharsetUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
@@ -77,8 +78,11 @@ public class PayConfigInit {
     public void init() {
 
         List<PayChannel> payChannels = new ArrayList<>();
-
-        sysTenantServiceFeign.list(IS_COMMING_ANONYMOUS_YES).getData().forEach(tenant -> {
+        List<TenantVo> data = null;
+        while (CollectionUtil.isEmpty(data)) {
+            data = sysTenantServiceFeign.list(IS_COMMING_ANONYMOUS_YES).getData();
+        }
+        data.forEach(tenant -> {
             XHuiCommonThreadLocalHolder.setTenant(tenant.getId());
 
             List<PayChannel> payChannelList = payChannelService

@@ -22,5 +22,6 @@
         <module>XHuiCloud-xxl-admin</module>
         <module>XHuiCloud-job</module>
         <module>XHuiCloud-push</module>
+        <module>XHuiCloud-monitor</module>
     </modules>
 </project>

@@ -24,8 +24,8 @@
 
 package com.xhuicloud.pay;
 
+import com.xhuicloud.common.authorization.resource.annotation.EnableResourceServer;
 import com.xhuicloud.common.feign.annotation.EnableXHuiFeignClients;
-import com.xhuicloud.common.security.annotation.EnableXHuiResourceServer;
 import com.xhuicloud.common.swagger.annotation.EnableXHuiSwagger;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -38,7 +38,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  */
 @SpringBootApplication
 @EnableXHuiFeignClients
-@EnableXHuiResourceServer
+@EnableResourceServer
 @EnableXHuiSwagger
 public class XHuiPayApplication {
 

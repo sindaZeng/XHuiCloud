@@ -27,9 +27,7 @@ package com.xhuicloud.upms.init;
 import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.google.common.collect.Maps;
-import com.xhuicloud.common.core.constant.SysParamConstants;
-import com.xhuicloud.common.core.enums.login.LoginTypeEnum;
-import com.xhuicloud.upms.entity.SysParam;
+import com.xhuicloud.common.authorization.resource.constant.CustomAuthorizationGrantType;
 import com.xhuicloud.upms.entity.SysSocial;
 import com.xhuicloud.upms.handle.wechat.WeChatMpScanHandler;
 import com.xhuicloud.upms.handle.wechat.WeChatMpSubscribeHandler;
@@ -71,7 +69,7 @@ public class WeChatMpInit {
 
     @PostConstruct
     public void init() {
-        List<SysSocial> sysSocials = sysSocialService.list(Wrappers.<SysSocial>lambdaQuery().eq(SysSocial::getType, LoginTypeEnum.WECHAT_MP.getType()));
+        List<SysSocial> sysSocials = sysSocialService.list(Wrappers.<SysSocial>lambdaQuery().eq(SysSocial::getType, CustomAuthorizationGrantType.WECHAT_MP.getValue()));
         if (CollectionUtil.isNotEmpty(sysSocials)) {
             wxMpServiceMap = sysSocials.stream().map(sysSocial -> {
                 WxMpDefaultConfigImpl config = new WxMpDefaultConfigImpl();

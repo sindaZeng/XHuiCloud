@@ -22,9 +22,18 @@
         </div>
     </div>
 </nav>
-<div class="alert alert-danger alert-dismissible" role="alert" style="width: 500px;margin: 0 auto;">
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="javascript:history.go(-1)"><span aria-hidden="true">&times;</span></button>
-    <strong>错误!</strong> 请按照OAuth2.0协议规范使用!
+<div class="panel panel-danger" style="width: 500px;margin: 0 auto;">
+    <div class="panel-heading">
+        请按照OAuth2.0协议规范使用!
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="javascript:history.go(-1)">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="panel-body">
+        <p>错误码: ${errorCode}</p>
+        <p>描述: ${description}</p>
+        <p>参照: ${uri}</p>
+    </div>
 </div>
 <footer>
     <p>support by: 星辉云</p>

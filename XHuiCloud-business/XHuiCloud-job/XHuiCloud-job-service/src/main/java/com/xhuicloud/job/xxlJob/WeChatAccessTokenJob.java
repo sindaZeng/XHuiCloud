@@ -24,15 +24,7 @@
 
 package com.xhuicloud.job.xxlJob;
 
-import cn.hutool.http.HttpUtil;
-import cn.hutool.json.JSONObject;
-import cn.hutool.json.JSONUtil;
-import com.xhuicloud.common.core.constant.SysParamConstants;
-import com.xhuicloud.common.core.constant.ThirdLoginUrlConstants;
-import com.xhuicloud.common.core.enums.login.LoginTypeEnum;
-import com.xhuicloud.common.core.utils.Response;
-import com.xhuicloud.upms.entity.SysParam;
-import com.xhuicloud.upms.feign.SysParamServiceFeign;
+
 import com.xhuicloud.upms.feign.SysSocialServiceFeign;
 import com.xxl.job.core.biz.model.ReturnT;
 import com.xxl.job.core.handler.annotation.XxlJob;
@@ -57,7 +49,7 @@ public class WeChatAccessTokenJob {
      */
     @XxlJob("weChatAccessTokenJob")
     public ReturnT<String> weChatAccessTokenJob() {
-        sysSocialServiceFeign.updateSocialToken(LoginTypeEnum.WECHAT_MP.getType(), IS_COMMING_ANONYMOUS_YES);
+        sysSocialServiceFeign.updateWechatToken(IS_COMMING_ANONYMOUS_YES);
         return SUCCESS;
     }
 }
