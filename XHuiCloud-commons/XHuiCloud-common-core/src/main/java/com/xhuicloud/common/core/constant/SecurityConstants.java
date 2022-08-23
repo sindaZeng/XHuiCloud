@@ -45,7 +45,7 @@ public interface SecurityConstants {
     /**
      * OAUTH
      */
-    String OAUTH_TOKEN = "/oauth/token";
+    String OAUTH_TOKEN = "/oauth2/token";
 
     /**
      * 第三方社交登录
@@ -56,26 +56,6 @@ public interface SecurityConstants {
      * 刷新TOKEN
      */
     String REFRESH_TOKEN = "refresh_token";
-
-    /**
-     * 用户信息
-     */
-    String USER_INFO = "user_info";
-
-    /**
-     * 前缀
-     */
-    String XHUI_PREFIX = "xhui_";
-
-    /**
-     * oauth 相关前缀
-     */
-    String OAUTH_PREFIX = "oauth:";
-
-    /**
-     * oauth 相关前缀
-     */
-    String OAUTH_CODE_PREFIX = "oauth:code:";
 
     /**
      * 微信公众号扫码

@@ -10,21 +10,10 @@ spring:
         server-addr: ${NACOS_HOST:xhuicloud-register}:${NACOS_PORT:13000}
       config:
         server-addr: ${NACOS_HOST:xhuicloud-register}:${NACOS_PORT:13000}
-        #后缀 yml
-        file-extension: yml
-        # 公共的配置文件
-        shared-configs:
-          - application-common-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
+  config:
+    import:
+      - optional:nacos:application-common-@profiles.active@.yml
+      - optional:nacos:@artifactId@-@profiles.active@.yml
 
 server:
   port: 16000
-
-xhuicloud:
-  security:
-    authorization:
-      jwk:
-        alias: xhuicloud
-        storePass: xhuicloud.cn
-        keyStore: jks
-        key-path: static/xhuicloud.jks
-      access-token-validity-seconds: 200000

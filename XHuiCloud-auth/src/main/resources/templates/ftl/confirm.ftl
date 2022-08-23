@@ -26,18 +26,16 @@
     </div>
 </nav>
 <div style="padding-top: 80px;width: 300px; color: #555; margin:0px auto;">
-    <form id='confirmationForm' name='confirmationForm' action="/oauth/authorize" method='post'>
+    <form id='confirmationForm' name='confirmationForm' action="/oauth2/authorize" method='post'>
         <input name='user_oauth_approval' value='true' type='hidden'/>
+        <input type="hidden" name="client_id" value="${app.clientId}">
+        <input type="hidden" name="state" value="${state}">
         <p>
-            <a href="#" target="_blank">${app.name!'未知应用'}</a> 同意将获得以下权限：</p>
+            <a href="#" target="_blank">${app.clientName!'未知应用'}</a> 同意将获得以下权限：</p>
         <ul class="list-group">
             <li class="list-group-item">
                 <#list scopeList as scope>
-                    <input type="hidden" name="${scope}" value="true"/>
-                </#list>
-                <#list permission?keys as key>
-                    <input type="hidden" name="${permission[key]}" value="true"/>
-                    <input type="checkbox" disabled checked="checked"/><label>${permission[key]}</label>
+                    <input type="checkbox" checked="checked" name="scope" value="${scope}"/><label>${scope}</label>
                 </#list>
             </li>
         </ul>

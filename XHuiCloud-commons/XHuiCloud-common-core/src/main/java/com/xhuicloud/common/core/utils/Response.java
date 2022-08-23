@@ -54,6 +54,10 @@ public class Response<T> implements Serializable {
 	@Setter
 	private T data;
 
+	public void setMsg(String msg) {
+		this.msg = msg;
+	}
+
 	public static <T> Response<T> success() {
 		return restResult(null, CommonConstants.SUCCESS, null);
 	}

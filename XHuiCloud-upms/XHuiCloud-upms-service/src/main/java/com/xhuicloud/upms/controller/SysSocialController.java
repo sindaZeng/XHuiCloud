@@ -24,7 +24,6 @@
 
 package com.xhuicloud.upms.controller;
 
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xhuicloud.common.core.utils.Response;
 import com.xhuicloud.common.log.annotation.SysLog;
@@ -38,7 +37,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 /**
  * @program: XHuiCloud
@@ -70,13 +68,12 @@ public class SysSocialController {
     /**
      * 定时批量更新 token
      *
-     * @param type
      * @return
      */
     @Anonymous
-    @PutMapping("/{type}")
-    public Response updateSocialToken(@PathVariable String type) {
-        return Response.success(sysSocialService.updateSocialToken(type));
+    @PutMapping("/wechat/token")
+    public Response updateWechatToken() {
+        return Response.success(sysSocialService.updateWechatToken());
     }
 
     /**

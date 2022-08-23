@@ -31,7 +31,6 @@ import com.alibaba.csp.sentinel.adapter.spring.webmvc.callback.BlockExceptionHan
 import com.alibaba.csp.sentinel.slots.block.BlockException;
 import com.xhuicloud.common.core.utils.Response;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -41,15 +40,13 @@ import java.io.IOException;
  * 降级 限流策略
  */
 @Slf4j
-@Component
 public class XHuiUrlBlockHandler implements BlockExceptionHandler {
 
 	@Override
 	public void handle(HttpServletRequest request, HttpServletResponse response, BlockException e) throws IOException {
-		log.error("sentinel 降级 资源名称{}", e.getRule().getResource(), e);
 		response.setContentType(ContentType.JSON.toString());
 		response.setStatus(HttpStatus.HTTP_UNAVAILABLE);
 		response.getWriter().print(
-				JSONUtil.toJsonStr(Response.failed(e.getMessage())));
+				JSONUtil.toJsonStr(Response.failed( e.getRule().getResource(), "sentinel降级")));
 	}
 }

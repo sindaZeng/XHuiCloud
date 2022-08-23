@@ -24,18 +24,28 @@
 
 package com.xhuicloud.auth.controller;
 
+import cn.hutool.core.util.StrUtil;
+import com.xhuicloud.common.authorization.resource.utils.SecurityHolder;
+import com.xhuicloud.common.core.constant.CacheConstants;
+import com.xhuicloud.common.core.utils.Response;
 import com.xhuicloud.upms.feign.SysTenantServiceFeign;
 import com.xhuicloud.upms.vo.TenantVo;
 import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.CacheManager;
+import org.springframework.http.HttpHeaders;
+import org.springframework.security.oauth2.core.OAuth2AccessToken;
+import org.springframework.security.oauth2.core.OAuth2TokenType;
+import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
+import org.springframework.security.oauth2.server.authorization.OAuth2Authorization;
+import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
+import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
+import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.util.List;
-import java.util.Map;
-
 import static com.xhuicloud.common.core.constant.AuthorizationConstants.IS_COMMING_ANONYMOUS_YES;
 
 /**
@@ -51,14 +61,16 @@ import static com.xhuicloud.common.core.constant.AuthorizationConstants.IS_COMMI
 @Api(value = "authorize", tags = "认证模块")
 public class AuthTokenEndpoint {
 
-//    private final TokenStore tokenStore;
-//
-//    private final ClientDetailsService clientDetailsService;
+    private final RegisteredClientRepository registeredClientRepository;
 
     private final SysTenantServiceFeign sysTenantServiceFeign;
 
+    private final OAuth2AuthorizationService authorizationService;
+
+    private final CacheManager cacheManager;
     /**
      * 认证页面
+     *
      * @param modelAndView
      * @param error        表单登录失败处理回调的错误信息
      * @return ModelAndView
@@ -74,65 +86,65 @@ public class AuthTokenEndpoint {
 
     /**
      * 回调域错误页
+     *
      * @param modelAndView
-     * @param error        回调域错 错误信息
+     * @param errorCode    错误码
+     * @param description  错误描述
+     * @param uri          参考地址
      * @return ModelAndView
      */
-    @GetMapping("/notmatch")
-    public ModelAndView nomatch(ModelAndView modelAndView, @RequestParam(required = false) String error) {
-        modelAndView.setViewName("ftl/notmatch");
-        modelAndView.addObject("error", error);
+    @GetMapping("/error")
+    public ModelAndView nomatch(ModelAndView modelAndView,
+                                @RequestParam(required = false) String errorCode,
+                                @RequestParam(required = false) String description,
+                                @RequestParam(required = false) String uri) {
+        modelAndView.setViewName("ftl/error");
+        modelAndView.addObject("errorCode", errorCode);
+        modelAndView.addObject("description", description);
+        modelAndView.addObject("uri", uri);
         return modelAndView;
     }
 
     /**
      * 确认授权页面
      *
-     * @param request
-     * @param session
-     * @param modelAndView
      * @return
      */
-//    @GetMapping("/confirm_access")
-//    public ModelAndView confirm(HttpServletRequest request, HttpSession session, ModelAndView modelAndView) {
-//        Map<String, Object> scopeList = (Map<String, Object>) request.getAttribute("scopes");
-//        modelAndView.addObject("scopeList", scopeList.keySet());
-//
-//        Object auth = session.getAttribute("authorizationRequest");
-//        if (auth != null) {
-//            AuthorizationRequest authorizationRequest = (AuthorizationRequest) auth;
-//            ClientDetails clientDetails = clientDetailsService.loadClientByClientId(authorizationRequest.getClientId());
-//            modelAndView.addObject("app", clientDetails.getAdditionalInformation());
-//            modelAndView.addObject("permission", clientDetails.getAdditionalInformation().get("permission"));
-//            modelAndView.addObject("user", SecurityHolder.getUser());
-//        }
-//        modelAndView.setViewName("ftl/confirm");
-//        return modelAndView;
-//    }
-//
-//    /**
-//     * 退出登录
-//     */
-//    @PostMapping("/logout")
-//    public Response logout(@RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String authorization) {
-//        if (StrUtil.isBlank(authorization)) {
-//            return Response.success(Boolean.FALSE, "退出失败,未找到此token!");
-//        }
-//        String tokenValue = authorization.replace(OAuth2AccessToken.BEARER_TYPE, StrUtil.EMPTY).trim();
-//
-//        OAuth2AccessToken accessToken = tokenStore.readAccessToken(tokenValue);
-//        if (accessToken == null || StrUtil.isBlank(accessToken.getValue())) {
-//            return Response.success(Boolean.TRUE, "退出失败,未找到此token!");
-//        }
-//        // 清空access token
-//        tokenStore.removeAccessToken(accessToken);
-//        // 清空 refresh token
-//        OAuth2RefreshToken refreshToken = accessToken.getRefreshToken();
-//        if (refreshToken != null) {
-//            tokenStore.removeRefreshToken(refreshToken);
-//        }
-//        return Response.success(Boolean.TRUE);
-//    }
+    @GetMapping("/confirm_access")
+    public ModelAndView confirm(ModelAndView modelAndView,
+                                @RequestParam(OAuth2ParameterNames.CLIENT_ID) String clientId,
+                                @RequestParam(OAuth2ParameterNames.SCOPE) String scope,
+                                @RequestParam(OAuth2ParameterNames.STATE) String state) {
+
+        modelAndView.addObject("scopeList", StringUtils.commaDelimitedListToSet(scope));
+        modelAndView.addObject("state", state);
+        RegisteredClient client = registeredClientRepository.findByClientId(clientId);
+        modelAndView.addObject("app", client);
+        modelAndView.addObject("user", SecurityHolder.getUser());
+        modelAndView.setViewName("ftl/confirm");
+        return modelAndView;
+    }
+
+
+    /**
+     * 退出登录
+     */
+    @PostMapping("/logout")
+    public Response logout(@RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String authorization) {
+        if (StrUtil.isBlank(authorization)) {
+            return Response.success();
+        }
+        String tokenValue = authorization.replace(OAuth2AccessToken.TokenType.BEARER.getValue(), StrUtil.EMPTY).trim();
+        OAuth2Authorization accessToken = authorizationService.findByToken(tokenValue, OAuth2TokenType.ACCESS_TOKEN);
+
+        if (accessToken == null || StrUtil.isBlank(accessToken.getAccessToken().getToken().getTokenValue())) {
+            return Response.success();
+        }
+        cacheManager.getCache(CacheConstants.SYS_USER).evict(accessToken.getPrincipalName());
+        // 清空access token
+        authorizationService.remove(accessToken);
+        return Response.success();
+    }
 
 }
 

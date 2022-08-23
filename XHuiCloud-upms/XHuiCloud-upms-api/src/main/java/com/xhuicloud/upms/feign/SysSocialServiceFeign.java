@@ -49,6 +49,6 @@ public interface SysSocialServiceFeign {
     @GetMapping("/{type}/{code}")
     Response<UserInfo> getSysUser(@PathVariable(value = "type") String type, @PathVariable(value = "code") String code, @RequestHeader(FROM) String from);
 
-    @PutMapping("/{type}")
-    Response updateSocialToken(@PathVariable(value = "type") String type, @RequestHeader(FROM) String from);
+    @PutMapping("/wechat/token")
+    Response updateWechatToken(@RequestHeader(FROM) String from);
 }

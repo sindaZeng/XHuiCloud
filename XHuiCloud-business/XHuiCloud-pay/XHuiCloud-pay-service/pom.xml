@@ -14,99 +14,85 @@
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>XHuiCloud-common-security</artifactId>
+            <artifactId>XHuiCloud-common-authorization-resource</artifactId>
         </dependency>
-
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>XHuiCloud-common-data</artifactId>
         </dependency>
-
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>XHuiCloud-pay-api</artifactId>
         </dependency>
-
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>XHuiCloud-upms-api</artifactId>
         </dependency>
-
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>XHuiCloud-common-log</artifactId>
         </dependency>
-
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>XHuiCloud-common-swagger</artifactId>
         </dependency>
-
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>XHuiCloud-common-sentinel</artifactId>
         </dependency>
-
         <!--        分布式发号器-->
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>XHuiCloud-common-zero</artifactId>
         </dependency>
-
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
         </dependency>
-
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
         </dependency>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-
         <dependency>
             <groupId>com.alipay.sdk</groupId>
             <artifactId>alipay-sdk-java</artifactId>
             <version>4.10.0.ALL</version>
         </dependency>
-
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-undertow</artifactId>
+        </dependency>
         <dependency>
             <groupId>com.github.javen205</groupId>
             <artifactId>IJPay</artifactId>
             <version>1.2.0</version>
         </dependency>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-freemarker</artifactId>
         </dependency>
-
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>
         </dependency>
-
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>druid-spring-boot-starter</artifactId>
         </dependency>
-
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
         </dependency>
-
         <!-- freemarker热启动 -->
         <!--        <dependency>-->
         <!--            <groupId>org.springframework.boot</groupId>-->
         <!--            <artifactId>spring-boot-devtools</artifactId>-->
         <!--            <optional>true</optional>-->
         <!--        </dependency>-->
-
     </dependencies>
 
     <build>

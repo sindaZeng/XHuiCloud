@@ -26,11 +26,12 @@ package com.xhuicloud.upms.controller;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.xhuicloud.common.authorization.resource.annotation.Anonymous;
+import com.xhuicloud.common.authorization.resource.utils.SecurityHolder;
 import com.xhuicloud.common.core.utils.ExcelUtil;
 import com.xhuicloud.common.core.utils.Response;
 import com.xhuicloud.common.log.annotation.SysLog;
-import com.xhuicloud.common.authorization.resource.annotation.Anonymous;
-import com.xhuicloud.common.authorization.resource.utils.SecurityHolder;
+import com.xhuicloud.logs.feign.SysLogServiceFeign;
 import com.xhuicloud.upms.dto.UserQueryDto;
 import com.xhuicloud.upms.entity.SysUser;
 import com.xhuicloud.upms.entity.SysUserSocial;
@@ -45,6 +46,8 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
 import java.util.List;
 
+import static com.xhuicloud.common.core.constant.AuthorizationConstants.IS_COMMING_ANONYMOUS_YES;
+
 @RestController
 @RequestMapping("/user")
 @AllArgsConstructor
@@ -52,8 +55,8 @@ import java.util.List;
 public class SysUserController {
 
     private final SysUserService sysUserService;
-
     private final SysUserSocialService sysUserSocialService;
+    private final SysLogServiceFeign sysLogServiceFeign;
 
     /**
      * 分页查询用户列表
@@ -73,6 +76,8 @@ public class SysUserController {
      */
     @GetMapping("/info")
     public Response info() {
+        com.xhuicloud.logs.entity.SysLog sysLog = new com.xhuicloud.logs.entity.SysLog();
+        sysLogServiceFeign.save(sysLog, IS_COMMING_ANONYMOUS_YES);
         String username = SecurityHolder.getUser().getUsername();
         SysUser user = sysUserService.getOne(Wrappers.<SysUser>query()
                 .lambda().eq(SysUser::getUsername, username));
@@ -80,23 +85,6 @@ public class SysUserController {
             return Response.failed(null, "获取当前用户信息失败");
         }
         user.setPassword(null);
-        return Response.success(sysUserService.getSysUser(user));
-    }
-
-    /**
-     * 根据用户名 查找用户
-     *
-     * @param userName
-     * @return
-     */
-    @Anonymous
-    @GetMapping("/info/{userName}")
-    public Response getSysUser(@PathVariable String userName) {
-        SysUser user = sysUserService.getOne(Wrappers.<SysUser>query().lambda()
-                .eq(SysUser::getUsername, userName));
-        if (user == null) {
-            return Response.failed(null, String.format("用户信息为空 %s", userName));
-        }
         return Response.success(sysUserService.getSysUser(user));
     }
 

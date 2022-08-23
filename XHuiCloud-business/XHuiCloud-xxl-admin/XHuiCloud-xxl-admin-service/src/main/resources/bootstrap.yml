@@ -1,4 +1,8 @@
 spring:
+  boot: # spring-boot admin 配置
+    admin:
+      client:
+        url: http://xhuicloud-monitor:9090
   application:
     name: @artifactId@
   profiles:
@@ -10,7 +14,8 @@ spring:
         server-addr: ${NACOS_HOST:xhuicloud-register}:${NACOS_PORT:13000}
       config:
         server-addr: ${NACOS_HOST:xhuicloud-register}:${NACOS_PORT:13000}
-        #后缀 yml
-        file-extension: yml
+  config:
+    import:
+      - optional:nacos:@artifactId@-@profiles.active@.yml
 server:
   port: 20000

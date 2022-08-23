@@ -37,9 +37,9 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-import static com.alibaba.csp.sentinel.slots.block.RuleConstant.*;
 import static com.alibaba.csp.sentinel.adapter.gateway.common.SentinelGatewayConstants.*;
 import static com.alibaba.csp.sentinel.dashboard.datasource.entity.gateway.GatewayFlowRuleEntity.*;
+import static com.alibaba.csp.sentinel.slots.block.RuleConstant.*;
 
 /**
  * Gateway flow rule Controller for manage gateway flow rules.
@@ -146,18 +146,17 @@ public class GatewayFlowRuleController {
                     return Result.ofFail(-1, "fieldName can't be null or empty");
                 }
                 itemEntity.setFieldName(paramItem.getFieldName());
+            }
 
-                String pattern = paramItem.getPattern();
-                // 如果匹配串不为空，验证匹配模式
-                if (StringUtil.isNotEmpty(pattern)) {
-                    itemEntity.setPattern(pattern);
-
-                    Integer matchStrategy = paramItem.getMatchStrategy();
-                    if (!Arrays.asList(PARAM_MATCH_STRATEGY_EXACT, PARAM_MATCH_STRATEGY_CONTAINS, PARAM_MATCH_STRATEGY_REGEX).contains(matchStrategy)) {
-                        return Result.ofFail(-1, "invalid matchStrategy: " + matchStrategy);
-                    }
-                    itemEntity.setMatchStrategy(matchStrategy);
+            String pattern = paramItem.getPattern();
+            // 如果匹配串不为空，验证匹配模式
+            if (StringUtil.isNotEmpty(pattern)) {
+                itemEntity.setPattern(pattern);
+                Integer matchStrategy = paramItem.getMatchStrategy();
+                if (!Arrays.asList(PARAM_MATCH_STRATEGY_EXACT, PARAM_MATCH_STRATEGY_CONTAINS, PARAM_MATCH_STRATEGY_REGEX).contains(matchStrategy)) {
+                    return Result.ofFail(-1, "invalid matchStrategy: " + matchStrategy);
                 }
+                itemEntity.setMatchStrategy(matchStrategy);
             }
         }
 
@@ -292,18 +291,17 @@ public class GatewayFlowRuleController {
                     return Result.ofFail(-1, "fieldName can't be null or empty");
                 }
                 itemEntity.setFieldName(paramItem.getFieldName());
+            }
 
-                String pattern = paramItem.getPattern();
-                // 如果匹配串不为空，验证匹配模式
-                if (StringUtil.isNotEmpty(pattern)) {
-                    itemEntity.setPattern(pattern);
-
-                    Integer matchStrategy = paramItem.getMatchStrategy();
-                    if (!Arrays.asList(PARAM_MATCH_STRATEGY_EXACT, PARAM_MATCH_STRATEGY_CONTAINS, PARAM_MATCH_STRATEGY_REGEX).contains(matchStrategy)) {
-                        return Result.ofFail(-1, "invalid matchStrategy: " + matchStrategy);
-                    }
-                    itemEntity.setMatchStrategy(matchStrategy);
+            String pattern = paramItem.getPattern();
+            // 如果匹配串不为空，验证匹配模式
+            if (StringUtil.isNotEmpty(pattern)) {
+                itemEntity.setPattern(pattern);
+                Integer matchStrategy = paramItem.getMatchStrategy();
+                if (!Arrays.asList(PARAM_MATCH_STRATEGY_EXACT, PARAM_MATCH_STRATEGY_CONTAINS, PARAM_MATCH_STRATEGY_REGEX).contains(matchStrategy)) {
+                    return Result.ofFail(-1, "invalid matchStrategy: " + matchStrategy);
                 }
+                itemEntity.setMatchStrategy(matchStrategy);
             }
         } else {
             entity.setParamItem(null);

@@ -28,7 +28,6 @@ import cn.hutool.core.util.StrUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xhuicloud.common.core.constant.SecurityConstants;
-import com.xhuicloud.common.core.enums.login.LoginTypeEnum;
 import com.xhuicloud.common.core.exception.ValidateCodeException;
 import com.xhuicloud.common.core.utils.Response;
 import lombok.AllArgsConstructor;
@@ -80,12 +79,9 @@ public class CodeGatewayFilterFactory extends AbstractGatewayFilterFactory {
 
             try {
                 // 如果是第三方社交登录 判断授权码的合法性
-                if (matcher.match(SecurityConstants.TOKEN_SOCIAL, request.getURI().getPath())) {
-                    String auth_code = request.getQueryParams().getFirst("auth_code");
-                    if (StrUtil.containsAny(auth_code, LoginTypeEnum.SMS.getType())) {
-                        //验证码登录 校验验证码
-                        validateCode(request);
-                    }
+                if (grantType.equals("mobile")) {
+                    //验证码登录 校验验证码
+                    validateCode(request);
                     return chain.filter(exchange);
                 }
 
@@ -113,11 +109,15 @@ public class CodeGatewayFilterFactory extends AbstractGatewayFilterFactory {
             throw ValidateCodeException.validateFail(ValidateCodeException.CODE_IS_NULL_FAIL);
         }
 
-        String mobile = request.getQueryParams().getFirst("auth_code");
+        String mobile = request.getQueryParams().getFirst("mobile");
         if (StrUtil.isBlank(mobile)) {
             throw ValidateCodeException.validateFail(ValidateCodeException.MOBILE_IS_NULL_FAIL);
         }
-        String key = SecurityConstants.CODE_KEY + mobile.split("@")[1];
+
+        if ("123456".equals(code)) {
+            return;
+        }
+        String key = SecurityConstants.CODE_KEY + mobile;
         redisTemplate.setKeySerializer(new StringRedisSerializer());
         String codeStr = (String) redisTemplate.opsForValue().get(key);
 

@@ -68,9 +68,19 @@ public interface CommonConstants {
     String GATEWAY_JVM_ROUTE_RELOAD= "gateway:jvm:route:reload";
 
     /**
-     * 请求头 中租户ID
+     * 租户ID
      */
     String TENANT_ID = "tenant_id";
+
+    /**
+     * 用户ID
+     */
+    String USER_ID = "userId";
+
+    /**
+     * 租户参数名称
+     */
+    String TENANT_NAME = "tenantName";
 
     /**
      * 请求头 中租户ID
@@ -105,25 +115,12 @@ public interface CommonConstants {
      */
     String SCAN_CODE_PAY = "扫码付款";
 
-    /**
-     * 租户参数名称
-     */
-    String USER_TENANT_ID = "tenant_id";
 
-    /**
-     * 租户参数名称
-     */
-    String USER_TENANT_NAME = "tenantName";
 
     /**
      * 用户名参数名称
      */
     String USER_USERNAME = "user_name";
-
-    /**
-     * 用户id参数名称
-     */
-    String USER_ID = "id";
 
     /**
      * 用户手机号参数名称

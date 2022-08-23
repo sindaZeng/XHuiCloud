@@ -10,18 +10,19 @@ spring:
         server-addr: ${NACOS_HOST:xhuicloud-register}:${NACOS_PORT:13000}
       config:
         server-addr: ${NACOS_HOST:xhuicloud-register}:${NACOS_PORT:13000}
-        #后缀 yml
-        file-extension: yml
-        # 公共的配置文件
-        shared-configs:
-          - application-common-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
+  config:
+    import:
+      - optional:nacos:application-common-@profiles.active@.yml
+
 #xhuicloud:
 #  elasticjob:
 #    zookeeper:
 #      namespace: XHuicloud-job
 #    job-type: simple
+
 server:
   port: 19000
+
 job:
   executor:
     app-name: xhuicloud-job

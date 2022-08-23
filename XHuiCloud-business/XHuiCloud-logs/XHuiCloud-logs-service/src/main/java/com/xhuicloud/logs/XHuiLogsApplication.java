@@ -24,15 +24,15 @@
 
 package com.xhuicloud.logs;
 
+import com.xhuicloud.common.authorization.resource.annotation.EnableResourceServer;
 import com.xhuicloud.common.feign.annotation.EnableXHuiFeignClients;
-import com.xhuicloud.common.security.annotation.EnableXHuiResourceServer;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 @SpringBootApplication
 @EnableXHuiFeignClients
-@EnableXHuiResourceServer
+@EnableResourceServer
 @EnableDiscoveryClient
 public class XHuiLogsApplication {
 

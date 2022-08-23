@@ -44,7 +44,7 @@
 
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>XHuiCloud-common-security</artifactId>
+            <artifactId>XHuiCloud-common-authorization-resource</artifactId>
         </dependency>
 
         <dependency>

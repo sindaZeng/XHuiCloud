@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: @artifactId@
+  profiles:
+    active: @profiles.active@
+  cloud:
+    nacos:
+      discovery:
+        #nacos 地址
+        server-addr: ${NACOS_HOST:xhuicloud-register}:${NACOS_PORT:13000}
+
+server:
+  port: 9090

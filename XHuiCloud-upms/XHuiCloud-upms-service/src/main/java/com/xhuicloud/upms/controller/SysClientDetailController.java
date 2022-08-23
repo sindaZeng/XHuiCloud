@@ -49,7 +49,10 @@ public class SysClientDetailController {
     @GetMapping("/{clientId}")
     public Response getById(@PathVariable(value = "clientId") String clientId) {
         return Response.success(sysClientDetailsService.getOne(
-                Wrappers.<SysClientDetails>lambdaQuery().eq(SysClientDetails::getClientId, clientId)));
+                Wrappers.<SysClientDetails>lambdaQuery()
+                        .eq(SysClientDetails::getClientId, clientId)
+                        .or()
+                        .eq(SysClientDetails::getId, clientId)));
     }
 
     /**

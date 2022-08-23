@@ -103,12 +103,6 @@
 
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>XHuiCloud-common-security</artifactId>
-                <version>${revision}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>${project.groupId}</groupId>
                 <artifactId>XHuiCloud-common-authorization</artifactId>
                 <version>${revision}</version>
             </dependency>
