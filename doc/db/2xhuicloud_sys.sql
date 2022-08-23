@@ -22,11 +22,22 @@
  * @Email:  xhuicloud@163.com
  */
 
+/*
+ Navicat Premium Data Transfer
+
+ Source Server         : xh
+ Source Server Type    : MySQL
+ Source Server Version : 80018
+ Source Host           : rm-bp149ki7cte7mesg62o.mysql.rds.aliyuncs.com:3306
+ Source Schema         : xhuicloud_sys
+
+ Target Server Type    : MySQL
+ Target Server Version : 80018
+ File Encoding         : 65001
+
+ Date: 23/08/2022 16:15:59
+*/
 USE xhuicloud_sys;
-
-
-SET NAMES utf8mb4;
-SET FOREIGN_KEY_CHECKS = 0;
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
@@ -57,7 +68,8 @@ CREATE TABLE `sys_client_details`  (
 -- ----------------------------
 -- Records of sys_client_details
 -- ----------------------------
-INSERT INTO `sys_client_details` VALUES (1, '测试机', 'test', NULL, 'test', 'server', 'password,refresh_token,authorization_code,client_credentials,social', 'http://xhuicloud.cn', NULL, NULL, NULL, '{\"permission\":{\"avatar\":\"头像\",\"name\":\"用户名\"},\"enc_flag\":\"1\",\"captcha_flag\":\"1\"}', 'false', 1, 0);
+INSERT INTO `sys_client_details` VALUES (1, '测试机', 'test', NULL, '{noop}test', 'server', 'password,refresh_token,authorization_code,client_credentials,social,mobile', 'http://xhuicloud.cn', NULL, NULL, NULL, '{\"permission\":{\"avatar\":\"头像\",\"name\":\"用户名\"},\"enc_flag\":\"1\",\"captcha_flag\":\"1\"}', 'false', 1, 0);
+INSERT INTO `sys_client_details` VALUES (2, '星辉01', 'xhuicloud', NULL, '{noop}xhuicloud', 'server', 'password,refresh_token,authorization_code,client_credentials,social', 'http://127.0.0.1:9092/authorization', NULL, NULL, NULL, '{\"permission\":{\"avatar\":\"头像\",\"name\":\"用户名\"},\"enc_flag\":\"1\",\"captcha_flag\":\"1\"}', 'false', 1, 0);
 
 -- ----------------------------
 -- Table structure for sys_dept
@@ -148,7 +160,7 @@ CREATE TABLE `sys_dict_data`  (
                                   `update_id` int(11) NULL DEFAULT NULL COMMENT '更新者id',
                                   `is_del` tinyint(1) NULL DEFAULT 0 COMMENT '0: 否 1：是',
                                   PRIMARY KEY (`id`, `dict_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '字典项' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '字典项' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_dict_data
@@ -176,6 +188,7 @@ CREATE TABLE `sys_file`  (
                              `is_del` tinyint(1) NULL DEFAULT 0 COMMENT '0: 否 1：是',
                              PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 81 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '文件' ROW_FORMAT = DYNAMIC;
+
 
 -- ----------------------------
 -- Table structure for sys_log
@@ -206,7 +219,7 @@ CREATE TABLE `sys_log`  (
                             INDEX `sys_log_request_uri`(`request_uri`) USING BTREE,
                             INDEX `sys_log_type`(`type`) USING BTREE,
                             INDEX `sys_log_create_date`(`create_time`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2296 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '系统日志' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 2543 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '系统日志' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for sys_log_login
@@ -222,7 +235,7 @@ CREATE TABLE `sys_log_login`  (
                                   `status` tinyint(4) NOT NULL COMMENT '0:成功 1:失败',
                                   `remake` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注',
                                   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 679 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 835 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for sys_menu
@@ -355,9 +368,9 @@ CREATE TABLE `sys_role`  (
 -- ----------------------------
 -- Records of sys_role
 -- ----------------------------
-INSERT INTO `sys_role` VALUES (1, 'ADMIN', 'ROOT', '系统管理员(勿删)', '2021-11-25 17:11:56', 0, '2022-04-17 20:55:00', NULL, 1, 0);
-INSERT INTO `sys_role` VALUES (2, 'ORDINARY', 'ordinary', '普通用户', '2021-11-25 17:11:56', 0, '2022-06-02 17:24:12', 1, 1, 1);
-INSERT INTO `sys_role` VALUES (916, '03', 'test', NULL, '2022-05-31 20:56:15', 1, NULL, NULL, NULL, 0);
+INSERT INTO `sys_role` VALUES (1, 'ADMIN', 'ROOT', '系统管理员(勿删)', '2021-11-25 17:11:56', 0, '2022-07-08 11:16:34', 1, 1, 0);
+INSERT INTO `sys_role` VALUES (2, 'ORDINARY', 'ordinary', '普通用户', '2021-11-25 17:11:56', 0, '2022-07-08 11:16:34', 1, 1, 0);
+INSERT INTO `sys_role` VALUES (916, '03', 'test', NULL, '2022-05-31 20:56:15', 1, '2022-07-08 11:16:34', 1, NULL, 0);
 
 -- ----------------------------
 -- Table structure for sys_role_menu
@@ -374,6 +387,55 @@ CREATE TABLE `sys_role_menu`  (
 -- ----------------------------
 INSERT INTO `sys_role_menu` VALUES (1, 1);
 INSERT INTO `sys_role_menu` VALUES (1, 2);
+INSERT INTO `sys_role_menu` VALUES (1, 3);
+INSERT INTO `sys_role_menu` VALUES (1, 4);
+INSERT INTO `sys_role_menu` VALUES (1, 5);
+INSERT INTO `sys_role_menu` VALUES (1, 6);
+INSERT INTO `sys_role_menu` VALUES (1, 7);
+INSERT INTO `sys_role_menu` VALUES (1, 8);
+INSERT INTO `sys_role_menu` VALUES (1, 9);
+INSERT INTO `sys_role_menu` VALUES (1, 10);
+INSERT INTO `sys_role_menu` VALUES (1, 11);
+INSERT INTO `sys_role_menu` VALUES (1, 12);
+INSERT INTO `sys_role_menu` VALUES (1, 13);
+INSERT INTO `sys_role_menu` VALUES (1, 14);
+INSERT INTO `sys_role_menu` VALUES (1, 15);
+INSERT INTO `sys_role_menu` VALUES (1, 16);
+INSERT INTO `sys_role_menu` VALUES (1, 17);
+INSERT INTO `sys_role_menu` VALUES (1, 18);
+INSERT INTO `sys_role_menu` VALUES (1, 19);
+INSERT INTO `sys_role_menu` VALUES (1, 20);
+INSERT INTO `sys_role_menu` VALUES (1, 21);
+INSERT INTO `sys_role_menu` VALUES (1, 22);
+INSERT INTO `sys_role_menu` VALUES (1, 23);
+INSERT INTO `sys_role_menu` VALUES (1, 24);
+INSERT INTO `sys_role_menu` VALUES (1, 25);
+INSERT INTO `sys_role_menu` VALUES (1, 26);
+INSERT INTO `sys_role_menu` VALUES (1, 27);
+INSERT INTO `sys_role_menu` VALUES (1, 28);
+INSERT INTO `sys_role_menu` VALUES (1, 29);
+INSERT INTO `sys_role_menu` VALUES (1, 31);
+INSERT INTO `sys_role_menu` VALUES (1, 32);
+INSERT INTO `sys_role_menu` VALUES (1, 33);
+INSERT INTO `sys_role_menu` VALUES (1, 34);
+INSERT INTO `sys_role_menu` VALUES (1, 35);
+INSERT INTO `sys_role_menu` VALUES (1, 36);
+INSERT INTO `sys_role_menu` VALUES (1, 58);
+INSERT INTO `sys_role_menu` VALUES (1, 59);
+INSERT INTO `sys_role_menu` VALUES (1, 61);
+INSERT INTO `sys_role_menu` VALUES (1, 62);
+INSERT INTO `sys_role_menu` VALUES (1, 63);
+INSERT INTO `sys_role_menu` VALUES (1, 64);
+INSERT INTO `sys_role_menu` VALUES (1, 65);
+INSERT INTO `sys_role_menu` VALUES (1, 66);
+INSERT INTO `sys_role_menu` VALUES (1, 67);
+INSERT INTO `sys_role_menu` VALUES (1, 68);
+INSERT INTO `sys_role_menu` VALUES (1, 69);
+INSERT INTO `sys_role_menu` VALUES (1, 70);
+INSERT INTO `sys_role_menu` VALUES (1, 71);
+INSERT INTO `sys_role_menu` VALUES (1, 72);
+INSERT INTO `sys_role_menu` VALUES (1, 73);
+INSERT INTO `sys_role_menu` VALUES (1, 74);
 
 -- ----------------------------
 -- Table structure for sys_route_conf
@@ -393,7 +455,7 @@ CREATE TABLE `sys_route_conf`  (
                                    `update_id` int(11) NULL DEFAULT NULL COMMENT '更新者id',
                                    `is_del` tinyint(1) NULL DEFAULT 0 COMMENT '0: 否 1：是',
                                    PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '全局路由' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '全局路由' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_route_conf
@@ -427,12 +489,6 @@ CREATE TABLE `sys_social`  (
                                `is_del` tinyint(1) NULL DEFAULT 0 COMMENT '0: 否 1：是',
                                PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '系统开放平台' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of sys_social
--- ----------------------------
-INSERT INTO `sys_social` VALUES (1, 'QQ', '101887822', 'e3e1d28axxxxxxxx1256ffc4c62', NULL, NULL, NULL, 'QQ互联', 'http://xhuicloud.cn/#/auth-redirect', '2021-11-25 21:06:09', 1, '2022-04-09 16:05:34', NULL, 1, 0);
-INSERT INTO `sys_social` VALUES (2, 'WXMP', 'wxd89cb972e20e2070', '643b92xxxxxxxxx5ad893bc28', '58_axqCTPiAdaf-MPAN1PngvRU66xr6F_O9Bj_2n3w6H3JlxdGKEvvCj-FvVsYoSqUGgVSNYfzB2E6Sg95_XhR0S3GWPBRKUqEIsMR0Q98XZSEC2u3fDUMAYinFFXH-qvTBpTFyykYWgpMNWL9KNXEbAJADNU', '11111111111111111111111', '7pqvX1TyV9PqbvbgOo12cca3o36PsUtbpZTwhWJ3fZD', '微信公众号', 'http://xhuicloud.cn/#/auth-redirect', '2022-04-09 16:01:25', 1, '2022-04-10 19:38:53', NULL, 1, 0);
 
 -- ----------------------------
 -- Table structure for sys_tenant
@@ -488,15 +544,13 @@ CREATE TABLE `sys_user`  (
                              PRIMARY KEY (`user_id`) USING BTREE,
                              UNIQUE INDEX `username`(`username`) USING BTREE,
                              UNIQUE INDEX `phone`(`phone`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 73 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '系统用户' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 75 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '系统用户' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
-INSERT INTO `sys_user` VALUES (1, 'admin', '{bcrypt}$2a$10$Fti91Ze0Rx7yoXGz8kp43ejvZDXkQ1B085DE9jwNCcjE4jB8w1oJC', 'https://xhuicloud.oss-cn-shenzhen.aliyuncs.com/xhuicloud-logo.png', '13333323333', 'sindazeng@gmail.com', 1, 0, '2021-11-25 21:06:29', 0, '2022-04-18 21:27:34', 1, 1, 0);
-INSERT INTO `sys_user` VALUES (70, 'test', '{bcrypt}$2a$10$Fti91Ze0Rx7yoXGz8kp43ejvZDXkQ1B085DE9jwNCcjE4jB8w1oJC', NULL, NULL, NULL, 1, 0, '2022-04-29 10:43:14', NULL, '2022-04-29 10:47:48', NULL, 1, 0);
-INSERT INTO `sys_user` VALUES (71, '孟讨', '{bcrypt}$2a$10$Fti91Ze0Rx7yoXGz8kp43ejvZDXkQ1B085DE9jwNCcjE4jB8w1oJC', NULL, NULL, NULL, 1, 0, '2022-05-04 14:20:23', NULL, '2022-05-17 20:59:29', 1, 1, 1);
-INSERT INTO `sys_user` VALUES (72, '高亩', '{bcrypt}$2a$10$Fti91Ze0Rx7yoXGz8kp43ejvZDXkQ1B085DE9jwNCcjE4jB8w1oJC', NULL, NULL, NULL, 1, 0, '2022-06-07 16:55:09', NULL, NULL, NULL, 1, 0);
+INSERT INTO `sys_user` VALUES (1, 'admin', '{bcrypt}$2a$10$2vOpPUA2pL5f5RY2f7A8W.aSL8i0AoVogItFaV6EcHjmLnCzP3BCu', 'https://xhuicloud.oss-cn-shenzhen.aliyuncs.com/xhuicloud-logo.png', '13333323333', 'sindazeng@gmail.com', 1, 0, '2021-11-25 21:06:29', 0, '2022-08-08 11:55:40', 1, 1, 0);
+INSERT INTO `sys_user` VALUES (74, '13392659042', '{bcrypt}$2a$10$Fti91Ze0Rx7yoXGz8kp43ejvZDXkQ1B085DE9jwNCcjE4jB8w1oJC', NULL, '13392659042', NULL, 1, 0, '2022-08-23 14:02:17', NULL, NULL, NULL, 1, 0);
 
 -- ----------------------------
 -- Table structure for sys_user_dept
@@ -513,9 +567,7 @@ CREATE TABLE `sys_user_dept`  (
 -- ----------------------------
 INSERT INTO `sys_user_dept` VALUES (1, 1);
 INSERT INTO `sys_user_dept` VALUES (1, 9);
-INSERT INTO `sys_user_dept` VALUES (70, 5);
-INSERT INTO `sys_user_dept` VALUES (71, 5);
-INSERT INTO `sys_user_dept` VALUES (72, 5);
+INSERT INTO `sys_user_dept` VALUES (74, 5);
 
 -- ----------------------------
 -- Table structure for sys_user_role
@@ -531,7 +583,7 @@ CREATE TABLE `sys_user_role`  (
 -- Records of sys_user_role
 -- ----------------------------
 INSERT INTO `sys_user_role` VALUES (1, 1);
-INSERT INTO `sys_user_role` VALUES (72, 2);
+INSERT INTO `sys_user_role` VALUES (74, 2);
 
 -- ----------------------------
 -- Table structure for sys_user_social
@@ -543,14 +595,6 @@ CREATE TABLE `sys_user_social`  (
                                     `user_openid` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '用户openid',
                                     PRIMARY KEY (`user_id`, `user_openid`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '用户社交' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of sys_user_social
--- ----------------------------
-INSERT INTO `sys_user_social` VALUES (1, 'QQ', 'EFAE57360D32F24CA01AD3B55A81F4B5');
-INSERT INTO `sys_user_social` VALUES (70, 'WECHAT', 'oadUz6PRmFLbb49ecB5suyNU6Lf4');
-INSERT INTO `sys_user_social` VALUES (71, 'WECHAT', 'oadUz6EVFFKHCEq8ZlniLvkJT4Zs');
-INSERT INTO `sys_user_social` VALUES (72, 'WECHAT', 'oadUz6ErbpIJaQcLAdqcZuZVnFMc');
 
 -- ----------------------------
 -- Table structure for undo_log
