@@ -22,14 +22,11 @@
  * @Email:  xhuicloud@163.com
  */
 
- USE xhuicloud_gen;
+USE xhuicloud_gen;
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 
--- ----------------------------
--- Table structure for gen_ds_info
--- ----------------------------
 DROP TABLE IF EXISTS `gen_ds_info`;
 CREATE TABLE `gen_ds_info`  (
                                 `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -45,5 +42,4 @@ CREATE TABLE `gen_ds_info`  (
                                 PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
-SET FOREIGN_KEY_CHECKS = 1;
 SET FOREIGN_KEY_CHECKS = 1;
