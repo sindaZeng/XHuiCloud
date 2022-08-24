@@ -76,8 +76,6 @@ public class SysUserController {
      */
     @GetMapping("/info")
     public Response info() {
-        com.xhuicloud.logs.entity.SysLog sysLog = new com.xhuicloud.logs.entity.SysLog();
-        sysLogServiceFeign.save(sysLog, IS_COMMING_ANONYMOUS_YES);
         String username = SecurityHolder.getUser().getUsername();
         SysUser user = sysUserService.getOne(Wrappers.<SysUser>query()
                 .lambda().eq(SysUser::getUsername, username));
