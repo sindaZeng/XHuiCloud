@@ -53,7 +53,7 @@ public class PushGroupController {
      */
     @GetMapping("/page")
     @ApiOperation(value = "分页查询推送模板组列表", notes = "分页查询推送模板组列表")
-    public Response page(Page page) {
+    public Response<Page> page(Page page) {
         return Response.success(pushGroupService.page(page));
     }
 
@@ -67,7 +67,7 @@ public class PushGroupController {
     @PostMapping
     @CacheEvict(value = CacheConstants.PUSH_GROUP, allEntries = true)
     @ApiOperation(value = "新增推送模板组", notes = "新增推送模板组")
-    public Response save(@Valid @RequestBody PushGroup pushGroup) {
+    public Response<Boolean> save(@Valid @RequestBody PushGroup pushGroup) {
         return Response.success(pushGroupService.save(pushGroup));
     }
 
@@ -81,7 +81,7 @@ public class PushGroupController {
     @PutMapping
     @CacheEvict(value = CacheConstants.PUSH_GROUP, allEntries = true)
     @ApiOperation(value = "编辑推送模板组", notes = "编辑推送模板组")
-    public Response update(@Valid @RequestBody PushGroup pushGroup) {
+    public Response<Boolean> update(@Valid @RequestBody PushGroup pushGroup) {
         return Response.success(pushGroupService.updateById(pushGroup));
     }
 
@@ -95,7 +95,7 @@ public class PushGroupController {
     @DeleteMapping("/{id}")
     @CacheEvict(value = CacheConstants.PUSH_GROUP, allEntries = true)
     @ApiOperation(value = "删除推送模板组", notes = "删除推送模板组")
-    public Response delete(@PathVariable Integer id) {
+    public Response<Boolean> delete(@PathVariable Integer id) {
         return Response.success(pushGroupService.removeById(id));
     }
 
@@ -106,7 +106,7 @@ public class PushGroupController {
      * @return
      */
     @GetMapping("/{id}")
-    public Response getById(@PathVariable Integer id) {
+    public Response<PushGroup> getById(@PathVariable Integer id) {
         return Response.success(pushGroupService.getById(id));
     }
 

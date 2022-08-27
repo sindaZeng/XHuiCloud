@@ -28,6 +28,7 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xhuicloud.common.core.utils.Response;
 import com.xhuicloud.common.log.annotation.SysLog;
+import com.xhuicloud.upms.dto.DeptTree;
 import com.xhuicloud.upms.entity.SysDept;
 import com.xhuicloud.upms.service.SysDeptService;
 import com.xhuicloud.upms.utils.TreeUtil;
@@ -36,6 +37,8 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 /**
@@ -58,7 +61,7 @@ public class SysDeptController {
      * @return
      */
     @GetMapping(value = "/tree")
-    public Response getDeptTree() {
+    public Response<List<DeptTree>> getDeptTree() {
         return Response.success(TreeUtil.buildDeptTree(sysDeptService
                 .list(Wrappers.<SysDept>lambdaQuery()
                         .orderByAsc(SysDept::getSort)), 0));
@@ -73,7 +76,7 @@ public class SysDeptController {
      */
     @GetMapping("/page" )
     @ApiOperation(value = "分页查询", notes = "分页查询")
-    public Response page(Page page, SysDept sysDept) {
+    public Response<Page> page(Page page, SysDept sysDept) {
         return Response.success(sysDeptService.page(page, Wrappers.query(sysDept)));
     }
 
@@ -85,7 +88,7 @@ public class SysDeptController {
      */
     @GetMapping("/{id}")
     @ApiOperation(value = "通过id查询部门", notes = "通过id查询部门")
-    public Response getById(@PathVariable Integer id) {
+    public Response<SysDept> getById(@PathVariable Integer id) {
         return Response.success(sysDeptService.getById(id));
     }
 
@@ -99,7 +102,7 @@ public class SysDeptController {
     @PostMapping
     @PreAuthorize("@authorize.hasPermission('sys_add_dept')" )
     @ApiOperation(value = "新增部门", notes = "新增部门")
-    public Response save(@RequestBody SysDept sysDept) {
+    public Response<Boolean> save(@RequestBody SysDept sysDept) {
         return Response.success(sysDeptService.save(sysDept));
     }
 
@@ -113,7 +116,7 @@ public class SysDeptController {
     @PutMapping
     @PreAuthorize("@authorize.hasPermission('sys_editor_dept')" )
     @ApiOperation(value = "修改部门", notes = "修改部门")
-    public Response update(@RequestBody SysDept sysDept) {
+    public Response<Boolean> update(@RequestBody SysDept sysDept) {
         return Response.success(sysDeptService.updateById(sysDept));
     }
 
@@ -127,7 +130,7 @@ public class SysDeptController {
     @DeleteMapping("/{id}" )
     @PreAuthorize("@authorize.hasPermission('sys_delete_dept')" )
     @ApiOperation(value = "通过id删除部门", notes = "通过id删除部门")
-    public Response delete(@PathVariable Integer id) {
+    public Response<Boolean> delete(@PathVariable Integer id) {
         return Response.success(sysDeptService.removeById(id));
     }
 

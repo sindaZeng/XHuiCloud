@@ -30,6 +30,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.xhuicloud.upms.dto.UserQueryDto;
 import com.xhuicloud.upms.dto.UserInfo;
 import com.xhuicloud.upms.entity.SysUser;
+import com.xhuicloud.upms.vo.UserVo;
 
 import java.util.List;
 
@@ -50,7 +51,7 @@ public interface SysUserService extends IService<SysUser> {
      * @param userQueryDto
      * @return
      */
-    IPage userPage(Page page, UserQueryDto userQueryDto);
+    IPage<UserVo> userPage(Page page, UserQueryDto userQueryDto);
 
     /**
      * 编辑用户

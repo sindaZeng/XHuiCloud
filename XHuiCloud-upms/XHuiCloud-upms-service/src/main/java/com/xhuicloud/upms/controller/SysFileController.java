@@ -30,6 +30,7 @@ import com.xhuicloud.common.core.utils.Response;
 import com.xhuicloud.common.log.annotation.SysLog;
 import com.xhuicloud.upms.entity.SysFile;
 import com.xhuicloud.upms.service.SysFileService;
+import com.xhuicloud.upms.vo.FileVo;
 import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -37,6 +38,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  * @program: XHuiCloud
@@ -59,7 +61,7 @@ public class SysFileController {
      * @return
      */
     @GetMapping("/page")
-    public Response page(Page page, SysFile sysFile) {
+    public Response<Page> page(Page page, SysFile sysFile) {
         return Response.success(sysFileService.page(page,
                 Wrappers.lambdaQuery(sysFile)));
     }
@@ -70,7 +72,7 @@ public class SysFileController {
      * @return
      */
     @GetMapping
-    public Response list(SysFile sysFile) {
+    public Response<List<SysFile>> list(SysFile sysFile) {
         return Response.success(sysFileService.list(Wrappers.lambdaQuery(sysFile)));
     }
 
@@ -83,7 +85,7 @@ public class SysFileController {
     @SysLog("上传文件")
     @PostMapping("/upload")
     @PreAuthorize("@authorize.hasPermission('sys_upload_file', 'sys_upload_icon')")
-    public Response upload(@RequestPart("file") MultipartFile file) {
+    public Response<String> upload(@RequestPart("file") MultipartFile file) {
         return Response.success(sysFileService.upload(file));
     }
 
@@ -96,7 +98,7 @@ public class SysFileController {
     @SysLog("删除文件")
     @DeleteMapping("/{id}")
     @PreAuthorize("@authorize.hasPermission('sys_delete_file', 'sys_delete_icon')")
-    public Response delete(@PathVariable Integer id) {
+    public Response<Boolean> delete(@PathVariable Integer id) {
         return Response.success(sysFileService.deleteFileById(id));
     }
 
@@ -117,7 +119,7 @@ public class SysFileController {
      * @param id
      */
     @GetMapping("/detail/{id}")
-    public Response detail(@PathVariable Integer id) {
+    public Response<FileVo> detail(@PathVariable Integer id) {
        return Response.success(sysFileService.detail(id));
     }
 

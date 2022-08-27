@@ -89,7 +89,7 @@ public class SysWechatMpController {
     }
 
     @GetMapping("/login-qrcode")
-    public Response loginQrcode(@PathVariable("appId") String appId) {
+    public Response<String> loginQrcode(@PathVariable("appId") String appId) {
         String sceneStr = RandomUtil.randomString(30);
         SysSocial sysSocial = getSysSocial(appId);
         Map<String, String> intMap = new HashMap<>();
@@ -112,10 +112,9 @@ public class SysWechatMpController {
 
 
     @GetMapping("/scan-success")
-    public Response scanSuccess(@PathVariable("appId") String appId, @RequestParam String ticket) {
-        Object o = redisTemplate.opsForValue().get(
-                SecurityConstants.WECHAT_MP_SCAN_SUCCESS + ticket);
-        return Response.success(o != null);
+    public Response<Boolean> scanSuccess(@PathVariable("appId") String appId, @RequestParam String ticket) {
+        return Response.success(redisTemplate.hasKey(
+                SecurityConstants.WECHAT_MP_SCAN_SUCCESS + ticket));
     }
 
     @GetMapping

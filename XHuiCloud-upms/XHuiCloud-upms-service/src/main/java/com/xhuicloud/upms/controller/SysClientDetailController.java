@@ -47,7 +47,7 @@ public class SysClientDetailController {
 
     @Anonymous(false)
     @GetMapping("/{clientId}")
-    public Response getById(@PathVariable(value = "clientId") String clientId) {
+    public Response<SysClientDetails> getById(@PathVariable(value = "clientId") String clientId) {
         return Response.success(sysClientDetailsService.getOne(
                 Wrappers.<SysClientDetails>lambdaQuery()
                         .eq(SysClientDetails::getClientId, clientId)
@@ -64,7 +64,7 @@ public class SysClientDetailController {
      */
     @GetMapping("/page")
     @ApiOperation(value = "分页查询", notes = "分页查询")
-    public Response page(Page page, SysClientDetails sysClientDetails) {
+    public Response<Page> page(Page page, SysClientDetails sysClientDetails) {
         return Response.success(sysClientDetailsService.page(page, Wrappers.query(sysClientDetails)));
     }
 
@@ -78,7 +78,7 @@ public class SysClientDetailController {
     @PostMapping
     @PreAuthorize("@authorize.hasPermission('sys_add_client')")
     @ApiOperation(value = "新增终端信息", notes = "新增终端信息")
-    public Response save(@RequestBody SysClientDetails sysClientDetails) {
+    public Response<Boolean> save(@RequestBody SysClientDetails sysClientDetails) {
         return Response.success(sysClientDetailsService.save(sysClientDetails));
     }
 
@@ -92,7 +92,7 @@ public class SysClientDetailController {
     @PutMapping
     @PreAuthorize("@authorize.hasPermission('sys_editor_client')")
     @ApiOperation(value = "修改终端信息", notes = "修改终端信息")
-    public Response update(@RequestBody SysClientDetails sysClientDetails) {
+    public Response<Boolean> update(@RequestBody SysClientDetails sysClientDetails) {
         return Response.success(sysClientDetailsService.updateById(sysClientDetails));
     }
 
@@ -106,7 +106,7 @@ public class SysClientDetailController {
     @DeleteMapping("/{id}")
     @PreAuthorize("@authorize.hasPermission('sys_delete_client')")
     @ApiOperation(value = "通过id删除终端信息", notes = "通过id删除终端信息")
-    public Response delete(@PathVariable Integer id) {
+    public Response<Boolean> delete(@PathVariable Integer id) {
         return Response.success(sysClientDetailsService.removeById(id));
     }
 

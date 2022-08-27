@@ -55,7 +55,7 @@ public class SysDictController {
      */
     @GetMapping("/page")
     @ApiOperation(value = "分页查询字典列表", notes = "分页查询字典列表")
-    public Response page(Page page, SysDict sysDict) {
+    public Response<Page> page(Page page, SysDict sysDict) {
         return Response.success(sysDictService.page(page, Wrappers.lambdaQuery(sysDict)));
     }
 
@@ -69,7 +69,7 @@ public class SysDictController {
     @PostMapping
     @CacheEvict(value = CacheConstants.SYS_DICT, allEntries = true)
     @ApiOperation(value = "新增字典项", notes = "新增字典项")
-    public Response save(@Valid @RequestBody SysDict sysDict) {
+    public Response<Boolean> save(@Valid @RequestBody SysDict sysDict) {
         return Response.success(sysDictService.save(sysDict));
     }
 
@@ -77,7 +77,7 @@ public class SysDictController {
     @PutMapping
     @CacheEvict(value = CacheConstants.SYS_DICT, allEntries = true)
     @ApiOperation(value = "编辑字典项", notes = "编辑字典项")
-    public Response update(@Valid @RequestBody SysDict sysDict) {
+    public Response<Boolean> update(@Valid @RequestBody SysDict sysDict) {
         return Response.success(sysDictService.updateById(sysDict));
     }
 
@@ -91,7 +91,7 @@ public class SysDictController {
     @DeleteMapping("/{id}")
     @CacheEvict(value = CacheConstants.SYS_DICT, allEntries = true)
     @ApiOperation(value = "删除字典项", notes = "删除字典项")
-    public Response delete(@PathVariable Integer id) {
+    public Response<Boolean> delete(@PathVariable Integer id) {
         return Response.success(sysDictService.removeById(id));
     }
 

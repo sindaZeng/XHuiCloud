@@ -56,7 +56,7 @@ public class PayChannelController {
      * @return
      */
     @GetMapping("/page")
-    public Response page(Page page) {
+    public Response<Page> page(Page page) {
         return Response.success(payChannelService.page(page));
     }
 
@@ -68,7 +68,7 @@ public class PayChannelController {
     @SysLog("添加商户渠道")
     @PostMapping
     @PreAuthorize("@authorize.hasPermission('sys_add_channel')")
-    public Response save(@RequestBody PayChannel payChannel) {
+    public Response<Boolean> save(@RequestBody PayChannel payChannel) {
         return Response.success(payChannelService.save(payChannel));
     }
 
@@ -81,7 +81,7 @@ public class PayChannelController {
     @SysLog("编辑商户渠道")
     @PutMapping
     @PreAuthorize("@authorize.hasPermission('sys_editor_user')")
-    public Response update(@RequestBody PayChannel payChannel) {
+    public Response<Boolean> update(@RequestBody PayChannel payChannel) {
         return Response.success(payChannelService.updateById(payChannel));
     }
 }

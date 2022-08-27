@@ -60,7 +60,7 @@ public class SysParamController {
      * @return
      */
     @GetMapping("/page")
-    public Response page(Page page) {
+    public Response<Page> page(Page page) {
         return Response.success(sysParamService.page(page));
     }
 
@@ -73,7 +73,7 @@ public class SysParamController {
     @SysLog("新增系统参数")
     @PostMapping
     @PreAuthorize("@authorize.hasPermission('sys_add_param')")
-    public Response save(@Valid @RequestBody SysParam sysParam) {
+    public Response<Boolean> save(@Valid @RequestBody SysParam sysParam) {
         return Response.success(sysParamService.saveParam(sysParam));
     }
 
@@ -98,7 +98,7 @@ public class SysParamController {
     @PutMapping("/updateValue")
     @Anonymous(value = false)
     @CacheEvict(value = CacheConstants.SYS_PARAM,  key = "#sysParam.paramKey", allEntries = true)
-    public Response updateValue(@RequestBody SysParam sysParam) {
+    public Response<Boolean> updateValue(@RequestBody SysParam sysParam) {
         SysParam sysParamByKey = sysParamService.getSysParamByKey(sysParam.getParamKey());
         sysParamByKey.setParamValue(sysParam.getParamValue());
         return Response.success(sysParamService.updateById(sysParamByKey));
@@ -114,7 +114,7 @@ public class SysParamController {
     @PutMapping
     @PreAuthorize("@authorize.hasPermission('sys_editor_param')")
     @CacheEvict(value = CacheConstants.SYS_PARAM,  key = "#sysParam.paramKey", allEntries = true)
-    public Response update(@Valid @RequestBody SysParam sysParam) {
+    public Response<Boolean> update(@Valid @RequestBody SysParam sysParam) {
         sysParam.setUpdateId(SecurityHolder.getUserId());
         return Response.success(sysParamService.updateById(sysParam));
     }
@@ -128,7 +128,7 @@ public class SysParamController {
     @SysLog("删除系统参数")
     @PreAuthorize("@authorize.hasPermission('sys_delete_param')")
     @DeleteMapping("/{id}")
-    public Response delete(@PathVariable Integer id) {
+    public Response<Boolean> delete(@PathVariable Integer id) {
         return Response.success(sysParamService.removeById(id));
     }
 }

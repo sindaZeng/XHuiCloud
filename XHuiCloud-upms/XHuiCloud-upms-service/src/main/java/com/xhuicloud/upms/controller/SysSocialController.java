@@ -72,7 +72,7 @@ public class SysSocialController {
      */
     @Anonymous
     @PutMapping("/wechat/token")
-    public Response updateWechatToken() {
+    public Response<Boolean> updateWechatToken() {
         return Response.success(sysSocialService.updateWechatToken());
     }
 
@@ -82,7 +82,7 @@ public class SysSocialController {
      * @return
      */
     @GetMapping("/page")
-    public Response page(Page page) {
+    public Response<Page> page(Page page) {
         return Response.success(sysSocialService.page(page));
     }
 
@@ -95,7 +95,7 @@ public class SysSocialController {
     @SysLog("新增社交")
     @PostMapping
     @PreAuthorize("@authorize.hasPermission('sys_add_social')")
-    public Response save(@Valid @RequestBody SysSocial sysSocial) {
+    public Response<Boolean> save(@Valid @RequestBody SysSocial sysSocial) {
         return Response.success(sysSocialService.save(sysSocial));
     }
 
@@ -108,7 +108,7 @@ public class SysSocialController {
     @SysLog("编辑社交")
     @PutMapping
     @PreAuthorize("@authorize.hasPermission('sys_editor_social')")
-    public Response update(@Valid @RequestBody SysSocial sysSocial) {
+    public Response<Boolean> update(@Valid @RequestBody SysSocial sysSocial) {
         return Response.success(sysSocialService.updateById(sysSocial));
     }
 
@@ -121,7 +121,7 @@ public class SysSocialController {
     @SysLog("开启禁用社交")
     @DeleteMapping("/{id}")
     @PreAuthorize("@authorize.hasPermission('sys_delete_social')")
-    public Response delete(@PathVariable Integer id) {
+    public Response<Boolean> delete(@PathVariable Integer id) {
         return Response.success(sysSocialService.removeById(id));
     }
 

@@ -53,7 +53,7 @@ public class PushTemplateController {
      */
     @GetMapping("/page")
     @ApiOperation(value = "分页查询推送模板列表", notes = "分页查询推送模板列表")
-    public Response page(Page page) {
+    public Response<Page> page(Page page) {
         return Response.success(pushTemplateService.page(page));
     }
 
@@ -67,7 +67,7 @@ public class PushTemplateController {
     @PostMapping
     @CacheEvict(value = CacheConstants.PUSH_TEMPLATE, allEntries = true)
     @ApiOperation(value = "新增推送模板", notes = "新增推送模板")
-    public Response save(@Valid @RequestBody PushTemplate pushTemplate) {
+    public Response<Boolean> save(@Valid @RequestBody PushTemplate pushTemplate) {
         return Response.success(pushTemplateService.save(pushTemplate));
     }
 
@@ -81,7 +81,7 @@ public class PushTemplateController {
     @PutMapping
     @CacheEvict(value = CacheConstants.PUSH_TEMPLATE, allEntries = true)
     @ApiOperation(value = "编辑推送模板", notes = "编辑推送模板")
-    public Response update(@Valid @RequestBody PushTemplate pushTemplate) {
+    public Response<Boolean> update(@Valid @RequestBody PushTemplate pushTemplate) {
         return Response.success(pushTemplateService.updateById(pushTemplate));
     }
 
@@ -95,7 +95,7 @@ public class PushTemplateController {
     @DeleteMapping("/{id}")
     @CacheEvict(value = CacheConstants.PUSH_TEMPLATE, allEntries = true)
     @ApiOperation(value = "删除推送模板", notes = "删除推送模板")
-    public Response delete(@PathVariable Integer id) {
+    public Response<Boolean> delete(@PathVariable Integer id) {
         return Response.success(pushTemplateService.removeById(id));
     }
 
@@ -106,7 +106,7 @@ public class PushTemplateController {
      * @return
      */
     @GetMapping("/{id}")
-    public Response getById(@PathVariable Integer id) {
+    public Response<PushTemplate> getById(@PathVariable Integer id) {
         return Response.success(pushTemplateService.getById(id));
     }
 

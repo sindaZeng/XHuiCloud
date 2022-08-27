@@ -125,7 +125,7 @@ public class SysTenantController {
      * @return
      */
     @GetMapping("/page")
-    public Response page(Page page, SysTenant sysTenant) {
+    public Response<Page> page(Page page, SysTenant sysTenant) {
         return Response.success(sysTenantService.page(page, Wrappers.query(sysTenant)));
     }
 
@@ -137,7 +137,7 @@ public class SysTenantController {
     @SysLog("添加租户")
     @PostMapping
     @PreAuthorize("@authorize.hasPermission('sys_add_tenant')")
-    public Response save(@Valid @RequestBody SysTenant sysTenant) {
+    public Response<Boolean> save(@Valid @RequestBody SysTenant sysTenant) {
         return Response.success(sysTenantService.save(sysTenant));
     }
 
@@ -149,7 +149,7 @@ public class SysTenantController {
     @SysLog("编辑租户")
     @PutMapping
     @PreAuthorize("@authorize.hasPermission('sys_editor_tenant')")
-    public Response update(@Valid @RequestBody SysTenant sysTenant) {
+    public Response<Boolean> update(@Valid @RequestBody SysTenant sysTenant) {
         return Response.success(sysTenantService.updateById(sysTenant));
     }
 
@@ -162,7 +162,7 @@ public class SysTenantController {
     @SysLog("删除租户")
     @DeleteMapping("/{id}")
     @PreAuthorize("@authorize.hasPermission('sys_delete_tenant')")
-    public Response delete(@PathVariable Integer id) {
+    public Response<Boolean> delete(@PathVariable Integer id) {
         return Response.success(sysTenantService.removeById(id));
     }
 
@@ -176,7 +176,7 @@ public class SysTenantController {
     @SysLog("改变租户状态")
     @GetMapping("/state")
     @PreAuthorize("@authorize.hasPermission('sys_delete_tenant')")
-    public Response state(@RequestParam(value = "id") Integer id, @RequestParam(value = "state") Integer state) {
+    public Response<Boolean> state(@RequestParam(value = "id") Integer id, @RequestParam(value = "state") Integer state) {
         return Response.success(sysTenantService.state(id, state));
     }
 

@@ -58,7 +58,7 @@ public class SysLogController {
      */
     @GetMapping("/page" )
     @ApiOperation(value = "分页查询", notes = "分页查询")
-    public Response page(Page page, SysLog sysLog) {
+    public Response<Page> page(Page page, SysLog sysLog) {
         return Response.success(sysLogService.page(page, Wrappers.query(sysLog).orderByDesc("id")));
     }
 
