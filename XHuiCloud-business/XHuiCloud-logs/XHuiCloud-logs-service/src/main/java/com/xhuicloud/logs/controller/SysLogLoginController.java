@@ -64,7 +64,7 @@ public class SysLogLoginController {
     */
     @GetMapping("/page" )
     @ApiOperation(value = "分页查询", notes = "分页查询")
-    public Response page(Page page, SysLogLogin sysLogLogin) {
+    public Response<Page> page(Page page, SysLogLogin sysLogLogin) {
         page.setOrders(Arrays.asList(OrderItem.desc("login_time")));
         return Response.success(sysLogLoginService.page(page, Wrappers.query(sysLogLogin)));
     }
@@ -77,7 +77,7 @@ public class SysLogLoginController {
     */
     @GetMapping("/{id}")
     @ApiOperation(value = "通过id查询", notes = "通过id查询")
-    public Response getById(@PathVariable Integer id) {
+    public Response<SysLogLogin> getById(@PathVariable Integer id) {
         return Response.success(sysLogLoginService.getById(id));
     }
 
@@ -91,7 +91,7 @@ public class SysLogLoginController {
     @SysLog("新增" )
     @PostMapping
     @ApiOperation(value = "新增", notes = "新增")
-    public Response save(@RequestBody SysLogLogin sysLogLogin) {
+    public Response<Boolean> save(@RequestBody SysLogLogin sysLogLogin) {
         return Response.success(sysLogLoginService.save(sysLogLogin));
     }
 
@@ -105,7 +105,7 @@ public class SysLogLoginController {
     @PutMapping
     @ApiOperation(value = "修改", notes = "修改")
     @PreAuthorize("@authorize.hasPermission('sys_editor_sysLogLogin')" )
-    public Response update(@RequestBody SysLogLogin sysLogLogin) {
+    public Response<Boolean> update(@RequestBody SysLogLogin sysLogLogin) {
         return Response.success(sysLogLoginService.updateById(sysLogLogin));
     }
 
@@ -119,7 +119,7 @@ public class SysLogLoginController {
     @DeleteMapping("/{id}" )
     @ApiOperation(value = "通过id删除", notes = "通过id删除")
     @PreAuthorize("@authorize.hasPermission('sys_delete_sysLogLogin')" )
-    public Response delete(@PathVariable Integer id) {
+    public Response<Boolean> delete(@PathVariable Integer id) {
         return Response.success(sysLogLoginService.removeById(id));
     }
 

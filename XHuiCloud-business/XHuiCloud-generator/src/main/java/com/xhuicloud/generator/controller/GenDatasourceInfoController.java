@@ -62,7 +62,7 @@ public class GenDatasourceInfoController {
      * 预测试数据库连接是否有效
      */
     @PutMapping("/test/{id}")
-    public Response test(@PathVariable Integer id) {
+    public Response<Boolean> test(@PathVariable Integer id) {
         GenDsInfo genDsInfo = genDsInfoService.getById(id);
         return Response.success(handle.get(genDsInfo.getType()).test(genDsInfo));
     }
@@ -74,12 +74,12 @@ public class GenDatasourceInfoController {
      * @return
      */
     @GetMapping("/page")
-    public Response page(Page page) {
+    public Response<Page> page(Page page) {
         return Response.success(genDsInfoService.page(page));
     }
 
     @GetMapping("/info/{id}")
-    public Response info(@PathVariable Integer id) {
+    public Response<List<TableInfo>> info(@PathVariable Integer id) {
         GenDsInfo genDsInfo = genDsInfoService.getById(id);
         DynamicDataSourceContextHolder.push(genDsInfo.getName());
         JdbcHandle jdbcHandle = handle.get(genDsInfo.getType());
@@ -95,7 +95,7 @@ public class GenDatasourceInfoController {
      */
     @PostMapping
     @PreAuthorize("@authorize.hasPermission('sys_add_db')")
-    public Response save(@RequestBody GenDsInfo genDsInfo) throws Exception {
+    public Response<Boolean> save(@RequestBody GenDsInfo genDsInfo) throws Exception {
         // 构建前端对应解密AES 因子
         genDsInfo.setPassword(AesUtil.decrypt(genDsInfo.getPassword()));
         genDsInfo.setUsername(AesUtil.decrypt(genDsInfo.getUsername()));
@@ -117,7 +117,7 @@ public class GenDatasourceInfoController {
     @SysLog("编辑数据源")
     @PutMapping
     @PreAuthorize("@authorize.hasPermission('sys_editor_db')")
-    public Response update(@Valid @RequestBody GenDsInfo genDsInfo) {
+    public Response<Boolean> update(@Valid @RequestBody GenDsInfo genDsInfo) {
         return Response.success(genDsInfoService.updateDynamicDataSource(genDsInfo));
     }
 
@@ -130,7 +130,7 @@ public class GenDatasourceInfoController {
     @SysLog("删除")
     @DeleteMapping("/{id}")
     @PreAuthorize("@authorize.hasPermission('sys_delete_db')")
-    public Response delete(@PathVariable Integer id) {
+    public Response<Boolean> delete(@PathVariable Integer id) {
         return Response.success(genDsInfoService.removeById(id));
     }
 

@@ -55,15 +55,14 @@ public class SysMobileController {
 
     @Anonymous(false)
     @GetMapping("/{mobile}")
-    public Response sendSmsCode(@PathVariable String mobile) {
+    public Response<Boolean> sendSmsCode(@PathVariable String mobile) {
         return mobileService.sendSmsCode(mobile);
     }
 
     @Anonymous(false)
     @GetMapping("/timing/{mobile}")
     @ApiOperation(value = "定时发送短信", notes = "分页查询字典列表")
-    public Response timingSendSms(@PathVariable String mobile, XxlJobInfo xxlJobInfo) {
-        String add = jobInfoFeign.add("XXL_JOB_LOGIN_IDENTITY=XXXXXXXX", xxlJobInfo);
-        return Response.success();
+    public Response<String> timingSendSms(@PathVariable String mobile, XxlJobInfo xxlJobInfo) {
+        return Response.success(jobInfoFeign.add("XXL_JOB_LOGIN_IDENTITY=XXXXXXXX", xxlJobInfo));
     }
 }

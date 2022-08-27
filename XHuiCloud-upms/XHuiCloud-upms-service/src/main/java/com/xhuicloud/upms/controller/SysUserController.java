@@ -24,6 +24,7 @@
 
 package com.xhuicloud.upms.controller;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xhuicloud.common.authorization.resource.annotation.Anonymous;
@@ -32,11 +33,13 @@ import com.xhuicloud.common.core.utils.ExcelUtil;
 import com.xhuicloud.common.core.utils.Response;
 import com.xhuicloud.common.log.annotation.SysLog;
 import com.xhuicloud.logs.feign.SysLogServiceFeign;
+import com.xhuicloud.upms.dto.UserInfo;
 import com.xhuicloud.upms.dto.UserQueryDto;
 import com.xhuicloud.upms.entity.SysUser;
 import com.xhuicloud.upms.entity.SysUserSocial;
 import com.xhuicloud.upms.service.SysUserService;
 import com.xhuicloud.upms.service.SysUserSocialService;
+import com.xhuicloud.upms.vo.UserVo;
 import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -56,7 +59,6 @@ public class SysUserController {
 
     private final SysUserService sysUserService;
     private final SysUserSocialService sysUserSocialService;
-    private final SysLogServiceFeign sysLogServiceFeign;
 
     /**
      * 分页查询用户列表
@@ -65,7 +67,7 @@ public class SysUserController {
      * @return
      */
     @GetMapping("/page")
-    public Response page(Page page, UserQueryDto userQueryDto) {
+    public Response<IPage<UserVo>> page(Page page, UserQueryDto userQueryDto) {
         return Response.success(sysUserService.userPage(page, userQueryDto));
     }
 
@@ -75,7 +77,7 @@ public class SysUserController {
      * @return
      */
     @GetMapping("/info")
-    public Response info() {
+    public Response<UserInfo> info() {
         String username = SecurityHolder.getUser().getUsername();
         SysUser user = sysUserService.getOne(Wrappers.<SysUser>query()
                 .lambda().eq(SysUser::getUsername, username));
@@ -93,8 +95,7 @@ public class SysUserController {
      */
     @Anonymous
     @GetMapping("/social/{userId}/{type}")
-    @PreAuthorize("#oauth2.hasScope('read')")
-    public Response getUserSocial(@PathVariable("userId") Integer userId, @PathVariable("type") String type) {
+    public Response<SysUserSocial> getUserSocial(@PathVariable("userId") Integer userId, @PathVariable("type") String type) {
         return Response.success(sysUserSocialService.getOne(Wrappers.<SysUserSocial>lambdaQuery()
                 .eq(SysUserSocial::getUserId, userId).eq(SysUserSocial::getSocialType, type)));
     }
@@ -107,7 +108,7 @@ public class SysUserController {
     @SysLog("添加用户")
     @PostMapping
     @PreAuthorize("@authorize.hasPermission('sys_add_user')")
-    public Response save(@Valid @RequestBody SysUser sysUser) {
+    public Response<Integer> save(@Valid @RequestBody SysUser sysUser) {
         return Response.success(sysUserService.saveUser(sysUser));
     }
 
@@ -122,7 +123,7 @@ public class SysUserController {
     @SysLog("导入用户")
     @PostMapping("/import")
     @PreAuthorize("@authorize.hasPermission('sys_import_user')")
-    public Response importUser(MultipartFile file, boolean updateSupport) throws Exception {
+    public Response<String> importUser(MultipartFile file, boolean updateSupport) throws Exception {
         ExcelUtil<SysUser> excelUtil = new ExcelUtil<>(SysUser.class);
         List<SysUser> userList = excelUtil.importExcel(file.getInputStream());
         return Response.success(sysUserService.importUser(userList, updateSupport));
@@ -137,7 +138,7 @@ public class SysUserController {
     @SysLog("编辑用户")
     @PutMapping
     @PreAuthorize("@authorize.hasPermission('sys_editor_user')")
-    public Response update(@Valid @RequestBody SysUser sysUser) {
+    public Response<Boolean> update(@Valid @RequestBody SysUser sysUser) {
         return Response.success(sysUserService.updateUser(sysUser));
     }
 
@@ -150,7 +151,7 @@ public class SysUserController {
     @SysLog("开启/禁用用户")
     @DeleteMapping("/{id}")
     @PreAuthorize("@authorize.hasPermission('sys_delete_user')")
-    public Response delete(@PathVariable Integer id) {
+    public Response<Boolean> delete(@PathVariable Integer id) {
         return Response.success(sysUserService.removeById(id));
     }
 
@@ -163,7 +164,7 @@ public class SysUserController {
     @SysLog("锁定/解锁用户")
     @PostMapping("/{id}")
     @PreAuthorize("@authorize.hasPermission('sys_ban_user')")
-    public Response lock(@PathVariable Integer id) {
+    public Response<Boolean> lock(@PathVariable Integer id) {
         return Response.success(sysUserService.lock(id));
     }
 }

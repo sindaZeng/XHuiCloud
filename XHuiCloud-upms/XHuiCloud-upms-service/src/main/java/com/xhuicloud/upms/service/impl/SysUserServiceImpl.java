@@ -31,6 +31,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.xhuicloud.common.authorization.resource.utils.SecurityHolder;
 import com.xhuicloud.common.core.exception.SysException;
 import com.xhuicloud.upms.dto.UserQueryDto;
 import com.xhuicloud.upms.dto.UserInfo;
@@ -40,6 +41,7 @@ import com.xhuicloud.upms.entity.SysRole;
 import com.xhuicloud.upms.entity.SysUser;
 import com.xhuicloud.upms.mapper.SysUserMapper;
 import com.xhuicloud.upms.service.*;
+import com.xhuicloud.upms.vo.UserVo;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -74,8 +76,6 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     private final SysUserDeptService sysUserDeptService;
 
     private final SysTenantService sysTenantService;
-
-    private static final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     @Override
     public UserInfo getSysUser(SysUser sysUser) {
@@ -117,7 +117,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     }
 
     @Override
-    public IPage userPage(Page page, UserQueryDto userQueryDto) {
+    public IPage<UserVo> userPage(Page page, UserQueryDto userQueryDto) {
         return baseMapper.userPage(page, userQueryDto);
     }
 
@@ -233,7 +233,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
                 SysParam sysParamPassWord = sysParamService.getSysParamByKey(SYS_USER_DEFAULT_PASSWORD);
                 sysUser.setPassword(sysParamPassWord.getParamValue());
             } else {
-                sysUser.setPassword(passwordEncoder.encode(sysUser.getPassword()));
+                sysUser.setPassword(SecurityHolder.encoder(sysUser.getPassword()));
             }
             // 所有的部门id
             List<Integer> allDeptIds = sysDeptService.getAllDeptIds();

@@ -24,6 +24,7 @@
 
 package com.xhuicloud.upms.controller;
 
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xhuicloud.common.core.constant.CacheConstants;
 import com.xhuicloud.common.core.utils.Response;
@@ -35,6 +36,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.web.bind.annotation.*;
+
 import javax.validation.Valid;
 
 @RestController
@@ -53,8 +55,8 @@ public class SysDictDataController {
      */
     @GetMapping("/page")
     @ApiOperation(value = "分页查询字典列表", notes = "分页查询字典列表")
-    public Response page(SysDictData sysDictData, Page page) {
-        return Response.success(sysDictDataService.dictDataPage(sysDictData, page));
+    public Response<Page> page(Page page, SysDictData sysDictData) {
+        return Response.success(sysDictDataService.page(page, Wrappers.query(sysDictData)));
     }
 
     /**
@@ -67,7 +69,7 @@ public class SysDictDataController {
     @PostMapping
     @CacheEvict(value = CacheConstants.SYS_DICT_DATA, allEntries = true)
     @ApiOperation(value = "新增字典", notes = "新增字典")
-    public Response save(@Valid @RequestBody SysDictData sysDictData) {
+    public Response<Boolean> save(@Valid @RequestBody SysDictData sysDictData) {
         return Response.success(sysDictDataService.save(sysDictData));
     }
 
@@ -75,7 +77,7 @@ public class SysDictDataController {
     @PutMapping
     @CacheEvict(value = CacheConstants.SYS_DICT_DATA, allEntries = true)
     @ApiOperation(value = "编辑字典", notes = "编辑字典")
-    public Response update(@Valid @RequestBody SysDictData sysDictData) {
+    public Response<Boolean> update(@Valid @RequestBody SysDictData sysDictData) {
         return Response.success(sysDictDataService.updateById(sysDictData));
     }
 
@@ -89,7 +91,7 @@ public class SysDictDataController {
     @DeleteMapping("/{id}")
     @CacheEvict(value = CacheConstants.SYS_DICT_DATA, allEntries = true)
     @ApiOperation(value = "删除字典", notes = "删除字典")
-    public Response delete(@PathVariable Integer id) {
+    public Response<Boolean> delete(@PathVariable Integer id) {
         return Response.success(sysDictDataService.removeById(id));
     }
 }

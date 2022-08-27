@@ -45,7 +45,7 @@ public class TreeNode {
 
     protected int parentId;
 
-    protected List<TreeNode> children=null;
+    protected List<TreeNode> children = null;
 
     public void add(TreeNode node) {
         children.add(node);

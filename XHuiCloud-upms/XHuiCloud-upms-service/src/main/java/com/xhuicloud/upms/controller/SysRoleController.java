@@ -41,6 +41,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
@@ -61,7 +62,7 @@ public class SysRoleController {
      */
     @GetMapping("/page")
     @ApiOperation(value = "分页查询角色列表", notes = "分页查询角色列表")
-    public Response page(Page page, SysRole sysRole) {
+    public Response<Page> page(Page page, SysRole sysRole) {
         return Response.success(sysRoleService.page(page, Wrappers.query(sysRole)));
     }
 
@@ -72,7 +73,7 @@ public class SysRoleController {
      */
     @ApiOperation(value = "查询角色列表", notes = "查询角色列表")
     @GetMapping("/list")
-    public Response list() {
+    public Response<List<RoleDto>> list() {
         return Response.success(sysRoleService.list()
                 .stream().map(RoleDto::new).collect(Collectors.toList()));
     }
@@ -88,7 +89,7 @@ public class SysRoleController {
     @PreAuthorize("@authorize.hasPermission('sys_add_role')")
     @CacheEvict(value = CacheConstants.SYS_ROLE, allEntries = true)
     @ApiOperation(value = "新增角色", notes = "新增角色")
-    public Response save(@Valid @RequestBody SysRole sysRole) {
+    public Response<Boolean> save(@Valid @RequestBody SysRole sysRole) {
         return Response.success(sysRoleService.save(sysRole));
     }
 
@@ -103,7 +104,7 @@ public class SysRoleController {
     @PreAuthorize("@authorize.hasPermission('sys_editor_role')")
     @CacheEvict(value = CacheConstants.SYS_ROLE, allEntries = true)
     @ApiOperation(value = "编辑角色", notes = "编辑角色")
-    public Response update(@Valid @RequestBody SysRole sysRole) {
+    public Response<Boolean> update(@Valid @RequestBody SysRole sysRole) {
         return Response.success(sysRoleService.updateById(sysRole));
     }
 
@@ -118,7 +119,7 @@ public class SysRoleController {
     @DeleteMapping("/{id}")
     @CacheEvict(value = CacheConstants.SYS_ROLE, allEntries = true)
     @ApiOperation(value = "删除角色", notes = "删除角色")
-    public Response delete(@PathVariable Integer id) {
+    public Response<Boolean> delete(@PathVariable Integer id) {
         return Response.success(sysRoleService.deleteRoleById(id));
     }
 
@@ -129,7 +130,7 @@ public class SysRoleController {
      * @return
      */
     @GetMapping("/{id}")
-    public Response getById(@PathVariable Integer id) {
+    public Response<SysRole> getById(@PathVariable Integer id) {
         return Response.success(sysRoleService.getById(id));
     }
 
@@ -143,7 +144,7 @@ public class SysRoleController {
     @SysLog("更新角色菜单")
     @PreAuthorize("@authorize.hasPermission('sys_permission_role')")
     @PostMapping("/menus")
-    public Response saveRoleMenus(Integer roleId, @RequestParam(value = "menuIds", required = false) String menuIds) {
+    public Response<Boolean> saveRoleMenus(Integer roleId, @RequestParam(value = "menuIds", required = false) String menuIds) {
         return Response.success(sysRoleMenuService.saveRoleMenus(roleId, menuIds));
     }
 

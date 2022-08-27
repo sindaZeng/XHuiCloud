@@ -64,7 +64,7 @@ public class SysMenuController {
      * @return 当前用户的树形菜单
      */
     @GetMapping
-    public Response getUserMenu() {
+    public Response<List<MenuTree>> getUserMenu() {
         Set<SysMenu> all = new HashSet<>();
         SecurityHolder.getRoles()
                 .forEach(roleCode -> all.addAll(sysMenuService.findMenuByRoleCode(roleCode)));
@@ -83,7 +83,7 @@ public class SysMenuController {
      * @return
      */
     @GetMapping("/tree/{roleId}")
-    public Response getRoleTree(@PathVariable Integer roleId) {
+    public Response<List<Integer>> getRoleTree(@PathVariable Integer roleId) {
         return Response.success(sysMenuService.findMenuByRoleId(roleId)
                 .stream()
                 .map(SysMenu::getId)
@@ -96,7 +96,7 @@ public class SysMenuController {
      * @return
      */
     @GetMapping(value = "/tree")
-    public Response getMenuTree(@RequestParam Boolean disabled) {
+    public Response<List<MenuTree>> getMenuTree(@RequestParam Boolean disabled) {
         return Response.success(TreeUtil.buildMenuTree(disabled, sysMenuService
                 .list(Wrappers.<SysMenu>lambdaQuery()
                         .orderByAsc(SysMenu::getSort)), 0));
@@ -111,7 +111,7 @@ public class SysMenuController {
     @SysLog("新增菜单")
     @PostMapping
     @PreAuthorize("@authorize.hasPermission('sys_add_menu')")
-    public Response save(@Valid @RequestBody SysMenu sysMenu) {
+    public Response<Boolean> save(@Valid @RequestBody SysMenu sysMenu) {
         return Response.success(sysMenuService.saveMenu(sysMenu));
     }
 
@@ -124,7 +124,7 @@ public class SysMenuController {
     @SysLog("开启禁用菜单")
     @DeleteMapping("/{id}")
     @PreAuthorize("@authorize.hasPermission('sys_delete_menu')")
-    public Response delete(@PathVariable Integer id) {
+    public Response<Boolean> delete(@PathVariable Integer id) {
         return Response.success(sysMenuService.deleteMenu(id));
     }
 
@@ -137,7 +137,7 @@ public class SysMenuController {
     @SysLog("编辑菜单")
     @PutMapping
     @PreAuthorize("@authorize.hasPermission('sys_editor_menu')")
-    public Response update(@Valid @RequestBody SysMenu sysMenu) {
+    public Response<Boolean> update(@Valid @RequestBody SysMenu sysMenu) {
         return Response.success(sysMenuService.updateMenu(sysMenu));
     }
 }

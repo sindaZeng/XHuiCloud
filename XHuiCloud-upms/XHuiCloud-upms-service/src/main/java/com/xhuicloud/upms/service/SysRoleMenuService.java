@@ -31,7 +31,6 @@ import java.util.List;
 
 public interface SysRoleMenuService extends IService<SysRoleMenu> {
 
-
     Boolean saveRoleMenus(Integer roleId, String menuIds);
 
     Boolean deleteRoleMenus(List<Integer> ids);
