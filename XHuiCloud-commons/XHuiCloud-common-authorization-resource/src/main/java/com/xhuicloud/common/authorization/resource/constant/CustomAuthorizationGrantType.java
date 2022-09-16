@@ -32,14 +32,9 @@ import org.springframework.security.oauth2.core.AuthorizationGrantType;
 public interface CustomAuthorizationGrantType {
 
     /**
-     * QQ登录
+     * 社交登录
      */
-    AuthorizationGrantType QQ = new AuthorizationGrantType("qq");
-
-    /**
-     * 微信公众号登录
-     */
-    AuthorizationGrantType WECHAT_MP = new AuthorizationGrantType("wechat_mp");
+    AuthorizationGrantType SOCIAL = new AuthorizationGrantType("social");
 
     /**
      * 账号密码登录

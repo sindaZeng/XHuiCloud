@@ -36,9 +36,9 @@ import org.springframework.security.oauth2.core.AuthorizationGrantType;
 public class UsernamePasswordGrantAuthenticationToken extends UsernamePasswordAuthenticationToken {
 
     @Getter
-    private final AuthorizationGrantType grantType;
+    private final String grantType;
 
-    public UsernamePasswordGrantAuthenticationToken(Object principal, Object credentials, AuthorizationGrantType grantType) {
+    public UsernamePasswordGrantAuthenticationToken(Object principal, Object credentials, String grantType) {
         super(principal, credentials);
         this.grantType = grantType;
     }

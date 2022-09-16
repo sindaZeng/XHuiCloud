@@ -36,61 +36,65 @@ import java.io.Serializable;
 @Accessors(chain = true)
 public class Response<T> implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	/**
-	 * 0 成功
-	 */
-	@Getter
-	@Setter
-	private int code;
+    /**
+     * 0 成功
+     */
+    @Getter
+    @Setter
+    private int code;
 
-	@Getter
-	@Setter
-	private String msg;
+    @Getter
+    @Setter
+    private String msg;
 
 
-	@Getter
-	@Setter
-	private T data;
+    @Getter
+    @Setter
+    private T data;
 
-	public void setMsg(String msg) {
-		this.msg = msg;
-	}
+    public void setMsg(String msg) {
+        this.msg = msg;
+    }
 
-	public static <T> Response<T> success() {
-		return restResult(null, CommonConstants.SUCCESS, null);
-	}
+    public static <T> Response<T> success() {
+        return restResult(null, CommonConstants.SUCCESS, null);
+    }
 
-	public static <T> Response<T> success(T data) {
-		return restResult(data, CommonConstants.SUCCESS, null);
-	}
+    public static <T> Response<T> success(T data) {
+        return restResult(data, CommonConstants.SUCCESS, null);
+    }
 
-	public static <T> Response<T> success(T data, String msg) {
-		return restResult(data, CommonConstants.SUCCESS, msg);
-	}
+    public static <T> Response<T> success(T data, String msg) {
+        return restResult(data, CommonConstants.SUCCESS, msg);
+    }
 
-	public static <T> Response<T> failed() {
-		return restResult(null, CommonConstants.FAIL, null);
-	}
+    public static <T> Response<T> failed() {
+        return restResult(null, CommonConstants.FAIL, null);
+    }
 
-	public static <T> Response<T> failed(String msg) {
-		return restResult(null, CommonConstants.FAIL, msg);
-	}
+    public static <T> Response<T> failed(String msg) {
+        return restResult(null, CommonConstants.FAIL, msg);
+    }
 
-	public static <T> Response<T> failed(T data) {
-		return restResult(data, CommonConstants.FAIL, null);
-	}
+    public static <T> Response<T> failed(T data) {
+        return restResult(data, CommonConstants.FAIL, null);
+    }
 
-	public static <T> Response<T> failed(T data, String msg) {
-		return restResult(data, CommonConstants.FAIL, msg);
-	}
+    public static <T> Response<T> failed(T data, String msg) {
+        return restResult(data, CommonConstants.FAIL, msg);
+    }
 
-	private static <T> Response<T> restResult(T data, int code, String msg) {
-		Response<T> apiResult = new Response<>();
-		apiResult.setCode(code);
-		apiResult.setData(data);
-		apiResult.setMsg(msg);
-		return apiResult;
-	}
+    public Boolean isSuccess() {
+        return this.code == 0;
+    }
+
+    private static <T> Response<T> restResult(T data, int code, String msg) {
+        Response<T> apiResult = new Response<>();
+        apiResult.setCode(code);
+        apiResult.setData(data);
+        apiResult.setMsg(msg);
+        return apiResult;
+    }
 }

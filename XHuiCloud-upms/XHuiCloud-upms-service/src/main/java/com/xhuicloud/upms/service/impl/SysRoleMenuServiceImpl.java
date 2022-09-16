@@ -24,8 +24,10 @@
 
 package com.xhuicloud.upms.service.impl;
 
+import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.xhuicloud.upms.dto.RoleMenusDto;
 import com.xhuicloud.upms.entity.SysRoleMenu;
 import com.xhuicloud.upms.mapper.SysRoleMenuMapper;
 import com.xhuicloud.upms.service.SysRoleMenuService;
@@ -43,18 +45,17 @@ public class SysRoleMenuServiceImpl extends ServiceImpl<SysRoleMenuMapper, SysRo
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Boolean saveRoleMenus(Integer roleId, String menuIds) {
+    public Boolean saveRoleMenus(RoleMenusDto roleMenusDto) {
         this.remove(Wrappers.<SysRoleMenu>query().lambda()
-                .eq(SysRoleMenu::getRoleId, roleId));
-        if (StringUtils.isEmpty(menuIds)) {
+                .eq(SysRoleMenu::getRoleId, roleMenusDto.getRoleId()));
+        if (CollectionUtil.isEmpty(roleMenusDto.getMenuIds())) {
             return Boolean.TRUE;
         }
-        List<SysRoleMenu> roleMenuList = Arrays
-                .stream(menuIds.split(","))
+        List<SysRoleMenu> roleMenuList = roleMenusDto.getMenuIds().stream()
                 .map(menuId -> {
                     SysRoleMenu roleMenu = new SysRoleMenu();
-                    roleMenu.setRoleId(roleId);
-                    roleMenu.setMenuId(Integer.valueOf(menuId));
+                    roleMenu.setRoleId(roleMenusDto.getRoleId());
+                    roleMenu.setMenuId(menuId);
                     return roleMenu;
                 }).collect(Collectors.toList());
         return saveBatch(roleMenuList);

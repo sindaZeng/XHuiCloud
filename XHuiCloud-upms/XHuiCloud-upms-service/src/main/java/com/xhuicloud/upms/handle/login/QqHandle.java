@@ -30,7 +30,7 @@ import cn.hutool.http.HttpUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.xhuicloud.common.authorization.resource.constant.CustomAuthorizationGrantType;
+import com.xhuicloud.common.authorization.resource.constant.LoginPlatformEnum;
 import com.xhuicloud.common.core.constant.ThirdLoginUrlConstants;
 import com.xhuicloud.common.core.exception.SysException;
 import com.xhuicloud.common.data.ttl.XHuiCommonThreadLocalHolder;
@@ -74,6 +74,9 @@ public class QqHandle extends AbstractSocialHandler {
     public String getOpenId(SysSocial sysSocial, String code) {
         String result = HttpUtil.get(String.format(ThirdLoginUrlConstants.getTokenUrl
                 , sysSocial.getAppId(), sysSocial.getAppSecret(), code, URLUtil.encode(sysSocial.getRedirectUrl())));
+        if (result.contains("error_description")) {
+            throw SysException.sysFail(SysException.PARAM_EXCEPTION);
+        }
         String access_token = result.split("&")[0].split("=")[1];
         log.info("QQ return result:[{}]", result);
         result = HttpUtil.get(String.format(ThirdLoginUrlConstants.getOpenIdUrl, access_token));
@@ -109,7 +112,7 @@ public class QqHandle extends AbstractSocialHandler {
 
     @Override
     public String type() {
-        return CustomAuthorizationGrantType.QQ.getValue();
+        return LoginPlatformEnum.QQ.getType();
     }
 
     @Override

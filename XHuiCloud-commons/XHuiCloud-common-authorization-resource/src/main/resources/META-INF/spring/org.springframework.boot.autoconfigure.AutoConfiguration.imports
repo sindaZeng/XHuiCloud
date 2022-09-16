@@ -1,5 +1,6 @@
 com.xhuicloud.common.authorization.resource.aspect.AnonymousAspect
 com.xhuicloud.common.authorization.resource.component.AuthorizeService
 com.xhuicloud.common.authorization.resource.userdetails.XHuiUserDetailsServiceImpl
+com.xhuicloud.common.authorization.resource.userdetails.XHuiOtherUserDetailsServiceImpl
 com.xhuicloud.common.authorization.resource.component.GlobalExceptionHandlerResolver
 com.xhuicloud.common.authorization.resource.component.OAuth2TokenRequestInterceptor

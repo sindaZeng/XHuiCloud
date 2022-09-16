@@ -26,7 +26,6 @@ package com.xhuicloud.upms.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.xhuicloud.upms.entity.SysRole;
-import com.xhuicloud.upms.vo.RoleVo;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -36,5 +35,5 @@ public interface SysRoleMapper extends BaseMapper<SysRole> {
 
     List<SysRole> listRolesByUserId(Integer userId);
 
-    List<RoleVo> listRolesNameByUserId(Integer userId);
+    List<Integer> listRolesNameByUserId(Integer userId);
 }

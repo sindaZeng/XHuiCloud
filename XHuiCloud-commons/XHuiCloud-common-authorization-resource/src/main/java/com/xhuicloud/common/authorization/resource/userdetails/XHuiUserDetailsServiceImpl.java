@@ -28,49 +28,63 @@ import cn.hutool.core.util.ArrayUtil;
 import com.xhuicloud.common.authorization.resource.constant.CustomAuthorizationGrantType;
 import com.xhuicloud.common.core.constant.CacheConstants;
 import com.xhuicloud.common.core.constant.CommonConstants;
+import com.xhuicloud.common.core.utils.Response;
 import com.xhuicloud.common.data.ttl.XHuiCommonThreadLocalHolder;
 import com.xhuicloud.upms.dto.UserInfo;
 import com.xhuicloud.upms.entity.SysUser;
 import com.xhuicloud.upms.feign.SysSocialServiceFeign;
-import lombok.AllArgsConstructor;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
+import org.springframework.context.annotation.Primary;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
+import org.springframework.security.oauth2.core.OAuth2Error;
+import org.springframework.security.oauth2.core.OAuth2ErrorCodes;
 import org.springframework.security.oauth2.core.oidc.IdTokenClaimNames;
 
 import java.util.*;
 
 import static com.xhuicloud.common.core.constant.AuthorizationConstants.*;
 
-@AllArgsConstructor
+/**
+ * InitializeUserDetailsManagerConfigurer初始化时，初始化了DaoAuthenticationProvider
+ * 导致: ProviderManager parent属性有值，最后都会执行DaoAuthenticationProvider,错误会被覆盖成:密码错误
+ * 目前解决方案是多注入一个XHuiUserDetailsService bean
+ */
+@Primary
 public class XHuiUserDetailsServiceImpl implements XHuiUserDetailsService {
 
     private final SysSocialServiceFeign socialServiceFeign;
 
     private final CacheManager cacheManager;
 
+    public XHuiUserDetailsServiceImpl(SysSocialServiceFeign socialServiceFeign, CacheManager cacheManager) {
+        this.socialServiceFeign = socialServiceFeign;
+        this.cacheManager = cacheManager;
+    }
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return getUserDetails(username);
+        return getUserDetailsByUserName(username);
     }
 
     @Override
     public UserDetails loadUserBySocial(String username, String grantType) throws UsernameNotFoundException {
-        Cache cache = cacheManager.getCache(CacheConstants.SYS_USER);
-        if (cache != null && cache.get(username) != null) {
-            return cache.get(username, UserDetails.class);
+        Response<UserInfo> sysUser = socialServiceFeign.getSysUser(grantType, username, IS_COMMING_ANONYMOUS_YES);
+        if (!sysUser.isSuccess()) {
+            OAuth2Error oAuth2Error = new OAuth2Error(OAuth2ErrorCodes.INVALID_REQUEST);
+            throw new OAuth2AuthenticationException(oAuth2Error, sysUser.getMsg());
         }
-        UserDetails userDetails = getUserDetails(socialServiceFeign.getSysUser(grantType, username, IS_COMMING_ANONYMOUS_YES).getData());
-        cache.put(username, userDetails);
-        return userDetails;
+        return getUserDetailsByUserInfo(sysUser.getData());
     }
 
     @Override
     public UserDetails getUserDetails(Map<String, Object> claims) {
         String username = (String) claims.get(IdTokenClaimNames.SUB);
+        Object userId = claims.get(CommonConstants.USER_ID);
         Object tenantId = claims.get(CommonConstants.TENANT_ID);
         // JSON序列化 Int Long 问题
         if (tenantId instanceof Long) {
@@ -78,20 +92,25 @@ public class XHuiUserDetailsServiceImpl implements XHuiUserDetailsService {
         } else {
             XHuiCommonThreadLocalHolder.setTenant((Integer) tenantId);
         }
-        return getUserDetails(username);
+        if (userId instanceof Long) {
+            XHuiCommonThreadLocalHolder.setUser(((Long) userId).intValue());
+        } else {
+            XHuiCommonThreadLocalHolder.setUser((Integer) userId);
+        }
+        return getUserDetailsByUserName(username);
     }
 
-    public UserDetails getUserDetails(String username) {
+    public UserDetails getUserDetailsByUserName(String username) {
         Cache cache = cacheManager.getCache(CacheConstants.SYS_USER);
         if (cache != null && cache.get(username) != null) {
             return cache.get(username, UserDetails.class);
         }
-        UserDetails userDetails = getUserDetails(socialServiceFeign.getSysUser(CustomAuthorizationGrantType.PASSWORD.getValue(), username, IS_COMMING_ANONYMOUS_YES).getData());
+        UserDetails userDetails = getUserDetailsByUserInfo(socialServiceFeign.getSysUser(CustomAuthorizationGrantType.PASSWORD.getValue(), username, IS_COMMING_ANONYMOUS_YES).getData());
         cache.put(username, userDetails);
         return userDetails;
     }
 
-    public UserDetails getUserDetails(UserInfo userInfo) {
+    public UserDetails getUserDetailsByUserInfo(UserInfo userInfo) {
         if (userInfo == null) {
             throw new UsernameNotFoundException("用户不存在");
         }

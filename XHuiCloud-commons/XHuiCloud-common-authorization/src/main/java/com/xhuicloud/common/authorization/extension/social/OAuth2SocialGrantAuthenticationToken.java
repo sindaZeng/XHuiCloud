@@ -22,18 +22,25 @@
  * @Email:  xhuicloud@163.com
  */
 
-package com.xhuicloud.upms.mapper;
+package com.xhuicloud.common.authorization.extension.social;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.xhuicloud.upms.entity.SysDept;
-import com.xhuicloud.upms.vo.DeptVo;
-import org.apache.ibatis.annotations.Mapper;
+import com.xhuicloud.common.authorization.extension.core.OAuth2CustomGrantAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.oauth2.core.AuthorizationGrantType;
 
-import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
-@Mapper
-public interface SysDeptMapper extends BaseMapper<SysDept> {
-
-    List<Integer> listDeptNameByUserId(Integer userId);
-
+public class OAuth2SocialGrantAuthenticationToken extends OAuth2CustomGrantAuthenticationToken {
+    /**
+     * Sub-class constructor.
+     *
+     * @param authorizationGrantType the authorization grant type
+     * @param clientPrincipal        the authenticated client principal
+     * @param additionalParameters   the additional parameters
+     * @param scopes                 the authenticated client scope
+     */
+    public OAuth2SocialGrantAuthenticationToken(AuthorizationGrantType authorizationGrantType, Authentication clientPrincipal, Map<String, Object> additionalParameters, Set<String> scopes) {
+        super(authorizationGrantType, clientPrincipal, additionalParameters, scopes);
+    }
 }

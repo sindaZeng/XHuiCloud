@@ -18,10 +18,9 @@
     <!--@mbg.generated-->
     id, `name`, address, parent_id, sort, create_time, create_id, update_time, update_id, is_del, tenant_id
   </sql>
-    <select id="listDeptNameByUserId" resultType="com.xhuicloud.upms.vo.DeptVo">
+    <select id="listDeptNameByUserId" resultType="java.lang.Integer">
       SELECT
-      d.id deptId,
-      d.name deptName
+      d.id
       FROM
       sys_dept d, sys_user_dept ud WHERE d.id = ud.dept_id AND d.is_del = 0 and ud.user_id IN (#{userId})
     </select>

@@ -28,6 +28,7 @@ import cn.binarywang.tools.generator.ChineseNameGenerator;
 import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.xhuicloud.common.authorization.resource.constant.CustomAuthorizationGrantType;
+import com.xhuicloud.common.authorization.resource.constant.LoginPlatformEnum;
 import com.xhuicloud.common.core.constant.SecurityConstants;
 import com.xhuicloud.common.core.exception.SysException;
 import com.xhuicloud.common.data.ttl.XHuiCommonThreadLocalHolder;
@@ -88,7 +89,7 @@ public class WeChatMplHandle extends AbstractSocialHandler {
 
     @Override
     public String type() {
-        return CustomAuthorizationGrantType.WECHAT_MP.getValue();
+        return LoginPlatformEnum.WECHAT_MP.getType();
     }
 
     @Override

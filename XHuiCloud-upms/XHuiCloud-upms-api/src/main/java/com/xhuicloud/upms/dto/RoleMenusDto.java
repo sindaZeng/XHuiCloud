@@ -22,18 +22,30 @@
  * @Email:  xhuicloud@163.com
  */
 
-package com.xhuicloud.upms.mapper;
+package com.xhuicloud.upms.dto;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.xhuicloud.upms.entity.SysDept;
-import com.xhuicloud.upms.vo.DeptVo;
-import org.apache.ibatis.annotations.Mapper;
+import com.xhuicloud.upms.entity.SysRole;
+import lombok.Data;
 
 import java.util.List;
 
-@Mapper
-public interface SysDeptMapper extends BaseMapper<SysDept> {
+/**
+ * @program: XHuiCloud
+ * @description: RoleDto
+ * @author: Sinda
+ * @create: 2020-03-27 11:13
+ */
+@Data
+public class RoleMenusDto {
 
-    List<Integer> listDeptNameByUserId(Integer userId);
+    /**
+     * 角色ID
+     */
+    private Integer roleId;
+
+    /**
+     * 菜单ID
+     */
+    private List<Integer> menuIds;
 
 }

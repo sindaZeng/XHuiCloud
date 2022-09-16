@@ -11,7 +11,7 @@
     <name>${project.artifactId} ${project.description}</name>
 
     <properties>
-        <revision>2.0.2</revision>
+        <revision>2.0.3</revision>
         <mybatis-plus.version>3.5.2</mybatis-plus.version>
         <druid.version>1.2.8</druid.version>
         <dds.version>3.5.1</dds.version>
@@ -22,6 +22,7 @@
         <knife4j.version>2.0.9</knife4j.version>
         <redisson.version>3.12.1</redisson.version>
         <ttl.version>2.11.2</ttl.version>
+        <guava.version>20.0</guava.version>
         <xxl.job.version>2.3.0</xxl.job.version>
         <security.oauth.version>2.3.6.RELEASE</security.oauth.version>
         <spring-security-oauth2-authorization-server.version>0.3.1</spring-security-oauth2-authorization-server.version>
@@ -262,6 +263,12 @@
                 <groupId>org.springframework.security.oauth</groupId>
                 <artifactId>spring-security-oauth2</artifactId>
                 <version>${security.oauth.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${guava.version}</version>
             </dependency>
 
             <dependency>
