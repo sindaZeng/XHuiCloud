@@ -50,7 +50,7 @@ import java.util.Arrays;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/sysLogLogin" )
-@Api(value = "sysLogLogin", tags = "管理")
+@Api(value = "sysLogLogin", tags = "登录记录管理")
 public class SysLogLoginController {
 
     private final SysLogLoginService sysLogLoginService;

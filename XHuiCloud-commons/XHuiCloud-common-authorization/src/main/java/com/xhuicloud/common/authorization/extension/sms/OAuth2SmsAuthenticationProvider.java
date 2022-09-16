@@ -48,7 +48,7 @@ public class OAuth2SmsAuthenticationProvider extends OAuth2CustomAuthenticationP
     @Override
     public UsernamePasswordGrantAuthenticationToken buildAuthenticationToken(Map<String, Object> additionalParameters) {
         String mobile = (String) additionalParameters.get(getGrantType().getValue());
-        return new UsernamePasswordGrantAuthenticationToken(mobile, null, getGrantType());
+        return new UsernamePasswordGrantAuthenticationToken(mobile, null, getGrantType().getValue());
     }
 
 }

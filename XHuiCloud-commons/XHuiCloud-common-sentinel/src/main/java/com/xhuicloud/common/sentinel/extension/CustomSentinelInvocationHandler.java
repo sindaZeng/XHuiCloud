@@ -1,5 +1,6 @@
 package com.xhuicloud.common.sentinel.extension;
 
+import cn.hutool.json.JSONUtil;
 import com.alibaba.cloud.sentinel.feign.SentinelContractHolder;
 import com.alibaba.csp.sentinel.Entry;
 import com.alibaba.csp.sentinel.EntryType;
@@ -8,10 +9,7 @@ import com.alibaba.csp.sentinel.Tracer;
 import com.alibaba.csp.sentinel.context.ContextUtil;
 import com.alibaba.csp.sentinel.slots.block.BlockException;
 import com.xhuicloud.common.core.utils.Response;
-import feign.Feign;
-import feign.InvocationHandlerFactory;
-import feign.MethodMetadata;
-import feign.Target;
+import feign.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.openfeign.FallbackFactory;
 
@@ -19,6 +17,7 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
+import java.nio.ByteBuffer;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -41,7 +40,7 @@ public class CustomSentinelInvocationHandler implements InvocationHandler {
     private Map<Method, Method> fallbackMethodMap;
 
     CustomSentinelInvocationHandler(Target<?> target, Map<Method, InvocationHandlerFactory.MethodHandler> dispatch,
-                              FallbackFactory fallbackFactory) {
+                                    FallbackFactory fallbackFactory) {
         this.target = checkNotNull(target, "target");
         this.dispatch = checkNotNull(dispatch, "dispatch");
         this.fallbackFactory = fallbackFactory;
@@ -62,15 +61,12 @@ public class CustomSentinelInvocationHandler implements InvocationHandler {
                         ? Proxy.getInvocationHandler(args[0])
                         : null;
                 return equals(otherHandler);
-            }
-            catch (IllegalArgumentException e) {
+            } catch (IllegalArgumentException e) {
                 return false;
             }
-        }
-        else if ("hashCode".equals(method.getName())) {
+        } else if ("hashCode".equals(method.getName())) {
             return hashCode();
-        }
-        else if ("toString".equals(method.getName())) {
+        } else if ("toString".equals(method.getName())) {
             return toString();
         }
 
@@ -85,8 +81,7 @@ public class CustomSentinelInvocationHandler implements InvocationHandler {
             // resource default is HttpMethod:protocol://url
             if (methodMetadata == null) {
                 result = methodHandler.invoke(args);
-            }
-            else {
+            } else {
                 String resourceName = methodMetadata.template().method().toUpperCase()
                         + ":" + hardCodedTarget.url() + methodMetadata.template().path();
                 Entry entry = null;
@@ -94,8 +89,7 @@ public class CustomSentinelInvocationHandler implements InvocationHandler {
                     ContextUtil.enter(resourceName);
                     entry = SphU.entry(resourceName, EntryType.OUT, 1, args);
                     result = methodHandler.invoke(args);
-                }
-                catch (Throwable ex) {
+                } catch (Throwable ex) {
                     // fallback handle
                     if (!BlockException.isBlockException(ex)) {
                         Tracer.traceEntry(ex, entry);
@@ -105,34 +99,30 @@ public class CustomSentinelInvocationHandler implements InvocationHandler {
                             Object fallbackResult = fallbackMethodMap.get(method)
                                     .invoke(fallbackFactory.create(ex), args);
                             return fallbackResult;
-                        }
-                        catch (IllegalAccessException e) {
+                        } catch (IllegalAccessException e) {
                             // shouldn't happen as method is public due to being an
                             // interface
                             throw new AssertionError(e);
-                        }
-                        catch (InvocationTargetException e) {
+                        } catch (InvocationTargetException e) {
                             throw new AssertionError(e.getCause());
                         }
-                    }
-                    else {
+                    } else {
                         if (Response.class == method.getReturnType()) {
                             log.error("服务调用异常", ex);
-                            return Response.failed(ex.getMessage());
+                            ByteBuffer byteBuffer = ((FeignException.InternalServerError) ex).responseBody().get();
+                            return JSONUtil.toBean(new String(byteBuffer.array()), Response.class);
                         }
                         // throw exception if fallbackFactory is null
                         throw ex;
                     }
-                }
-                finally {
+                } finally {
                     if (entry != null) {
                         entry.exit(1, args);
                     }
                     ContextUtil.exit();
                 }
             }
-        }
-        else {
+        } else {
             // other target type using default strategy
             result = methodHandler.invoke(args);
         }

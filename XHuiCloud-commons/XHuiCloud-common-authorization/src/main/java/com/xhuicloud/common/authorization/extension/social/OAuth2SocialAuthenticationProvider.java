@@ -22,13 +22,17 @@
  * @Email:  xhuicloud@163.com
  */
 
-package com.xhuicloud.common.authorization.extension.password;
+package com.xhuicloud.common.authorization.extension.social;
 
+import cn.hutool.core.util.StrUtil;
 import com.xhuicloud.common.authorization.extension.core.OAuth2CustomAuthenticationProvider;
 import com.xhuicloud.common.authorization.extension.core.UsernamePasswordGrantAuthenticationToken;
 import com.xhuicloud.common.authorization.resource.constant.CustomAuthorizationGrantType;
+import com.xhuicloud.common.authorization.resource.constant.LoginPlatformEnum;
+import com.xhuicloud.common.authorization.utils.OAuth2EndpointUtils;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
+import org.springframework.security.oauth2.core.OAuth2ErrorCodes;
 import org.springframework.security.oauth2.core.OAuth2Token;
 import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
@@ -36,23 +40,35 @@ import org.springframework.security.oauth2.server.authorization.token.OAuth2Toke
 
 import java.util.Map;
 
-public class OAuth2PasswordAuthenticationProvider
-        extends OAuth2CustomAuthenticationProvider<OAuth2PasswordGrantAuthenticationToken, UsernamePasswordGrantAuthenticationToken> {
+public class OAuth2SocialAuthenticationProvider extends OAuth2CustomAuthenticationProvider<OAuth2SocialGrantAuthenticationToken, UsernamePasswordGrantAuthenticationToken> {
 
-    public OAuth2PasswordAuthenticationProvider(AuthenticationManager authenticationManager, OAuth2AuthorizationService authorizationService, OAuth2TokenGenerator<? extends OAuth2Token> tokenGenerator) {
+    private final static String LOGIN_PLATFORM = "platform";
+    public OAuth2SocialAuthenticationProvider(AuthenticationManager authenticationManager, OAuth2AuthorizationService authorizationService, OAuth2TokenGenerator<? extends OAuth2Token> tokenGenerator) {
         super(authenticationManager, authorizationService, tokenGenerator);
     }
 
     @Override
     public AuthorizationGrantType getGrantType() {
-        return CustomAuthorizationGrantType.PASSWORD;
+        return CustomAuthorizationGrantType.SOCIAL;
     }
 
     @Override
     public UsernamePasswordGrantAuthenticationToken buildAuthenticationToken(Map<String, Object> additionalParameters) {
-        String username = (String) additionalParameters.get(OAuth2ParameterNames.USERNAME);
-        String password = (String) additionalParameters.get(OAuth2ParameterNames.PASSWORD);
-        return new UsernamePasswordGrantAuthenticationToken(username, password, getGrantType().getValue());
+        // 登录平台
+        String platform = (String) additionalParameters.get(LOGIN_PLATFORM);
+        String code = (String) additionalParameters.get(OAuth2ParameterNames.CODE);
+        if (StrUtil.isBlankOrUndefined(platform) || !LoginPlatformEnum.hasType(platform)) {
+            OAuth2EndpointUtils.throwError(
+                    "unsupported_platform",
+                    LOGIN_PLATFORM,"");
+        }
+        if (StrUtil.isBlankOrUndefined(code)) {
+            OAuth2EndpointUtils.throwError(
+                    OAuth2ErrorCodes.INVALID_REQUEST,
+                    OAuth2ParameterNames.CODE,
+                    OAuth2EndpointUtils.ACCESS_TOKEN_REQUEST_ERROR_URI);
+        }
+        return new UsernamePasswordGrantAuthenticationToken(code, null, platform);
     }
 
 }

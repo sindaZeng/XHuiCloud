@@ -112,16 +112,28 @@ public class UserVo implements Serializable {
     @ApiModelProperty(value = "0:账号已注销")
     private Integer isDel;
 
+//    /**
+//     * 角色集
+//     */
+//    @ApiModelProperty(value = "角色集")
+//    private List<RoleVo> roleVos;
+
     /**
      * 角色集
      */
     @ApiModelProperty(value = "角色集")
-    private List<RoleVo> roleVos;
+    private List<Integer> roleIds;
+
+//    /**
+//     * 部门集
+//     */
+//    @ApiModelProperty(value = "部门集")
+//    private List<DeptVo> deptVos;
 
     /**
      * 部门集
      */
     @ApiModelProperty(value = "部门集")
-    private List<DeptVo> deptVos;
+    private List<Integer> deptIds;
 
 }

@@ -16,15 +16,15 @@
         <result column="lock_flag" jdbcType="INTEGER" property="lockFlag"/>
         <result column="is_del" jdbcType="INTEGER" property="isDel"/>
         <result column="tenant_id" jdbcType="INTEGER" property="tenantId"/>
-        <result column="create_id" jdbcType="INTEGER" property="createId" />
-        <result column="update_id" jdbcType="INTEGER" property="updateId" />
+        <result column="create_id" jdbcType="INTEGER" property="createId"/>
+        <result column="update_id" jdbcType="INTEGER" property="updateId"/>
     </resultMap>
 
     <resultMap id="BaseUserVoResultMap" type="com.xhuicloud.upms.vo.UserVo" extends="BaseResultMap">
-        <collection property="roleVos" ofType="java.util.List"
+        <collection property="roleIds" ofType="java.util.List"
                     select="com.xhuicloud.upms.mapper.SysRoleMapper.listRolesNameByUserId" column="user_id">
         </collection>
-        <collection property="deptVos" ofType="java.util.List"
+        <collection property="deptIds" ofType="java.util.List"
                     select="com.xhuicloud.upms.mapper.SysDeptMapper.listDeptNameByUserId" column="user_id">
         </collection>
     </resultMap>
@@ -36,7 +36,10 @@
     </sql>
 
     <sql id="userPageDto">
-      u.user_id,
+        u
+        .
+        user_id
+        ,
       u.username,
       u.avatar,
       u.phone,
@@ -91,6 +94,9 @@
             </if>
             <if test="userQueryDto.isDel != 2 and userQueryDto.isDel != null and userQueryDto.isDel != ''">
                 AND u.is_del = #{userQueryDto.isDel}
+            </if>
+            <if test="userQueryDto.createTime != null">
+                AND u.create_time between #{userQueryDto.createTime[0]} and #{userQueryDto.createTime[1]}
             </if>
         </where>
         ORDER BY u.create_time DESC

@@ -28,9 +28,8 @@
           AND u.user_id IN (#{userId})
     </select>
 
-    <select id="listRolesNameByUserId" resultType="com.xhuicloud.upms.vo.RoleVo">
-        SELECT r.id        roleId,
-               r.role_name roleName
+    <select id="listRolesNameByUserId" resultType="java.lang.Integer">
+        SELECT r.id
         FROM sys_role r
                  LEFT JOIN sys_user_role u ON r.id = u.role_id
         WHERE r.is_del = 0

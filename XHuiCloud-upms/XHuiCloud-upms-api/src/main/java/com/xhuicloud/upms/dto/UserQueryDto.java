@@ -27,9 +27,7 @@ package com.xhuicloud.upms.dto;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -54,7 +52,7 @@ public class UserQueryDto implements Serializable {
     private Integer isDel;
 
     @ApiModelProperty(value = "日期")
-    private LocalDateTime date;
+    private String[] createTime;
 
     @ApiModelProperty(value = "部门ID集合")
     private List<Integer> deptIds;

@@ -76,9 +76,9 @@ public class CustomDaoAuthenticationProvider extends AbstractUserDetailsAuthenti
     protected void additionalAuthenticationChecks(UserDetails userDetails,
                                                   UsernamePasswordAuthenticationToken authentication) throws AuthenticationException {
         if (authentication instanceof UsernamePasswordGrantAuthenticationToken) {
-            AuthorizationGrantType grantType = ((UsernamePasswordGrantAuthenticationToken) authentication).getGrantType();
+            String grantType = ((UsernamePasswordGrantAuthenticationToken) authentication).getGrantType();
             // 非密码模式不做校验
-            if (grantType != AuthorizationGrantType.PASSWORD) {
+            if (grantType != AuthorizationGrantType.PASSWORD.getValue()) {
                 return;
             }
         }
@@ -100,13 +100,13 @@ public class CustomDaoAuthenticationProvider extends AbstractUserDetailsAuthenti
             throws AuthenticationException {
         prepareTimingAttackProtection();
         try {
-            AuthorizationGrantType grantType = CustomAuthorizationGrantType.PASSWORD;
+            String grantType = CustomAuthorizationGrantType.PASSWORD.getValue();
             XHuiUserDetailsService userDetailsService = SpringUtil
                     .getBean(XHuiUserDetailsService.class);
             if (authentication instanceof UsernamePasswordGrantAuthenticationToken) {
                 grantType = ((UsernamePasswordGrantAuthenticationToken) authentication).getGrantType();
             }
-            UserDetails loadedUser = userDetailsService.loadUserBySocial(username, grantType.getValue());
+            UserDetails loadedUser = userDetailsService.loadUserBySocial(username, grantType);
             if (loadedUser == null) {
                 throw new InternalAuthenticationServiceException(
                         "UserDetailsService returned null, which is an interface contract violation");
@@ -115,10 +115,8 @@ public class CustomDaoAuthenticationProvider extends AbstractUserDetailsAuthenti
         } catch (UsernameNotFoundException ex) {
             mitigateAgainstTimingAttack(authentication);
             throw ex;
-        } catch (InternalAuthenticationServiceException ex) {
-            throw ex;
         } catch (Exception ex) {
-            throw new InternalAuthenticationServiceException(ex.getMessage(), ex);
+            throw ex;
         }
     }
 

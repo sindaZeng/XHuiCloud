@@ -34,6 +34,8 @@ import com.xhuicloud.common.authorization.extension.password.OAuth2PasswordAuthe
 import com.xhuicloud.common.authorization.extension.password.OAuth2PasswordAuthenticationProvider;
 import com.xhuicloud.common.authorization.extension.sms.OAuth2SmsAuthenticationConverter;
 import com.xhuicloud.common.authorization.extension.sms.OAuth2SmsAuthenticationProvider;
+import com.xhuicloud.common.authorization.extension.social.OAuth2SocialAuthenticationConverter;
+import com.xhuicloud.common.authorization.extension.social.OAuth2SocialAuthenticationProvider;
 import com.xhuicloud.common.authorization.handler.AuthenticationErrorResponseHandler;
 import com.xhuicloud.common.authorization.handler.DelegatingAuthenticationFailureHandler;
 import com.xhuicloud.common.authorization.handler.DelegatingAuthenticationSuccessHandler;
@@ -62,6 +64,7 @@ import org.springframework.security.web.DefaultSecurityFilterChain;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationConverter;
 import org.springframework.security.web.util.matcher.RequestMatcher;
+
 import java.util.Arrays;
 
 @Slf4j
@@ -118,15 +121,18 @@ public class AuthorizationServerAutoConfiguration {
         OAuth2TokenGenerator tokenGenerator = http.getSharedObject(OAuth2TokenGenerator.class);
         OAuth2PasswordAuthenticationProvider passwordAuthenticationProvider = new OAuth2PasswordAuthenticationProvider(authenticationManager, authorizationService, tokenGenerator);
         OAuth2SmsAuthenticationProvider smsAuthenticationProvider = new OAuth2SmsAuthenticationProvider(authenticationManager, authorizationService, tokenGenerator);
+        OAuth2SocialAuthenticationProvider socialAuthenticationProvider = new OAuth2SocialAuthenticationProvider(authenticationManager, authorizationService, tokenGenerator);
         http.authenticationProvider(new CustomDaoAuthenticationProvider());
         http.authenticationProvider(passwordAuthenticationProvider);
         http.authenticationProvider(smsAuthenticationProvider);
+        http.authenticationProvider(socialAuthenticationProvider);
     }
 
     private AuthenticationConverter authenticationConverter() {
         return new DelegatingAuthenticationConverter(Arrays.asList(
                 new OAuth2PasswordAuthenticationConverter(),
                 new OAuth2SmsAuthenticationConverter(),
+                new OAuth2SocialAuthenticationConverter(),
                 new OAuth2RefreshTokenAuthenticationConverter(),
                 new OAuth2ClientCredentialsAuthenticationConverter(),
                 new OAuth2AuthorizationCodeAuthenticationConverter(),
@@ -163,6 +169,7 @@ public class AuthorizationServerAutoConfiguration {
 
         /**
          * 匿名令牌增强
+         *
          * @return
          */
         @Bean

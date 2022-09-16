@@ -50,7 +50,7 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
         response.setCharacterEncoding(CharEncoding.UTF_8);
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         Response<String> result = new Response<>();
-        result.setMsg(authException.getMessage());
+        result.setMsg("登录凭证失效");
         result.setCode(CommonConstants.FAIL);
         response.setStatus(HttpStatus.HTTP_UNAUTHORIZED);
         WebUtils.renderJson(response, result);

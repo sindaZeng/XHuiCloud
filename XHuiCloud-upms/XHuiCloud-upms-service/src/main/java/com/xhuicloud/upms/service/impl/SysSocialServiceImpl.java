@@ -30,7 +30,7 @@ import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.xhuicloud.common.authorization.resource.constant.CustomAuthorizationGrantType;
+import com.xhuicloud.common.authorization.resource.constant.LoginPlatformEnum;
 import com.xhuicloud.common.authorization.resource.social.SocialHandler;
 import com.xhuicloud.common.core.constant.ThirdLoginUrlConstants;
 import com.xhuicloud.upms.dto.UserInfo;
@@ -57,7 +57,7 @@ public class SysSocialServiceImpl extends ServiceImpl<SysSocialMapper, SysSocial
 
     @Override
     public Boolean updateWechatToken() {
-        List<SysSocial> sysSocials = list(Wrappers.<SysSocial>lambdaQuery().eq(SysSocial::getType, CustomAuthorizationGrantType.WECHAT_MP.getValue()));
+        List<SysSocial> sysSocials = list(Wrappers.<SysSocial>lambdaQuery().eq(SysSocial::getType, LoginPlatformEnum.WECHAT_MP.getType()));
         if (CollectionUtil.isNotEmpty(sysSocials)) {
             for (SysSocial sysSocial : sysSocials) {
                 String url = String.format(ThirdLoginUrlConstants.MINI_WECHAT_ACCESS_TOKEN, sysSocial.getAppId(), sysSocial.getAppSecret());

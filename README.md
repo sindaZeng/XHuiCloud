@@ -8,16 +8,16 @@
     <img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="LICENSE">
   </a>
   <a href="#">
-    <img src="https://img.shields.io/badge/XHuiCloud-2.0.1-green.svg" alt="XHuiCloud">
+    <img src="https://img.shields.io/badge/XHuiCloud-2.0.3-green.svg" alt="XHuiCloud">
   </a>
   <a href="#">
-    <img src="https://img.shields.io/badge/Spring--Boot-2.6.6-green.svg" alt="SpringBoot">
+    <img src="https://img.shields.io/badge/Spring--Boot-2.7.1-green.svg" alt="SpringBoot">
   </a>
   <a href="#">
-    <img src="https://img.shields.io/badge/Spring--Cloud-2021.0.1-green.svg" alt="SpringCloud">
+    <img src="https://img.shields.io/badge/Spring--Cloud-2021.0.4-green.svg" alt="SpringCloud">
   </a>
   <a href="#">
-    <img src="https://img.shields.io/badge/Spring--Cloud--Alibaba-2021.0.1.0-green.svg" alt="SpringCloudAlibaba">
+    <img src="https://img.shields.io/badge/Spring--Cloud--Alibaba-2021.0.4.0-green.svg" alt="SpringCloudAlibaba">
   </a>
   <a href="#">
     <img src="https://img.shields.io/badge/Spring--Authorization--Server-0.3.1-green.svg" alt="SpringAuthorizationServer">

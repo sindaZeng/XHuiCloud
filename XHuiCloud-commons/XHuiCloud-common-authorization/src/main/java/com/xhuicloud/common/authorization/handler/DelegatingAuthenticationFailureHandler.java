@@ -82,9 +82,10 @@ public class DelegatingAuthenticationFailureHandler extends AbstractAuthenticati
     private void sendAuthenticationFailureResponse(HttpServletResponse response, AuthenticationException exception) throws IOException {
         ServletServerHttpResponse httpResponse = new ServletServerHttpResponse(response);
         httpResponse.setStatusCode(HttpStatus.UNAUTHORIZED);
-        OAuth2Error error = ((OAuth2AuthenticationException) exception).getError();
+        OAuth2AuthenticationException ex = (OAuth2AuthenticationException) exception;
+        OAuth2Error error = ex.getError();
         this.httpMessageConverter.write(
-                Response.failed(error.getDescription(), error.getErrorCode()),
+                Response.failed(error.getErrorCode(), ex.getLocalizedMessage()),
                 MediaType.APPLICATION_JSON,
                 httpResponse);
     }

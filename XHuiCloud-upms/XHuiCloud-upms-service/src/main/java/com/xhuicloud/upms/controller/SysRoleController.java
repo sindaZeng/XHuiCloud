@@ -30,6 +30,7 @@ import com.xhuicloud.common.core.constant.CacheConstants;
 import com.xhuicloud.common.core.utils.Response;
 import com.xhuicloud.common.log.annotation.SysLog;
 import com.xhuicloud.upms.dto.RoleDto;
+import com.xhuicloud.upms.dto.RoleMenusDto;
 import com.xhuicloud.upms.entity.SysRole;
 import com.xhuicloud.upms.service.SysRoleMenuService;
 import com.xhuicloud.upms.service.SysRoleService;
@@ -137,15 +138,14 @@ public class SysRoleController {
     /**
      * 更新角色菜单
      *
-     * @param roleId
-     * @param menuIds
+     * @param roleMenusDto
      * @return
      */
     @SysLog("更新角色菜单")
     @PreAuthorize("@authorize.hasPermission('sys_permission_role')")
-    @PostMapping("/menus")
-    public Response<Boolean> saveRoleMenus(Integer roleId, @RequestParam(value = "menuIds", required = false) String menuIds) {
-        return Response.success(sysRoleMenuService.saveRoleMenus(roleId, menuIds));
+    @PutMapping("/menus")
+    public Response<Boolean> saveRoleMenus(@RequestBody RoleMenusDto roleMenusDto) {
+        return Response.success(sysRoleMenuService.saveRoleMenus(roleMenusDto));
     }
 
 }
