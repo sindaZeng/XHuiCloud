@@ -24,10 +24,7 @@
 
 package com.xhuicloud.upms.entity;
 
-import com.baomidou.mybatisplus.annotation.FieldFill;
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.*;
 import com.xhuicloud.common.core.annotation.Excel;
 import com.xhuicloud.common.core.annotation.Scalpel;
 import com.xhuicloud.common.core.data.ScalpelTypeEnum;
@@ -95,6 +92,13 @@ public class SysUser implements Serializable {
     @ApiModelProperty(value = "性别:0 女、1  男、2  其他")
     @Excel(name = "用户性别", readConverterExp = "女=0,男=1,其他=2")
     private Integer sex;
+
+    /**
+     * 签名
+     */
+    @ApiModelProperty(value = "签名")
+    @TableField(updateStrategy = FieldStrategy.IGNORED )
+    private String motto;
 
     /**
      * 创建时间

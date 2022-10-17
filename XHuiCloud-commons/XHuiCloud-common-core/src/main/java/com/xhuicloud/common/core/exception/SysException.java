@@ -42,6 +42,8 @@ public class SysException extends BaseRuntimeException {
 
     public static final String PARAM_IS_EXIST_DATA_EXCEPTION="该参数已存在!";
 
+    public static final String MOBILE_IS_ALREADY_BOUND="该手机已被绑定!";
+
     public static final String PARAM_EXCEPTION="参数出现错误, 请重试!";
 
     /**

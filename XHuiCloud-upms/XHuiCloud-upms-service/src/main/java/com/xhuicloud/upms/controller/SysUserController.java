@@ -32,7 +32,6 @@ import com.xhuicloud.common.authorization.resource.utils.SecurityHolder;
 import com.xhuicloud.common.core.utils.ExcelUtil;
 import com.xhuicloud.common.core.utils.Response;
 import com.xhuicloud.common.log.annotation.SysLog;
-import com.xhuicloud.logs.feign.SysLogServiceFeign;
 import com.xhuicloud.upms.dto.UserInfo;
 import com.xhuicloud.upms.dto.UserQueryDto;
 import com.xhuicloud.upms.entity.SysUser;
@@ -48,8 +47,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.List;
-
-import static com.xhuicloud.common.core.constant.AuthorizationConstants.IS_COMMING_ANONYMOUS_YES;
 
 @RestController
 @RequestMapping("/user")
@@ -140,6 +137,45 @@ public class SysUserController {
     @PreAuthorize("@authorize.hasPermission('sys_editor_user')")
     public Response<Boolean> update(@Valid @RequestBody SysUser sysUser) {
         return Response.success(sysUserService.updateUser(sysUser));
+    }
+
+    /**
+     * 编辑用户签名
+     *
+     * @param sysUser
+     * @return
+     */
+    @SysLog("编辑用户签名")
+    @PutMapping("/motto")
+    @PreAuthorize("@authorize.hasPermission('sys_editor_user')")
+    public Response<Boolean> updateUserMotto(@Valid @RequestBody SysUser sysUser) {
+        return Response.success(sysUserService.updateUserMotto(sysUser.getMotto()));
+    }
+
+    /**
+     * 编辑用户手机
+     *
+     * @param phone
+     * @return
+     */
+    @SysLog("编辑用户签名")
+    @PutMapping("/phone/{phone}")
+    @PreAuthorize("@authorize.hasPermission('sys_editor_user')")
+    public Response<Boolean> updateUserPhone(@PathVariable String phone) {
+        return Response.success(sysUserService.updateUserPhone(phone));
+    }
+
+    /**
+     * 编辑用户签名
+     *
+     * @param sysUser
+     * @return
+     */
+    @SysLog("编辑用户签名")
+    @PutMapping("/avatar")
+    @PreAuthorize("@authorize.hasPermission('sys_editor_user')")
+    public Response<Boolean> updateUserAvatar(@Valid @RequestBody SysUser sysUser) {
+        return Response.success(sysUserService.updateUserAvatar(sysUser.getAvatar()));
     }
 
     /**

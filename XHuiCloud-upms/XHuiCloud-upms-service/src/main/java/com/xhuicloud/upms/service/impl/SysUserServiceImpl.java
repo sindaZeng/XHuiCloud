@@ -33,8 +33,8 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xhuicloud.common.authorization.resource.utils.SecurityHolder;
 import com.xhuicloud.common.core.exception.SysException;
-import com.xhuicloud.upms.dto.UserQueryDto;
 import com.xhuicloud.upms.dto.UserInfo;
+import com.xhuicloud.upms.dto.UserQueryDto;
 import com.xhuicloud.upms.entity.SysMenu;
 import com.xhuicloud.upms.entity.SysParam;
 import com.xhuicloud.upms.entity.SysRole;
@@ -45,8 +45,6 @@ import com.xhuicloud.upms.vo.UserVo;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
@@ -208,10 +206,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Boolean updateUser(SysUser sysUser) {
-        SysUser user = getById(sysUser.getUserId());
-        if (ObjectUtil.isEmpty(user)) {
-            throw SysException.sysFail(SysException.USER_NOT_EXIST_DATA_EXCEPTION);
-        }
+        SysUser user = getSysUser(sysUser.getUserId());
         if (CollectionUtil.isNotEmpty(sysUser.getDeptIds())) {
             //删除该用户下的所有部门，重新插入
             sysUserDeptService.updateUserDept(user.getUserId(), sysUser.getDeptIds());
@@ -252,6 +247,38 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
             log.error(e.getMessage());
             throw SysException.sysFail(SysException.USER_IS_EXIST_EXCEPTION);
         }
+    }
+
+    @Override
+    public Boolean updateUserMotto(String motto) {
+        SysUser user = getSysUser(SecurityHolder.getUserId());
+        user.setMotto(motto);
+        return updateById(user);
+    }
+
+    @Override
+    public Boolean updateUserAvatar(String avatar) {
+        SysUser user = getSysUser(SecurityHolder.getUserId());
+        user.setAvatar(avatar);
+        return updateById(user);
+    }
+
+    @Override
+    public Boolean updateUserPhone(String mobile) {
+        if (count(Wrappers.<SysUser>lambdaQuery().eq(SysUser::getPhone, mobile)) > 0) {
+            throw SysException.sysFail(SysException.MOBILE_IS_ALREADY_BOUND);
+        }
+        SysUser user = getSysUser(SecurityHolder.getUserId());
+        user.setPhone(mobile);
+        return updateById(user);
+    }
+
+    private SysUser getSysUser(Integer UserId) {
+        SysUser user = getById(UserId);
+        if (ObjectUtil.isEmpty(user)) {
+            throw SysException.sysFail(SysException.USER_NOT_EXIST_DATA_EXCEPTION);
+        }
+        return user;
     }
 
     /**

@@ -85,4 +85,25 @@ public interface SysUserService extends IService<SysUser> {
      * @return
      */
     Integer saveUser(SysUser sysUser);
+
+    /**
+     * 更新用户签名
+     * @param motto
+     * @return
+     */
+    Boolean updateUserMotto(String motto);
+
+    /**
+     * 更新用户头像
+     * @param avatar
+     * @return
+     */
+    Boolean updateUserAvatar(String avatar);
+
+    /**
+     * 更新用户手机
+     * @param mobile
+     * @return
+     */
+    Boolean updateUserPhone(String mobile);
 }

@@ -28,15 +28,12 @@ import cn.hutool.core.util.StrUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xhuicloud.common.core.constant.SecurityConstants;
-import com.xhuicloud.common.core.exception.ValidateCodeException;
 import com.xhuicloud.common.core.utils.Response;
+import com.xhuicloud.gateway.utils.VerifyCodeUtil;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.server.reactive.ServerHttpRequest;
@@ -55,11 +52,8 @@ import reactor.core.publisher.Mono;
 @Component
 @AllArgsConstructor
 public class CodeGatewayFilterFactory extends AbstractGatewayFilterFactory {
-
     private final ObjectMapper objectMapper;
-
-    private final RedisTemplate redisTemplate;
-
+    private final VerifyCodeUtil verifyCodeUtil;
     @Override
     public GatewayFilter apply(Object config) {
         return (exchange, chain) -> {
@@ -81,7 +75,7 @@ public class CodeGatewayFilterFactory extends AbstractGatewayFilterFactory {
                 // 如果是第三方社交登录 判断授权码的合法性
                 if (grantType.equals("mobile")) {
                     //验证码登录 校验验证码
-                    validateCode(request);
+                    verifyCodeUtil.validateCode(request);
                     return chain.filter(exchange);
                 }
 
@@ -102,32 +96,4 @@ public class CodeGatewayFilterFactory extends AbstractGatewayFilterFactory {
         };
     }
 
-    private void validateCode(ServerHttpRequest request) {
-        String code = request.getQueryParams().getFirst("code");
-
-        if (StringUtils.isBlank(code)) {
-            throw ValidateCodeException.validateFail(ValidateCodeException.CODE_IS_NULL_FAIL);
-        }
-
-        String mobile = request.getQueryParams().getFirst("mobile");
-        if (StrUtil.isBlank(mobile)) {
-            throw ValidateCodeException.validateFail(ValidateCodeException.MOBILE_IS_NULL_FAIL);
-        }
-
-        if ("123456".equals(code)) {
-            return;
-        }
-        String key = SecurityConstants.CODE_KEY + mobile;
-        redisTemplate.setKeySerializer(new StringRedisSerializer());
-        String codeStr = (String) redisTemplate.opsForValue().get(key);
-
-        if (StringUtils.isBlank(codeStr)) {
-            throw ValidateCodeException.validateFail(ValidateCodeException.CODE_OVERDUE_FAIL);
-        }
-
-        if (!StringUtils.equals(codeStr, code)) {
-            throw ValidateCodeException.validateFail(ValidateCodeException.CODE_VALIDATE_FAIL);
-        }
-        redisTemplate.delete(key);
-    }
 }
