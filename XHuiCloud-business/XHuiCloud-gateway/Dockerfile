@@ -14,4 +14,4 @@ EXPOSE 15000
 
 ADD ./target/XHuiCloud-gateway.jar ./
 
-CMD sleep 90;java -Xms256m -Xmx256m -Xss256k -Djava.security.egd=file:/dev/./urandom -jar XHuiCloud-gateway.jar
+CMD java -Xms256m -Xmx256m -Xss256k -Djava.security.egd=file:/dev/./urandom -jar XHuiCloud-gateway.jar

@@ -14,4 +14,4 @@ EXPOSE 10101
 
 ADD ./target/XHuiCloud-sentinel-dashboard.jar ./
 
-CMD sleep 60;java -Xms256m -Xmx256m -Xss256k -Djava.security.egd=file:/dev/./urandom -jar XHuiCloud-sentinel-dashboard.jar
+CMD java -Xms256m -Xmx256m -Xss256k -Djava.security.egd=file:/dev/./urandom -jar XHuiCloud-sentinel-dashboard.jar

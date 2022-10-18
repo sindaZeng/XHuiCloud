@@ -14,4 +14,4 @@ EXPOSE 9090
 
 ADD ./target/XHuiCloud-monitor.jar ./
 
-CMD sleep 90;java -Xms256m -Xmx256m -Xss256k -Djava.security.egd=file:/dev/./urandom -jar XHuiCloud-monitor.jar
+CMD java -Xms256m -Xmx256m -Xss256k -Djava.security.egd=file:/dev/./urandom -jar XHuiCloud-monitor.jar

@@ -14,4 +14,4 @@ EXPOSE 16000
 
 COPY ./target/XHuiCloud-auth.jar XHuiCloud-auth.jar
 
-CMD sleep 90;java -Xms256m -Xmx256m -Xss256k -Djava.security.egd=file:/dev/./urandom -jar XHuiCloud-auth.jar
+CMD java -Xms256m -Xmx256m -Xss256k -Djava.security.egd=file:/dev/./urandom -jar XHuiCloud-auth.jar
