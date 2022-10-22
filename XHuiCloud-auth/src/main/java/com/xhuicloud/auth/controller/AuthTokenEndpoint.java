@@ -25,6 +25,7 @@
 package com.xhuicloud.auth.controller;
 
 import cn.hutool.core.util.StrUtil;
+import com.xhuicloud.common.authorization.resource.userdetails.XHuiUser;
 import com.xhuicloud.common.authorization.resource.utils.SecurityHolder;
 import com.xhuicloud.common.core.constant.CacheConstants;
 import com.xhuicloud.common.core.utils.Response;

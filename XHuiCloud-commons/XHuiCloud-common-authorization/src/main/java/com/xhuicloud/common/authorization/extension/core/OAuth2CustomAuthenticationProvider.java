@@ -27,6 +27,7 @@ package com.xhuicloud.common.authorization.extension.core;
 import com.xhuicloud.common.authorization.extension.CustomExceptionTranslator;
 import com.xhuicloud.common.authorization.resource.userdetails.XHuiUser;
 import com.xhuicloud.common.authorization.utils.OAuth2AuthenticationProviderUtils;
+import com.xhuicloud.common.core.constant.CommonConstants;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.core.Authentication;
@@ -121,17 +122,20 @@ public abstract class OAuth2CustomAuthenticationProvider<T extends OAuth2CustomG
                     .tokenType(OAuth2TokenType.ACCESS_TOKEN)
                     .authorizationGrantType(getGrantType())
                     .authorizationGrant(authenticationToken);
+
+            String userId = getUserId(authenticate);
+
             // @formatter:on
-            String principalName = getPrincipalName(authenticate);
             OAuth2Authorization.Builder authorizationBuilder = OAuth2Authorization
                     .withRegisteredClient(registeredClient)
-                    .principalName(principalName)
+                    .principalName(authenticate.getName())
                     .authorizationGrantType(getGrantType())
-                    .attribute(OAuth2Authorization.AUTHORIZED_SCOPE_ATTRIBUTE_NAME, authorizedScopes);
+                    .attribute(OAuth2Authorization.AUTHORIZED_SCOPE_ATTRIBUTE_NAME, authorizedScopes)
+                    .attribute(CommonConstants.USER_ID, userId);
 
             // 是否有登录信息
-            OAuth2Authorization auth2Authorization = authorizationService.findById(principalName);
-            OAuth2Authorization authorization = null;
+            OAuth2Authorization auth2Authorization = authorizationService.findById(userId);
+            OAuth2Authorization authorization;
             if (multiLogin == 0) {
                 // 不允许重复登录
                 if (auth2Authorization != null) {
@@ -198,7 +202,7 @@ public abstract class OAuth2CustomAuthenticationProvider<T extends OAuth2CustomG
         return authorization;
     }
 
-    private String getPrincipalName(Authentication authenticate) {
+    private String getUserId(Authentication authenticate) {
         Object principal = authenticate.getPrincipal();
         if (principal != null && principal instanceof XHuiUser) {
             return ((XHuiUser) principal).getId().toString();

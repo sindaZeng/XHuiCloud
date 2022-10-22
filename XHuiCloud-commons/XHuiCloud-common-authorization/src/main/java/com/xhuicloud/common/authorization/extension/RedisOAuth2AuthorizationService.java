@@ -26,6 +26,7 @@ package com.xhuicloud.common.authorization.extension;
 
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
+import com.xhuicloud.common.core.constant.CommonConstants;
 import com.xhuicloud.common.data.ttl.XHuiCommonThreadLocalHolder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -57,10 +58,9 @@ public class RedisOAuth2AuthorizationService implements OAuth2AuthorizationServi
     @Override
     public void save(OAuth2Authorization authorization) {
         Assert.notNull(authorization, "authorization cannot be null");
-
-        String principalName = authorization.getPrincipalName();
-        if (StrUtil.isNotBlank(principalName)) {
-            redisTemplate.opsForValue().set(buildCacheKey(OAuth2ParameterNames.USERNAME, principalName), authorization, TIMEOUT,
+        String userId = authorization.getAttribute(CommonConstants.USER_ID);
+        if (StrUtil.isNotBlank(userId)) {
+            redisTemplate.opsForValue().set(buildCacheKey(OAuth2ParameterNames.USERNAME, userId), authorization, TIMEOUT,
                     TimeUnit.MINUTES);
         }
 
@@ -105,9 +105,9 @@ public class RedisOAuth2AuthorizationService implements OAuth2AuthorizationServi
         Assert.notNull(authorization, "authorization cannot be null");
         List<String> keys = new ArrayList<>();
 
-        String principalName = authorization.getPrincipalName();
-        if (StrUtil.isNotBlank(principalName)) {
-            keys.add(buildCacheKey(OAuth2ParameterNames.USERNAME, principalName));
+        String userId = authorization.getAttribute(CommonConstants.USER_ID);
+        if (StrUtil.isNotBlank(userId)) {
+            keys.add(buildCacheKey(OAuth2ParameterNames.USERNAME, userId));
         }
 
         String state = authorization.getAttribute(OAuth2ParameterNames.STATE);

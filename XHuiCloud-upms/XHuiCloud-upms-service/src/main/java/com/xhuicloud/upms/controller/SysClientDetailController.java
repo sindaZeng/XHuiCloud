@@ -57,6 +57,13 @@ public class SysClientDetailController {
                         .eq(SysClientDetails::getId, clientId)));
     }
 
+    @GetMapping("/getClientSecretById/{clientId}")
+    public Response<String> getClientSecretById(@PathVariable(value = "clientId") String clientId) {
+        return Response.success(sysClientDetailsService.getOne(
+                Wrappers.<SysClientDetails>lambdaQuery()
+                        .eq(SysClientDetails::getId, clientId)).getClientSecret());
+    }
+
     /**
      * 分页查询
      *
@@ -96,6 +103,7 @@ public class SysClientDetailController {
     @PreAuthorize("@authorize.hasPermission('sys_editor_client')")
     @ApiOperation(value = "修改终端信息", notes = "修改终端信息")
     public Response<Boolean> update(@RequestBody SysClientDetails sysClientDetails) {
+        sysClientDetails.setClientSecret(null);
         return Response.success(sysClientDetailsService.updateById(sysClientDetails));
     }
 
