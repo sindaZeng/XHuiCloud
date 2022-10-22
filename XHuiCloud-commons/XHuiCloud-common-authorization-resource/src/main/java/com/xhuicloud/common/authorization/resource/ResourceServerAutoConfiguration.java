@@ -44,6 +44,7 @@ import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.server.resource.introspection.OAuth2IntrospectionException;
 import org.springframework.security.oauth2.server.resource.introspection.OpaqueTokenIntrospector;
 import org.springframework.security.web.SecurityFilterChain;
@@ -70,16 +71,12 @@ public class ResourceServerAutoConfiguration implements ApplicationContextAware 
                         .requestMatchers(EndpointRequest.toAnyEndpoint()).permitAll()
                         .anyRequest().authenticated())
                 .oauth2ResourceServer(configurer -> {
-                    if (securityProperties.getAccessTokenFormat()
-                            .equals(SecurityProperties.OAuth2TokenFormat.SELF_CONTAINED)) {
-                        configurer
-                                .jwt()
-                                .jwtAuthenticationConverter(authenticationConverter());
-                    } else {
-                        configurer
-                                .opaqueToken()
-                                .introspector(opaqueTokenIntrospector());
-                    }
+//                        configurer
+//                                .jwt()
+//                                .jwtAuthenticationConverter(authenticationConverter());
+                    configurer
+                            .opaqueToken()
+                            .introspector(opaqueTokenIntrospector());
                     configurer.authenticationEntryPoint(new CustomAuthenticationEntryPoint()); // 异常处理
                 })
                 .headers().frameOptions().disable().and().csrf().disable();
@@ -109,11 +106,13 @@ public class ResourceServerAutoConfiguration implements ApplicationContextAware 
                 resourceServer.getClientSecret())) {
             throw new OAuth2IntrospectionException("匿名令牌模式下: clientId/clientSecret/introspectionUri 均不能为空!");
         }
+        JwtDecoder jwtDecoder = this.applicationContext.getBean(JwtDecoder.class);
         return new CustomOpaqueTokenIntrospect(
                 resourceServer.getIntrospectionUri(),
                 resourceServer.getClientId(),
                 resourceServer.getClientSecret(),
-                xHuiUserDetailsService);
+                xHuiUserDetailsService,
+                jwtDecoder);
     }
 
     @Override

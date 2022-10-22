@@ -26,11 +26,13 @@ package com.xhuicloud.upms.controller;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.xhuicloud.common.authorization.resource.annotation.Anonymous;
 import com.xhuicloud.common.core.utils.Response;
 import com.xhuicloud.common.log.annotation.SysLog;
-import com.xhuicloud.common.authorization.resource.annotation.Anonymous;
+import com.xhuicloud.common.mybatis.utils.PageConvertor;
 import com.xhuicloud.upms.entity.SysClientDetails;
 import com.xhuicloud.upms.service.SysClientDetailsService;
+import com.xhuicloud.upms.vo.ClientVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
@@ -40,7 +42,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/client")
 @AllArgsConstructor
-@Api(value = "client", tags = "客户授权管理")
+@Api(value = "client", tags = "客户端授权管理")
 public class SysClientDetailController {
 
     private final SysClientDetailsService sysClientDetailsService;
@@ -64,8 +66,9 @@ public class SysClientDetailController {
      */
     @GetMapping("/page")
     @ApiOperation(value = "分页查询", notes = "分页查询")
-    public Response<Page> page(Page page, SysClientDetails sysClientDetails) {
-        return Response.success(sysClientDetailsService.page(page, Wrappers.query(sysClientDetails)));
+    public Response<Page<ClientVo>> page(Page page, SysClientDetails sysClientDetails) {
+        Page<ClientVo> clientVoPage = PageConvertor.convertPage(sysClientDetailsService.page(page, Wrappers.query(sysClientDetails)), ClientVo.class);
+        return Response.success(clientVoPage);
     }
 
     /**

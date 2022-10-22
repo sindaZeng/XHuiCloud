@@ -25,6 +25,7 @@
 package com.xhuicloud.common.authorization.extension;
 
 import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.util.StrUtil;
 import com.xhuicloud.common.data.ttl.XHuiCommonThreadLocalHolder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -56,6 +57,13 @@ public class RedisOAuth2AuthorizationService implements OAuth2AuthorizationServi
     @Override
     public void save(OAuth2Authorization authorization) {
         Assert.notNull(authorization, "authorization cannot be null");
+
+        String principalName = authorization.getPrincipalName();
+        if (StrUtil.isNotBlank(principalName)) {
+            redisTemplate.opsForValue().set(buildCacheKey(OAuth2ParameterNames.USERNAME, principalName), authorization, TIMEOUT,
+                    TimeUnit.MINUTES);
+        }
+
         // This state occurs with the authorization_code grant flow during the user consent step OR
         // when the code is returned in the authorization response but the access token request is not yet initiated.
         String state = authorization.getAttribute(OAuth2ParameterNames.STATE);
@@ -126,8 +134,9 @@ public class RedisOAuth2AuthorizationService implements OAuth2AuthorizationServi
     }
 
     @Override
-    public OAuth2Authorization findById(String id) {
-        return null;
+    public OAuth2Authorization findById(String principalName) {
+        Assert.hasText(principalName, "principalName cannot be empty");
+        return (OAuth2Authorization) redisTemplate.opsForValue().get(buildCacheKey(OAuth2ParameterNames.USERNAME, principalName));
     }
 
     @Override

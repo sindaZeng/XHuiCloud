@@ -25,6 +25,7 @@
 package com.xhuicloud.common.authorization.repository;
 
 import cn.hutool.core.util.BooleanUtil;
+import cn.hutool.core.util.StrUtil;
 import com.xhuicloud.common.authorization.resource.properties.SecurityProperties;
 import com.xhuicloud.common.core.constant.AuthorizationConstants;
 import com.xhuicloud.upms.entity.SysClientDetails;
@@ -37,9 +38,9 @@ import org.springframework.security.oauth2.server.authorization.client.Registere
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.config.ClientSettings;
 import org.springframework.security.oauth2.server.authorization.config.TokenSettings;
-import org.springframework.util.StringUtils;
 
 import java.time.Duration;
+import java.util.Arrays;
 import java.util.Optional;
 
 @AllArgsConstructor
@@ -75,7 +76,7 @@ public class CustomRegisteredClientRepository implements RegisteredClientReposit
 
         // 设置授权模式
         Optional.ofNullable(sysClientDetails.getAuthorizedGrantTypes())
-                .ifPresent(grants -> StringUtils.commaDelimitedListToSet(grants)
+                .ifPresent(grants -> Arrays.asList(grants)
                         .forEach(s -> builder.authorizationGrantType(new AuthorizationGrantType(s))));
 
         Optional.ofNullable(sysClientDetails.getWebServerRedirectUri()).ifPresent(builder::redirectUri);
@@ -87,7 +88,9 @@ public class CustomRegisteredClientRepository implements RegisteredClientReposit
 
     public TokenSettings getTokenSettings(SysClientDetails sysClientDetails) {
         return TokenSettings.builder()
-                .accessTokenFormat(new OAuth2TokenFormat(securityProperties.getAccessTokenFormat()))
+                .accessTokenFormat(new OAuth2TokenFormat(
+                        StrUtil.isNotBlank(sysClientDetails.getTokenFormat()) ?
+                                sysClientDetails.getTokenFormat() : securityProperties.getAccessTokenFormat()))
                 .accessTokenTimeToLive(
                         Duration.ofSeconds(Optional
                                 .ofNullable(sysClientDetails.getAccessTokenValidity())
@@ -101,6 +104,8 @@ public class CustomRegisteredClientRepository implements RegisteredClientReposit
 
     public ClientSettings getClientSettings(SysClientDetails sysClientDetails) {
         return ClientSettings.builder()
-                .requireAuthorizationConsent(!BooleanUtil.toBoolean(sysClientDetails.getAutoapprove())).build();
+                .setting("captchaEnable", sysClientDetails.getCaptchaEnable())
+                .setting("multiLogin", sysClientDetails.getMultiLogin())
+                .requireAuthorizationConsent(!BooleanUtil.toBoolean(sysClientDetails.getAutoApprove())).build();
     }
 }

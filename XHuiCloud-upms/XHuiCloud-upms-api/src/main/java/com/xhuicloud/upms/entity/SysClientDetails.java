@@ -26,19 +26,19 @@ package com.xhuicloud.upms.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.extension.activerecord.Model;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-
-import java.io.Serializable;
-
-import lombok.*;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * 终端信息
  */
 @Data
 @ApiModel(value = "客户端信息")
-public class SysClientDetails implements Serializable {
+@EqualsAndHashCode(callSuper = true)
+public class SysClientDetails extends Model<SysClientDetails> {
 
     @TableId(value = "id", type = IdType.AUTO)
     @ApiModelProperty(value = "id")
@@ -60,7 +60,7 @@ public class SysClientDetails implements Serializable {
     private String scope;
 
     @ApiModelProperty(value = "授权类型")
-    private String authorizedGrantTypes;
+    private String[] authorizedGrantTypes;
 
     @ApiModelProperty(value = "重定向地址")
     private String webServerRedirectUri;
@@ -74,11 +74,17 @@ public class SysClientDetails implements Serializable {
     @ApiModelProperty(value = "refresh_token的有效时间值(单位:秒)")
     private Integer refreshTokenValidity;
 
-    @ApiModelProperty(value = "预留的字段(必须是JSON格式)")
-    private String additionalInformation;
+    @ApiModelProperty(value = "登录验证码0: 否 1：是")
+    private Integer captchaEnable;
+
+    @ApiModelProperty(value = "重复登录0: 否 1：是")
+    private Integer multiLogin;
+
+    @ApiModelProperty(value = "令牌模式")
+    private String tokenFormat;
 
     @ApiModelProperty(value = "自动授权")
-    private String autoapprove;
+    private String autoApprove;
 
     @ApiModelProperty(value = "0: 否 1：是")
     private Integer isDel;

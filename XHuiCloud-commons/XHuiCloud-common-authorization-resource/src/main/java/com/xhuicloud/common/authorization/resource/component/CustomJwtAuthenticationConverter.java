@@ -37,8 +37,9 @@ import org.springframework.security.oauth2.server.resource.authentication.Bearer
 import java.util.HashSet;
 
 /**
- * 自定义token 转换器
+ * 自定义token 转换器(为保证token有状态，故弃用, 使用 CustomOpaqueTokenIntrospect 即可 ,若想要无状态token可使用此类)
  */
+@Deprecated
 @AllArgsConstructor
 public class CustomJwtAuthenticationConverter implements Converter<Jwt, AbstractAuthenticationToken> {
 

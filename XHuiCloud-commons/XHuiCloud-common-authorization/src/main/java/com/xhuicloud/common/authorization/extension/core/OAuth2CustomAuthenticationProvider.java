@@ -25,6 +25,7 @@
 package com.xhuicloud.common.authorization.extension.core;
 
 import com.xhuicloud.common.authorization.extension.CustomExceptionTranslator;
+import com.xhuicloud.common.authorization.resource.userdetails.XHuiUser;
 import com.xhuicloud.common.authorization.utils.OAuth2AuthenticationProviderUtils;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -36,6 +37,7 @@ import org.springframework.security.oauth2.server.authorization.OAuth2Authorizat
 import org.springframework.security.oauth2.server.authorization.authentication.OAuth2AccessTokenAuthenticationToken;
 import org.springframework.security.oauth2.server.authorization.authentication.OAuth2ClientAuthenticationToken;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
+import org.springframework.security.oauth2.server.authorization.config.ClientSettings;
 import org.springframework.security.oauth2.server.authorization.context.ProviderContextHolder;
 import org.springframework.security.oauth2.server.authorization.token.DefaultOAuth2TokenContext;
 import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenContext;
@@ -90,6 +92,9 @@ public abstract class OAuth2CustomAuthenticationProvider<T extends OAuth2CustomG
         if (!registeredClient.getAuthorizationGrantTypes().contains(getGrantType())) {
             throw new OAuth2AuthenticationException(OAuth2ErrorCodes.INVALID_GRANT);
         }
+        ClientSettings clientSettings = registeredClient.getClientSettings();
+        // 是否同时登录 即登录是否重置token
+        Integer multiLogin = clientSettings.getSetting("multiLogin");
 
         Set<String> authorizedScopes;
         if (!CollectionUtils.isEmpty(authenticationToken.getScopes())) {
@@ -117,60 +122,87 @@ public abstract class OAuth2CustomAuthenticationProvider<T extends OAuth2CustomG
                     .authorizationGrantType(getGrantType())
                     .authorizationGrant(authenticationToken);
             // @formatter:on
-
+            String principalName = getPrincipalName(authenticate);
             OAuth2Authorization.Builder authorizationBuilder = OAuth2Authorization
                     .withRegisteredClient(registeredClient)
-                    .principalName(authenticate.getName())
+                    .principalName(principalName)
                     .authorizationGrantType(getGrantType())
                     .attribute(OAuth2Authorization.AUTHORIZED_SCOPE_ATTRIBUTE_NAME, authorizedScopes);
 
-            // ----- Access token -----
-            OAuth2TokenContext tokenContext = tokenContextBuilder.tokenType(OAuth2TokenType.ACCESS_TOKEN).build();
-            OAuth2Token generatedAccessToken = this.tokenGenerator.generate(tokenContext);
-            if (generatedAccessToken == null) {
-                OAuth2Error error = new OAuth2Error(OAuth2ErrorCodes.SERVER_ERROR,
-                        "The token generator failed to generate the access token.", ERROR_URI);
-                throw new OAuth2AuthenticationException(error);
-            }
-
-            OAuth2AccessToken accessToken = new OAuth2AccessToken(OAuth2AccessToken.TokenType.BEARER,
-                    generatedAccessToken.getTokenValue(), generatedAccessToken.getIssuedAt(),
-                    generatedAccessToken.getExpiresAt(), tokenContext.getAuthorizedScopes());
-            if (generatedAccessToken instanceof ClaimAccessor) {
-                authorizationBuilder.token(accessToken, (metadata) ->
-                                metadata.put(OAuth2Authorization.Token.CLAIMS_METADATA_NAME, ((ClaimAccessor) generatedAccessToken).getClaims()))
-                        .attribute(Principal.class.getName(), authenticate);
-            } else {
-                authorizationBuilder.accessToken(accessToken);
-            }
-
-            // ----- Refresh token -----
-            OAuth2RefreshToken refreshToken = null;
-            if (registeredClient.getAuthorizationGrantTypes().contains(AuthorizationGrantType.REFRESH_TOKEN) &&
-                    // Do not issue refresh token to public client
-                    !clientPrincipal.getClientAuthenticationMethod().equals(ClientAuthenticationMethod.NONE)) {
-
-                tokenContext = tokenContextBuilder.tokenType(OAuth2TokenType.REFRESH_TOKEN).build();
-                OAuth2Token generatedRefreshToken = this.tokenGenerator.generate(tokenContext);
-                if (!(generatedRefreshToken instanceof OAuth2RefreshToken)) {
-                    OAuth2Error error = new OAuth2Error(OAuth2ErrorCodes.SERVER_ERROR,
-                            "The token generator failed to generate the refresh token.", ERROR_URI);
-                    throw new OAuth2AuthenticationException(error);
+            // 是否有登录信息
+            OAuth2Authorization auth2Authorization = authorizationService.findById(principalName);
+            OAuth2Authorization authorization = null;
+            if (multiLogin == 0) {
+                // 不允许重复登录
+                if (auth2Authorization != null) {
+                    authorizationService.remove(auth2Authorization);
                 }
-                refreshToken = (OAuth2RefreshToken) generatedRefreshToken;
-                authorizationBuilder.refreshToken(refreshToken);
+                authorization = getAuthorization(tokenContextBuilder, authorizationBuilder, authenticate, registeredClient, clientPrincipal, authorization);
+            } else {
+                if (auth2Authorization != null) {
+                    authorization = auth2Authorization;
+                } else {
+                    authorization = getAuthorization(tokenContextBuilder, authorizationBuilder, authenticate, registeredClient, clientPrincipal, authorization);
+                }
             }
-
-            OAuth2Authorization authorization = authorizationBuilder.build();
-
-            this.authorizationService.save(authorization);
-
             return new OAuth2AccessTokenAuthenticationToken(
-                    registeredClient, clientPrincipal, accessToken, refreshToken, Objects.requireNonNull(authorization.getAccessToken().getClaims()));
-
+                    registeredClient, clientPrincipal,
+                    authorization.getAccessToken().getToken(),
+                    authorization.getRefreshToken().getToken(),
+                    Objects.requireNonNull(authorization.getAccessToken().getClaims()));
         } catch (AuthenticationException ex) {
             throw customExceptionTranslator.translate(authentication, ex);
         }
+    }
+
+    private OAuth2Authorization getAuthorization(DefaultOAuth2TokenContext.Builder tokenContextBuilder, OAuth2Authorization.Builder authorizationBuilder, Authentication authenticate, RegisteredClient registeredClient, OAuth2ClientAuthenticationToken clientPrincipal, OAuth2Authorization authorization) {
+        // ----- Access token -----
+        OAuth2TokenContext tokenContext = tokenContextBuilder.tokenType(OAuth2TokenType.ACCESS_TOKEN).build();
+        OAuth2Token generatedAccessToken = this.tokenGenerator.generate(tokenContext);
+        if (generatedAccessToken == null) {
+            OAuth2Error error = new OAuth2Error(OAuth2ErrorCodes.SERVER_ERROR,
+                    "The token generator failed to generate the access token.", ERROR_URI);
+            throw new OAuth2AuthenticationException(error);
+        }
+
+        OAuth2AccessToken accessToken = new OAuth2AccessToken(OAuth2AccessToken.TokenType.BEARER,
+                generatedAccessToken.getTokenValue(), generatedAccessToken.getIssuedAt(),
+                generatedAccessToken.getExpiresAt(), tokenContext.getAuthorizedScopes());
+        if (generatedAccessToken instanceof ClaimAccessor) {
+            authorizationBuilder.token(accessToken, (metadata) ->
+                            metadata.put(OAuth2Authorization.Token.CLAIMS_METADATA_NAME, ((ClaimAccessor) generatedAccessToken).getClaims()))
+                    .attribute(Principal.class.getName(), authenticate);
+        } else {
+            authorizationBuilder.accessToken(accessToken);
+        }
+
+        // ----- Refresh token -----
+        if (registeredClient.getAuthorizationGrantTypes().contains(AuthorizationGrantType.REFRESH_TOKEN) &&
+                // Do not issue refresh token to public client
+                !clientPrincipal.getClientAuthenticationMethod().equals(ClientAuthenticationMethod.NONE)) {
+
+            tokenContext = tokenContextBuilder.tokenType(OAuth2TokenType.REFRESH_TOKEN).build();
+            OAuth2Token generatedRefreshToken = this.tokenGenerator.generate(tokenContext);
+            if (!(generatedRefreshToken instanceof OAuth2RefreshToken)) {
+                OAuth2Error error = new OAuth2Error(OAuth2ErrorCodes.SERVER_ERROR,
+                        "The token generator failed to generate the refresh token.", ERROR_URI);
+                throw new OAuth2AuthenticationException(error);
+            }
+            OAuth2RefreshToken refreshToken = (OAuth2RefreshToken) generatedRefreshToken;
+            authorizationBuilder.refreshToken(refreshToken);
+        }
+
+        authorization = authorizationBuilder.build();
+        this.authorizationService.save(authorization);
+        return authorization;
+    }
+
+    private String getPrincipalName(Authentication authenticate) {
+        Object principal = authenticate.getPrincipal();
+        if (principal != null && principal instanceof XHuiUser) {
+            return ((XHuiUser) principal).getId().toString();
+        }
+        return authenticate.getName();
     }
 
     public Class<T> getClazz() {
