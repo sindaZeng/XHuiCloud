@@ -137,12 +137,12 @@ public abstract class OAuth2CustomAuthenticationProvider<T extends OAuth2CustomG
                 if (auth2Authorization != null) {
                     authorizationService.remove(auth2Authorization);
                 }
-                authorization = getAuthorization(tokenContextBuilder, authorizationBuilder, authenticate, registeredClient, clientPrincipal, authorization);
+                authorization = getAuthorization(tokenContextBuilder, authorizationBuilder, authenticate, registeredClient, clientPrincipal);
             } else {
                 if (auth2Authorization != null) {
                     authorization = auth2Authorization;
                 } else {
-                    authorization = getAuthorization(tokenContextBuilder, authorizationBuilder, authenticate, registeredClient, clientPrincipal, authorization);
+                    authorization = getAuthorization(tokenContextBuilder, authorizationBuilder, authenticate, registeredClient, clientPrincipal);
                 }
             }
             return new OAuth2AccessTokenAuthenticationToken(
@@ -155,7 +155,8 @@ public abstract class OAuth2CustomAuthenticationProvider<T extends OAuth2CustomG
         }
     }
 
-    private OAuth2Authorization getAuthorization(DefaultOAuth2TokenContext.Builder tokenContextBuilder, OAuth2Authorization.Builder authorizationBuilder, Authentication authenticate, RegisteredClient registeredClient, OAuth2ClientAuthenticationToken clientPrincipal, OAuth2Authorization authorization) {
+    private OAuth2Authorization getAuthorization(DefaultOAuth2TokenContext.Builder tokenContextBuilder, OAuth2Authorization.Builder authorizationBuilder, Authentication authenticate, RegisteredClient registeredClient, OAuth2ClientAuthenticationToken clientPrincipal) {
+        OAuth2Authorization authorization;
         // ----- Access token -----
         OAuth2TokenContext tokenContext = tokenContextBuilder.tokenType(OAuth2TokenType.ACCESS_TOKEN).build();
         OAuth2Token generatedAccessToken = this.tokenGenerator.generate(tokenContext);

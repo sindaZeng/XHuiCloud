@@ -1,5 +1,6 @@
 package com.xhuicloud.upms.vo;
 
+import com.xhuicloud.common.core.annotation.Scalpel;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -28,6 +29,7 @@ public class ClientVo implements Serializable {
     private String resourceIds;
 
     @ApiModelProperty(value = "客户端密钥")
+    @Scalpel(before = 0, after = 0)
     private String clientSecret;
 
     @ApiModelProperty(value = "权限范围")

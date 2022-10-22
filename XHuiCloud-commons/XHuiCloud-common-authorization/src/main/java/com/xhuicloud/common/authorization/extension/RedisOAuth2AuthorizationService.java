@@ -103,8 +103,12 @@ public class RedisOAuth2AuthorizationService implements OAuth2AuthorizationServi
     @Override
     public void remove(OAuth2Authorization authorization) {
         Assert.notNull(authorization, "authorization cannot be null");
-
         List<String> keys = new ArrayList<>();
+
+        String principalName = authorization.getPrincipalName();
+        if (StrUtil.isNotBlank(principalName)) {
+            keys.add(buildCacheKey(OAuth2ParameterNames.USERNAME, principalName));
+        }
 
         String state = authorization.getAttribute(OAuth2ParameterNames.STATE);
         if (Objects.nonNull(state)) {
@@ -129,7 +133,6 @@ public class RedisOAuth2AuthorizationService implements OAuth2AuthorizationServi
             OAuth2AccessToken accessToken = access_token.getToken();
             keys.add(buildCacheKey(OAuth2ParameterNames.ACCESS_TOKEN, accessToken.getTokenValue()));
         }
-
         redisTemplate.delete(keys);
     }
 

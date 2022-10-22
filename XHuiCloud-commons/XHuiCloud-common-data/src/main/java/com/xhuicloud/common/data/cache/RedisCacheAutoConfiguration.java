@@ -24,8 +24,6 @@
 
 package com.xhuicloud.common.data.cache;
 
-import cn.hutool.core.util.StrUtil;
-import com.xhuicloud.common.data.ttl.XHuiCommonThreadLocalHolder;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.cache.CacheManagerCustomizers;
@@ -88,7 +86,7 @@ public class RedisCacheAutoConfiguration {
             cacheNames.forEach(it -> cacheConfigMap.put(it, cacheConfiguration));
             initialCaches.putAll(cacheConfigMap);
         }
-        RedisCacheManager cacheManager = new RedisCacheManager(redisCacheWriter, cacheConfiguration,
+        RedisAutoCacheManager cacheManager = new RedisAutoCacheManager(redisCacheWriter, cacheConfiguration,
                 initialCaches, true);
         cacheManager.setTransactionAware(false);
         return customizerInvoker.customize(cacheManager);
@@ -105,14 +103,7 @@ public class RedisCacheAutoConfiguration {
             if (redisProperties.getTimeToLive() != null) {
                 config = config.entryTtl(redisProperties.getTimeToLive());
             }
-            // 设置key前缀
-            config = config.computePrefixWith(name -> {
-                String keyPrefix = XHuiCommonThreadLocalHolder.getTenant() + StrUtil.COLON + name + StrUtil.COLON;
-                if (redisProperties.getKeyPrefix() != null) {
-                    keyPrefix += redisProperties.getKeyPrefix() + StrUtil.COLON;
-                }
-                return keyPrefix;
-            });
+
             if (!redisProperties.isCacheNullValues()) {
                 config = config.disableCachingNullValues();
             }

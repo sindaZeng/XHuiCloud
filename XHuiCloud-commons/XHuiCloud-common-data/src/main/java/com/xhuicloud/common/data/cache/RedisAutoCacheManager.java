@@ -27,6 +27,7 @@ package com.xhuicloud.common.data.cache;
 import cn.hutool.core.util.StrUtil;
 import com.xhuicloud.common.core.constant.CacheConstants;
 import com.xhuicloud.common.data.ttl.XHuiCommonThreadLocalHolder;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.convert.DurationStyle;
 import org.springframework.cache.Cache;
 import org.springframework.data.redis.cache.RedisCache;
@@ -39,6 +40,7 @@ import java.time.Duration;
 import java.time.temporal.ChronoUnit;
 import java.util.Map;
 
+@Slf4j
 public class RedisAutoCacheManager extends RedisCacheManager {
 
     private static final String SPLIT_FLAG = "#";
@@ -73,7 +75,16 @@ public class RedisAutoCacheManager extends RedisCacheManager {
         if (name.startsWith(CacheConstants.GLOBALLY)) {
             return super.getCache(name);
         }
-        return super.getCache(XHuiCommonThreadLocalHolder.getTenant() + StrUtil.COLON + name);
+        String tenantPrefix = "";
+        Integer tenant = XHuiCommonThreadLocalHolder.getTenant();
+        if (tenant != null) {
+            tenantPrefix = tenant + StrUtil.COLON;
+        } else {
+            log.warn("Cache tenantPrefix is null!");
+            log.warn("Cache tenantPrefix is null!");
+            log.warn("Cache tenantPrefix is null!");
+        }
+        return super.getCache(tenantPrefix + name);
     }
 
 }
