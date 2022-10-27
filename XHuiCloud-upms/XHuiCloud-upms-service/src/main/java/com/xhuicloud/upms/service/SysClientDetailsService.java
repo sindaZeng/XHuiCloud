@@ -24,9 +24,10 @@
 
 package com.xhuicloud.upms.service;
 
-import com.xhuicloud.upms.entity.SysClientDetails;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.xhuicloud.upms.entity.SysClientDetails;
 public interface SysClientDetailsService extends IService<SysClientDetails>{
 
+    SysClientDetails getByIdOrClientId(String clientId);
 
 }

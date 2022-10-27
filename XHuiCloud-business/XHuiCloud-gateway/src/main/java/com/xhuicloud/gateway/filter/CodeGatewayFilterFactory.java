@@ -27,13 +27,19 @@ package com.xhuicloud.gateway.filter;
 import cn.hutool.core.util.StrUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xhuicloud.common.core.constant.CacheConstants;
+import com.xhuicloud.common.core.constant.CommonConstants;
 import com.xhuicloud.common.core.constant.SecurityConstants;
 import com.xhuicloud.common.core.utils.Response;
+import com.xhuicloud.common.core.utils.WebUtils;
+import com.xhuicloud.common.gateway.vo.ClientDefinitionVo;
 import com.xhuicloud.gateway.utils.VerifyCodeUtil;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.server.reactive.ServerHttpRequest;
@@ -54,6 +60,9 @@ import reactor.core.publisher.Mono;
 public class CodeGatewayFilterFactory extends AbstractGatewayFilterFactory {
     private final ObjectMapper objectMapper;
     private final VerifyCodeUtil verifyCodeUtil;
+
+    private final RedisTemplate redisTemplate;
+
     @Override
     public GatewayFilter apply(Object config) {
         return (exchange, chain) -> {
@@ -70,15 +79,14 @@ public class CodeGatewayFilterFactory extends AbstractGatewayFilterFactory {
             if (StrUtil.equals(SecurityConstants.REFRESH_TOKEN, grantType)) {
                 return chain.filter(exchange);
             }
-
             try {
-                // 如果是第三方社交登录 判断授权码的合法性
+                // 如果是手机登录。一定要验证码  如果客户端 开启了验证码,且是密码登录
                 if (grantType.equals("mobile")) {
                     //验证码登录 校验验证码
                     verifyCodeUtil.validateCode(request);
-                    return chain.filter(exchange);
+                } else if (grantType.equals("password") && isCaptchaEnableClient(request)) {
+                    verifyCodeUtil.validateCaptchaCode(request);
                 }
-
 
             } catch (Exception e) {
                 ServerHttpResponse response = exchange.getResponse();
@@ -96,4 +104,25 @@ public class CodeGatewayFilterFactory extends AbstractGatewayFilterFactory {
         };
     }
 
+    /**
+     * 是否为开启验证码的客户端
+     *
+     * @param request
+     * @return
+     */
+    private boolean isCaptchaEnableClient(ServerHttpRequest request) {
+        String header = request.getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
+        String clientId = WebUtils.extractClientId(header).orElse(null);
+        String tenantId = request.getHeaders().getFirst(CommonConstants.TENANT_ID);
+
+        String key = String.format("%s:%s:%s", StrUtil.isBlank(tenantId) ? CommonConstants.DEFAULT_TENANT_ID : tenantId,
+                CacheConstants.CLIENT_DETAILS_EXTENSION, clientId);
+
+        ClientDefinitionVo val = (ClientDefinitionVo) redisTemplate.opsForValue().get(key);
+
+        if (val == null) {
+            return false;
+        }
+        return val.getCaptchaEnable() == 1;
+    }
 }

@@ -1,6 +1,8 @@
 package com.xhuicloud.gateway.utils;
 
 import cn.hutool.core.util.StrUtil;
+import com.anji.captcha.model.vo.CaptchaVO;
+import com.anji.captcha.service.CaptchaService;
 import com.xhuicloud.common.core.constant.SecurityConstants;
 import com.xhuicloud.common.core.exception.ValidateCodeException;
 import lombok.AllArgsConstructor;
@@ -20,13 +22,32 @@ import org.springframework.stereotype.Component;
 public class VerifyCodeUtil {
     private final RedisTemplate redisTemplate;
 
-    public void validateCode(ServerHttpRequest request) {
+    private final CaptchaService captchaService;
+
+    public void validateCaptchaCode(ServerHttpRequest request) {
         String code = request.getQueryParams().getFirst("code");
 
         if (StringUtils.isBlank(code)) {
             throw ValidateCodeException.validateFail(ValidateCodeException.CODE_IS_NULL_FAIL);
         }
 
+        CaptchaVO vo = new CaptchaVO();
+        vo.setCaptchaVerification(code);
+        vo.setCaptchaType("blockPuzzle");
+        if (!captchaService.verification(vo).isSuccess()) {
+            throw ValidateCodeException.validateFail(ValidateCodeException.CODE_IS_NULL_FAIL);
+        }
+
+        return;
+
+    }
+
+    public void validateCode(ServerHttpRequest request) {
+        String code = request.getQueryParams().getFirst("code");
+
+        if (StringUtils.isBlank(code)) {
+            throw ValidateCodeException.validateFail(ValidateCodeException.CODE_IS_NULL_FAIL);
+        }
         String mobile = request.getQueryParams().getFirst("mobile");
         if (StrUtil.isBlank(mobile)) {
             throw ValidateCodeException.validateFail(ValidateCodeException.MOBILE_IS_NULL_FAIL);

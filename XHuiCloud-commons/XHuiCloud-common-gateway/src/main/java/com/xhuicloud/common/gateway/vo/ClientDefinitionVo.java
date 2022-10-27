@@ -22,69 +22,30 @@
  * @Email:  xhuicloud@163.com
  */
 
-package com.xhuicloud.common.core.constant;
+package com.xhuicloud.common.gateway.vo;
+
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+import java.io.Serializable;
 
 /**
  * @program: XHuiCloud
- * @description: CacheConstants
+ * @description: RouteDefinitionVo
  * @author: Sinda
- * @create: 2020-06-17 15:50
+ * @create: 2020-03-02 17:19
  */
-public interface CacheConstants {
+@Data
+@EqualsAndHashCode(callSuper = false)
+public class ClientDefinitionVo implements Serializable {
 
     /**
-     * 系统参数
+     * 登录验证码0: 否 1：是
      */
-    String SYS_PARAM = "SYS:PARAM:";
+    private Integer captchaEnable;
 
     /**
-     * 用戶
+     * 重复登录0: 否 1：是
      */
-    String SYS_USER = "SYS:USER:";
-
-    /**
-     * 部门
-     */
-    String SYS_DEPT = "SYS:DEPT:";
-
-    /**
-     * 角色
-     */
-    String SYS_ROLE = "SYS:ROLE:";
-
-    /**
-     * 字典项
-     */
-    String SYS_DICT = "SYS:DICT:";
-
-    /**
-     * 字典项
-     */
-    String SYS_DICT_DATA = "SYS:DICT:DATA:";
-
-    /**
-     * 客户端信息
-     */
-    String CLIENT_DETAILS = "CLIENT:DETAILS:";
-
-    /**
-     * 客户端扩展信息
-     */
-    String CLIENT_DETAILS_EXTENSION = "CLIENT:DETAILS:EXTENSION:";
-
-    /**
-     * 推送模板
-     */
-    String PUSH_TEMPLATE = "PUSH:TEMPLATE:";
-
-    /**
-     * 推送模板组
-     */
-    String PUSH_GROUP = "PUSH:GROUP:";
-
-    /**
-     * 全局缓存，该缓存不区分租户
-     */
-    String GLOBALLY = "gl:";
-
+    private Integer multiLogin;
 }

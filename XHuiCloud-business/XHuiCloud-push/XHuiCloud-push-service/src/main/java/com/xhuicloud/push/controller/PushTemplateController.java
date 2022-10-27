@@ -34,7 +34,9 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
+
 import javax.validation.Valid;
 
 @RestController
@@ -65,7 +67,6 @@ public class PushTemplateController {
      */
     @SysLog("新增推送模板")
     @PostMapping
-    @CacheEvict(value = CacheConstants.PUSH_TEMPLATE, allEntries = true)
     @ApiOperation(value = "新增推送模板", notes = "新增推送模板")
     public Response<Boolean> save(@Valid @RequestBody PushTemplate pushTemplate) {
         return Response.success(pushTemplateService.save(pushTemplate));
@@ -79,8 +80,8 @@ public class PushTemplateController {
      */
     @SysLog("编辑推送模板")
     @PutMapping
-    @CacheEvict(value = CacheConstants.PUSH_TEMPLATE, allEntries = true)
     @ApiOperation(value = "编辑推送模板", notes = "编辑推送模板")
+    @CacheEvict(value = CacheConstants.PUSH_TEMPLATE, key = "#pushTemplate.id")
     public Response<Boolean> update(@Valid @RequestBody PushTemplate pushTemplate) {
         return Response.success(pushTemplateService.updateById(pushTemplate));
     }
@@ -93,8 +94,8 @@ public class PushTemplateController {
      */
     @SysLog("删除推送模板")
     @DeleteMapping("/{id}")
-    @CacheEvict(value = CacheConstants.PUSH_TEMPLATE, allEntries = true)
     @ApiOperation(value = "删除推送模板", notes = "删除推送模板")
+    @CacheEvict(value = CacheConstants.PUSH_TEMPLATE, key = "#pushTemplate.id")
     public Response<Boolean> delete(@PathVariable Integer id) {
         return Response.success(pushTemplateService.removeById(id));
     }
@@ -106,6 +107,7 @@ public class PushTemplateController {
      * @return
      */
     @GetMapping("/{id}")
+    @Cacheable(value = CacheConstants.PUSH_TEMPLATE, key = "#id")
     public Response<PushTemplate> getById(@PathVariable Integer id) {
         return Response.success(pushTemplateService.getById(id));
     }

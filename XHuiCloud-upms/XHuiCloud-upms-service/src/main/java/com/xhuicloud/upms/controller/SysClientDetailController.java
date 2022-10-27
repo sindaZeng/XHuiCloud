@@ -24,10 +24,13 @@
 
 package com.xhuicloud.upms.controller;
 
+import cn.hutool.extra.spring.SpringUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xhuicloud.common.authorization.resource.annotation.Anonymous;
+import com.xhuicloud.common.core.constant.CacheConstants;
 import com.xhuicloud.common.core.utils.Response;
+import com.xhuicloud.common.gateway.support.ClientDetailsInitEvent;
 import com.xhuicloud.common.log.annotation.SysLog;
 import com.xhuicloud.common.mybatis.utils.PageConvertor;
 import com.xhuicloud.upms.entity.SysClientDetails;
@@ -36,6 +39,7 @@ import com.xhuicloud.upms.vo.ClientVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -50,18 +54,12 @@ public class SysClientDetailController {
     @Anonymous(false)
     @GetMapping("/{clientId}")
     public Response<SysClientDetails> getById(@PathVariable(value = "clientId") String clientId) {
-        return Response.success(sysClientDetailsService.getOne(
-                Wrappers.<SysClientDetails>lambdaQuery()
-                        .eq(SysClientDetails::getClientId, clientId)
-                        .or()
-                        .eq(SysClientDetails::getId, clientId)));
+        return Response.success(sysClientDetailsService.getByIdOrClientId(clientId));
     }
 
     @GetMapping("/getClientSecretById/{clientId}")
     public Response<String> getClientSecretById(@PathVariable(value = "clientId") String clientId) {
-        return Response.success(sysClientDetailsService.getOne(
-                Wrappers.<SysClientDetails>lambdaQuery()
-                        .eq(SysClientDetails::getId, clientId)).getClientSecret());
+        return Response.success(sysClientDetailsService.getByIdOrClientId(clientId).getClientSecret());
     }
 
     /**
@@ -89,7 +87,9 @@ public class SysClientDetailController {
     @PreAuthorize("@authorize.hasPermission('sys_add_client')")
     @ApiOperation(value = "新增终端信息", notes = "新增终端信息")
     public Response<Boolean> save(@RequestBody SysClientDetails sysClientDetails) {
-        return Response.success(sysClientDetailsService.save(sysClientDetails));
+        sysClientDetailsService.save(sysClientDetails);
+        SpringUtil.publishEvent(new ClientDetailsInitEvent(sysClientDetails));
+        return Response.success(Boolean.TRUE);
     }
 
     /**
@@ -102,9 +102,12 @@ public class SysClientDetailController {
     @PutMapping
     @PreAuthorize("@authorize.hasPermission('sys_editor_client')")
     @ApiOperation(value = "修改终端信息", notes = "修改终端信息")
+    @CacheEvict(value = CacheConstants.CLIENT_DETAILS, key = "#sysClientDetails.clientId")
     public Response<Boolean> update(@RequestBody SysClientDetails sysClientDetails) {
         sysClientDetails.setClientSecret(null);
-        return Response.success(sysClientDetailsService.updateById(sysClientDetails));
+        sysClientDetailsService.updateById(sysClientDetails);
+        SpringUtil.publishEvent(new ClientDetailsInitEvent(sysClientDetails));
+        return Response.success(Boolean.TRUE);
     }
 
     /**
@@ -117,8 +120,11 @@ public class SysClientDetailController {
     @DeleteMapping("/{id}")
     @PreAuthorize("@authorize.hasPermission('sys_delete_client')")
     @ApiOperation(value = "通过id删除终端信息", notes = "通过id删除终端信息")
+    @CacheEvict(value = CacheConstants.CLIENT_DETAILS, key = "#sysClientDetails.clientId")
     public Response<Boolean> delete(@PathVariable Integer id) {
-        return Response.success(sysClientDetailsService.removeById(id));
+        sysClientDetailsService.removeById(id);
+        SpringUtil.publishEvent(new ClientDetailsInitEvent(id));
+        return Response.success(Boolean.TRUE);
     }
 
 }

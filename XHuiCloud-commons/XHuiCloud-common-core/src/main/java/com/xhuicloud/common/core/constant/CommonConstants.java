@@ -58,9 +58,14 @@ public interface CommonConstants {
     String ROUTE_KEY = "gateway:route:key";
 
     /**
-     * redis reload 事件
+     * redis route reload 事件
      */
     String ROUTE_RELOAD = "gateway:route:reload";
+
+    /**
+     * redis client reload 事件
+     */
+    String CLIENT_RELOAD = "gateway:client:reload";
 
     /**
      * 网关路由加载

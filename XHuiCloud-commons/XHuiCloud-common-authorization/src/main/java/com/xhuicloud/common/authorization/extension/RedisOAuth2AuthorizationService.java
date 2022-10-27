@@ -150,7 +150,7 @@ public class RedisOAuth2AuthorizationService implements OAuth2AuthorizationServi
     }
 
     private String buildCacheKey(String type, String id) {
-        return String.format("%s::%s::%s::%s", XHuiCommonThreadLocalHolder.getTenant(), OAuth2ParameterNames.TOKEN, type, id);
+        return String.format("%s:%s:%s:%s", XHuiCommonThreadLocalHolder.getTenant(), OAuth2ParameterNames.TOKEN, type, id);
     }
 
 }
