@@ -14,4 +14,4 @@ EXPOSE 8091
 
 ADD ./target/XHuiCloud-seata.jar ./
 
-CMD java -Xms256m -Xmx256m -Xss256k -Djava.security.egd=file:/dev/./urandom -jar XHuiCloud-seata.jar
+CMD java -Xms256m -Xmx256m -Xss256k -Djava.security.egd=file:/dev/./urandom $JAVA_OPTS -jar XHuiCloud-seata.jar

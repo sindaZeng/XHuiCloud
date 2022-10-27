@@ -14,4 +14,4 @@ EXPOSE 21000
 
 ADD ./target/XHuiCloud-generator.jar ./
 
-CMD java -Xms512m -Xmx512m -Xss256k -Djava.security.egd=file:/dev/./urandom -jar XHuiCloud-generator.jar
+CMD java -Xms512m -Xmx512m -Xss256k -Djava.security.egd=file:/dev/./urandom $JAVA_OPTS -jar XHuiCloud-generator.jar

@@ -14,6 +14,6 @@ EXPOSE 20000
 
 ADD ./target/XHuiCloud-xxl-admin-service.jar ./
 
-CMD java -Xms256m -Xmx256m -Xss256k -Djava.security.egd=file:/dev/./urandom -jar XHuiCloud-xxl-admin-service.jar
+CMD java -Xms256m -Xmx256m -Xss256k -Djava.security.egd=file:/dev/./urandom $JAVA_OPTS -jar XHuiCloud-xxl-admin-service.jar
 
 
