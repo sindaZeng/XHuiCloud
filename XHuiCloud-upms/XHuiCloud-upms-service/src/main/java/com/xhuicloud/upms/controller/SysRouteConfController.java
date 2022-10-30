@@ -24,10 +24,13 @@
 
 package com.xhuicloud.upms.controller;
 
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xhuicloud.common.core.utils.Response;
 import com.xhuicloud.upms.entity.SysRouteConf;
 import com.xhuicloud.upms.service.SysRouteConfService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -49,6 +52,18 @@ public class SysRouteConfController {
 
     private final SysRouteConfService sysRouteConfService;
 
+    /**
+     * 分页查询动态路由列表
+     *
+     * @param page
+     * @return
+     */
+    @GetMapping("/page")
+    @ApiOperation(value = "分页查询动态路由列表", notes = "分页查询动态路由列表")
+    public Response<Page> page(Page page, SysRouteConf sysRouteConf) {
+        return Response.success(sysRouteConfService.page(page, Wrappers.query(sysRouteConf)));
+    }
+    
     /**
      * 获取所有路由
      * @return
