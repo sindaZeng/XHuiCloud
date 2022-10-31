@@ -67,7 +67,7 @@ public class DynamicRouteAutoConfiguration {
 				= new RedisMessageListenerContainer();
 		container.setConnectionFactory(redisConnectionFactory);
 		container.addMessageListener((message, bytes) -> {
-			log.warn("接收到重新JVM 重新加载路由事件");
+			log.info("接收到重新JVM 重新加载路由事件");
 			RouteCacheHolder.removeRouteList();
 			applicationContext.publishEvent(new RefreshRoutesEvent(this));
 		}, new ChannelTopic(CommonConstants.GATEWAY_JVM_ROUTE_RELOAD));

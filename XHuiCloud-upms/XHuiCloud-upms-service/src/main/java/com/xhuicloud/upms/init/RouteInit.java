@@ -27,7 +27,6 @@ package com.xhuicloud.upms.init;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.json.JSONArray;
 import cn.hutool.json.JSONUtil;
-import com.xhuicloud.common.core.constant.CacheConstants;
 import com.xhuicloud.common.core.constant.CommonConstants;
 import com.xhuicloud.common.gateway.support.DynamicRouteInitEvent;
 import com.xhuicloud.common.gateway.vo.RouteDefinitionVo;
@@ -49,7 +48,6 @@ import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.scheduling.annotation.Async;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.net.URI;
 import java.util.List;
@@ -95,7 +93,7 @@ public class RouteInit {
                 redisTemplate.setHashValueSerializer(new Jackson2JsonRedisSerializer<>(RouteDefinitionVo.class));
                 redisTemplate.opsForHash().put(CommonConstants.ROUTE_KEY, route.getRouteId(), vo);
             });
-            log.debug("初始化网关路由结束 ");
+            log.info("初始化网关路由结束 ");
         }else {
             throw new NullPointerException("获取初始化网关路由异常!");
         }

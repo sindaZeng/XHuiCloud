@@ -21,9 +21,3 @@ spring:
 
 server:
   port: 17000
-
-logging:
-  level:
-    org.springframework.web: INFO
-    org.springframework.security: debug
-    org.springframework.security.oauth2: debug

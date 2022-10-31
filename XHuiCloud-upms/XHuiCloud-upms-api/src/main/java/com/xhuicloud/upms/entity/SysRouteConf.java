@@ -24,10 +24,7 @@
 
 package com.xhuicloud.upms.entity;
 
-import com.baomidou.mybatisplus.annotation.FieldFill;
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.*;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -63,6 +60,7 @@ public class SysRouteConf extends Model<SysRouteConf> {
      * 谓词/断言
      */
     @ApiModelProperty(value="谓词/断言")
+    @TableField(updateStrategy = FieldStrategy.IGNORED )
     private String predicates;
 
     /**
