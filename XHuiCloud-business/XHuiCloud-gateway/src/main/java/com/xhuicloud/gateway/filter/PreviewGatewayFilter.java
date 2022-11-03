@@ -51,6 +51,7 @@ import reactor.core.publisher.Mono;
 public class PreviewGatewayFilter implements GlobalFilter, Ordered {
 
     private static final String TOKEN = "token";
+    private static final String LOGOUT = "logout";
 
     @Value("${xhuicloud.preview:true}")
     private Boolean isNotPreview;
@@ -59,7 +60,7 @@ public class PreviewGatewayFilter implements GlobalFilter, Ordered {
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         ServerHttpRequest request = exchange.getRequest();
         if (isNotPreview || StrUtil.equalsIgnoreCase(request.getMethodValue(), HttpMethod.GET.name()) ||
-                StrUtil.containsIgnoreCase(request.getURI().getPath(), TOKEN)) {
+                StrUtil.containsAnyIgnoreCase(request.getURI().getPath(), TOKEN, LOGOUT)) {
             return chain.filter(exchange);
         }
         ServerHttpResponse response = exchange.getResponse();
