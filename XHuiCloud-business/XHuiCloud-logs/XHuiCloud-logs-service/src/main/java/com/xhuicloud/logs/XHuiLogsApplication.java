@@ -29,13 +29,11 @@ import com.xhuicloud.common.feign.annotation.EnableXHuiFeignClients;
 import com.xhuicloud.common.swagger.annotation.EnableXHuiSwagger;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 @EnableXHuiSwagger
 @SpringBootApplication
 @EnableXHuiFeignClients
 @EnableResourceServer
-@EnableDiscoveryClient
 public class XHuiLogsApplication {
 
     public static void main(String[] args) {

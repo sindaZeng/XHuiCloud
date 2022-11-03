@@ -67,6 +67,11 @@ public @interface Scalpel {
     int after() default 2;
 
     /**
+     * 如果这个值超过0,表示返回length个打码符号
+     */
+    int length() default 0;
+
+    /**
      * 打码符号
      */
     String mosaicStr() default "*";

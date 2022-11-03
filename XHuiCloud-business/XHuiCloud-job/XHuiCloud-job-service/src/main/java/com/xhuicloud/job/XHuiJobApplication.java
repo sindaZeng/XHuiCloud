@@ -28,7 +28,6 @@ import com.xhuicloud.common.feign.annotation.EnableXHuiFeignClients;
 import com.xhuicloud.common.xxl.annotation.EnableXxlJob;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 /**
  * @program: XHuiCloud
@@ -39,7 +38,6 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 @SpringBootApplication
 @EnableXxlJob
 @EnableXHuiFeignClients
-@EnableDiscoveryClient
 public class XHuiJobApplication {
     public static void main(String[] args) {
         SpringApplication.run(XHuiJobApplication.class, args);

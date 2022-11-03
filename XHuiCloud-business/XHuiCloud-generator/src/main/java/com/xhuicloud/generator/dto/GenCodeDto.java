@@ -26,7 +26,6 @@ package com.xhuicloud.generator.dto;
 
 import lombok.Data;
 
-import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
@@ -59,6 +58,11 @@ public class GenCodeDto {
     private String moduleName;
 
     /**
+     * 上下文路径
+     */
+    private String contextPath;
+
+    /**
      * 包路径
      */
     private String packagePath;
@@ -76,6 +80,11 @@ public class GenCodeDto {
     /**
      * 是否生成前端代码 0否 1是
      */
-    private Integer genVue = 0;
+    private Integer genWeb = 0;
+
+    /**
+     * 0: ts 1: js
+     */
+    private Integer isTs = 0;
 
 }

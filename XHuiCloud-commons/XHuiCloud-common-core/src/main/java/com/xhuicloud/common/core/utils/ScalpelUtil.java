@@ -62,10 +62,16 @@ public class ScalpelUtil {
         if (source == null) {
             return null;
         }
+        StringBuilder sb = new StringBuilder();
+        if (scalpel.length() > 0) {
+            for (int i = 0; i < scalpel.length(); i++) {
+                sb.append(scalpel.mosaicStr());
+            }
+            return sb.toString();
+        }
         if (source.length() <= scalpel.before() + scalpel.after()) {
             return source;
         }
-        StringBuilder sb = new StringBuilder();
         for (int i = 0, n = source.length(); i < n; i++) {
             if (i < scalpel.before()) {
                 sb.append(source.charAt(i));

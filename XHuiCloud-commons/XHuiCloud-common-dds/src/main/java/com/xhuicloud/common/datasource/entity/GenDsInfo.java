@@ -30,11 +30,12 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.xhuicloud.common.core.annotation.Scalpel;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.io.Serializable;
-import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.io.Serializable;
+import java.time.LocalDateTime;
 
 @ApiModel(value = "gen_ds_info")
 @Data
@@ -72,19 +73,21 @@ public class GenDsInfo implements Serializable {
      * password
      */
     @ApiModelProperty(value = "password")
-    @Scalpel(before = 0, after = 0)
+    @Scalpel(length = 6)
     private String password;
 
     /**
      * host
      */
     @ApiModelProperty(value = "host")
+    @Scalpel(length = 6)
     private String host;
 
     /**
      * port
      */
     @ApiModelProperty(value = "port")
+    @Scalpel(length = 6)
     private String port;
 
     /**

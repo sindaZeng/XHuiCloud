@@ -14,9 +14,3 @@ spring:
         # 公共的配置文件
         shared-configs:
           - application-common-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
-security:
-  oauth2:
-    client:
-      client-id: test
-      client-secret: test
-      scope: server

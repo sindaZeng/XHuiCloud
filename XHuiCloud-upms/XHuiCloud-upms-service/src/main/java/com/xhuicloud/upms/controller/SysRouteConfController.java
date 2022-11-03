@@ -24,7 +24,6 @@
 
 package com.xhuicloud.upms.controller;
 
-import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.spring.SpringUtil;
 import cn.hutool.json.JSONUtil;
@@ -37,20 +36,20 @@ import com.xhuicloud.common.log.annotation.SysLog;
 import com.xhuicloud.upms.dto.RouteConfDto;
 import com.xhuicloud.upms.entity.SysRouteConf;
 import com.xhuicloud.upms.service.SysRouteConfService;
+import com.xhuicloud.upms.vo.FilterVo;
+import com.xhuicloud.upms.vo.PredicateAndFilterVo;
 import com.xhuicloud.upms.vo.PredicateVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
+import org.springframework.cloud.gateway.filter.FilterDefinition;
 import org.springframework.cloud.gateway.handler.predicate.PredicateDefinition;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * @program: XHuiCloud
@@ -93,9 +92,11 @@ public class SysRouteConfController {
      *
      * @return
      */
-    @GetMapping("/getPredicatesById/{id}")
-    public Response<List<PredicateVo>> getPredicatesById(@PathVariable Integer id) {
-        List<PredicateVo> list = Lists.newArrayList();
+    @GetMapping("/getPredicatesAndFiltersById/{id}")
+    public Response<PredicateAndFilterVo> getPredicatesById(@PathVariable Integer id) {
+        PredicateAndFilterVo predicateAndFilterVo = new PredicateAndFilterVo();
+        List<PredicateVo> predicateVos = Lists.newArrayList();
+        List<FilterVo> filterVos = Lists.newArrayList();
         SysRouteConf sysRouteConf = sysRouteConfService.getById(id);
         String predicates = sysRouteConf.getPredicates();
         if (StrUtil.isNotBlank(predicates)) {
@@ -105,11 +106,36 @@ public class SysRouteConfController {
                     PredicateVo predicateVo = new PredicateVo();
                     predicateVo.setName(predicateDefinition.getName());
                     predicateVo.setValue(args.getValue());
-                    list.add(predicateVo);
+                    predicateVos.add(predicateVo);
                 }
             }
         }
-        return Response.success(list);
+
+        String filters = sysRouteConf.getFilters();
+        if (StrUtil.isNotBlank(filters)) {
+            List<FilterDefinition> filterDefinitions = JSONUtil.toList(filters, FilterDefinition.class);
+            for (FilterDefinition filterDefinition : filterDefinitions) {
+                for (Map.Entry<String, String> args : filterDefinition.getArgs().entrySet()) {
+                    FilterVo filterVo = new FilterVo();
+                    filterVo.setName(filterDefinition.getName());
+                    filterVo.setValue(args.getValue());
+                    filterVos.add(filterVo);
+                }
+            }
+        }
+        predicateAndFilterVo.setPredicateVos(predicateVos);
+        predicateAndFilterVo.setFilterVos(filterVos);
+        return Response.success(predicateAndFilterVo);
+    }
+
+    @SysLog("新增动态路由")
+    @PostMapping
+    @PreAuthorize("@authorize.hasPermission('sys_add_route')")
+    @ApiOperation(value = "新增动态路由", notes = "新增动态路由")
+    public Response<Boolean> save(@Valid @RequestBody SysRouteConf sysRouteConf) {
+        Boolean isSuccess = sysRouteConfService.save(sysRouteConf);
+        SpringUtil.publishEvent(new DynamicRouteInitEvent(sysRouteConf));
+        return Response.success(isSuccess);
     }
 
     @SysLog("编辑动态路由")
@@ -120,33 +146,17 @@ public class SysRouteConfController {
         if (sysRouteConf == null) {
             return Response.failed("无效数据!");
         }
-        sysRouteConf.setPredicates(null);
-        List<PredicateVo> predicateVos = routeConfDto.getPredicateVos();
-        if (CollectionUtil.isNotEmpty(predicateVos)) {
-            List<PredicateDefinition> predicates = new ArrayList<>();
-            Map<String, List<String>> predicateVosMap = predicateVos.stream().collect(Collectors.toMap(PredicateVo::getName,
-                    PredicateVo -> Lists.newArrayList(PredicateVo.getValue()), (List<String> oldVal, List<String> newVal) -> {
-                        oldVal.addAll(newVal);
-                        return oldVal;
-                    }));
-            for (Map.Entry<String, List<String>> predicateVosMapEntrySet : predicateVosMap.entrySet()) {
-                List<String> value = predicateVosMapEntrySet.getValue();
-                Map<String, String> args = new LinkedHashMap<>();
-                String key = "_genkey_%s";
-                for (int i = 0; i < value.size(); i++) {
-                    args.put(String.format(key, i), value.get(i));
-                }
-                PredicateDefinition predicateDefinition = new PredicateDefinition();
-                predicateDefinition.setName(predicateVosMapEntrySet.getKey());
-                predicateDefinition.setArgs(args);
-                predicates.add(predicateDefinition);
-            }
-            sysRouteConf.setPredicates(JSONUtil.toJsonStr(predicates));
-        }
-        boolean b = sysRouteConfService.updateById(sysRouteConf);
-        SpringUtil.publishEvent(new DynamicRouteInitEvent(sysRouteConf));
-        return Response.success(b);
+        return Response.success(sysRouteConfService.update(sysRouteConf, routeConfDto));
     }
 
+    @SysLog("删除动态路由")
+    @PreAuthorize("@authorize.hasPermission('sys_delete_route')")
+    @DeleteMapping("/{id}")
+    @ApiOperation(value = "删除动态路由", notes = "删除动态路由")
+    public Response<Boolean> delete(@PathVariable Integer id) {
+        Boolean isSuccess = sysRouteConfService.removeById(id);
+        SpringUtil.publishEvent(new DynamicRouteInitEvent(id));
+        return Response.success(isSuccess);
+    }
 
 }

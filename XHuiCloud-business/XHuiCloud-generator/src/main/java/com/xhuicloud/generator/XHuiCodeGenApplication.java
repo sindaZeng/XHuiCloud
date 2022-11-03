@@ -24,6 +24,7 @@
 
 package com.xhuicloud.generator;
 
+import com.xhuicloud.common.authorization.resource.annotation.EnableResourceServer;
 import com.xhuicloud.common.datasource.annotation.EnableDynamicDataSource;
 import com.xhuicloud.common.feign.annotation.EnableXHuiFeignClients;
 import com.xhuicloud.common.swagger.annotation.EnableXHuiSwagger;
@@ -36,10 +37,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author: Sinda
  * @create: 2020-06-22 11:24
  */
+@EnableXHuiSwagger
 @SpringBootApplication
 @EnableDynamicDataSource
 @EnableXHuiFeignClients
-@EnableXHuiSwagger
+@EnableResourceServer
 public class XHuiCodeGenApplication {
     public static void main(String[] args) {
         SpringApplication.run(XHuiCodeGenApplication.class, args);

@@ -1,5 +1,6 @@
 package com.xhuicloud.upms.dto;
 
+import com.xhuicloud.upms.vo.FilterVo;
 import com.xhuicloud.upms.vo.PredicateVo;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -32,12 +33,6 @@ public class RouteConfDto {
     private String routeId;
 
     /**
-     * 过滤器
-     */
-    @ApiModelProperty(value="过滤器")
-    private String filters;
-
-    /**
      * 路由地址
      */
     @ApiModelProperty(value="路由地址")
@@ -45,5 +40,8 @@ public class RouteConfDto {
 
     @ApiModelProperty(value="谓词")
     private List<PredicateVo> predicateVos;
+
+    @ApiModelProperty(value="过滤器")
+    private List<FilterVo> filterVos;
 
 }

@@ -30,12 +30,10 @@ import com.xhuicloud.common.mq.annotation.EnableXHuiRabbitMq;
 import com.xhuicloud.common.swagger.annotation.EnableXHuiSwagger;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 @EnableXHuiRabbitMq
 @EnableXHuiSwagger
 @SpringBootApplication
-@EnableDiscoveryClient
 @EnableXHuiFeignClients
 @EnableResourceServer
 public class XHuiPushApplication {

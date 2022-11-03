@@ -26,6 +26,7 @@ package com.xhuicloud.upms.service;
 
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.xhuicloud.upms.dto.RouteConfDto;
 import com.xhuicloud.upms.entity.SysRouteConf;
 
 import java.util.List;
@@ -39,4 +40,5 @@ public interface SysRouteConfService extends IService<SysRouteConf> {
      */
     List<SysRouteConf> getRoutes();
 
+    Boolean update(SysRouteConf sysRouteConf, RouteConfDto routeConfDto);
 }

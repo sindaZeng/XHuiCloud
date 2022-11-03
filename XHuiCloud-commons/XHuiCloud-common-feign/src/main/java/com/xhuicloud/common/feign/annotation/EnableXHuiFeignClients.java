@@ -24,6 +24,7 @@
 
 package com.xhuicloud.common.feign.annotation;
 
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.cloud.openfeign.FeignClientsConfiguration;
 import org.springframework.cloud.openfeign.XHuiFeignClientsRegistrar;
@@ -40,6 +41,7 @@ import java.lang.annotation.*;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
+@EnableDiscoveryClient
 @EnableFeignClients
 @Import(XHuiFeignClientsRegistrar.class)
 public @interface EnableXHuiFeignClients {

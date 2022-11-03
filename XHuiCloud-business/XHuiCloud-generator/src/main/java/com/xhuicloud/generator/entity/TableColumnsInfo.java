@@ -60,6 +60,11 @@ public class TableColumnsInfo implements Serializable {
     private String javaDataType;
 
     /**
+     * 对应typescript type
+     */
+    private String tsType;
+
+    /**
      * 字段描述
      */
     private String columnComment;

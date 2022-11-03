@@ -45,6 +45,7 @@ import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.WordUtils;
+
 import java.io.File;
 import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
@@ -70,25 +71,38 @@ public class GenCodeUtil {
     private static final String MAPPER_XML = "Mapper.xml.ftl";
 
     private static final String VUE_PREFIX = "vue/";
+
+    private static final String TS_PREFIX = "ts/";
     private static final String DTO_INDEX_JS = "ApiDtoIndex.js.ftl";
+
+    private static final String DTO_INDEX_TS = "entity.d.ts.ftl";
     private static final String API_INDEX_JS = "ApiIndex.js.ftl";
-    private static final String VUE_INDEX_JS = "index.vue.ftl";
+    private static final String API_INDEX_TS = "apiIndex.ts.ftl";
+    private static final String VUE_INDEX = "index.vue.ftl";
 
     private static final String JAVA_TYPE_PROPERTIES = "javaType.properties";
 
     private static final String DB_TYPE_PROPERTIES = "dbType.properties";
 
+    private static final String TYPESCRIPT_PROPERTIES = "typeScript.properties";
+
     private static Configuration javaTypeConfiguration;
 
     private static Configuration dbTypeConfiguration;
 
+    private static Configuration typeScriptConfiguration;
+
     private static List<String> serverTemplates;
 
-    private static List<String> vueTemplates;
+    private static List<String> webJavaScriptTemplates;
+
+    private static List<String> webTypeScriptTemplates;
 
     static {
+        System.out.println("11111111111111111111");
         initServerTemplates();
-        initVueTemplates();
+        initWebJavaScriptTemplates();
+        initWebTypeScriptTemplates();
         try {
             if (ObjectUtil.isNull(javaTypeConfiguration)) {
                 synchronized (GenCodeUtil.class) {
@@ -102,6 +116,14 @@ public class GenCodeUtil {
                 synchronized (GenCodeUtil.class) {
                     if (ObjectUtil.isNull(dbTypeConfiguration)) {
                         dbTypeConfiguration = new PropertiesConfiguration(DB_TYPE_PROPERTIES);
+                    }
+                }
+            }
+
+            if (ObjectUtil.isNull(typeScriptConfiguration)) {
+                synchronized (GenCodeUtil.class) {
+                    if (ObjectUtil.isNull(typeScriptConfiguration)) {
+                        typeScriptConfiguration = new PropertiesConfiguration(TYPESCRIPT_PROPERTIES);
                     }
                 }
             }
@@ -146,6 +168,7 @@ public class GenCodeUtil {
         map.put("ClassName", ClassNameServer);
         map.put("className", classNameServer);
         map.put("pathName", classNameServer);
+        map.put("contextPath", genCodeDto.getContextPath());
         tableColumnsInfo.forEach(tableColumn -> {
             if ("decimal".equals(tableColumn.getDataType())) {
                 map.put("hasBigDecimal", true);
@@ -161,6 +184,7 @@ public class GenCodeUtil {
             }
             tableColumn.setSmallColumnName(StringUtils.uncapitalize(columnToJava(tableColumn.getColumnName())));
             tableColumn.setJavaDataType(javaTypeConfiguration.getString(tableColumn.getDataType()));
+            tableColumn.setTsType(typeScriptConfiguration.getString(tableColumn.getJavaDataType()));
             String dataType = dbTypeConfiguration.getString(tableColumn.getDataType());
             tableColumn.setDataType(StrUtil.isBlank(dataType) ? tableColumn.getDataType() : dataType);
         });
@@ -181,18 +205,20 @@ public class GenCodeUtil {
             IoUtil.close(sw);
             zip.closeEntry();
         }
-        if (genCodeDto.getGenVue() == BooleanEnum.YES.getCode()) {
+        if (genCodeDto.getGenWeb() == BooleanEnum.YES.getCode()) {
             map.put("ClassName", ClassNameVue);
             map.put("className", classNameVue);
             map.put("pathName", classNameVue);
-            for (String templateName : vueTemplates) {
+            for (String templateName : genCodeDto.getIsTs()  == 0 ? webTypeScriptTemplates : webJavaScriptTemplates) {
                 Template template = engine.getTemplate(templateName);
                 // 渲染模板
                 StringWriter sw = new StringWriter();
                 template.render(map, sw);
                 //添加到zip
                 zip.putNextEntry(new ZipEntry(Objects
-                        .requireNonNull(getVueFileName(templateName, classNameVue))));
+                        .requireNonNull(genCodeDto.getIsTs()  == 0 ?
+                                getVueTSFileName(templateName, classNameVue, genCodeDto.getModuleName())
+                                : getVueJSFileName(templateName, classNameVue))));
                 IoUtil.write(zip, StandardCharsets.UTF_8, false, sw.toString());
                 IoUtil.close(sw);
                 zip.closeEntry();
@@ -217,16 +243,29 @@ public class GenCodeUtil {
     }
 
     /**
-     * 初始化后端模板
+     * 初始化JavaScript前端模板
      *
      * @return
      */
-    private void initVueTemplates() {
+    private void initWebJavaScriptTemplates() {
         List<String> templates = new ArrayList<>();
         templates.add(VUE_PREFIX + DTO_INDEX_JS);
         templates.add(VUE_PREFIX + API_INDEX_JS);
-        templates.add(VUE_PREFIX + VUE_INDEX_JS);
-        vueTemplates = templates;
+        templates.add(VUE_PREFIX + VUE_INDEX);
+        webJavaScriptTemplates = templates;
+    }
+
+    /**
+     * 初始化TypeScript前端模板
+     *
+     * @return
+     */
+    private void initWebTypeScriptTemplates() {
+        List<String> templates = new ArrayList<>();
+        templates.add(TS_PREFIX + VUE_INDEX);
+        templates.add(TS_PREFIX + API_INDEX_TS);
+        templates.add(TS_PREFIX + DTO_INDEX_TS);
+        webTypeScriptTemplates = templates;
     }
 
     /**
@@ -280,7 +319,7 @@ public class GenCodeUtil {
     /**
      * 获取前端文件名
      */
-    private String getVueFileName(String template, String className) {
+    private String getVueJSFileName(String template, String className) {
         String packagePath = "xhuicloud-ui" + File.separator + "src"
                 + File.separator;
         if (template.contains(DTO_INDEX_JS)) {
@@ -289,8 +328,29 @@ public class GenCodeUtil {
         if (template.contains(API_INDEX_JS)) {
             return packagePath + className + File.separator + "api" + File.separator + "index.js";
         }
-        if (template.contains(VUE_INDEX_JS)) {
+        if (template.contains(VUE_INDEX)) {
             return packagePath + className + File.separator + "index.vue";
+        }
+        return null;
+    }
+
+    /**
+     * 获取前端文件名
+     */
+    private String getVueTSFileName(String template, String className, String moduleName) {
+        String packagePath = "xhuicloud-ui" + File.separator + "src"
+                + File.separator;
+
+        if (template.contains(VUE_INDEX)) {
+            return packagePath + className + File.separator + "index.vue";
+        }
+
+        if (template.contains(API_INDEX_TS)) {
+            return packagePath + className + File.separator + "api" + File.separator + moduleName + File.separator + className + ".ts";
+        }
+
+        if (template.contains(DTO_INDEX_TS)) {
+            return packagePath + className + File.separator + "api" + File.separator + moduleName + File.separator + "entity" + File.separator + className + ".d.ts";
         }
         return null;
     }

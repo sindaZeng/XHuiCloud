@@ -27,6 +27,7 @@ package com.xhuicloud.generator.handle;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xhuicloud.common.core.constant.JdbcConnectConstants;
+import com.xhuicloud.common.core.exception.ValidateException;
 import com.xhuicloud.common.datasource.entity.GenDsInfo;
 import com.xhuicloud.generator.entity.TableColumnsInfo;
 import com.xhuicloud.generator.entity.TableInfo;
@@ -38,6 +39,7 @@ import org.springframework.stereotype.Component;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -56,10 +58,15 @@ public class MysqlJdbcHandle extends AbstractJdbcHandle {
     @SneakyThrows
     @Override
     public Boolean test(GenDsInfo genDsInfo) {
-        Connection connection = DriverManager.getConnection(String.format(JdbcConnectConstants.MYSQL_URL,
-                genDsInfo.getHost(), genDsInfo.getPort(), genDsInfo.getName()),
-                genDsInfo.getUsername(), genDsInfo.getPassword());
-        connection.close();
+        try {
+            Connection connection = DriverManager.getConnection(String.format(JdbcConnectConstants.MYSQL_URL,
+                            genDsInfo.getHost(), genDsInfo.getPort(), genDsInfo.getName()),
+                    genDsInfo.getUsername(), genDsInfo.getPassword());
+            connection.close();
+        } catch (SQLException e) {
+            throw ValidateException.validateFail("用户名或者密码错误!");
+        }
+
         return true;
     }
 

@@ -35,6 +35,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -69,6 +70,7 @@ public class SysDictController {
     @PostMapping
     @CacheEvict(value = CacheConstants.SYS_DICT, allEntries = true)
     @ApiOperation(value = "新增字典项", notes = "新增字典项")
+    @PreAuthorize("@authorize.hasPermission('sys_add_dict')")
     public Response<Boolean> save(@Valid @RequestBody SysDict sysDict) {
         return Response.success(sysDictService.save(sysDict));
     }
@@ -77,6 +79,7 @@ public class SysDictController {
     @PutMapping
     @CacheEvict(value = CacheConstants.SYS_DICT, allEntries = true)
     @ApiOperation(value = "编辑字典项", notes = "编辑字典项")
+    @PreAuthorize("@authorize.hasPermission('sys_editor_dict')")
     public Response<Boolean> update(@Valid @RequestBody SysDict sysDict) {
         return Response.success(sysDictService.updateById(sysDict));
     }
@@ -91,6 +94,7 @@ public class SysDictController {
     @DeleteMapping("/{id}")
     @CacheEvict(value = CacheConstants.SYS_DICT, allEntries = true)
     @ApiOperation(value = "删除字典项", notes = "删除字典项")
+    @PreAuthorize("@authorize.hasPermission('sys_delete_dict')")
     public Response<Boolean> delete(@PathVariable Integer id) {
         return Response.success(sysDictService.removeById(id));
     }

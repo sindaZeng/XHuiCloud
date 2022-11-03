@@ -25,6 +25,7 @@
 package com.xhuicloud.generator.controller;
 
 import com.baomidou.dynamic.datasource.toolkit.DynamicDataSourceContextHolder;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xhuicloud.common.core.utils.Response;
 import com.xhuicloud.common.datasource.entity.GenDsInfo;
@@ -50,9 +51,9 @@ import java.util.Map;
  */
 @RestController
 @AllArgsConstructor
-@RequestMapping("/db")
-@Api(value = "db", tags = "数据源管理模块")
-public class GenDatasourceInfoController {
+@RequestMapping("/ds")
+@Api(value = "ds", tags = "数据源管理模块")
+public class DsInfoController {
 
     private final GenDsInfoService genDsInfoService;
 
@@ -74,8 +75,8 @@ public class GenDatasourceInfoController {
      * @return
      */
     @GetMapping("/page")
-    public Response<Page> page(Page page) {
-        return Response.success(genDsInfoService.page(page));
+    public Response<Page> page(Page page, GenDsInfo genDsInfo) {
+        return Response.success(genDsInfoService.page(page, Wrappers.query(genDsInfo).orderByDesc("create_time")));
     }
 
     @GetMapping("/info/{id}")
@@ -95,10 +96,9 @@ public class GenDatasourceInfoController {
      */
     @PostMapping
     @PreAuthorize("@authorize.hasPermission('sys_add_db')")
-    public Response<Boolean> save(@RequestBody GenDsInfo genDsInfo) throws Exception {
+    public Response<Boolean> save(@RequestBody GenDsInfo genDsInfo) {
         // 构建前端对应解密AES 因子
         genDsInfo.setPassword(AesUtil.decrypt(genDsInfo.getPassword()));
-        genDsInfo.setUsername(AesUtil.decrypt(genDsInfo.getUsername()));
         JdbcHandle jdbcHandle = handle.get(genDsInfo.getType());
         if (jdbcHandle.test(genDsInfo)) {
             genDsInfoService.save(genDsInfo);
