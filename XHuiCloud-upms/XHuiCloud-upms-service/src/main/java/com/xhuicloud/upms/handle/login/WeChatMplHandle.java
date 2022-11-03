@@ -27,7 +27,6 @@ package com.xhuicloud.upms.handle.login;
 import cn.binarywang.tools.generator.ChineseNameGenerator;
 import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.xhuicloud.common.authorization.resource.constant.CustomAuthorizationGrantType;
 import com.xhuicloud.common.authorization.resource.constant.LoginPlatformEnum;
 import com.xhuicloud.common.core.constant.SecurityConstants;
 import com.xhuicloud.common.core.exception.SysException;
@@ -44,7 +43,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
 @Slf4j
-@Component("WXMP")
+@Component("wechat_mp")
 @AllArgsConstructor
 public class WeChatMplHandle extends AbstractSocialHandler {
 
