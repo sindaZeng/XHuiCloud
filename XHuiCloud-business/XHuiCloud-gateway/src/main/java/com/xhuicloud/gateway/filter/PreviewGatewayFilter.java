@@ -53,6 +53,8 @@ public class PreviewGatewayFilter implements GlobalFilter, Ordered {
     private static final String TOKEN = "token";
     private static final String LOGOUT = "logout";
 
+    private static final String WECHAT_MP = "wechat-mp";
+
     @Value("${xhuicloud.preview:true}")
     private Boolean isNotPreview;
 
@@ -60,7 +62,7 @@ public class PreviewGatewayFilter implements GlobalFilter, Ordered {
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         ServerHttpRequest request = exchange.getRequest();
         if (isNotPreview || StrUtil.equalsIgnoreCase(request.getMethodValue(), HttpMethod.GET.name()) ||
-                StrUtil.containsAnyIgnoreCase(request.getURI().getPath(), TOKEN, LOGOUT)) {
+                StrUtil.containsAnyIgnoreCase(request.getURI().getPath(), TOKEN, LOGOUT, WECHAT_MP)) {
             return chain.filter(exchange);
         }
         ServerHttpResponse response = exchange.getResponse();

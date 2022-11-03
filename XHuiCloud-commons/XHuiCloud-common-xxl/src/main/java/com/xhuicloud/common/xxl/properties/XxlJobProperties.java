@@ -80,7 +80,7 @@ public class XxlJobProperties {
          * 执行器通讯TOKEN
          * 非空时启用；
          */
-        private String accessToken;
+        private String accessToken = "XXXXXXXX";
 
         /**
          * 执行器运行日志文件存储磁盘路径
