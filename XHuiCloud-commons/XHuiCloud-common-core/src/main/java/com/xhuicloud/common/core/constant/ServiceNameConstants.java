@@ -55,4 +55,9 @@ public interface ServiceNameConstants {
      */
     String XHUICLOUD_PUSH_SERVICE = "XHuiCloud-push-service";
 
+    /**
+     * 微信公众号模块
+     */
+    String XHUICLOUD_WECHAT_SERVICE = "XHuiCloud-wechat-service";
+
 }

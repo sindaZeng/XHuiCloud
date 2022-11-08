@@ -66,17 +66,6 @@ public class SysSocialController {
     }
 
     /**
-     * 定时批量更新 token
-     *
-     * @return
-     */
-    @Anonymous
-    @PutMapping("/wechat/token")
-    public Response<Boolean> updateWechatToken() {
-        return Response.success(sysSocialService.updateWechatToken());
-    }
-
-    /**
      * 分页查询 社交列表
      *
      * @return

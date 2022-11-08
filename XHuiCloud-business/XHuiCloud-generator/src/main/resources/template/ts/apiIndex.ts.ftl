@@ -65,7 +65,7 @@ export function update${ClassName}(data: ${ClassName}) {
   )
 }
 
-export function deleteParam(${className}Id: number) {
+export function delete${ClassName}(${className}Id: number) {
   return HttpClient.delete<boolean>(
     {
       url: ${ClassName}Api.Delete${ClassName} + ${className}Id

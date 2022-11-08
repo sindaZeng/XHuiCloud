@@ -22,98 +22,76 @@
  * @Email:  xhuicloud@163.com
  */
 
-package com.xhuicloud.upms.entity;
+package com.xhuicloud.wechat.entity;
 
-import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.extension.activerecord.Model;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.xhuicloud.common.core.annotation.Scalpel;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-import java.time.LocalDateTime;
+import java.io.Serializable;
+import java.util.Date;
+
 
 /**
- * 社交表
+ * @program: wechat
+ * @description: 公众号账户
+ * @author: Sinda
+ * @create: 2022-11-04 17:05:04
  */
 @Data
-@ApiModel(value="社交")
-public class SysSocial extends Model<SysSocial> {
+@TableName("wechat_account")
+@ApiModel(value = "公众号账户")
+public class WeChatAccount implements Serializable {
 
-    /**
-     * id
-     */
+    private static final long serialVersionUID = 1L;
+
     @TableId(type = IdType.AUTO)
+    @ApiModelProperty(value = "id")
     private Integer id;
 
-    /**
-     * 类型
-     */
-    @TableField(value = "type")
-    private String type;
+    @ApiModelProperty(value = "公众号名称")
+    private String name;
 
-    /**
-     * 开放平台id
-     */
-    @TableField(value = "app_id")
+    @ApiModelProperty(value = "公众号AppId")
     private String appId;
 
-    /**
-     * 开放平台密钥
-     */
-    @TableField(value = "`app_secret`")
+    @ApiModelProperty(value = "公众号secret")
+    @Scalpel(length = 6)
     private String appSecret;
 
-    /**
-     * 开放平台描述
-     */
-    @TableField(value = "app_desc")
-    private String appDesc;
+    @ApiModelProperty(value = "平台授权码")
+    private String appAccessToken;
 
-    /**
-     * 重定向url
-     */
-    @TableField(value = "redirect_url")
+    @ApiModelProperty(value = "平台认证token")
+    private String appAuthToken;
+
+    @ApiModelProperty(value = "平台解密密钥")
+    private String appDecrypt;
+
+    @ApiModelProperty(value = "重定向url")
     private String redirectUrl;
 
-    /**
-     * 创建时间
-     */
-    @ApiModelProperty(value = "创建时间", hidden = true)
-    private LocalDateTime createTime;
+    @ApiModelProperty(value = "创建时间")
+    private Date createTime;
 
-    /**
-     * 创建者id
-     */
-    @ApiModelProperty(value = "创建者id", hidden = true)
-    @TableField(fill = FieldFill.INSERT)
+    @ApiModelProperty(value = "创建者id")
     private Integer createId;
 
-    /**
-     * 更新时间
-     */
-    @ApiModelProperty(value = "更新时间", hidden = true)
-    private LocalDateTime updateTime;
+    @ApiModelProperty(value = "更新时间")
+    private Date updateTime;
 
-    /**
-     * 更新者id
-     */
-    @ApiModelProperty(value = "更新者id", hidden = true)
-    @TableField(fill = FieldFill.UPDATE)
+    @ApiModelProperty(value = "更新者id")
     private Integer updateId;
 
-    /**
-     * 租户id
-     */
     @ApiModelProperty(value = "租户id")
     private Integer tenantId;
 
-    /**
-     * 0:否 1:是
-     */
-    @ApiModelProperty(value = "0:否 1:是")
+    @ApiModelProperty(value = "0: 否 1：是")
     private Integer isDel;
+
 
 }

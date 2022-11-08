@@ -76,6 +76,8 @@ public class GenCodeUtil {
     private static final String DTO_INDEX_JS = "ApiDtoIndex.js.ftl";
 
     private static final String DTO_INDEX_TS = "entity.d.ts.ftl";
+
+    private static final String COLUMN_INDEX_TS = "index.ts.ftl";
     private static final String API_INDEX_JS = "ApiIndex.js.ftl";
     private static final String API_INDEX_TS = "apiIndex.ts.ftl";
     private static final String VUE_INDEX = "index.vue.ftl";
@@ -199,7 +201,7 @@ public class GenCodeUtil {
             template.render(map, sw);
             //添加到zip
             zip.putNextEntry(new ZipEntry(Objects
-                    .requireNonNull(getServerFileName(templateName, ClassName
+                    .requireNonNull(getServerFileName(templateName, ClassNameServer
                             , map.get("package").toString()))));
             IoUtil.write(zip, StandardCharsets.UTF_8, false, sw.toString());
             IoUtil.close(sw);
@@ -265,6 +267,7 @@ public class GenCodeUtil {
         templates.add(TS_PREFIX + VUE_INDEX);
         templates.add(TS_PREFIX + API_INDEX_TS);
         templates.add(TS_PREFIX + DTO_INDEX_TS);
+        templates.add(TS_PREFIX + COLUMN_INDEX_TS);
         webTypeScriptTemplates = templates;
     }
 
@@ -343,6 +346,10 @@ public class GenCodeUtil {
 
         if (template.contains(VUE_INDEX)) {
             return packagePath + className + File.separator + "index.vue";
+        }
+
+        if (template.contains(COLUMN_INDEX_TS)) {
+            return packagePath + className + File.separator + "index.ts";
         }
 
         if (template.contains(API_INDEX_TS)) {

@@ -22,47 +22,19 @@
 * @Email:  xhuicloud@163.com
 */
 
-package ${package}.entity;
+package com.xhuicloud.wechat.service;
 
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
-import java.io.Serializable;
-<#if auto??>
-import com.baomidou.mybatisplus.annotation.IdType;
-</#if>
-<#if hasBigDecimal??>
-import java.math.BigDecimal;
-</#if>
-<#if datePath??>
-import ${datePath};
-</#if>
-
+import com.baomidou.mybatisplus.extension.service.IService;
+import com.xhuicloud.wechat.entity.WeChatAccount;
 
 /**
-* @program: ${moduleName}
-* @description: ${tableComment}
-* @author: ${author}
-* @create: ${datetime}
+* @program: wechat
+* @description: 公众号账户
+* @author: Sinda
+* @create: 2022-11-04 17:05:04
 */
-@Data
-@TableName("${tableName}")
-@ApiModel(value = "${tableComment}")
-public class ${ClassName} implements Serializable{
+public interface WeChatAccountService extends IService<WeChatAccount> {
 
-    private static final long serialVersionUID = 1L;
-
-<#if columns??>
-    <#list columns as column>
-    <#if column.columnKey = 'PRI'>
-
-    @TableId<#if auto?? && column.extra = 'auto_increment'>(value = "${column.columnName}", type = IdType.AUTO)</#if>
-    </#if>
-    @ApiModelProperty(value = "${column.columnComment}")
-    private ${column.javaDataType} ${column.smallColumnName};
-    </#list>
-</#if>
+    Boolean updateWechatToken();
 
 }

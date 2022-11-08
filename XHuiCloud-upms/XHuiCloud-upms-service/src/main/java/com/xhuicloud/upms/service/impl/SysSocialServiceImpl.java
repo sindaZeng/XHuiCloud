@@ -24,15 +24,8 @@
 
 package com.xhuicloud.upms.service.impl;
 
-import cn.hutool.core.collection.CollectionUtil;
-import cn.hutool.http.HttpUtil;
-import cn.hutool.json.JSONObject;
-import cn.hutool.json.JSONUtil;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.xhuicloud.common.authorization.resource.constant.LoginPlatformEnum;
 import com.xhuicloud.common.authorization.resource.social.SocialHandler;
-import com.xhuicloud.common.core.constant.ThirdLoginUrlConstants;
 import com.xhuicloud.upms.dto.UserInfo;
 import com.xhuicloud.upms.entity.SysSocial;
 import com.xhuicloud.upms.mapper.SysSocialMapper;
@@ -40,7 +33,6 @@ import com.xhuicloud.upms.service.SysSocialService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Map;
 
 
@@ -53,20 +45,5 @@ public class SysSocialServiceImpl extends ServiceImpl<SysSocialMapper, SysSocial
     @Override
     public UserInfo getSysUser(String type, String code) {
         return handle.get(type).handle(code);
-    }
-
-    @Override
-    public Boolean updateWechatToken() {
-        List<SysSocial> sysSocials = list(Wrappers.<SysSocial>lambdaQuery().eq(SysSocial::getType, LoginPlatformEnum.WECHAT_MP.getType()));
-        if (CollectionUtil.isNotEmpty(sysSocials)) {
-            for (SysSocial sysSocial : sysSocials) {
-                String url = String.format(ThirdLoginUrlConstants.MINI_WECHAT_ACCESS_TOKEN, sysSocial.getAppId(), sysSocial.getAppSecret());
-                String result = HttpUtil.get(url);
-                JSONObject response = JSONUtil.parseObj(result);
-                String access_token = response.getStr("access_token");
-                sysSocial.setAppAccessToken(access_token);
-            }
-        }
-        return updateBatchById(sysSocials);
     }
 }

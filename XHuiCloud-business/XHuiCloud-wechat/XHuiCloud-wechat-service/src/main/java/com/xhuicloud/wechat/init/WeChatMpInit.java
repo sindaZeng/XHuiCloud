@@ -22,19 +22,15 @@
  * @Email:  xhuicloud@163.com
  */
 
-package com.xhuicloud.upms.init;
+package com.xhuicloud.wechat.init;
 
 import cn.hutool.core.collection.CollectionUtil;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.google.common.collect.Maps;
-import com.xhuicloud.common.authorization.resource.constant.CustomAuthorizationGrantType;
-import com.xhuicloud.common.authorization.resource.constant.LoginPlatformEnum;
-import com.xhuicloud.upms.entity.SysSocial;
-import com.xhuicloud.upms.handle.wechat.WeChatMpScanHandler;
-import com.xhuicloud.upms.handle.wechat.WeChatMpSubscribeHandler;
-import com.xhuicloud.upms.service.SysSocialService;
+import com.xhuicloud.wechat.entity.WeChatAccount;
+import com.xhuicloud.wechat.handle.WeChatMpScanHandle;
+import com.xhuicloud.wechat.handle.WeChatMpSubscribeHandle;
+import com.xhuicloud.wechat.service.WeChatAccountService;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.mp.api.WxMpMessageRouter;
@@ -53,31 +49,28 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class WeChatMpInit {
 
-    private final SysSocialService sysSocialService;
+    private final WeChatAccountService weChatAccountService;
 
-    private final WeChatMpScanHandler weChatMpScanHandler;
+    private final WeChatMpScanHandle weChatMpScanHandle;
 
-    private final WeChatMpSubscribeHandler weChatMpSubscribeHandler;
+    private final WeChatMpSubscribeHandle weChatMpSubscribeHandle;
 
-    @Getter
-    private static Map<String, WxMpMessageRouter> routers = Maps.newHashMap();
+    private static Map<String, WxMpMessageRouter> routersMap = Maps.newHashMap();
 
-    @Getter
-    private static final Map<String, Integer> tenants = Maps.newHashMap();
+    private static Map<String, Integer> tenantsMap = Maps.newHashMap();
 
-    @Getter
     private static Map<String, WxMpService> wxMpServiceMap = Maps.newHashMap();
 
     @PostConstruct
     public void init() {
-        List<SysSocial> sysSocials = sysSocialService.list(Wrappers.<SysSocial>lambdaQuery().eq(SysSocial::getType, LoginPlatformEnum.WECHAT_MP.getType()));
-        if (CollectionUtil.isNotEmpty(sysSocials)) {
-            wxMpServiceMap = sysSocials.stream().map(sysSocial -> {
+        List<WeChatAccount> weChatAccounts = weChatAccountService.list();
+        if (CollectionUtil.isNotEmpty(weChatAccounts)) {
+            wxMpServiceMap = weChatAccounts.stream().map(weChatAccount -> {
                 WxMpDefaultConfigImpl config = new WxMpDefaultConfigImpl();
-                config.setAppId(sysSocial.getAppId()); // 设置微信公众号的appid
-                config.setSecret(sysSocial.getAppSecret()); // 设置微信公众号的app corpSecret
-                config.setToken(sysSocial.getAppAuthToken()); // 设置微信公众号的token
-                config.setAesKey(sysSocial.getAppDecrypt()); // 设置微信公众号的EncodingAESKey
+                config.setAppId(weChatAccount.getAppId()); // 设置微信公众号的appid
+                config.setSecret(weChatAccount.getAppSecret()); // 设置微信公众号的app corpSecret
+                config.setToken(weChatAccount.getAppAuthToken()); // 设置微信公众号的token
+                config.setAesKey(weChatAccount.getAppDecrypt()); // 设置微信公众号的EncodingAESKey
 
                 WxMpService service = new WxMpServiceImpl();
                 service.setWxMpConfigStorage(config);
@@ -88,19 +81,31 @@ public class WeChatMpInit {
                 router.rule().async(false)
                         .msgType(WxConsts.XmlMsgType.EVENT)
                         .event(WxConsts.EventType.SCAN)
-                        .handler(this.weChatMpScanHandler).end();
+                        .handler(this.weChatMpScanHandle).end();
 
                 // 用户关注事件
                 router.rule().async(false)
                         .msgType(WxConsts.XmlMsgType.EVENT)
                         .event(WxConsts.EventType.SUBSCRIBE)
-                        .handler(this.weChatMpSubscribeHandler).end();
+                        .handler(this.weChatMpSubscribeHandle).end();
 
-                routers.put(sysSocial.getAppId(), router);
-                tenants.put(sysSocial.getAppId(), sysSocial.getTenantId());
+                routersMap.put(weChatAccount.getAppId(), router);
+                tenantsMap.put(weChatAccount.getAppId(), weChatAccount.getTenantId());
                 return service;
             }).collect(Collectors.toMap(s -> s.getWxMpConfigStorage().getAppId(), a -> a));
         }
-
     }
+
+    public static Map<String, WxMpMessageRouter> getRoutersMap() {
+        return routersMap;
+    }
+
+    public static Map<String, WxMpService> getWxMpServiceMap() {
+        return wxMpServiceMap;
+    }
+
+    public static Map<String, Integer> getTenantsMap() {
+        return tenantsMap;
+    }
+
 }

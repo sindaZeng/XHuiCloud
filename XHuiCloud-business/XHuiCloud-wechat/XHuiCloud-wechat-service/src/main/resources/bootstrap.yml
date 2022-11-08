@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: @artifactId@
+  profiles:
+    active: @profiles.active@
+  cloud:
+    nacos:
+      discovery:
+        server-addr: ${NACOS_HOST:xhuicloud-register}:${NACOS_PORT:13000}
+      config:
+        server-addr: ${NACOS_HOST:xhuicloud-register}:${NACOS_PORT:13000}
+  config:
+    import:
+      - optional:nacos:application-common-@profiles.active@.yml
+      - optional:nacos:@artifactId@-@profiles.active@.yml
+mysql:
+  scheme: xhuicloud_wechat
+
+server:
+  port: 24000

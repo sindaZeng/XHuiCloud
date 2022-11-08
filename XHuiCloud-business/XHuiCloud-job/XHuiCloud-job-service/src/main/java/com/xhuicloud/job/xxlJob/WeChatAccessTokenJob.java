@@ -25,7 +25,7 @@
 package com.xhuicloud.job.xxlJob;
 
 
-import com.xhuicloud.upms.feign.SysSocialServiceFeign;
+import com.xhuicloud.wechat.feign.WeChatAccountFeign;
 import com.xxl.job.core.biz.model.ReturnT;
 import com.xxl.job.core.handler.annotation.XxlJob;
 import lombok.AllArgsConstructor;
@@ -40,7 +40,7 @@ import static com.xxl.job.core.biz.model.ReturnT.SUCCESS;
 @AllArgsConstructor
 public class WeChatAccessTokenJob {
 
-    private final SysSocialServiceFeign sysSocialServiceFeign;
+    private final WeChatAccountFeign sysSocialServiceFeign;
 
     /**
      * 获取微信公众号token

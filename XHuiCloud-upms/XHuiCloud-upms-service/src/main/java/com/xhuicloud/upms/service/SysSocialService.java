@@ -32,5 +32,4 @@ public interface SysSocialService extends IService<SysSocial> {
 
     UserInfo getSysUser(String type, String code);
 
-    Boolean updateWechatToken();
 }

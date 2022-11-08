@@ -37,7 +37,7 @@
  ></Crud>
 </template>
 <script lang="ts" setup>
-  import { ${className}Page, create${ClassName}, delete${ClassName}, update${ClassName} } from '@/api/upms/${className}'
+  import { ${className}Page, create${ClassName}, delete${ClassName}, update${ClassName} } from '@/api/${moduleName}/${className}'
   import { FormActionButtonGroupProps } from '@/components/XhForm/form-action'
   import { Pagination } from '@/components/XhTable/pagination'
   import { ElMessageBox } from 'element-plus'

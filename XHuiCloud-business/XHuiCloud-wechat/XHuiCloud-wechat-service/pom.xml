@@ -3,49 +3,53 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>XHuiCloud-job</artifactId>
+        <artifactId>XHuiCloud-wechat</artifactId>
         <groupId>com.xhuicloud</groupId>
         <version>${revision}</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <packaging>jar</packaging>
-    <artifactId>XHuiCloud-job-service</artifactId>
+    <artifactId>XHuiCloud-wechat-service</artifactId>
 
     <dependencies>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>XHuiCloud-common-sentinel</artifactId>
         </dependency>
 
-        <!--        <dependency>-->
-        <!--            <groupId>org.quartz-scheduler</groupId>-->
-        <!--            <artifactId>quartz</artifactId>-->
-        <!--        </dependency>-->
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>XHuiCloud-common-authorization-resource</artifactId>
+        </dependency>
 
-        <!--注册中心客户端-->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
         </dependency>
-        <!--配置中心客户端-->
+
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>XHuiCloud-common-xxl</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>XHuiCloud-wechat-api</artifactId>
+            <artifactId>XHuiCloud-common-log</artifactId>
         </dependency>
 
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>XHuiCloud-common-feign</artifactId>
+            <artifactId>XHuiCloud-common-seata</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>XHuiCloud-common-mybatis</artifactId>
         </dependency>
 
         <dependency>
@@ -55,26 +59,19 @@
 
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>XHuiCloud-common-log</artifactId>
+            <artifactId>XHuiCloud-common-swagger</artifactId>
         </dependency>
 
-        <!--        <dependency>-->
-        <!--            <groupId>${project.groupId}</groupId>-->
-        <!--            <artifactId>XHuiCloud-common-elasticJob</artifactId>-->
-        <!--        </dependency>-->
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>XHuiCloud-wechat-api</artifactId>
+        </dependency>
 
-        <!--        &lt;!&ndash;Zookeeper 依赖  原因:新版springboot Curator的版本冲突。&ndash;&gt;-->
-        <!--        <dependency>-->
-        <!--            <groupId>org.apache.curator</groupId>-->
-        <!--            <artifactId>curator-framework</artifactId>-->
-        <!--            <version>2.10.0</version>-->
-        <!--        </dependency>-->
+        <dependency>
+            <groupId>com.github.binarywang</groupId>
+            <artifactId>weixin-java-mp</artifactId>
+        </dependency>
 
-        <!--        <dependency>-->
-        <!--            <groupId>org.apache.curator</groupId>-->
-        <!--            <artifactId>curator-recipes</artifactId>-->
-        <!--            <version>2.10.0</version>-->
-        <!--        </dependency>-->
     </dependencies>
 
     <build>
@@ -85,5 +82,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>

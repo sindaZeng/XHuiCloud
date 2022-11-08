@@ -1,43 +1,16 @@
-/*
- * MIT License
- * Copyright <2021-2022>
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
- * of the Software, and to permit persons to whom the Software is furnished to do so,
- * subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
- * INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
- * PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
- * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
- * CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
- * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- * @Author: Sinda
- * @Email:  xhuicloud@163.com
- */
-
-package com.xhuicloud.upms.controller;
+package com.xhuicloud.wechat.controller;
 
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.http.HttpUtil;
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.xhuicloud.common.core.constant.SecurityConstants;
-import com.xhuicloud.common.core.constant.SysParamConstants;
-import com.xhuicloud.common.core.utils.Response;
 import com.xhuicloud.common.authorization.resource.annotation.Anonymous;
-import com.xhuicloud.upms.entity.SysParam;
-import com.xhuicloud.upms.entity.SysSocial;
-import com.xhuicloud.upms.init.WeChatMpInit;
-import com.xhuicloud.upms.service.SysParamService;
-import com.xhuicloud.upms.service.SysSocialService;
+import com.xhuicloud.common.core.constant.SecurityConstants;
+import com.xhuicloud.common.core.utils.Response;
+import com.xhuicloud.wechat.entity.WeChatAccount;
+import com.xhuicloud.wechat.init.WeChatMpInit;
+import com.xhuicloud.wechat.service.WeChatAccountService;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -52,13 +25,18 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * @Desc 微信公众号入口
+ * @Author Sinda
+ * @Date 2022/11/7
+ */
 @Slf4j
 @RestController
 @Anonymous(value = false)
-@RequestMapping("/wechat-mp/{appId}")
+@RequestMapping("/mp/{appId}")
 @RequiredArgsConstructor
-@Api(value = "wechat-mp", tags = "微信公众号管理模块")
-public class SysWechatMpController {
+@Api(value = "mp", tags = "微信公众号入口")
+public class WechatMpController {
 
     /**
      * 临时二维码
@@ -80,18 +58,18 @@ public class SysWechatMpController {
 
     private static Integer expire_seconds = 30;
 
-    private final SysSocialService sysSocialService;
+    private final WeChatAccountService weChatAccountService;
 
     private final RedisTemplate redisTemplate;
 
-    public SysSocial getSysSocial(String appId) {
-        return sysSocialService.getOne(Wrappers.<SysSocial>lambdaQuery().eq(SysSocial::getAppId, appId));
+    public WeChatAccount get(String appId) {
+        return weChatAccountService.getOne(Wrappers.<WeChatAccount>lambdaQuery().eq(WeChatAccount::getAppId, appId));
     }
 
     @GetMapping("/login-qrcode")
     public Response<String> loginQrcode(@PathVariable("appId") String appId) {
         String sceneStr = RandomUtil.randomString(30);
-        SysSocial sysSocial = getSysSocial(appId);
+        WeChatAccount weChatAccount = get(appId);
         Map<String, String> intMap = new HashMap<>();
         intMap.put("scene_str", sceneStr);
         Map<String, Map<String, String>> mapMap = new HashMap<>();
@@ -102,7 +80,7 @@ public class SysWechatMpController {
         paramsMap.put("action_name", QR_STR_SCENE);
         paramsMap.put("action_info", mapMap);
 
-        String post = HttpUtil.post(String.format(create_ticket_path, sysSocial.getAppAccessToken()), JSONUtil.toJsonStr(paramsMap));
+        String post = HttpUtil.post(String.format(create_ticket_path, weChatAccount.getAppAccessToken()), JSONUtil.toJsonStr(paramsMap));
         String ticket = JSONUtil.parseObj(post).get("ticket").toString();
         redisTemplate.opsForValue().set(
                 SecurityConstants.WECHAT_MP_SCAN + ticket
@@ -152,7 +130,7 @@ public class SysWechatMpController {
                 openid, signature, encType, msgSignature, timestamp, nonce, requestBody);
 
         final WxMpService wxService = WeChatMpInit.getWxMpServiceMap().get(appId);
-        final WxMpMessageRouter router = WeChatMpInit.getRouters().get(appId);
+        final WxMpMessageRouter router = WeChatMpInit.getRoutersMap().get(appId);
 
         if (!wxService.checkSignature(timestamp, nonce, signature)) {
             throw new IllegalArgumentException("参数不合法！");

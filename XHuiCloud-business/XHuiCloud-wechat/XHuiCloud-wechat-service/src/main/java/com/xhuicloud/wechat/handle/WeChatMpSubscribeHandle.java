@@ -22,7 +22,7 @@
  * @Email:  xhuicloud@163.com
  */
 
-package com.xhuicloud.upms.handle.wechat;
+package com.xhuicloud.wechat.handle;
 
 import com.xhuicloud.common.core.constant.SecurityConstants;
 import lombok.AllArgsConstructor;
@@ -45,7 +45,7 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 @Component
 @AllArgsConstructor
-public class WeChatMpSubscribeHandler implements WxMpMessageHandler {
+public class WeChatMpSubscribeHandle implements WxMpMessageHandler {
 
     private final RedisTemplate redisTemplate;
 
