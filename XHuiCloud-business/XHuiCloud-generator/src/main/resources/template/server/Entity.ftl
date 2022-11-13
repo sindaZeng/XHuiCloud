@@ -62,6 +62,7 @@ public class ${ClassName} implements Serializable{
     </#if>
     @ApiModelProperty(value = "${column.columnComment}")
     private ${column.javaDataType} ${column.smallColumnName};
+
     </#list>
 </#if>
 
