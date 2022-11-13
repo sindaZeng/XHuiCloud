@@ -2,27 +2,24 @@ package com.xhuicloud.wechat.controller;
 
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.http.HttpUtil;
-import cn.hutool.json.JSONUtil;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.xhuicloud.common.authorization.resource.annotation.Anonymous;
 import com.xhuicloud.common.core.constant.SecurityConstants;
 import com.xhuicloud.common.core.utils.Response;
-import com.xhuicloud.wechat.entity.WeChatAccount;
-import com.xhuicloud.wechat.init.WeChatMpInit;
-import com.xhuicloud.wechat.service.WeChatAccountService;
+import com.xhuicloud.wechat.config.WeChatAppIdContextHolder;
+import com.xhuicloud.wechat.config.WeChatMpCommonService;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.mp.api.WxMpMessageRouter;
+import me.chanjar.weixin.mp.api.WxMpQrcodeService;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.message.WxMpXmlMessage;
 import me.chanjar.weixin.mp.bean.message.WxMpXmlOutMessage;
+import me.chanjar.weixin.mp.bean.result.WxMpQrCodeTicket;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -38,50 +35,18 @@ import java.util.concurrent.TimeUnit;
 @Api(value = "mp", tags = "微信公众号入口")
 public class WechatMpController {
 
-    /**
-     * 临时二维码
-     */
-    private static String QR_STR_SCENE = "QR_STR_SCENE";
-
-    /**
-     * 永久二维码
-     */
-    private static String QR_LIMIT_SCENE = "QR_LIMIT_SCENE";
-
-    /**
-     * 永久二维码
-     */
-    private static String QR_LIMIT_STR_SCENE = "QR_LIMIT_STR_SCENE";
-
-
-    private static String create_ticket_path = "https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token=%s";
-
     private static Integer expire_seconds = 30;
-
-    private final WeChatAccountService weChatAccountService;
 
     private final RedisTemplate redisTemplate;
 
-    public WeChatAccount get(String appId) {
-        return weChatAccountService.getOne(Wrappers.<WeChatAccount>lambdaQuery().eq(WeChatAccount::getAppId, appId));
-    }
-
+    @SneakyThrows
     @GetMapping("/login-qrcode")
     public Response<String> loginQrcode(@PathVariable("appId") String appId) {
         String sceneStr = RandomUtil.randomString(30);
-        WeChatAccount weChatAccount = get(appId);
-        Map<String, String> intMap = new HashMap<>();
-        intMap.put("scene_str", sceneStr);
-        Map<String, Map<String, String>> mapMap = new HashMap<>();
-        mapMap.put("scene", intMap);
-
-        Map<String, Object> paramsMap = new HashMap<>();
-        paramsMap.put("expire_seconds", expire_seconds);
-        paramsMap.put("action_name", QR_STR_SCENE);
-        paramsMap.put("action_info", mapMap);
-
-        String post = HttpUtil.post(String.format(create_ticket_path, weChatAccount.getAppAccessToken()), JSONUtil.toJsonStr(paramsMap));
-        String ticket = JSONUtil.parseObj(post).get("ticket").toString();
+        WxMpService wxMpService = WeChatMpCommonService.getWxMpService(appId);
+        WxMpQrcodeService qrcodeService = wxMpService.getQrcodeService();
+        WxMpQrCodeTicket wxMpQrCodeTicket = qrcodeService.qrCodeCreateTmpTicket(sceneStr, expire_seconds);
+        String ticket = wxMpQrCodeTicket.getTicket();
         redisTemplate.opsForValue().set(
                 SecurityConstants.WECHAT_MP_SCAN + ticket
                 , sceneStr, expire_seconds, TimeUnit.SECONDS);
@@ -106,15 +71,26 @@ public class WechatMpController {
         if (StrUtil.isAllBlank(signature, timestamp, nonce, echostr)) {
             throw new IllegalArgumentException("认证参数不合法");
         }
-
-        final WxMpService wxService = WeChatMpInit.getWxMpServiceMap().get(appId);
-
+        final WxMpService wxService = WeChatMpCommonService.getWxMpServiceMap().get(appId);
         if (wxService.checkSignature(timestamp, nonce, signature)) {
             return echostr;
         }
         return "错误的请求!";
     }
 
+    /**
+     * 微信事件入口
+     *
+     * @param appId
+     * @param requestBody
+     * @param signature
+     * @param timestamp
+     * @param nonce
+     * @param openid
+     * @param encType
+     * @param msgSignature
+     * @return
+     */
     @PostMapping
     public String post(@PathVariable("appId") String appId,
                        @RequestBody String requestBody,
@@ -124,22 +100,23 @@ public class WechatMpController {
                        @RequestParam("openid") String openid,
                        @RequestParam(name = "encrypt_type", required = false) String encType,
                        @RequestParam(name = "msg_signature", required = false) String msgSignature) {
-
         log.info("微信事件推送请求：[openid=[{}], [signature=[{}], encType=[{}], msgSignature=[{}],"
                         + " timestamp=[{}], nonce=[{}], requestBody=[{}] ",
                 openid, signature, encType, msgSignature, timestamp, nonce, requestBody);
 
-        final WxMpService wxService = WeChatMpInit.getWxMpServiceMap().get(appId);
-        final WxMpMessageRouter router = WeChatMpInit.getRoutersMap().get(appId);
+        final WxMpService wxService = WeChatMpCommonService.getWxMpServiceMap().get(appId);
+        final WxMpMessageRouter router = WeChatMpCommonService.getRoutersMap().get(appId);
 
         if (!wxService.checkSignature(timestamp, nonce, signature)) {
             throw new IllegalArgumentException("参数不合法！");
         }
+        WeChatAppIdContextHolder.setAppId(appId);
         if ("raw".equals(encType)) {
             // 明文传输的消息
             WxMpXmlMessage inMessage = WxMpXmlMessage.fromXml(requestBody);
             WxMpXmlOutMessage outMessage = router.route(inMessage);
             if (outMessage != null) {
+                WeChatAppIdContextHolder.remove();
                 return outMessage.toXml();
             }
         }
@@ -154,9 +131,11 @@ public class WechatMpController {
             if (outMessage != null) {
                 String out = outMessage.toEncryptedXml(wxService.getWxMpConfigStorage());
                 log.info("返回信息:{}", out);
+                WeChatAppIdContextHolder.remove();
                 return out;
             }
         }
+        WeChatAppIdContextHolder.remove();
         return "错误的请求!";
     }
 

@@ -27,25 +27,23 @@ package com.xhuicloud.wechat.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.xhuicloud.common.core.annotation.Scalpel;
+import com.baomidou.mybatisplus.extension.activerecord.Model;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-import java.io.Serializable;
 import java.util.Date;
-
 
 /**
  * @program: wechat
- * @description: 公众号账户
+ * @description: 公众号菜单
  * @author: Sinda
- * @create: 2022-11-04 17:05:04
+ * @create: 2022-11-12 10:24:51
  */
 @Data
-@TableName("wechat_account")
-@ApiModel(value = "公众号账户")
-public class WeChatAccount implements Serializable {
+@TableName("wechat_menus")
+@ApiModel(value = "公众号菜单")
+public class WechatMenus extends Model<WechatMenus> {
 
     private static final long serialVersionUID = 1L;
 
@@ -53,24 +51,17 @@ public class WeChatAccount implements Serializable {
     @ApiModelProperty(value = "id")
     private Integer id;
 
-    @ApiModelProperty(value = "公众号名称")
-    private String name;
-
     @ApiModelProperty(value = "公众号AppId")
     private String appId;
 
-    @ApiModelProperty(value = "公众号secret")
-    @Scalpel(length = 6)
-    private String appSecret;
+    @ApiModelProperty(value = "账号id")
+    private Integer accountId;
 
-    @ApiModelProperty(value = "平台认证token")
-    private String appAuthToken;
+    @ApiModelProperty(value = "菜单")
+    private String menu;
 
-    @ApiModelProperty(value = "平台解密密钥")
-    private String appDecrypt;
-
-    @ApiModelProperty(value = "重定向url")
-    private String redirectUrl;
+    @ApiModelProperty(value = "是否发布 0: 否 1：是")
+    private Integer isRelease;
 
     @ApiModelProperty(value = "创建时间")
     private Date createTime;
@@ -89,6 +80,5 @@ public class WeChatAccount implements Serializable {
 
     @ApiModelProperty(value = "0: 否 1：是")
     private Integer isDel;
-
 
 }

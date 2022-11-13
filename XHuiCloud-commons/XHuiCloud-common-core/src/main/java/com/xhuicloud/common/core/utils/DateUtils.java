@@ -171,6 +171,17 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
         }
     }
 
+    public static Date parseDate(Date date, String parsePattern) {
+        if (date == null) {
+            return null;
+        }
+        try {
+            return parseDate(DateFormatUtils.format(date, parsePattern));
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
     /**
      * 获取服务器启动时间
      */

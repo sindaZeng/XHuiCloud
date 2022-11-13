@@ -9,6 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>XHuiCloud-wechat</artifactId>
+    <packaging>pom</packaging>
     <modules>
         <module>XHuiCloud-wechat-api</module>
         <module>XHuiCloud-wechat-service</module>

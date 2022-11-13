@@ -27,15 +27,14 @@ package com.xhuicloud.wechat.controller;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.xhuicloud.common.authorization.resource.annotation.Anonymous;
 import com.xhuicloud.common.core.utils.Response;
 import com.xhuicloud.common.log.annotation.SysLog;
 import com.xhuicloud.wechat.entity.WeChatAccount;
 import com.xhuicloud.wechat.service.WeChatAccountService;
-import org.springframework.security.access.prepost.PreAuthorize;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -130,17 +129,6 @@ public class WeChatAccountController {
     @ApiOperation(value = "通过id删除公众号账户", notes = "通过id删除公众号账户")
     public Response delete(@PathVariable Integer id) {
         return Response.success(weChatAccountService.removeById(id));
-    }
-
-    /**
-     * 定时批量更新 token
-     *
-     * @return
-     */
-    @Anonymous
-    @PutMapping("/token")
-    public Response<Boolean> updateWechatToken() {
-        return Response.success(weChatAccountService.updateWechatToken());
     }
 
 }

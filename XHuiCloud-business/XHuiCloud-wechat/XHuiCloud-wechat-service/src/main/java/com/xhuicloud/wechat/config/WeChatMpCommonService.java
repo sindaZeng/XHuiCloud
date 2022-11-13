@@ -22,11 +22,13 @@
  * @Email:  xhuicloud@163.com
  */
 
-package com.xhuicloud.wechat.init;
+package com.xhuicloud.wechat.config;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.google.common.collect.Maps;
+import com.xhuicloud.common.core.exception.SysException;
 import com.xhuicloud.wechat.entity.WeChatAccount;
+import com.xhuicloud.wechat.handle.WeChatMpMenuClickHandler;
 import com.xhuicloud.wechat.handle.WeChatMpScanHandle;
 import com.xhuicloud.wechat.handle.WeChatMpSubscribeHandle;
 import com.xhuicloud.wechat.service.WeChatAccountService;
@@ -47,13 +49,15 @@ import java.util.stream.Collectors;
 @Slf4j
 @Configuration
 @AllArgsConstructor
-public class WeChatMpInit {
+public class WeChatMpCommonService {
 
     private final WeChatAccountService weChatAccountService;
 
     private final WeChatMpScanHandle weChatMpScanHandle;
 
     private final WeChatMpSubscribeHandle weChatMpSubscribeHandle;
+
+    private final WeChatMpMenuClickHandler weChatMpMenuClickHandler;
 
     private static Map<String, WxMpMessageRouter> routersMap = Maps.newHashMap();
 
@@ -71,23 +75,13 @@ public class WeChatMpInit {
                 config.setSecret(weChatAccount.getAppSecret()); // 设置微信公众号的app corpSecret
                 config.setToken(weChatAccount.getAppAuthToken()); // 设置微信公众号的token
                 config.setAesKey(weChatAccount.getAppDecrypt()); // 设置微信公众号的EncodingAESKey
-
                 WxMpService service = new WxMpServiceImpl();
                 service.setWxMpConfigStorage(config);
 
                 // ====================================
                 final WxMpMessageRouter router = new WxMpMessageRouter(service);
-                // 用户扫码事件
-                router.rule().async(false)
-                        .msgType(WxConsts.XmlMsgType.EVENT)
-                        .event(WxConsts.EventType.SCAN)
-                        .handler(this.weChatMpScanHandle).end();
-
-                // 用户关注事件
-                router.rule().async(false)
-                        .msgType(WxConsts.XmlMsgType.EVENT)
-                        .event(WxConsts.EventType.SUBSCRIBE)
-                        .handler(this.weChatMpSubscribeHandle).end();
+                // 添加事件规则
+                addEventRule(router);
 
                 routersMap.put(weChatAccount.getAppId(), router);
                 tenantsMap.put(weChatAccount.getAppId(), weChatAccount.getTenantId());
@@ -96,16 +90,60 @@ public class WeChatMpInit {
         }
     }
 
+    private void addEventRule(WxMpMessageRouter router) {
+        // 用户扫码事件
+        router.rule().async(false)
+                .msgType(WxConsts.XmlMsgType.EVENT)
+                .event(WxConsts.EventType.SCAN)
+                .handler(weChatMpScanHandle).end();
+
+        // 用户关注事件
+        router.rule().async(false)
+                .msgType(WxConsts.XmlMsgType.EVENT)
+                .event(WxConsts.EventType.SUBSCRIBE)
+                .handler(weChatMpSubscribeHandle).end();
+
+        // 自定义菜单点击事件
+        router.rule().async(false)
+                .msgType(WxConsts.XmlMsgType.EVENT)
+                .event(WxConsts.MenuButtonType.CLICK)
+                .handler(weChatMpMenuClickHandler).end();
+    }
+
     public static Map<String, WxMpMessageRouter> getRoutersMap() {
         return routersMap;
+    }
+
+    public static WxMpMessageRouter getRouters(String appId) {
+        WxMpMessageRouter wxMpMessageRouter = routersMap.get(appId);
+        if (wxMpMessageRouter == null) {
+            throw SysException.sysFail("没有这个公众号数据!");
+        }
+        return wxMpMessageRouter;
     }
 
     public static Map<String, WxMpService> getWxMpServiceMap() {
         return wxMpServiceMap;
     }
 
+    public static WxMpService getWxMpService(String appId) {
+        WxMpService wxMpService = wxMpServiceMap.get(appId);
+        if (wxMpService == null) {
+            throw SysException.sysFail("没有这个公众号数据!");
+        }
+        return wxMpService;
+    }
+
     public static Map<String, Integer> getTenantsMap() {
         return tenantsMap;
+    }
+
+    public static Integer getTenant(String appId) {
+        Integer tenant = tenantsMap.get(appId);
+        if (tenant == null) {
+            throw SysException.sysFail("没有这个公众号数据!");
+        }
+        return tenant;
     }
 
 }

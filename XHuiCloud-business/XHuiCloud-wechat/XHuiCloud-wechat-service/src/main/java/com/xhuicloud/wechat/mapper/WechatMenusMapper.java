@@ -22,19 +22,19 @@
 * @Email:  xhuicloud@163.com
 */
 
-package com.xhuicloud.wechat.service;
+package com.xhuicloud.wechat.mapper;
 
-import com.baomidou.mybatisplus.extension.service.IService;
-import com.xhuicloud.wechat.entity.WeChatAccount;
-import com.xhuicloud.wechat.vo.WeChatSummaryVo;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.xhuicloud.wechat.entity.WechatMenus;
+import org.apache.ibatis.annotations.Mapper;
 
 /**
 * @program: wechat
-* @description: 公众号账户
+* @description: 公众号菜单
 * @author: Sinda
-* @create: 2022-11-04 17:05:04
+* @create: 2022-11-12 10:24:51
 */
-public interface WeChatAccountService extends IService<WeChatAccount> {
+@Mapper
+public interface WechatMenusMapper extends BaseMapper<WechatMenus> {
 
-    WeChatSummaryVo getUserSummary(String appId);
 }

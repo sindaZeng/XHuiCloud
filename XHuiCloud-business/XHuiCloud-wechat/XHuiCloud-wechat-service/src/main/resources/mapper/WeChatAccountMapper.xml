@@ -33,7 +33,6 @@ OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
         <result column="name" jdbcType="VARCHAR" property="name"/>
         <result column="app_id" jdbcType="VARCHAR" property="appId"/>
         <result column="app_secret" jdbcType="VARCHAR" property="appSecret"/>
-        <result column="app_access_token" jdbcType="VARCHAR" property="appAccessToken"/>
         <result column="app_auth_token" jdbcType="VARCHAR" property="appAuthToken"/>
         <result column="app_decrypt" jdbcType="VARCHAR" property="appDecrypt"/>
         <result column="redirect_url" jdbcType="VARCHAR" property="redirectUrl"/>

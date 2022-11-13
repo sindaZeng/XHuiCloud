@@ -24,17 +24,18 @@
 
 package com.xhuicloud.wechat.service;
 
+import cn.hutool.json.JSONObject;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.xhuicloud.wechat.entity.WeChatAccount;
-import com.xhuicloud.wechat.vo.WeChatSummaryVo;
+import com.xhuicloud.common.core.utils.Response;
+import com.xhuicloud.wechat.entity.WechatMenus;
 
 /**
 * @program: wechat
-* @description: 公众号账户
+* @description: 公众号菜单
 * @author: Sinda
-* @create: 2022-11-04 17:05:04
+* @create: 2022-11-12 10:24:51
 */
-public interface WeChatAccountService extends IService<WeChatAccount> {
+public interface WechatMenusService extends IService<WechatMenus> {
 
-    WeChatSummaryVo getUserSummary(String appId);
+    Response release(String appId, JSONObject menu);
 }
