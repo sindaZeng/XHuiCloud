@@ -53,7 +53,7 @@ public class PreviewGatewayFilter implements GlobalFilter, Ordered {
     private static final String TOKEN = "token";
     private static final String LOGOUT = "logout";
 
-    private static final String WECHAT_MP = "wechat-mp";
+    private static final String WECHAT_MP = "/wechat/mp";
 
     @Value("${xhuicloud.preview:true}")
     private Boolean isNotPreview;
