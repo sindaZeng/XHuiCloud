@@ -29,11 +29,16 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xhuicloud.common.core.utils.Response;
 import com.xhuicloud.common.log.annotation.SysLog;
+import com.xhuicloud.wechat.config.WeChatMpCommonService;
 import com.xhuicloud.wechat.entity.WeChatAccount;
 import com.xhuicloud.wechat.service.WeChatAccountService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
+import lombok.SneakyThrows;
+import me.chanjar.weixin.mp.api.WxMpQrcodeService;
+import me.chanjar.weixin.mp.api.WxMpService;
+import me.chanjar.weixin.mp.bean.result.WxMpQrCodeTicket;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -55,7 +60,7 @@ public class WeChatAccountController {
     /**
      * 分页查询
      *
-     * @param page    分页对象
+     * @param page          分页对象
      * @param weChatAccount 公众号账户
      * @return Response
      */
@@ -87,6 +92,51 @@ public class WeChatAccountController {
     @ApiOperation(value = "通过id查询公众号账户", notes = "通过id查询公众号账户")
     public Response getById(@PathVariable Integer id) {
         return Response.success(weChatAccountService.getById(id));
+    }
+
+    /**
+     * 查询公众号token
+     *
+     * @param appId
+     * @return
+     */
+    @SneakyThrows
+    @GetMapping("/{appId}/access_token")
+    @ApiOperation(value = "通过appId查询access_token", notes = "通过appId查询access_token")
+    public Response accessToken(@PathVariable String appId) {
+        WxMpService wxMpService = WeChatMpCommonService.getWxMpService(appId);
+        return Response.success(wxMpService.getAccessToken());
+    }
+
+    /**
+     * 通过appId生成场景二维码
+     *
+     * @param appId
+     * @return
+     */
+    @SneakyThrows
+    @GetMapping("/{appId}/qrCode")
+    @ApiOperation(value = "通过appId生成场景二维码", notes = "通过appId生成场景二维码")
+    public Response qrCode(@PathVariable String appId, @RequestParam String sceneStr) {
+        WxMpService wxMpService = WeChatMpCommonService.getWxMpService(appId);
+        WxMpQrcodeService qrcodeService = wxMpService.getQrcodeService();
+        WxMpQrCodeTicket wxMpQrCodeTicket = qrcodeService.qrCodeCreateTmpTicket(sceneStr, 24 * 60 * 60);
+        return Response.success(qrcodeService.qrCodePictureUrl(wxMpQrCodeTicket.getTicket()));
+    }
+
+    /**
+     * 删除调用次数
+     *
+     * @param appId
+     * @return
+     */
+    @SneakyThrows
+    @DeleteMapping("/{appId}/clear_quota")
+    @ApiOperation(value = "通过appId删除调用次数", notes = "通过appId删除调用次数")
+    public Response clearQuota(@PathVariable String appId) {
+        WxMpService wxMpService = WeChatMpCommonService.getWxMpService(appId);
+        wxMpService.clearQuota(appId);
+        return Response.success();
     }
 
     /**

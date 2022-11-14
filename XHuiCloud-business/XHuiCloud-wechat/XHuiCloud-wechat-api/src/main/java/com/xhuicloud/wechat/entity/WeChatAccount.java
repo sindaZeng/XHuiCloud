@@ -69,6 +69,9 @@ public class WeChatAccount implements Serializable {
     @ApiModelProperty(value = "平台解密密钥")
     private String appDecrypt;
 
+    @ApiModelProperty(value = "0: 订阅号 1: 服务号")
+    private Integer type;
+
     @ApiModelProperty(value = "重定向url")
     private String redirectUrl;
 
@@ -89,6 +92,5 @@ public class WeChatAccount implements Serializable {
 
     @ApiModelProperty(value = "0: 否 1：是")
     private Integer isDel;
-
 
 }
