@@ -14,7 +14,7 @@ COPY 3xhuicloud_register.sql /docker-entrypoint-initdb.d
 
 COPY 4xhuicloud_job.sql /docker-entrypoint-initdb.d
 
-COPY 5xhuicloud_seata.sql /docker-entrypoint-initdb.d
+COPY 5xhuicloud_wechat.sql /docker-entrypoint-initdb.d
 
 COPY 6xhuicloud_gen.sql /docker-entrypoint-initdb.d
 
