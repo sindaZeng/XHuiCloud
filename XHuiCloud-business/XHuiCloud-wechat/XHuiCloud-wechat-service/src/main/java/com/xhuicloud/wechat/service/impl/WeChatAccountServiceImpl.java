@@ -27,12 +27,12 @@ package com.xhuicloud.wechat.service.impl;
 import cn.hutool.core.date.DateUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.xhuicloud.wechat.entity.WeChatAccount;
 import com.xhuicloud.wechat.config.WeChatMpCommonService;
+import com.xhuicloud.wechat.entity.WeChatAccount;
 import com.xhuicloud.wechat.mapper.WeChatAccountMapper;
 import com.xhuicloud.wechat.service.WeChatAccountService;
 import com.xhuicloud.wechat.vo.WeChatSummaryVo;
-import lombok.SneakyThrows;
+import me.chanjar.weixin.common.error.WxErrorException;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.datacube.WxDataCubeUserSummary;
 import me.chanjar.weixin.mp.bean.result.WxMpUserList;
@@ -51,29 +51,32 @@ import java.util.List;
 public class WeChatAccountServiceImpl extends ServiceImpl<WeChatAccountMapper, WeChatAccount> implements WeChatAccountService {
 
     @Override
-    @SneakyThrows
     public WeChatSummaryVo getUserSummary(String appId) {
         WxMpService wxMpService = WeChatMpCommonService.getWxMpService(appId);
-        WxMpUserList wxUserList = wxMpService.getUserService().userList(null);
         WeChatAccount weChatAccount = getOne(Wrappers.<WeChatAccount>lambdaQuery().eq(WeChatAccount::getAppId, appId));
+        Integer totalUser = 0;
+        Integer newUser = 0;
+        Integer cancelUser = 0;
+        try {
+            WxMpUserList wxUserList = wxMpService.getUserService().userList(null);
+            totalUser = wxUserList.getCount();
+            Date today = DateUtil.date().toJdkDate();
+            Date beginDate = DateUtil.offsetDay(today, -7).toJdkDate();
+            Date endDate = DateUtil.offsetDay(today, -1).toJdkDate();
+            List<WxDataCubeUserSummary> userSummary = wxMpService.getDataCubeService()
+                    .getUserSummary(beginDate, endDate);
+            for (WxDataCubeUserSummary wxDataCubeUserSummary : userSummary) {
+                newUser += wxDataCubeUserSummary.getNewUser();
+                cancelUser += wxDataCubeUserSummary.getCancelUser();
+            }
+        } catch (WxErrorException e) {
+            e.printStackTrace();
+        }
 
         WeChatSummaryVo weChatSummaryVo = new WeChatSummaryVo();
         weChatSummaryVo.setName(weChatAccount.getName());
         weChatSummaryVo.setAppId(appId);
-        weChatSummaryVo.setTotalUser(wxUserList.getCount());
-        Integer newUser = 0;
-
-        Integer cancelUser = 0;
-        Date today = DateUtil.date().toJdkDate();
-        Date beginDate = DateUtil.offsetDay(today, -7).toJdkDate();
-        Date endDate = DateUtil.offsetDay(today, -1).toJdkDate();
-        List<WxDataCubeUserSummary> userSummary = wxMpService.getDataCubeService()
-                .getUserSummary(beginDate, endDate);
-
-        for (WxDataCubeUserSummary wxDataCubeUserSummary : userSummary) {
-            newUser += wxDataCubeUserSummary.getNewUser();
-            cancelUser += wxDataCubeUserSummary.getCancelUser();
-        }
+        weChatSummaryVo.setTotalUser(totalUser);
         weChatSummaryVo.setNewUser(newUser);
         weChatSummaryVo.setCancelUser(cancelUser);
         return weChatSummaryVo;

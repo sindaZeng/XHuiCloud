@@ -36,7 +36,7 @@ import com.xhuicloud.wechat.service.WeChatAccountService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
-import lombok.SneakyThrows;
+import me.chanjar.weixin.common.error.WxErrorException;
 import me.chanjar.weixin.mp.api.WxMpQrcodeService;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.result.WxMpQrCodeTicket;
@@ -104,10 +104,9 @@ public class WeChatAccountController {
      * @param appId
      * @return
      */
-    @SneakyThrows
     @GetMapping("/{appId}/access_token")
     @ApiOperation(value = "通过appId查询access_token", notes = "通过appId查询access_token")
-    public Response accessToken(@PathVariable String appId) {
+    public Response accessToken(@PathVariable String appId) throws WxErrorException {
         WxMpService wxMpService = WeChatMpCommonService.getWxMpService(appId);
         return Response.success(wxMpService.getAccessToken());
     }
@@ -118,10 +117,9 @@ public class WeChatAccountController {
      * @param appId
      * @return
      */
-    @SneakyThrows
     @GetMapping("/{appId}/qrCode")
     @ApiOperation(value = "通过appId生成场景二维码", notes = "通过appId生成场景二维码")
-    public Response qrCode(@PathVariable String appId, @RequestParam String sceneStr) {
+    public Response qrCode(@PathVariable String appId, @RequestParam String sceneStr) throws WxErrorException {
         WxMpService wxMpService = WeChatMpCommonService.getWxMpService(appId);
         WxMpQrcodeService qrcodeService = wxMpService.getQrcodeService();
         WxMpQrCodeTicket wxMpQrCodeTicket = qrcodeService.qrCodeCreateTmpTicket(sceneStr, 24 * 60 * 60);
@@ -134,10 +132,9 @@ public class WeChatAccountController {
      * @param appId
      * @return
      */
-    @SneakyThrows
     @DeleteMapping("/{appId}/clear_quota")
     @ApiOperation(value = "通过appId删除调用次数", notes = "通过appId删除调用次数")
-    public Response clearQuota(@PathVariable String appId) {
+    public Response clearQuota(@PathVariable String appId) throws WxErrorException {
         WxMpService wxMpService = WeChatMpCommonService.getWxMpService(appId);
         wxMpService.clearQuota(appId);
         return Response.success();
