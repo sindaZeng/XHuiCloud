@@ -86,6 +86,10 @@ public class Response<T> implements Serializable {
         return restResult(data, CommonConstants.FAIL, msg);
     }
 
+    public static <T> Response<T> of(int code) {
+        return restResult(null, code, null);
+    }
+
     public Boolean isSuccess() {
         return this.code == 0;
     }

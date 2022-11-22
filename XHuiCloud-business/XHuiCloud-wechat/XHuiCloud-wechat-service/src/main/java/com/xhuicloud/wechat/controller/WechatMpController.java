@@ -66,7 +66,7 @@ public class WechatMpController {
                              @RequestParam(name = "timestamp", required = false) String timestamp,
                              @RequestParam(name = "nonce", required = false) String nonce,
                              @RequestParam(name = "echostr", required = false) String echostr) {
-        log.info("微信公众平台认：[{}, {}, {}, {}]", signature, timestamp, nonce, echostr);
+        log.info("微信公众平台认证：[{}, {}, {}, {}]", signature, timestamp, nonce, echostr);
 
         if (StrUtil.isAllBlank(signature, timestamp, nonce, echostr)) {
             throw new IllegalArgumentException("认证参数不合法");

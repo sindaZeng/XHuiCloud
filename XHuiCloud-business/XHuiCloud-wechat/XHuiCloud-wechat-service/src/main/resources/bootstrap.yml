@@ -13,6 +13,13 @@ spring:
     import:
       - optional:nacos:application-common-@profiles.active@.yml
       - optional:nacos:@artifactId@-@profiles.active@.yml
+  servlet:
+    multipart:
+      # 根据实际需求作调整
+      # 默认最大上传文件大小为1M，单个文件大小
+      max-file-size: 200MB
+      # 默认最大请求大小为10M，总上传的数据大小
+      max-request-size: 200MB
 mysql:
   scheme: xhuicloud_wechat
 

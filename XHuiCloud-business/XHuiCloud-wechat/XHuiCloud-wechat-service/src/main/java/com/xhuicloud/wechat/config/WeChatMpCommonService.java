@@ -26,6 +26,7 @@ package com.xhuicloud.wechat.config;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.google.common.collect.Maps;
+import com.xhuicloud.common.core.constant.CommonConstants;
 import com.xhuicloud.common.core.exception.SysException;
 import com.xhuicloud.wechat.entity.WeChatAccount;
 import com.xhuicloud.wechat.handle.WeChatMpMenuClickHandler;
@@ -39,7 +40,11 @@ import me.chanjar.weixin.mp.api.WxMpMessageRouter;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.api.impl.WxMpServiceImpl;
 import me.chanjar.weixin.mp.config.impl.WxMpDefaultConfigImpl;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.listener.ChannelTopic;
+import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
@@ -144,6 +149,17 @@ public class WeChatMpCommonService {
             throw SysException.sysFail("没有这个公众号数据!");
         }
         return tenant;
+    }
+
+    @Bean
+    public RedisMessageListenerContainer redisContainer(RedisConnectionFactory redisConnectionFactory) {
+        RedisMessageListenerContainer container = new RedisMessageListenerContainer();
+        container.setConnectionFactory(redisConnectionFactory);
+        container.addMessageListener((message, bytes) -> {
+            log.warn("重新加载公众号配置事件");
+            init();
+        }, new ChannelTopic(CommonConstants.WECHAT_CLIENT_RELOAD));
+        return container;
     }
 
 }

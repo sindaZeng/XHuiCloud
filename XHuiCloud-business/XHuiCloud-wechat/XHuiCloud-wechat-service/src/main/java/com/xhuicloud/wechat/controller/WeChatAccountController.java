@@ -27,6 +27,7 @@ package com.xhuicloud.wechat.controller;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.xhuicloud.common.core.constant.CommonConstants;
 import com.xhuicloud.common.core.utils.Response;
 import com.xhuicloud.common.log.annotation.SysLog;
 import com.xhuicloud.wechat.config.WeChatMpCommonService;
@@ -39,6 +40,7 @@ import lombok.SneakyThrows;
 import me.chanjar.weixin.mp.api.WxMpQrcodeService;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.result.WxMpQrCodeTicket;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -56,6 +58,8 @@ import org.springframework.web.bind.annotation.*;
 public class WeChatAccountController {
 
     private final WeChatAccountService weChatAccountService;
+
+    private final RedisTemplate redisTemplate;
 
     /**
      * 分页查询
@@ -150,7 +154,9 @@ public class WeChatAccountController {
     @PreAuthorize("@authorize.hasPermission('sys_add_account')")
     @ApiOperation(value = "新增公众号账户", notes = "新增公众号账户")
     public Response save(@RequestBody WeChatAccount weChatAccount) {
-        return Response.success(weChatAccountService.save(weChatAccount));
+        weChatAccountService.save(weChatAccount);
+        redisTemplate.convertAndSend(CommonConstants.WECHAT_CLIENT_RELOAD, "重新加载公众号配置事件");
+        return Response.success();
     }
 
     /**
@@ -164,7 +170,9 @@ public class WeChatAccountController {
     @PreAuthorize("@authorize.hasPermission('sys_editor_account')")
     @ApiOperation(value = "修改公众号账户", notes = "修改公众号账户")
     public Response update(@RequestBody WeChatAccount weChatAccount) {
-        return Response.success(weChatAccountService.updateById(weChatAccount));
+        weChatAccountService.updateById(weChatAccount);
+        redisTemplate.convertAndSend(CommonConstants.WECHAT_CLIENT_RELOAD, "重新加载公众号配置事件");
+        return Response.success();
     }
 
     /**
@@ -178,7 +186,9 @@ public class WeChatAccountController {
     @PreAuthorize("@authorize.hasPermission('sys_delete_account')")
     @ApiOperation(value = "通过id删除公众号账户", notes = "通过id删除公众号账户")
     public Response delete(@PathVariable Integer id) {
-        return Response.success(weChatAccountService.removeById(id));
+        weChatAccountService.removeById(id);
+        redisTemplate.convertAndSend(CommonConstants.WECHAT_CLIENT_RELOAD, "重新加载公众号配置事件");
+        return Response.success();
     }
 
 }

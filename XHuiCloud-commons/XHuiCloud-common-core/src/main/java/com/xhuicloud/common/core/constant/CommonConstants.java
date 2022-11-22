@@ -73,6 +73,11 @@ public interface CommonConstants {
     String GATEWAY_JVM_ROUTE_RELOAD= "gateway:jvm:route:reload";
 
     /**
+     * 微信客户端重新加载
+     */
+    String WECHAT_CLIENT_RELOAD= "wechat:client:reload";
+
+    /**
      * 租户ID
      */
     String TENANT_ID = "tenant_id";
