@@ -26,7 +26,7 @@ package com.xhuicloud.wechat.service.impl;
 
 import com.xhuicloud.wechat.config.WeChatMpCommonService;
 import com.xhuicloud.wechat.service.WechatMaterialService;
-import lombok.SneakyThrows;
+import me.chanjar.weixin.common.error.WxErrorException;
 import me.chanjar.weixin.mp.api.WxMpMaterialService;
 import me.chanjar.weixin.mp.api.WxMpService;
 import org.springframework.scheduling.annotation.Async;
@@ -45,13 +45,11 @@ public class WechatMaterialServiceImpl implements WechatMaterialService {
 
     @Async
     @Override
-    @SneakyThrows
-    public void delete(String appId, List<String> mediaIds) {
+    public void delete(String appId, List<String> mediaIds) throws WxErrorException {
         WxMpService wxMpService = WeChatMpCommonService.getWxMpService(appId);
         WxMpMaterialService materialService = wxMpService.getMaterialService();
         for (String mediaId : mediaIds) {
-            boolean b = materialService.materialDelete(mediaId);
-            System.out.println(b);
+            materialService.materialDelete(mediaId);
         }
     }
 }

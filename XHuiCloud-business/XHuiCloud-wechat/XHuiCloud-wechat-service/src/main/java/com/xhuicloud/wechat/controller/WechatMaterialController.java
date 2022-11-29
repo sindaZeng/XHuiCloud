@@ -38,10 +38,7 @@ import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.common.error.WxErrorException;
 import me.chanjar.weixin.mp.api.WxMpMaterialService;
 import me.chanjar.weixin.mp.api.WxMpService;
-import me.chanjar.weixin.mp.bean.material.WxMpMaterial;
-import me.chanjar.weixin.mp.bean.material.WxMpMaterialFileBatchGetResult;
-import me.chanjar.weixin.mp.bean.material.WxMpMaterialUploadResult;
-import me.chanjar.weixin.mp.bean.material.WxMpMaterialVideoInfoResult;
+import me.chanjar.weixin.mp.bean.material.*;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -77,11 +74,10 @@ public class WechatMaterialController {
      * @param page 分页对象
      * @return Response
      */
-    @SneakyThrows
     @GetMapping("/page")
     @ApiOperation(value = "分页查询", notes = "分页查询")
-    @ApiImplicitParam(name = "type", value = "图文:news 语音:voice 图片:image 视频: video", required = true, dataTypeClass = WxConsts.MaterialType.class)
-    public Response page(@PathVariable String appId, Page page, @RequestParam String type) {
+    @ApiImplicitParam(name = "type", value = "语音:voice 图片:image 视频: video", required = true, dataTypeClass = WxConsts.MaterialType.class)
+    public Response page(@PathVariable String appId, Page page, @RequestParam String type) throws WxErrorException {
         WxMpMaterialService materialService = getWxMpMaterialService(appId);
         WxMpMaterialFileBatchGetResult result = materialService.materialFileBatchGet(type,
                 Long.valueOf((page.getCurrent() - 1) * page.getSize()).intValue(), Long.valueOf(page.getSize()).intValue());
@@ -90,6 +86,23 @@ public class WechatMaterialController {
         return Response.success(page);
     }
 
+    /**
+     * 分页查询图文列表
+     *
+     * @param page 分页对象
+     * @return Response
+     */
+    @SneakyThrows
+    @GetMapping("/page/news")
+    @ApiOperation(value = "分页查询图文列表", notes = "分页查询图文列表")
+    public Response page(@PathVariable String appId, Page page) {
+        WxMpMaterialService materialService = getWxMpMaterialService(appId);
+        WxMpMaterialNewsBatchGetResult result = materialService.materialNewsBatchGet(Long.valueOf((page.getCurrent() - 1) * page.getSize()).intValue(),
+                Long.valueOf(page.getSize()).intValue());
+        page.setRecords(result.getItems());
+        page.setTotal(result.getTotalCount());
+        return Response.success(page);
+    }
 
     /**
      * 新增图片语音素材
@@ -181,12 +194,11 @@ public class WechatMaterialController {
      * @param mediaIds
      * @return Response
      */
-    @SneakyThrows
     @SysLog("通过id删除")
     @DeleteMapping
     @PreAuthorize("@authorize.hasPermission('sys_delete_material')")
     @ApiOperation(value = "通过id删除", notes = "通过id删除")
-    public Response delete(@PathVariable String appId, @RequestParam List<String> mediaIds) {
+    public Response delete(@PathVariable String appId, @RequestParam List<String> mediaIds) throws WxErrorException {
         wechatMaterialService.delete(appId, mediaIds);
         return Response.success();
     }

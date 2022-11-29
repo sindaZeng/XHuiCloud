@@ -24,6 +24,8 @@
 
 package com.xhuicloud.wechat.service;
 
+import me.chanjar.weixin.common.error.WxErrorException;
+
 import java.util.List;
 
 /**
@@ -34,5 +36,5 @@ import java.util.List;
 */
 public interface WechatMaterialService {
 
-    void delete(String appId, List<String> mediaIds);
+    void delete(String appId, List<String> mediaIds) throws WxErrorException;
 }
