@@ -87,4 +87,14 @@ public interface CacheConstants {
      */
     String GLOBALLY = "gl:";
 
+    /**
+     * 验证码前缀
+     */
+    String MOBILE_CODE_KEY = "MOBILE:CODE:KEY";
+
+    /**
+     * 微信发布防重限制
+     */
+    String WECHAT_PUBLISH_CODE_KEY = "WECHAT:PUBLISH:CODE:KEY";
+
 }

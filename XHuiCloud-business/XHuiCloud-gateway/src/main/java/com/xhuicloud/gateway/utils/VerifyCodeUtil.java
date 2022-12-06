@@ -3,7 +3,7 @@ package com.xhuicloud.gateway.utils;
 import cn.hutool.core.util.StrUtil;
 import com.anji.captcha.model.vo.CaptchaVO;
 import com.anji.captcha.service.CaptchaService;
-import com.xhuicloud.common.core.constant.SecurityConstants;
+import com.xhuicloud.common.core.constant.CacheConstants;
 import com.xhuicloud.common.core.exception.ValidateCodeException;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
@@ -56,7 +56,7 @@ public class VerifyCodeUtil {
         if ("123456".equals(code)) {
             return;
         }
-        String key = SecurityConstants.CODE_KEY + mobile;
+        String key = CacheConstants.MOBILE_CODE_KEY + mobile;
         redisTemplate.setKeySerializer(new StringRedisSerializer());
         String codeStr = (String) redisTemplate.opsForValue().get(key);
 

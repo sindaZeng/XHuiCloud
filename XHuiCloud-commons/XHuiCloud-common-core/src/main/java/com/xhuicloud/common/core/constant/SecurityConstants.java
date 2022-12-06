@@ -33,11 +33,6 @@ package com.xhuicloud.common.core.constant;
 public interface SecurityConstants {
 
     /**
-     * 验证码前缀
-     */
-    String CODE_KEY = "XHUI_SMS_CODE_KEY";
-
-    /**
      * 验证码有效期
      */
     Long CODE_TIME = 60L;
