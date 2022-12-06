@@ -313,6 +313,11 @@ INSERT INTO `sys_menu` VALUES (90, '删除', 'WechatAccountDelete', 'sys_delete_
 INSERT INTO `sys_menu` VALUES (91, '素材管理', 'MaterialManagement', NULL, '/wechat/material/index', NULL, 'material', 85, 3, 0, '', '2022-11-14 12:24:40', NULL, 0, NULL, 1, NULL);
 INSERT INTO `sys_menu` VALUES (92, '添加', 'MaterialAdd', 'sys_add_material', NULL, NULL, NULL, 91, 1, 1, '', '2022-11-15 07:16:46', NULL, 0, NULL, 1, NULL);
 INSERT INTO `sys_menu` VALUES (93, '删除', 'Material', 'sys_delete_material', NULL, NULL, NULL, 91, 2, 1, '', '2022-11-15 07:17:17', NULL, 0, NULL, 1, NULL);
+INSERT INTO `sys_menu` VALUES (94, '草稿箱', 'Drafts', NULL, '/wechat/drafts/index', NULL, 'drafts', 85, 1, 0, '', '2022-11-25 10:35:52', NULL, 0, NULL, 1, NULL);
+INSERT INTO `sys_menu` VALUES (95, '新增', 'DraftsAdd', 'sys_add_drafts', NULL, NULL, NULL, 94, 0, 1, '', '2022-12-01 13:43:44', NULL, 0, NULL, 1, NULL);
+INSERT INTO `sys_menu` VALUES (96, '编辑', 'DraftsUpdate', 'sys_editor_drafts', NULL, NULL, NULL, 94, 1, 1, '', '2022-12-01 13:45:34', NULL, 0, NULL, 1, NULL);
+INSERT INTO `sys_menu` VALUES (97, '删除', 'DraftsDelete', 'sys_delete_drafts', NULL, NULL, NULL, 94, 2, 1, '', '2022-12-01 13:46:40', NULL, 0, NULL, 1, NULL);
+INSERT INTO `sys_menu` VALUES (98, '发布', 'DraftsPublish', 'sys_publish_drafts', NULL, NULL, NULL, 94, 4, 1, '', '2022-12-01 13:53:52', NULL, 0, NULL, 1, NULL);
 
 -- ----------------------------
 -- Table structure for sys_param

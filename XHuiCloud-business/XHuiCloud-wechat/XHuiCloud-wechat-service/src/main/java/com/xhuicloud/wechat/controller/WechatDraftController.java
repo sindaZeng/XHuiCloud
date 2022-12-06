@@ -10,7 +10,9 @@ import lombok.AllArgsConstructor;
 import me.chanjar.weixin.common.error.WxErrorException;
 import me.chanjar.weixin.mp.api.WxMpDraftService;
 import me.chanjar.weixin.mp.api.WxMpService;
+import me.chanjar.weixin.mp.bean.draft.WxMpAddDraft;
 import me.chanjar.weixin.mp.bean.draft.WxMpDraftList;
+import me.chanjar.weixin.mp.bean.draft.WxMpUpdateDraft;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -39,6 +41,20 @@ public class WechatDraftController {
         page.setRecords(result.getItems());
         page.setTotal(result.getTotalCount());
         return Response.success(page);
+    }
+
+    @PostMapping
+    @ApiOperation(value = "保存草稿图文素材列表", notes = "保存草稿图文素材列表")
+    public Response save(@PathVariable String appId, @RequestBody WxMpAddDraft wxMpAddDraft) throws WxErrorException {
+        WxMpDraftService draftService = getDraftService(appId);
+        return Response.success(draftService.addDraft(wxMpAddDraft));
+    }
+
+    @PutMapping
+    @ApiOperation(value = "修改草稿信息", notes = "修改草稿信息")
+    public Response update(@PathVariable String appId, @RequestBody WxMpUpdateDraft wxMpUpdateDraft) throws WxErrorException {
+        WxMpDraftService draftService = getDraftService(appId);
+        return Response.success(draftService.updateDraft(wxMpUpdateDraft));
     }
 
     /**

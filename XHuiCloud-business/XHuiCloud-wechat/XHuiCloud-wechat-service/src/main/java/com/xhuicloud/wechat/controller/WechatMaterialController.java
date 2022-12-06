@@ -124,7 +124,7 @@ public class WechatMaterialController {
         wxMpMaterial.setFile(file);
         WxMpMaterialUploadResult wxMpMaterialUploadResult = materialService.materialFileUpload(type, wxMpMaterial);
         file.deleteOnExit();
-        return Response.success(wxMpMaterialUploadResult.getMediaId());
+        return Response.success(wxMpMaterialUploadResult);
     }
 
     /**
