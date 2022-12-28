@@ -43,7 +43,6 @@ services:
   xhuicloud-mq:
     image: rabbitmq:3-management
     container_name: xhuicloud-mq
-    restart: always
     hostname: xhuicloud-mq
     volumes:
       - ./doc/mq/rabbitmq_delayed_message_exchange-3.11.1.ez:/plugins/rabbitmq_delayed_message_exchange-3.11.1.ez
