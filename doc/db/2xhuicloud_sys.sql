@@ -13,6 +13,7 @@
 
  Date: 22/11/2022 17:23:02
 */
+USE xhuicloud_sys;
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;

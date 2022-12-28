@@ -1,17 +1,44 @@
-version: '3'
+version: "3.8"
+
+networks:
+  xhuicloud:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 10.0.5.0/24
+
 services:
   xhuicloud-mysql:
-    build:
-      context: ./doc/db
-    restart: always
+    image: mysql:8.0.31
     container_name: xhuicloud-mysql
-    image: xhuicloud-mysql
-    environment:
-      MYSQL_ROOT_HOST: "%"
-      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - /etc/localtime:/etc/localtime
+      - /xhuicloud/data/mysql:/var/lib/mysql
+      - ./doc/db/:/docker-entrypoint-initdb.d
     ports:
       - 3306:3306
+    privileged: true
+    restart: always
+    environment:
+      - TZ=Asia/Shanghai
+      - MYSQL_ROOT_HOST=%
+      - MYSQL_ROOT_PASSWORD=root
     command: --lower_case_table_names=1 --default-authentication-plugin=mysql_native_password
+    networks:
+      - xhuicloud
+    security_opt:
+      - seccomp:unconfined
+    healthcheck:
+      test: "mysql -uroot -p$$MYSQL_ROOT_PASSWORD -e 'select 1' || exit 1"
+      interval: 10s
+      timeout: 30s
+      retries: 10
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        max_replicas_per_node: 1
 
   xhuicloud-mq:
     image: rabbitmq:3-management
@@ -19,23 +46,52 @@ services:
     restart: always
     hostname: xhuicloud-mq
     volumes:
-      - ./doc/mq/rabbitmq_delayed_message_exchange-3.9.0.ez:/plugins/rabbitmq_delayed_message_exchange-3.9.0.ez
+      - ./doc/mq/rabbitmq_delayed_message_exchange-3.11.1.ez:/plugins/rabbitmq_delayed_message_exchange-3.11.1.ez
       - ./doc/mq/enabled_plugins:/etc/rabbitmq/enabled_plugins
+      - /xhuicloud/data/rabbitmq:/var/lib/rabbitmq
     ports:
       - 15672:15672
       - 5672:5672
     environment:
+      - TZ=Asia/Shanghai
+      - LC_ALL=en_US.UTF-8
       - RABBITMQ_DEFAULT_USER=root
       - RABBITMQ_DEFAULT_PASS=root
       - RABBITMQ_DEFAULT_VHOST=xhuicloud
+    networks:
+      - xhuicloud
+    restart: always
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        max_replicas_per_node: 1
 
   xhuicloud-redis:
     container_name: xhuicloud-redis
     image: redis:6.2.6
     command: redis-server --requirepass root
+    environment:
+      - TZ=Asia/Shanghai
+      - LC_ALL=en_US.UTF-8
+    volumes:
+      - /etc/localtime:/etc/localtime
+      - /xhuicloud/data/redis:/data
     restart: always
     ports:
       - 6379:6379
+    networks:
+      - xhuicloud
+    healthcheck:
+      test: "redis-cli -a 'root' ping || exit 1"
+      interval: 30s
+      timeout: 10s
+      retries: 10
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        max_replicas_per_node: 1
 
   xhuicloud-zk:
     image: zookeeper:3.4.11
@@ -43,6 +99,21 @@ services:
     container_name: xhuicloud-zk
     ports:
       - 2181:2181
+    volumes:
+      - /xhuicloud/data/zk:/data
+    networks:
+      - xhuicloud
+    healthcheck:
+      test: "nc -z localhost 2181 || exit 1"
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        max_replicas_per_node: 1
 
   xhuicloud-register:
     build:
@@ -51,9 +122,93 @@ services:
     container_name: xhuicloud-register
     image: xhuicloud-register
     depends_on:
-      - xhuicloud-mysql
+      xhuicloud-mysql:
+        condition: service_healthy
     ports:
       - 13000:13000
+    networks:
+      - xhuicloud
+    environment:
+      - TZ=Asia/Shanghai
+      - LC_ALL=en_US.UTF-8
+      - MYSQL_HOST=xhuicloud-mysql
+      - MYSQL_PORT=3306
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=root
+    healthcheck:
+      test: "curl --fail --silent http://xhuicloud-register:13000/nacos/actuator/health | grep UP || exit 1"
+      interval: 30s
+      timeout: 10s
+      retries: 10
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        max_replicas_per_node: 1
+
+  xhuicloud-monitor:
+    build:
+      context: ./XHuiCloud-business/XHuiCloud-monitor
+    restart: always
+    image: xhuicloud-monitor
+    container_name: xhuicloud-monitor
+    networks:
+      - xhuicloud
+    ports:
+      - 9090:9090
+
+  xhuicloud-seata:
+    build:
+      context: ./XHuiCloud-business/XHuiCloud-seata
+    restart: always
+    container_name: xhuicloud-seata
+    image: xhuicloud-seata
+    networks:
+      - xhuicloud
+    ports:
+      - 8091:8091
+
+  xhuicloud-upms:
+    build:
+      context: ./XHuiCloud-upms/XHuiCloud-upms-service
+    restart: always
+    container_name: xhuicloud-upms
+    image: xhuicloud-upms
+    depends_on:
+      xhuicloud-mysql:
+        condition: service_healthy
+      xhuicloud-redis:
+        condition: service_healthy
+    networks:
+      - xhuicloud
+    environment:
+      - TZ=Asia/Shanghai
+      - LC_ALL=en_US.UTF-8
+      - MYSQL_HOST=xhuicloud-mysql
+      - MYSQL_PORT=3306
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=root
+      - REDIS_HOST=xhuicloud-redis
+      - REDIS_PASSWORD=root
+      - MQ_HOST=xhuicloud-mq
+      - MQ_PORT=5672
+      - MQ_USER=root
+      - MQ_PASSWORD=root
+      - MQ_VHOST=xhuicloud
+      - NACOS_HOST=xhuicloud-register
+      - SEATA_HOST=xhuicloud-seata
+      - SEATA_PORT=8091
+      - XHUI_AUTH=xhuicloud-auth
+    healthcheck:
+      test: "curl --fail --silent http://xhuicloud-upms:17000/actuator/health | grep UP || exit 1"
+      interval: 40s
+      timeout: 5s
+      retries: 5
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        max_replicas_per_node: 1
 
   xhuicloud-gateway:
     build:
@@ -63,6 +218,27 @@ services:
     image: xhuicloud-gateway
     ports:
       - 15000:15000
+    depends_on:
+      xhuicloud-redis:
+        condition: service_healthy
+    networks:
+      - xhuicloud
+    environment:
+      - TZ=Asia/Shanghai
+      - LC_ALL=en_US.UTF-8
+      - NACOS_HOST=xhuicloud-register
+      - REDIS_HOST=xhuicloud-redis
+      - REDIS_PASSWORD=root
+    healthcheck:
+      test: "curl --fail --silent http://xhuicloud-gateway:15000/actuator/health | grep UP || exit 1"
+      interval: 30s
+      timeout: 5s
+      retries: 5
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        max_replicas_per_node: 1
 
   xhuicloud-auth:
     build:
@@ -70,13 +246,30 @@ services:
     restart: always
     container_name: xhuicloud-auth
     image: xhuicloud-auth
-
-  xhuicloud-upms:
-    build:
-      context: ./XHuiCloud-upms/XHuiCloud-upms-service
-    restart: always
-    container_name: xhuicloud-upms
-    image: xhuicloud-upms
+    networks:
+      - xhuicloud
+    ports:
+      - 16000:16000
+    depends_on:
+      xhuicloud-redis:
+        condition: service_healthy
+    environment:
+      - TZ=Asia/Shanghai
+      - LC_ALL=en_US.UTF-8
+      - REDIS_HOST=xhuicloud-redis
+      - REDIS_PASSWORD=root
+      - NACOS_HOST=xhuicloud-register
+      - XHUI_AUTH=xhuicloud-auth
+    healthcheck:
+      test: "curl --fail --silent http://xhuicloud-auth:16000/actuator/health | grep UP || exit 1"
+      interval: 30s
+      timeout: 5s
+      retries: 5
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        max_replicas_per_node: 1
 
   xhuicloud-logs:
     build:
@@ -84,20 +277,36 @@ services:
     restart: always
     container_name: xhuicloud-logs
     image: xhuicloud-logs
-
-  xhuicloud-pay:
-    build:
-      context: ./XHuiCloud-business/XHuiCloud-pay/XHuiCloud-pay-service
-    restart: always
-    container_name: xhuicloud-pay
-    image: xhuicloud-pay
-
-  xhuicloud-push:
-    build:
-      context: ./XHuiCloud-business/XHuiCloud-push/XHuiCloud-push-service
-    restart: always
-    container_name: xhuicloud-push
-    image: xhuicloud-push
+    networks:
+      - xhuicloud
+    depends_on:
+      xhuicloud-mysql:
+        condition: service_healthy
+      xhuicloud-redis:
+        condition: service_healthy
+    environment:
+      - TZ=Asia/Shanghai
+      - LC_ALL=en_US.UTF-8
+      - MYSQL_HOST=xhuicloud-mysql
+      - MYSQL_PORT=3306
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=root
+      - REDIS_HOST=xhuicloud-redis
+      - REDIS_PASSWORD=root
+      - NACOS_HOST=xhuicloud-register
+      - SEATA_HOST=xhuicloud-seata
+      - SEATA_PORT=8091
+      - XHUI_AUTH=xhuicloud-auth
+    healthcheck:
+      test: "curl --fail --silent http://xhuicloud-logs:18000/actuator/health | grep UP || exit 1"
+      interval: 30s
+      timeout: 5s
+      retries: 5
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        max_replicas_per_node: 1
 
   xhuicloud-xxl-admin:
     build:
@@ -107,6 +316,24 @@ services:
     image: xhuicloud-xxl-admin
     ports:
       - 20000:20000
+    depends_on:
+      xhuicloud-mysql:
+        condition: service_healthy
+    networks:
+      - xhuicloud
+    environment:
+      - TZ=Asia/Shanghai
+      - LC_ALL=en_US.UTF-8
+      - MYSQL_HOST=xhuicloud-mysql
+      - MYSQL_PORT=3306
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=root
+      - NACOS_HOST=xhuicloud-register
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        max_replicas_per_node: 1
 
   xhuicloud-job:
     build:
@@ -114,13 +341,34 @@ services:
     restart: always
     container_name: xhuicloud-job
     image: xhuicloud-job
-
-  xhuicloud-seata:
-    build:
-      context: ./XHuiCloud-business/XHuiCloud-seata
-    restart: always
-    container_name: xhuicloud-seata
-    image: xhuicloud-seata
+    depends_on:
+      xhuicloud-mysql:
+        condition: service_healthy
+      xhuicloud-redis:
+        condition: service_healthy
+    networks:
+      - xhuicloud
+    environment:
+      - TZ=Asia/Shanghai
+      - LC_ALL=en_US.UTF-8
+      - MYSQL_HOST=xhuicloud-mysql
+      - MYSQL_PORT=3306
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=root
+      - REDIS_HOST=xhuicloud-redis
+      - REDIS_PASSWORD=root
+      - NACOS_HOST=xhuicloud-register
+      - JAVA_OPTS=-Djob.addresses=http://xhuicloud-xxl-admin/xxl-job-admin
+    healthcheck:
+      test: "curl --fail --silent http://xhuicloud-job:19000/actuator/health | grep UP || exit 1"
+      interval: 30s
+      timeout: 5s
+      retries: 5
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        max_replicas_per_node: 1
 
   xhuicloud-generator:
     build:
@@ -128,4 +376,33 @@ services:
     restart: always
     container_name: xhuicloud-generator
     image: xhuicloud-generator
-
+    depends_on:
+      xhuicloud-mysql:
+        condition: service_healthy
+      xhuicloud-redis:
+        condition: service_healthy
+    networks:
+      - xhuicloud
+    environment:
+      - TZ=Asia/Shanghai
+      - LC_ALL=en_US.UTF-8
+      - MYSQL_HOST=xhuicloud-mysql
+      - MYSQL_PORT=3306
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=root
+      - REDIS_HOST=xhuicloud-redis
+      - REDIS_PASSWORD=root
+      - NACOS_HOST=xhuicloud-register
+      - SEATA_HOST=xhuicloud-seata
+      - SEATA_PORT=8091
+      - XHUI_AUTH=xhuicloud-auth
+    healthcheck:
+      test: "curl --fail --silent http://xhuicloud-generator:21000/actuator/health | grep UP || exit 1"
+      interval: 30s
+      timeout: 5s
+      retries: 5
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        max_replicas_per_node: 1

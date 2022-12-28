@@ -13,6 +13,7 @@
 
  Date: 22/11/2022 17:26:09
 */
+USE xhuicloud_wechat;
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
