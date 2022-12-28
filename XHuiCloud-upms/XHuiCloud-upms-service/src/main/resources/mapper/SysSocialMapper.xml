@@ -8,9 +8,6 @@
     <result column="type" jdbcType="VARCHAR" property="type" />
     <result column="app_id" jdbcType="VARCHAR" property="appId" />
     <result column="app_secret" jdbcType="VARCHAR" property="appSecret" />
-    <result column="app_access_token" jdbcType="VARCHAR" property="appAccessToken" />
-    <result column="app_auth_token" jdbcType="VARCHAR" property="appAuthToken" />
-    <result column="app_decrypt" jdbcType="VARCHAR" property="appDecrypt" />
     <result column="app_desc" jdbcType="VARCHAR" property="appDesc" />
     <result column="redirect_url" jdbcType="VARCHAR" property="redirectUrl" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
@@ -22,7 +19,7 @@
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
-    id, `type`, app_id, `app_secret`, app_access_token, app_auth_token, app_decrypt, app_desc, redirect_url, create_time, create_id,
+    id, `type`, app_id, `app_secret`, app_desc, redirect_url, create_time, create_id,
     update_time, update_id, tenant_id, is_del
   </sql>
 </mapper>
