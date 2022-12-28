@@ -194,6 +194,17 @@
             </plugin>
         </plugins>
     </build>
+    <!-- 云效私服 -->
+    <distributionManagement>
+        <repository>
+            <id>rdc-releases</id>
+            <url>https://packages.aliyun.com/maven/repository/2269998-release-EqoNSG/</url>
+        </repository>
+        <snapshotRepository>
+            <id>rdc-snapshots</id>
+            <url>https://packages.aliyun.com/maven/repository/2269998-snapshot-3E4FwO/</url>
+        </snapshotRepository>
+    </distributionManagement>
 
     <profiles>
         <profile>
