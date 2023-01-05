@@ -10,7 +10,7 @@ RUN mkdir -p /XHuiCloud-wechat-service
 
 WORKDIR /XHuiCloud-wechat-service
 
-EXPOSE 18000
+EXPOSE 24000
 
 ADD ./target/XHuiCloud-wechat-service.jar ./
 

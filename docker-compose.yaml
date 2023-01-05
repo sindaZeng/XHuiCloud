@@ -209,6 +209,48 @@ services:
       placement:
         max_replicas_per_node: 1
 
+  xhuicloud-wechat:
+    build:
+      context: ./XHuiCloud-business/XHuiCloud-wechat/XHuiCloud-wechat-service
+    restart: always
+    container_name: xhuicloud-wechat
+    image: xhuicloud-wechat
+    depends_on:
+      xhuicloud-mysql:
+        condition: service_healthy
+      xhuicloud-redis:
+        condition: service_healthy
+    networks:
+      - xhuicloud
+    environment:
+      - TZ=Asia/Shanghai
+      - LC_ALL=en_US.UTF-8
+      - MYSQL_HOST=xhuicloud-mysql
+      - MYSQL_PORT=3306
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=root
+      - REDIS_HOST=xhuicloud-redis
+      - REDIS_PASSWORD=root
+      - MQ_HOST=xhuicloud-mq
+      - MQ_PORT=5672
+      - MQ_USER=root
+      - MQ_PASSWORD=root
+      - MQ_VHOST=xhuicloud
+      - NACOS_HOST=xhuicloud-register
+      - SEATA_HOST=xhuicloud-seata
+      - SEATA_PORT=8091
+      - XHUI_AUTH=xhuicloud-auth
+    healthcheck:
+      test: "curl --fail --silent http://xhuicloud-wechat:24000/actuator/health | grep UP || exit 1"
+      interval: 40s
+      timeout: 5s
+      retries: 5
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        max_replicas_per_node: 1
+
   xhuicloud-gateway:
     build:
       context: ./XHuiCloud-business/XHuiCloud-gateway
