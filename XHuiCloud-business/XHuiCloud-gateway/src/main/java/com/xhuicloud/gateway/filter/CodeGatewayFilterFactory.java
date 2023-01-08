@@ -113,13 +113,9 @@ public class CodeGatewayFilterFactory extends AbstractGatewayFilterFactory {
     private boolean isCaptchaEnableClient(ServerHttpRequest request) {
         String header = request.getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
         String clientId = WebUtils.extractClientId(header).orElse(null);
-        String tenantId = request.getHeaders().getFirst(CommonConstants.TENANT_ID);
-
-        String key = String.format("%s:%s:%s", StrUtil.isBlank(tenantId) ? CommonConstants.DEFAULT_TENANT_ID : tenantId,
+        String key = String.format("%s:%s",
                 CacheConstants.CLIENT_DETAILS_EXTENSION, clientId);
-
         ClientDefinitionVo val = (ClientDefinitionVo) redisTemplate.opsForValue().get(key);
-
         if (val == null) {
             return false;
         }

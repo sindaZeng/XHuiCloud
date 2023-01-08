@@ -89,8 +89,8 @@ public class SysClientDetails extends Model<SysClientDetails> {
     @ApiModelProperty(value = "0: 否 1：是")
     private Integer isDel;
 
-    @ApiModelProperty(value = "租户id")
-    private Integer tenantId;
+//    @ApiModelProperty(value = "租户id")
+//    private Integer tenantId;
 
     private static final long serialVersionUID = 1L;
 

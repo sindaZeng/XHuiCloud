@@ -66,7 +66,7 @@ public class ClientInit implements InitializingBean {
     public void init() {
         log.info("初始化客户端信息开始 ");
         sysClientDetailsService.list().forEach(clientDetails -> {
-            String key = String.format("%s:%s:%s", clientDetails.getTenantId(), CacheConstants.CLIENT_DETAILS_EXTENSION, clientDetails.getClientId());
+            String key = String.format("%s:%s", CacheConstants.CLIENT_DETAILS_EXTENSION, clientDetails.getClientId());
             ClientDefinitionVo clientDefinitionVo = BeanUtils.copy(clientDetails, ClientDefinitionVo.class);
             redisTemplate.opsForValue().set(key, clientDefinitionVo);
         });
