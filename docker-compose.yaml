@@ -41,7 +41,7 @@ services:
         max_replicas_per_node: 1
 
   xhuicloud-mq:
-    image: rabbitmq:3-management
+    image: rabbitmq:3.11.1-management
     container_name: xhuicloud-mq
     hostname: xhuicloud-mq
     volumes:
