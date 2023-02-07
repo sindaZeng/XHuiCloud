@@ -25,10 +25,10 @@
 package com.xhuicloud.pay.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.xhuicloud.common.log.annotation.SysLog;
+import com.xhuicloud.common.core.utils.Response;
+import com.xhuicloud.common.log.annotation.AuditRecord;
 import com.xhuicloud.pay.entity.PayChannel;
 import com.xhuicloud.pay.service.PayChannelService;
-import com.xhuicloud.common.core.utils.Response;
 import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -65,7 +65,7 @@ public class PayChannelController {
      *
      * @return
      */
-    @SysLog("添加商户渠道")
+    @AuditRecord("添加商户渠道")
     @PostMapping
     @PreAuthorize("@authorize.hasPermission('sys_add_channel')")
     public Response<Boolean> save(@RequestBody PayChannel payChannel) {
@@ -78,7 +78,7 @@ public class PayChannelController {
      * @param payChannel
      * @return
      */
-    @SysLog("编辑商户渠道")
+    @AuditRecord("编辑商户渠道")
     @PutMapping
     @PreAuthorize("@authorize.hasPermission('sys_editor_user')")
     public Response<Boolean> update(@RequestBody PayChannel payChannel) {

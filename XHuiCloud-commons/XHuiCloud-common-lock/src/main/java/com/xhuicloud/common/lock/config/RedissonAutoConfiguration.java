@@ -47,10 +47,11 @@ import org.springframework.context.annotation.Bean;
 public class RedissonAutoConfiguration {
 
     @Bean
-    public LockAspect distributedLockHandler(XHuiRedissonManager redissonManager) {
-        return new LockAspect(redissonLock(redissonManager));
+    public LockAspect distributedLockHandler(XHuiRedissonLock redissonLock) {
+        return new LockAspect(redissonLock);
     }
 
+    @Bean
     public XHuiRedissonLock redissonLock(XHuiRedissonManager redissonManager) {
         XHuiRedissonLock redissonLock = new XHuiRedissonLock(redissonManager.getRedisson());
         log.info("[RedissonLock]组装完毕");

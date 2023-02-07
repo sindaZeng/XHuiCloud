@@ -66,6 +66,10 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.xhuicloud</groupId>
+            <artifactId>XHuiCloud-logs-api</artifactId>
+        </dependency>
 
         <!--        分布式锁-->
         <!--        <dependency>-->

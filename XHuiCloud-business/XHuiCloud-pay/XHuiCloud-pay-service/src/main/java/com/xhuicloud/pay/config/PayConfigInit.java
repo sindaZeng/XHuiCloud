@@ -33,7 +33,7 @@ import com.google.common.collect.Maps;
 import com.jpay.alipay.AliPayApiConfig;
 import com.jpay.alipay.AliPayApiConfigKit;
 import com.xhuicloud.common.core.enums.pay.PayTypeEnum;
-import com.xhuicloud.common.data.ttl.XHuiCommonThreadLocalHolder;
+import com.xhuicloud.common.core.ttl.XHuiCommonThreadLocalHolder;
 import com.xhuicloud.pay.entity.PayChannel;
 import com.xhuicloud.pay.service.PayChannelService;
 import com.xhuicloud.upms.feign.SysTenantServiceFeign;

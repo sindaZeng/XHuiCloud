@@ -27,7 +27,7 @@ package com.xhuicloud.common.authorization.extension;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.xhuicloud.common.core.constant.CommonConstants;
-import com.xhuicloud.common.data.ttl.XHuiCommonThreadLocalHolder;
+import com.xhuicloud.common.core.ttl.XHuiCommonThreadLocalHolder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.oauth2.core.OAuth2AccessToken;

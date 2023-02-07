@@ -37,7 +37,7 @@ import org.springframework.security.web.SecurityFilterChain;
  * @author: Sinda
  * @create: 2019-12-25 23:49
  **/
-@EnableWebSecurity(debug = true)
+@EnableWebSecurity
 public class BaseWebSecurityConfigurer {
 
     @Bean

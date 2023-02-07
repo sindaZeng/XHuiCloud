@@ -27,15 +27,15 @@ package com.xhuicloud.upms.controller;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xhuicloud.common.core.utils.Response;
-import com.xhuicloud.common.log.annotation.SysLog;
+import com.xhuicloud.common.log.annotation.AuditRecord;
 import com.xhuicloud.upms.dto.DeptTree;
 import com.xhuicloud.upms.entity.SysDept;
 import com.xhuicloud.upms.service.SysDeptService;
 import com.xhuicloud.upms.utils.TreeUtil;
-import org.springframework.security.access.prepost.PreAuthorize;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -98,7 +98,7 @@ public class SysDeptController {
      * @param sysDept 部门
      * @return Response
      */
-    @SysLog("新增部门" )
+    @AuditRecord("新增部门" )
     @PostMapping
     @PreAuthorize("@authorize.hasPermission('sys_add_dept')" )
     @ApiOperation(value = "新增部门", notes = "新增部门")
@@ -112,7 +112,7 @@ public class SysDeptController {
      * @param sysDept 部门
      * @return Response
      */
-    @SysLog("编辑部门" )
+    @AuditRecord("编辑部门" )
     @PutMapping
     @PreAuthorize("@authorize.hasPermission('sys_editor_dept')" )
     @ApiOperation(value = "修改部门", notes = "修改部门")
@@ -126,7 +126,7 @@ public class SysDeptController {
      * @param id
      * @return Response
      */
-    @SysLog("通过id删除部门" )
+    @AuditRecord("通过id删除部门" )
     @DeleteMapping("/{id}" )
     @PreAuthorize("@authorize.hasPermission('sys_delete_dept')" )
     @ApiOperation(value = "通过id删除部门", notes = "通过id删除部门")

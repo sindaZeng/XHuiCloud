@@ -25,7 +25,7 @@
 package com.xhuicloud.common.mybatis.meta;
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
-import com.xhuicloud.common.data.ttl.XHuiCommonThreadLocalHolder;
+import com.xhuicloud.common.core.ttl.XHuiCommonThreadLocalHolder;
 import org.apache.ibatis.reflection.MetaObject;
 
 import java.time.LocalDateTime;

@@ -30,7 +30,7 @@ import java.util.stream.Collectors;
  */
 public final class AsyncUtils {
 
-    private static final Logger LOG = LoggerFactory.getLogger(AsyncUtils.class);
+    private static final Logger logger = LoggerFactory.getLogger(AsyncUtils.class);
 
     public static <R> CompletableFuture<R> newFailedFuture(Throwable ex) {
         CompletableFuture<R> future = new CompletableFuture<>();
@@ -59,7 +59,7 @@ public final class AsyncUtils {
         try {
             return future.get(10, TimeUnit.SECONDS);
         } catch (Exception ex) {
-            LOG.error("getValue for async result failed", ex);
+            logger.error("getValue for async result failed", ex);
         }
         return null;
     }

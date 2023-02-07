@@ -24,6 +24,21 @@
         </encoder>
     </appender>
 
+    <!-- 日志文件 info 输出 -->
+    <appender name="info" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${log.path}/info.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${log.path}/%d{yyyy-MM, aux}/info.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
+            <!-- 单个日志文件最多 50MB, 30天的日志周期 日志总量大小 -->
+            <maxFileSize>50MB</maxFileSize>
+            <maxHistory>30</maxHistory>
+            <totalSizeCap>1GB</totalSizeCap>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%date [%thread] %-5level [%logger{50}] [reqId-%X{reqId}] %file:%line - %msg%n</pattern>
+        </encoder>
+    </appender>
+
     <!-- 日志文件 debug 输出 -->
     <appender name="debug" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>${log.path}/debug.log</file>
@@ -34,7 +49,7 @@
             <maxHistory>30</maxHistory>
         </rollingPolicy>
         <encoder>
-            <pattern>%date [%thread] %-5level [%logger{50}] %file:%line - %msg%n</pattern>
+            <pattern>%date [%thread] %-5level [%logger{50}] [reqId-%X{reqId}] %file:%line - %msg%n</pattern>
         </encoder>
     </appender>
 
@@ -47,7 +62,7 @@
             <maxHistory>30</maxHistory>
         </rollingPolicy>
         <encoder>
-            <pattern>%date [%thread] %-5level [%logger{50}] %file:%line - %msg%n</pattern>
+            <pattern>%date [%thread] %-5level [%logger{50}] [reqId-%X{reqId}] %file:%line - %msg%n</pattern>
         </encoder>
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
             <level>ERROR</level>
@@ -75,7 +90,7 @@
     <springProfile name="dev">
         <root level="${logger.level}">
             <appender-ref ref="console"/>
-            <appender-ref ref="logstash"/>
+            <appender-ref ref="info"/>
         </root>
     </springProfile>
 </configuration>

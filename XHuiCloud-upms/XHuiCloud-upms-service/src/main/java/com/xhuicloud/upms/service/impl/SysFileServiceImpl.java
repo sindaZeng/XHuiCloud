@@ -114,7 +114,7 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impl
 //    }
 //
 //    @Override
-//    @SysLog("上传文件")
+//    @AuditRecord("上传文件")
 //    @Transactional(rollbackFor = Exception.class)
 //    public String upload(MultipartFile file, String fileType) {
 //
@@ -147,7 +147,7 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impl
 //    }
 //
 //    @Override
-//    @SysLog("删除文件")
+//    @AuditRecord("删除文件")
 //    @Transactional(rollbackFor = Exception.class)
 //    public Boolean deleteFileById(Integer id) {
 //        SysFile sysFile = getById(id);

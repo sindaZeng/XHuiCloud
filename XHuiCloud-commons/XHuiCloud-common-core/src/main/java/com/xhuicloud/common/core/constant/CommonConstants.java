@@ -83,6 +83,11 @@ public interface CommonConstants {
     String TENANT_ID = "tenant_id";
 
     /**
+     * 请求id
+     */
+    String REQ_ID = "reqId";
+
+    /**
      * 用户ID
      */
     String USER_ID = "userId";

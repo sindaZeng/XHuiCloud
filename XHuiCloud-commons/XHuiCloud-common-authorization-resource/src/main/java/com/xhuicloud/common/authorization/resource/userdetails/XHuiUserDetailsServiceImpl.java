@@ -29,7 +29,7 @@ import com.xhuicloud.common.authorization.resource.constant.CustomAuthorizationG
 import com.xhuicloud.common.core.constant.CacheConstants;
 import com.xhuicloud.common.core.constant.CommonConstants;
 import com.xhuicloud.common.core.utils.Response;
-import com.xhuicloud.common.data.ttl.XHuiCommonThreadLocalHolder;
+import com.xhuicloud.common.core.ttl.XHuiCommonThreadLocalHolder;
 import com.xhuicloud.upms.dto.UserInfo;
 import com.xhuicloud.upms.entity.SysUser;
 import com.xhuicloud.upms.feign.SysSocialServiceFeign;

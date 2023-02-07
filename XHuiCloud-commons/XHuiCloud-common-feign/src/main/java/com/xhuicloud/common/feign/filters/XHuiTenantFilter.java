@@ -26,7 +26,7 @@ package com.xhuicloud.common.feign.filters;
 
 import cn.hutool.core.util.StrUtil;
 import com.xhuicloud.common.core.constant.CommonConstants;
-import com.xhuicloud.common.data.ttl.XHuiCommonThreadLocalHolder;
+import com.xhuicloud.common.core.ttl.XHuiCommonThreadLocalHolder;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.Ordered;

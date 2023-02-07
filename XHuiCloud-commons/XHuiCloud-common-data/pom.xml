@@ -21,9 +21,5 @@
             <groupId>com.xhuicloud</groupId>
             <artifactId>XHuiCloud-common-core</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>transmittable-thread-local</artifactId>
-        </dependency>
     </dependencies>
 </project>

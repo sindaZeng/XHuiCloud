@@ -31,12 +31,12 @@ import org.springframework.context.annotation.Import;
 
 import java.lang.annotation.*;
 
-@Target({ ElementType.TYPE })
-@Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
-@EnableConfigurationProperties(XHuiRabbitMqProperties.class)
+@Target({ ElementType.TYPE })
+@Retention(RetentionPolicy.RUNTIME)
 @Import(XHuiRabbitMqAutoConfiguration.class)
+@EnableConfigurationProperties(XHuiRabbitMqProperties.class)
 public @interface EnableXHuiRabbitMq {
 
 }

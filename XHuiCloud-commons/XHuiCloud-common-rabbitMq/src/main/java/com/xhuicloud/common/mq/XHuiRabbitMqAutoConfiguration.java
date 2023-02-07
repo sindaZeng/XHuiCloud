@@ -26,11 +26,10 @@ package com.xhuicloud.common.mq;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xhuicloud.common.mq.aspect.MqListenerAop;
-import com.xhuicloud.common.mq.config.RabbitTemplateConfig;
+import com.xhuicloud.common.mq.config.RabbitMqCommonCallbackConfig;
 import com.xhuicloud.common.mq.config.XHuiDefaultRabbitMqCallback;
-import com.xhuicloud.common.mq.config.XHuiRabbitMqCallback;
-import com.xhuicloud.common.mq.properties.XHuiRabbitMqProperties;
 import com.xhuicloud.common.mq.config.XHuiRabbitAutoRegister;
+import com.xhuicloud.common.mq.properties.XHuiRabbitMqProperties;
 import com.xhuicloud.common.mq.service.CommonMqService;
 import org.springframework.amqp.core.CustomExchange;
 import org.springframework.amqp.core.DirectExchange;
@@ -65,6 +64,9 @@ public class XHuiRabbitMqAutoConfiguration {
         RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);
         Jackson2JsonMessageConverter messageConverter = new Jackson2JsonMessageConverter();
         rabbitTemplate.setMessageConverter(messageConverter);
+        RabbitMqCommonCallbackConfig rabbitMqCommonCallbackConfig = new RabbitMqCommonCallbackConfig();
+        rabbitTemplate.setConfirmCallback(rabbitMqCommonCallbackConfig);
+        rabbitTemplate.setReturnsCallback(rabbitMqCommonCallbackConfig);
         return rabbitTemplate;
     }
 
@@ -113,6 +115,29 @@ public class XHuiRabbitMqAutoConfiguration {
         return new CustomExchange(xHuiRabbitMqProperties.getDelayedExchange(), "x-delayed-message", true, false, args);
     }
 
+//    @Bean("batchQueueRabbitListenerContainerFactory")
+//    public RabbitListenerContainerFactory<?> rabbitListenerContainerFactory(ConnectionFactory connectionFactory, ThreadPoolTaskExecutor taskExecutor){
+
+//        factory.setConnectionFactory(connectionFactory);
+//        factory.setMessageConverter(new Jackson2JsonMessageConverter());
+//        //确认方式,manual为手动ack.
+//        factory.setAcknowledgeMode(AcknowledgeMode.MANUAL);
+//        //每次处理数据数量，提高并发量
+//        //factory.setPrefetchCount(250);
+//        //设置线程数
+//        //factory.setConcurrentConsumers(30);
+//        //最大线程数
+//        //factory.setMaxConcurrentConsumers(50);
+//        /* setConnectionFactory：设置spring-amqp的ConnectionFactory。 */
+//        factory.setConnectionFactory(connectionFactory);
+//        factory.setConcurrentConsumers(1);
+//        factory.setPrefetchCount(1);
+//        //factory.setDefaultRequeueRejected(true);
+//        //使用自定义线程池来启动消费者。
+//        factory.setTaskExecutor(taskExecutor);
+//        return factory;
+//    }
+
     @Bean
     @ConditionalOnMissingBean
     public XHuiDefaultRabbitMqCallback defaultRabbitMqCallback() {
@@ -123,11 +148,6 @@ public class XHuiRabbitMqAutoConfiguration {
     @Scope(SCOPE_PROTOTYPE)
     public CommonMqService commonMqService(RabbitTemplate rabbitTemplate, XHuiRabbitMqProperties xHuiRabbitMqProperties) {
         return new CommonMqService(rabbitTemplate, xHuiRabbitMqProperties);
-    }
-
-    @Bean
-    public RabbitTemplateConfig rabbitTemplateConfig(RabbitTemplate rabbitTemplate, XHuiRabbitMqCallback xHuiRabbitMqCallback) {
-        return new RabbitTemplateConfig(rabbitTemplate, xHuiRabbitMqCallback);
     }
 
     @Bean

@@ -27,12 +27,12 @@ package com.xhuicloud.generator.controller;
 import com.baomidou.dynamic.datasource.toolkit.DynamicDataSourceContextHolder;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.xhuicloud.common.core.utils.AesUtil;
 import com.xhuicloud.common.core.utils.Response;
 import com.xhuicloud.common.datasource.entity.GenDsInfo;
-import com.xhuicloud.common.log.annotation.SysLog;
+import com.xhuicloud.common.log.annotation.AuditRecord;
 import com.xhuicloud.generator.entity.TableInfo;
 import com.xhuicloud.generator.handle.JdbcHandle;
-import com.xhuicloud.common.core.utils.AesUtil;
 import com.xhuicloud.generator.service.GenDsInfoService;
 import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;
@@ -114,7 +114,7 @@ public class DsInfoController {
      * @param genDsInfo
      * @return
      */
-    @SysLog("编辑数据源")
+    @AuditRecord("编辑数据源")
     @PutMapping
     @PreAuthorize("@authorize.hasPermission('sys_editor_db')")
     public Response<Boolean> update(@Valid @RequestBody GenDsInfo genDsInfo) {
@@ -127,7 +127,7 @@ public class DsInfoController {
      * @param id
      * @return
      */
-    @SysLog("删除")
+    @AuditRecord("删除")
     @DeleteMapping("/{id}")
     @PreAuthorize("@authorize.hasPermission('sys_delete_db')")
     public Response<Boolean> delete(@PathVariable Integer id) {

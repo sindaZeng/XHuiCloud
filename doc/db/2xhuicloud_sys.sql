@@ -1,18 +1,3 @@
-/*
- Navicat Premium Data Transfer
-
- Source Server         : prod
- Source Server Type    : MySQL
- Source Server Version : 80031
- Source Host           : 14.29.219.82:3306
- Source Schema         : xhuicloud_sys
-
- Target Server Type    : MySQL
- Target Server Version : 80031
- File Encoding         : 65001
-
- Date: 22/11/2022 17:23:02
-*/
 USE xhuicloud_sys;
 
 SET NAMES utf8mb4;
@@ -45,8 +30,8 @@ CREATE TABLE `sys_client_details`  (
 -- ----------------------------
 -- Records of sys_client_details
 -- ----------------------------
-INSERT INTO `sys_client_details` VALUES (1, '测试机', 'test', NULL, '{noop}test', 'server', 'password,refresh_token,authorization_code,client_credentials,mobile,social', 'http://xhuicloud.cn', NULL, 300000, 300000, 1, 0, 'false', 0, 'self-contained', 1);
-INSERT INTO `sys_client_details` VALUES (2, '星辉01', 'xhuicloud', NULL, '{noop}xhuicloud', 'server', 'password,refresh_token,authorization_code,client_credentials,social', 'http://127.0.0.1:9092/authorization', NULL, 300000, 300000, 0, 1, 'true', 0, NULL, 1);
+INSERT INTO `sys_client_details` VALUES (1, '测试机', 'test', NULL, '{noop}test', 'server', 'password,refresh_token,authorization_code,client_credentials,mobile,social', 'http://xhuicloud.cn', NULL, 300000, 300000, 1, 0, 'false', 0, 'self-contained');
+INSERT INTO `sys_client_details` VALUES (2, '星辉01', 'xhuicloud', NULL, '{noop}xhuicloud', 'server', 'password,refresh_token,authorization_code,client_credentials,social', 'http://127.0.0.1:9092/authorization', NULL, 300000, 300000, 0, 1, 'true', 0, NULL);
 
 -- ----------------------------
 -- Table structure for sys_dept
@@ -168,53 +153,6 @@ CREATE TABLE `sys_file`  (
 ) ENGINE = InnoDB AUTO_INCREMENT = 125 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '文件' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Table structure for sys_log
--- ----------------------------
-DROP TABLE IF EXISTS `sys_log`;
-CREATE TABLE `sys_log`  (
-  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '编号',
-  `request_ip` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT '' COMMENT '操作IP',
-  `type` char(4) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT '0' COMMENT '日志类型\n#LogType{0:操作类型;1:异常类型}',
-  `user_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT '' COMMENT '操作人',
-  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT '' COMMENT '操作描述',
-  `class_path` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT '' COMMENT '类路径',
-  `request_method` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT '' COMMENT '请求方法',
-  `request_uri` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT '' COMMENT '请求地址',
-  `http_method` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT 'GET' COMMENT '请求类型 {GET:GET请求;POST:POST请求;PUT:PUT请求;DELETE:DELETE请求;PATCH:PATCH请求;TRACE:TRACE请求;HEAD:HEAD请求;OPTIONS:OPTIONS请求;}',
-  `params` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL COMMENT '请求参数',
-  `result` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL COMMENT '返回值',
-  `ex_desc` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL COMMENT '异常详情信息',
-  `ex_detail` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL COMMENT '异常描述',
-  `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
-  `finish_time` datetime NULL DEFAULT NULL COMMENT '结束时间',
-  `time` varchar(10) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '执行时间',
-  `user_agent` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT '' COMMENT '浏览器',
-  `tenant_id` int NULL DEFAULT NULL COMMENT '租户id',
-  `is_del` tinyint(1) NULL DEFAULT 0 COMMENT '0: 否 1：是',
-  PRIMARY KEY (`id`) USING BTREE,
-  INDEX `sys_log_create_by`(`user_name` ASC) USING BTREE,
-  INDEX `sys_log_request_uri`(`request_uri` ASC) USING BTREE,
-  INDEX `sys_log_type`(`type` ASC) USING BTREE,
-  INDEX `sys_log_create_date`(`create_time` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2867 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '系统日志' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Table structure for sys_log_login
--- ----------------------------
-DROP TABLE IF EXISTS `sys_log_login`;
-CREATE TABLE `sys_log_login`  (
-  `id` int NOT NULL AUTO_INCREMENT COMMENT 'id',
-  `username` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '用户名',
-  `user_id` int NULL DEFAULT NULL COMMENT '用户id',
-  `login_time` datetime NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '登录时间',
-  `ip` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '0' COMMENT '登录ip',
-  `useragent` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '浏览器信息',
-  `status` tinyint NOT NULL COMMENT '0:成功 1:失败',
-  `remake` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1051 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
 -- Table structure for sys_menu
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_menu`;
@@ -280,7 +218,7 @@ INSERT INTO `sys_menu` VALUES (36, '批量生成', 'GeneratorsBatchAdd', 'sys_do
 INSERT INTO `sys_menu` VALUES (37, '接口文档', 'InterfaceDocs', '', 'http://127.0.0.1:15000/doc.html#/home', NULL, 'doc', 33, 2, 0, '', '2021-11-25 16:59:24', '2022-03-14 18:02:58', 1, NULL, 1, NULL);
 INSERT INTO `sys_menu` VALUES (38, '系统监控', 'SystemMonitor', '', 'http://127.0.0.1:14000/#/login', NULL, 'sentinel', 33, 3, 0, '', '2021-11-25 16:59:24', '2022-03-14 18:02:59', 1, NULL, 1, NULL);
 INSERT INTO `sys_menu` VALUES (58, '图库管理', 'Icons', NULL, '/system/icons/index', NULL, 'icons', 11, 3, 0, '', '2022-03-16 19:47:34', '2022-09-20 16:18:57', 0, NULL, 1, 1);
-INSERT INTO `sys_menu` VALUES (59, '登录记录', 'LoginLog', NULL, '/system/log/login', NULL, 'loginLogs', 11, 5, 0, '', '2022-03-19 23:40:20', '2022-09-20 16:18:49', 0, NULL, 1, 1);
+INSERT INTO `sys_menu` VALUES (59, '登录记录', 'LoginLog', NULL, '/audit/log/login', NULL, 'loginLogs', 99, 5, 0, '', '2022-03-19 23:40:20', '2022-09-20 16:18:49', 0, NULL, 1, 1);
 INSERT INTO `sys_menu` VALUES (61, '部门管理', 'Depts', NULL, '/admin/dept/index', NULL, 'dept', 1, 5, 0, '', '2022-04-21 22:55:32', NULL, 0, NULL, 1, NULL);
 INSERT INTO `sys_menu` VALUES (62, '新增部门', 'DeptsAdd', 'sys_add_dept', NULL, NULL, NULL, 61, 1, 1, '', '2022-04-21 23:58:24', NULL, 0, NULL, 1, NULL);
 INSERT INTO `sys_menu` VALUES (63, '编辑部门', 'DeptsUpdate', 'sys_editor_dept', NULL, NULL, NULL, 61, 2, 1, '', '2022-04-21 23:59:05', NULL, 0, NULL, 1, NULL);
@@ -293,7 +231,7 @@ INSERT INTO `sys_menu` VALUES (69, '删除数据字典', 'DictsDelete', 'sys_del
 INSERT INTO `sys_menu` VALUES (70, '新增字典项', 'DictsDataAdd', 'sys_add_dictData', NULL, NULL, NULL, 66, 4, 1, '', '2022-04-22 23:33:19', NULL, 0, NULL, 1, NULL);
 INSERT INTO `sys_menu` VALUES (71, '编辑字典项', 'DictsDataUpdate', 'sys_editor_dictData', NULL, NULL, NULL, 66, 5, 1, '', '2022-04-22 23:33:57', NULL, 0, NULL, 1, NULL);
 INSERT INTO `sys_menu` VALUES (72, '删除字典项', 'DictsDataDelete', 'sys_delete_dictData', NULL, NULL, NULL, 66, 6, 1, '', '2022-04-22 23:34:27', NULL, 0, NULL, 1, NULL);
-INSERT INTO `sys_menu` VALUES (73, '操作日志', 'Logs', NULL, '/system/log/index', NULL, 'logs', 11, 6, 0, '', '2022-04-23 22:15:39', '2022-09-20 16:18:51', 0, NULL, 1, NULL);
+INSERT INTO `sys_menu` VALUES (73, '操作日志', 'Logs', NULL, '/audit/log/index', NULL, 'logs', 99, 6, 0, '', '2022-04-23 22:15:39', '2022-09-20 16:18:51', 0, NULL, 1, NULL);
 INSERT INTO `sys_menu` VALUES (74, '授权管理', 'AuthClient', NULL, '/system/client/index', NULL, 'authClient', 11, 7, 0, '', '2022-05-02 23:25:04', '2022-09-20 16:18:51', 0, NULL, 1, NULL);
 INSERT INTO `sys_menu` VALUES (76, '编辑', 'ClientUpdate', 'sys_editor_client', NULL, NULL, NULL, 74, 1, 1, '', '2022-10-22 08:08:52', NULL, 0, NULL, 1, NULL);
 INSERT INTO `sys_menu` VALUES (77, '新增', 'ClientAdd', 'sys_add_client', NULL, NULL, NULL, 74, 2, 1, '', '2022-10-22 08:10:38', NULL, 0, NULL, 1, NULL);
@@ -318,6 +256,7 @@ INSERT INTO `sys_menu` VALUES (95, '新增', 'DraftsAdd', 'sys_add_drafts', NULL
 INSERT INTO `sys_menu` VALUES (96, '编辑', 'DraftsUpdate', 'sys_editor_drafts', NULL, NULL, NULL, 94, 1, 1, '', '2022-12-01 13:45:34', NULL, 0, NULL, 1, NULL);
 INSERT INTO `sys_menu` VALUES (97, '删除', 'DraftsDelete', 'sys_delete_drafts', NULL, NULL, NULL, 94, 2, 1, '', '2022-12-01 13:46:40', NULL, 0, NULL, 1, NULL);
 INSERT INTO `sys_menu` VALUES (98, '发布', 'DraftsPublish', 'sys_publish_drafts', NULL, NULL, NULL, 94, 4, 1, '', '2022-12-01 13:53:52', NULL, 0, NULL, 1, NULL);
+INSERT INTO `sys_menu` VALUES (99, '审计查看', 'Audit', NULL, '/audit', NULL, 'audit', 0, 3, 0, '', '2023-02-07 14:23:46', NULL, 0, NULL, 1, NULL);
 
 -- ----------------------------
 -- Table structure for sys_param

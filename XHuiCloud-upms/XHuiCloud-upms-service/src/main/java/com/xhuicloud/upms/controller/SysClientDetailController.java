@@ -31,7 +31,7 @@ import com.xhuicloud.common.authorization.resource.annotation.Anonymous;
 import com.xhuicloud.common.core.constant.CacheConstants;
 import com.xhuicloud.common.core.utils.Response;
 import com.xhuicloud.common.gateway.support.ClientDetailsInitEvent;
-import com.xhuicloud.common.log.annotation.SysLog;
+import com.xhuicloud.common.log.annotation.AuditRecord;
 import com.xhuicloud.common.mybatis.utils.PageConvertor;
 import com.xhuicloud.upms.entity.SysClientDetails;
 import com.xhuicloud.upms.service.SysClientDetailsService;
@@ -82,7 +82,7 @@ public class SysClientDetailController {
      * @param sysClientDetails 终端信息
      * @return Response
      */
-    @SysLog("新增终端信息")
+    @AuditRecord("新增终端信息")
     @PostMapping
     @PreAuthorize("@authorize.hasPermission('sys_add_client')")
     @ApiOperation(value = "新增终端信息", notes = "新增终端信息")
@@ -98,7 +98,7 @@ public class SysClientDetailController {
      * @param sysClientDetails 终端信息
      * @return Response
      */
-    @SysLog("编辑终端信息")
+    @AuditRecord("编辑终端信息")
     @PutMapping
     @PreAuthorize("@authorize.hasPermission('sys_editor_client')")
     @ApiOperation(value = "修改终端信息", notes = "修改终端信息")
@@ -116,7 +116,7 @@ public class SysClientDetailController {
      * @param id
      * @return Response
      */
-    @SysLog("通过id删除终端信息")
+    @AuditRecord("通过id删除终端信息")
     @DeleteMapping("/{id}")
     @PreAuthorize("@authorize.hasPermission('sys_delete_client')")
     @ApiOperation(value = "通过id删除终端信息", notes = "通过id删除终端信息")

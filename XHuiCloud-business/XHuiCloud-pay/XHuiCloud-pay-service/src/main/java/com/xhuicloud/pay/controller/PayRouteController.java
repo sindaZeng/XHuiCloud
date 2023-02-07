@@ -29,7 +29,7 @@ import com.xhuicloud.common.authorization.resource.annotation.Anonymous;
 import com.xhuicloud.common.core.constant.CommonConstants;
 import com.xhuicloud.common.core.enums.pay.PayTypeEnum;
 import com.xhuicloud.common.core.exception.SysException;
-import com.xhuicloud.common.data.ttl.XHuiCommonThreadLocalHolder;
+import com.xhuicloud.common.core.ttl.XHuiCommonThreadLocalHolder;
 import com.xhuicloud.pay.config.PayConfigInit;
 import com.xhuicloud.pay.dto.PayOrderDto;
 import com.xhuicloud.pay.handle.impl.AliPayServiceImpl;

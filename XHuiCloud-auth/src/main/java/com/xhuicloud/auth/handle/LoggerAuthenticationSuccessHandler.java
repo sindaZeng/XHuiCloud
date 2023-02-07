@@ -26,8 +26,8 @@ package com.xhuicloud.auth.handle;
 
 import com.xhuicloud.common.core.constant.CommonConstants;
 import com.xhuicloud.common.core.utils.WebUtils;
-import com.xhuicloud.logs.entity.SysLogLogin;
-import com.xhuicloud.logs.feign.SysLogLoginFeign;
+import com.xhuicloud.logs.entity.AuditLogin;
+import com.xhuicloud.logs.feign.AuditLoginFeign;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.oidc.IdTokenClaimNames;
@@ -48,7 +48,7 @@ import static com.xhuicloud.common.core.constant.AuthorizationConstants.IS_COMMI
 @AllArgsConstructor
 public class LoggerAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 
-    private final SysLogLoginFeign sysLogLoginFeign;
+    private final AuditLoginFeign auditLoginFeign;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request,
@@ -59,14 +59,14 @@ public class LoggerAuthenticationSuccessHandler implements AuthenticationSuccess
             Map<String, Object> additionalParameters = authenticationToken.getAdditionalParameters();
             String username = (String) additionalParameters.get(IdTokenClaimNames.SUB);
             Integer userId = (Integer) additionalParameters.get(CommonConstants.USER_ID);
-            SysLogLogin sysLogLogin = new SysLogLogin();
-            sysLogLogin.setUsername(username);
-            sysLogLogin.setUserId(userId);
-            sysLogLogin.setLoginTime(LocalDateTime.now());
-            sysLogLogin.setIp(WebUtils.getIP(request));
-            sysLogLogin.setUseragent(WebUtils.userAgent(request));
-            sysLogLogin.setStatus(CommonConstants.SUCCESS);
-            sysLogLoginFeign.save(sysLogLogin, IS_COMMING_ANONYMOUS_YES);
+            AuditLogin auditLogin = new AuditLogin();
+            auditLogin.setUsername(username);
+            auditLogin.setUserId(userId);
+            auditLogin.setLoginTime(LocalDateTime.now());
+            auditLogin.setIp(WebUtils.getIP(request));
+            auditLogin.setUseragent(WebUtils.userAgent(request));
+            auditLogin.setStatus(CommonConstants.SUCCESS);
+            auditLoginFeign.save(auditLogin, IS_COMMING_ANONYMOUS_YES);
         }
     }
 }

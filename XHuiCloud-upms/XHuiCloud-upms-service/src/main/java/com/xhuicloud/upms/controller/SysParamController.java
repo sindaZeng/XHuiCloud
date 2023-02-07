@@ -25,11 +25,11 @@
 package com.xhuicloud.upms.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.xhuicloud.common.core.constant.CacheConstants;
-import com.xhuicloud.common.core.utils.Response;
-import com.xhuicloud.common.log.annotation.SysLog;
 import com.xhuicloud.common.authorization.resource.annotation.Anonymous;
 import com.xhuicloud.common.authorization.resource.utils.SecurityHolder;
+import com.xhuicloud.common.core.constant.CacheConstants;
+import com.xhuicloud.common.core.utils.Response;
+import com.xhuicloud.common.log.annotation.AuditRecord;
 import com.xhuicloud.upms.entity.SysParam;
 import com.xhuicloud.upms.service.SysParamService;
 import io.swagger.annotations.Api;
@@ -70,7 +70,7 @@ public class SysParamController {
      * @param sysParam
      * @return
      */
-    @SysLog("新增系统参数")
+    @AuditRecord("新增系统参数")
     @PostMapping
     @PreAuthorize("@authorize.hasPermission('sys_add_param')")
     public Response<Boolean> save(@Valid @RequestBody SysParam sysParam) {
@@ -94,7 +94,7 @@ public class SysParamController {
      * @param sysParam
      * @return
      */
-    @SysLog("更新系统参数")
+    @AuditRecord("更新系统参数")
     @PutMapping("/updateValue")
     @Anonymous(value = false)
     @CacheEvict(value = CacheConstants.SYS_PARAM,  key = "#sysParam.paramKey", allEntries = true)
@@ -110,7 +110,7 @@ public class SysParamController {
      * @param sysParam
      * @return
      */
-    @SysLog("更新系统参数")
+    @AuditRecord("更新系统参数")
     @PutMapping
     @PreAuthorize("@authorize.hasPermission('sys_editor_param')")
     @CacheEvict(value = CacheConstants.SYS_PARAM,  key = "#sysParam.paramKey", allEntries = true)
@@ -125,7 +125,7 @@ public class SysParamController {
      * @param id
      * @return
      */
-    @SysLog("删除系统参数")
+    @AuditRecord("删除系统参数")
     @PreAuthorize("@authorize.hasPermission('sys_delete_param')")
     @DeleteMapping("/{id}")
     public Response<Boolean> delete(@PathVariable Integer id) {

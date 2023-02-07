@@ -27,7 +27,7 @@ package com.xhuicloud.upms.controller;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xhuicloud.common.core.utils.Response;
-import com.xhuicloud.common.log.annotation.SysLog;
+import com.xhuicloud.common.log.annotation.AuditRecord;
 import com.xhuicloud.upms.entity.SysFile;
 import com.xhuicloud.upms.service.SysFileService;
 import com.xhuicloud.upms.vo.FileVo;
@@ -82,7 +82,7 @@ public class SysFileController {
      * @param file
      * @return
      */
-    @SysLog("上传文件")
+    @AuditRecord("上传文件")
     @PostMapping("/upload")
     @PreAuthorize("@authorize.hasPermission('sys_upload_file', 'sys_upload_icon')")
     public Response<String> upload(@RequestPart("file") MultipartFile file) {
@@ -95,7 +95,7 @@ public class SysFileController {
      * @param id
      * @return
      */
-    @SysLog("删除文件")
+    @AuditRecord("删除文件")
     @DeleteMapping("/{id}")
     @PreAuthorize("@authorize.hasPermission('sys_delete_file', 'sys_delete_icon')")
     public Response<Boolean> delete(@PathVariable Integer id) {

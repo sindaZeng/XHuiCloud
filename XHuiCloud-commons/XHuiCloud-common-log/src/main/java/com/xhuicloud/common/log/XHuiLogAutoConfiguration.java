@@ -24,13 +24,14 @@
 
 package com.xhuicloud.common.log;
 
-import com.xhuicloud.common.log.aspect.SysLogAspect;
-import com.xhuicloud.common.log.event.SysLogListener;
-import com.xhuicloud.logs.feign.SysLogServiceFeign;
+import com.xhuicloud.common.log.aspect.AuditRecordAspect;
+import com.xhuicloud.common.log.component.IOperatorGetService;
+import com.xhuicloud.common.mq.annotation.EnableXHuiRabbitMq;
+import com.xhuicloud.common.mq.service.CommonMqService;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableAsync;
@@ -43,19 +44,28 @@ import org.springframework.scheduling.annotation.EnableAsync;
  */
 @EnableAsync
 @Configuration
+@EnableXHuiRabbitMq
 @AllArgsConstructor
 @ConditionalOnWebApplication
 @ConditionalOnProperty(name = "xhui.log.enabled", havingValue = "true", matchIfMissing = true)
 public class XHuiLogAutoConfiguration {
-    private final SysLogServiceFeign remoteLogService;
+
+    private final CommonMqService commonMqService;
+//    private final SysLogServiceFeign remoteLogService;
+//
+//    @Bean
+//    public SysLogListener sysLogListener() {
+//        return new SysLogListener(remoteLogService);
+//    }
+//
+//    @Bean
+//    public SysLogAspect sysLogAspect(ApplicationEventPublisher publisher) {
+//        return new SysLogAspect(publisher);
+//    }
 
     @Bean
-    public SysLogListener sysLogListener() {
-        return new SysLogListener(remoteLogService);
-    }
-
-    @Bean
-    public SysLogAspect sysLogAspect(ApplicationEventPublisher publisher) {
-        return new SysLogAspect(publisher);
+    public AuditRecordAspect auditRecordAspect(
+            @Autowired(required = false) IOperatorGetService operatorGetService) {
+        return new AuditRecordAspect(commonMqService, operatorGetService);
     }
 }

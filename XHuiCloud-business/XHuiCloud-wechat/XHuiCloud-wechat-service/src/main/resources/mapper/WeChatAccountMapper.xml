@@ -31,6 +31,7 @@ OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     <resultMap id="BaseResultMap" type="com.xhuicloud.wechat.entity.WeChatAccount">
         <id column="id" jdbcType="INTEGER" property="id"/>
         <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="url" jdbcType="VARCHAR" property="url"/>
         <result column="app_id" jdbcType="VARCHAR" property="appId"/>
         <result column="app_secret" jdbcType="VARCHAR" property="appSecret"/>
         <result column="app_auth_token" jdbcType="VARCHAR" property="appAuthToken"/>

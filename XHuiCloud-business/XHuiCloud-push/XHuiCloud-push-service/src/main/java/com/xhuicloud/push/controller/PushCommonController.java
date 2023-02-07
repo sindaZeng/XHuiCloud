@@ -26,7 +26,7 @@ package com.xhuicloud.push.controller;
 
 import com.xhuicloud.common.authorization.resource.annotation.Anonymous;
 import com.xhuicloud.common.core.utils.Response;
-import com.xhuicloud.common.log.annotation.SysLog;
+import com.xhuicloud.common.log.annotation.AuditRecord;
 import com.xhuicloud.push.common.PushMultiDiff;
 import com.xhuicloud.push.common.PushMultiple;
 import com.xhuicloud.push.common.PushSingle;
@@ -48,7 +48,7 @@ public class PushCommonController {
     private final PushCommonService pushCommonService;
 
     @Anonymous
-    @SysLog("推送单人单一内容")
+    @AuditRecord("推送单人单一内容")
     @PostMapping("/single")
     @ApiOperation(value = "推送单人单一内容", notes = "推送单人单一内容")
     public Response single(@RequestBody PushSingle pushSingle) {
@@ -56,7 +56,7 @@ public class PushCommonController {
         return Response.success();
     }
 
-    @SysLog("推送多人单一内容")
+    @AuditRecord("推送多人单一内容")
     @PostMapping("/multiple")
     @ApiOperation(value = "推送多人单一内容", notes = "推送多人单一内容")
     public Response multiple(@RequestBody PushMultiple pushMultiple) {
@@ -64,7 +64,7 @@ public class PushCommonController {
         return Response.success();
     }
 
-    @SysLog("推送多人不同内容")
+    @AuditRecord("推送多人不同内容")
     @PostMapping("/multiDiff")
     @ApiOperation(value = "推送多人不同内容", notes = "推送多人不同内容")
     public Response multiDiff(@RequestBody PushMultiDiff pushMultiDiff) {

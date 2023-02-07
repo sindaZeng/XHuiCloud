@@ -31,7 +31,7 @@ import com.alipay.api.domain.AlipayTradeWapPayModel;
 import com.alipay.api.response.AlipayTradeCreateResponse;
 import com.jpay.alipay.AliPayApi;
 import com.jpay.alipay.AliPayApiConfigKit;
-import com.xhuicloud.common.data.ttl.XHuiCommonThreadLocalHolder;
+import com.xhuicloud.common.core.ttl.XHuiCommonThreadLocalHolder;
 import com.xhuicloud.pay.config.PayConfigInit;
 import com.xhuicloud.common.core.constant.CommonConstants;
 import com.xhuicloud.pay.dto.PayOrderDto;

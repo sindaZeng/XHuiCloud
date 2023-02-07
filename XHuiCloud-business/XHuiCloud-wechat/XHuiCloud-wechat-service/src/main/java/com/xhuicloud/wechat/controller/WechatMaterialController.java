@@ -26,7 +26,7 @@ package com.xhuicloud.wechat.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xhuicloud.common.core.utils.Response;
-import com.xhuicloud.common.log.annotation.SysLog;
+import com.xhuicloud.common.log.annotation.AuditRecord;
 import com.xhuicloud.wechat.config.WeChatMpCommonService;
 import com.xhuicloud.wechat.service.WechatMaterialService;
 import io.swagger.annotations.Api;
@@ -109,7 +109,7 @@ public class WechatMaterialController {
      *
      * @return Response
      */
-    @SysLog("新增图片语音素材")
+    @AuditRecord("新增图片语音素材")
     @SneakyThrows
     @PostMapping
     @PreAuthorize("@authorize.hasPermission('sys_add_material')")
@@ -132,7 +132,7 @@ public class WechatMaterialController {
      *
      * @return Response
      */
-    @SysLog("新增视频素材")
+    @AuditRecord("新增视频素材")
     @SneakyThrows
     @PostMapping("/video")
     @PreAuthorize("@authorize.hasPermission('sys_add_material')")
@@ -194,7 +194,7 @@ public class WechatMaterialController {
      * @param mediaIds
      * @return Response
      */
-    @SysLog("通过id删除")
+    @AuditRecord("通过id删除")
     @DeleteMapping
     @PreAuthorize("@authorize.hasPermission('sys_delete_material')")
     @ApiOperation(value = "通过id删除", notes = "通过id删除")

@@ -3,7 +3,7 @@ package com.xhuicloud.wechat.controller;
 import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xhuicloud.common.core.utils.Response;
-import com.xhuicloud.common.log.annotation.SysLog;
+import com.xhuicloud.common.log.annotation.AuditRecord;
 import com.xhuicloud.wechat.config.WeChatMpCommonService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -101,7 +101,7 @@ public class WechatDraftController {
      *
      * @return Response
      */
-    @SysLog("通过id删除")
+    @AuditRecord("通过id删除")
     @DeleteMapping
     @PreAuthorize("@authorize.hasPermission('sys_delete_draft')")
     @ApiOperation(value = "通过id删除", notes = "通过id删除")

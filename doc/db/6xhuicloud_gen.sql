@@ -1,18 +1,3 @@
-/*
- Navicat Premium Data Transfer
-
- Source Server         : prod
- Source Server Type    : MySQL
- Source Server Version : 80031
- Source Host           : 14.29.219.82:3306
- Source Schema         : xhuicloud_gen
-
- Target Server Type    : MySQL
- Target Server Version : 80031
- File Encoding         : 65001
-
- Date: 22/11/2022 17:18:17
-*/
 USE xhuicloud_gen;
 
 SET NAMES utf8mb4;

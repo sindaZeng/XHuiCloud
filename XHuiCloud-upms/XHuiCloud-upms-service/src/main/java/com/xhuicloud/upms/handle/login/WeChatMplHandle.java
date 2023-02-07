@@ -30,7 +30,7 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.xhuicloud.common.authorization.resource.constant.LoginPlatformEnum;
 import com.xhuicloud.common.core.constant.SecurityConstants;
 import com.xhuicloud.common.core.exception.SysException;
-import com.xhuicloud.common.data.ttl.XHuiCommonThreadLocalHolder;
+import com.xhuicloud.common.core.ttl.XHuiCommonThreadLocalHolder;
 import com.xhuicloud.upms.dto.UserInfo;
 import com.xhuicloud.upms.entity.SysSocial;
 import com.xhuicloud.upms.entity.SysUser;

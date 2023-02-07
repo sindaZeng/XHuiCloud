@@ -24,8 +24,9 @@
 
 package com.xhuicloud.common.feign.interceptor;
 
+import cn.hutool.core.util.StrUtil;
 import com.xhuicloud.common.core.constant.CommonConstants;
-import com.xhuicloud.common.data.ttl.XHuiCommonThreadLocalHolder;
+import com.xhuicloud.common.core.ttl.XHuiCommonThreadLocalHolder;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
 import lombok.extern.slf4j.Slf4j;
@@ -41,10 +42,14 @@ public class XHuiFeignTenantInterceptor implements RequestInterceptor {
 
     @Override
     public void apply(RequestTemplate requestTemplate) {
-        if (XHuiCommonThreadLocalHolder.getTenant() == null) {
-            return;
+        Integer tenant = XHuiCommonThreadLocalHolder.getTenant();
+        if (tenant != null) {
+            requestTemplate.header(CommonConstants.TENANT_ID, tenant.toString());
         }
-        requestTemplate.header(CommonConstants.TENANT_ID, XHuiCommonThreadLocalHolder.getTenant().toString());
+        String reqId = XHuiCommonThreadLocalHolder.getReqId();
+        if (StrUtil.isNotBlank(reqId)) {
+            requestTemplate.header(CommonConstants.REQ_ID, reqId);
+        }
     }
 
 }

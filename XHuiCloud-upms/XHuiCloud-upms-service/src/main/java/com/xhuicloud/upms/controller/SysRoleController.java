@@ -28,7 +28,7 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xhuicloud.common.core.constant.CacheConstants;
 import com.xhuicloud.common.core.utils.Response;
-import com.xhuicloud.common.log.annotation.SysLog;
+import com.xhuicloud.common.log.annotation.AuditRecord;
 import com.xhuicloud.upms.dto.RoleDto;
 import com.xhuicloud.upms.dto.RoleMenusDto;
 import com.xhuicloud.upms.entity.SysRole;
@@ -85,7 +85,7 @@ public class SysRoleController {
      * @param sysRole
      * @return
      */
-    @SysLog("新增角色")
+    @AuditRecord("新增角色")
     @PostMapping
     @PreAuthorize("@authorize.hasPermission('sys_add_role')")
     @CacheEvict(value = CacheConstants.SYS_ROLE, allEntries = true)
@@ -100,7 +100,7 @@ public class SysRoleController {
      * @param sysRole
      * @return
      */
-    @SysLog("编辑角色")
+    @AuditRecord("编辑角色")
     @PutMapping
     @PreAuthorize("@authorize.hasPermission('sys_editor_role')")
     @CacheEvict(value = CacheConstants.SYS_ROLE, allEntries = true)
@@ -115,7 +115,7 @@ public class SysRoleController {
      * @param id
      * @return
      */
-    @SysLog("删除角色")
+    @AuditRecord("删除角色")
     @PreAuthorize("@authorize.hasPermission('sys_delete_role')")
     @DeleteMapping("/{id}")
     @CacheEvict(value = CacheConstants.SYS_ROLE, allEntries = true)
@@ -141,7 +141,7 @@ public class SysRoleController {
      * @param roleMenusDto
      * @return
      */
-    @SysLog("更新角色菜单")
+    @AuditRecord("更新角色菜单")
     @PreAuthorize("@authorize.hasPermission('sys_permission_role')")
     @PutMapping("/menus")
     public Response<Boolean> saveRoleMenus(@RequestBody RoleMenusDto roleMenusDto) {

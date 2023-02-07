@@ -56,6 +56,9 @@ public class WeChatAccount implements Serializable {
     @ApiModelProperty(value = "公众号名称")
     private String name;
 
+    @ApiModelProperty(value = "公众号头像")
+    private String url;
+
     @ApiModelProperty(value = "公众号AppId")
     private String appId;
 

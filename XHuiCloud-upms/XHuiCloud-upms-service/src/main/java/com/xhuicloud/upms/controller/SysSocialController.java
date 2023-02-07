@@ -25,9 +25,9 @@
 package com.xhuicloud.upms.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.xhuicloud.common.core.utils.Response;
-import com.xhuicloud.common.log.annotation.SysLog;
 import com.xhuicloud.common.authorization.resource.annotation.Anonymous;
+import com.xhuicloud.common.core.utils.Response;
+import com.xhuicloud.common.log.annotation.AuditRecord;
 import com.xhuicloud.upms.dto.UserInfo;
 import com.xhuicloud.upms.entity.SysSocial;
 import com.xhuicloud.upms.service.SysSocialService;
@@ -81,7 +81,7 @@ public class SysSocialController {
      * @param sysSocial
      * @return
      */
-    @SysLog("新增社交")
+    @AuditRecord("新增社交")
     @PostMapping
     @PreAuthorize("@authorize.hasPermission('sys_add_social')")
     public Response<Boolean> save(@Valid @RequestBody SysSocial sysSocial) {
@@ -94,7 +94,7 @@ public class SysSocialController {
      * @param sysSocial
      * @return
      */
-    @SysLog("编辑社交")
+    @AuditRecord("编辑社交")
     @PutMapping
     @PreAuthorize("@authorize.hasPermission('sys_editor_social')")
     public Response<Boolean> update(@Valid @RequestBody SysSocial sysSocial) {
@@ -107,7 +107,7 @@ public class SysSocialController {
      * @param id
      * @return
      */
-    @SysLog("开启禁用社交")
+    @AuditRecord("开启禁用社交")
     @DeleteMapping("/{id}")
     @PreAuthorize("@authorize.hasPermission('sys_delete_social')")
     public Response<Boolean> delete(@PathVariable Integer id) {

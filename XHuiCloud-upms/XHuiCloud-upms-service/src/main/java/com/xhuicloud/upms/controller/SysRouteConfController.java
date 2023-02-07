@@ -32,7 +32,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.collect.Lists;
 import com.xhuicloud.common.core.utils.Response;
 import com.xhuicloud.common.gateway.support.DynamicRouteInitEvent;
-import com.xhuicloud.common.log.annotation.SysLog;
+import com.xhuicloud.common.log.annotation.AuditRecord;
 import com.xhuicloud.upms.dto.RouteConfDto;
 import com.xhuicloud.upms.entity.SysRouteConf;
 import com.xhuicloud.upms.service.SysRouteConfService;
@@ -128,7 +128,7 @@ public class SysRouteConfController {
         return Response.success(predicateAndFilterVo);
     }
 
-    @SysLog("新增动态路由")
+    @AuditRecord("新增动态路由")
     @PostMapping
     @PreAuthorize("@authorize.hasPermission('sys_add_route')")
     @ApiOperation(value = "新增动态路由", notes = "新增动态路由")
@@ -138,7 +138,7 @@ public class SysRouteConfController {
         return Response.success(isSuccess);
     }
 
-    @SysLog("编辑动态路由")
+    @AuditRecord("编辑动态路由")
     @PutMapping
     @PreAuthorize("@authorize.hasPermission('sys_editor_route')")
     public Response<Boolean> update(@Valid @RequestBody RouteConfDto routeConfDto) {
@@ -149,7 +149,7 @@ public class SysRouteConfController {
         return Response.success(sysRouteConfService.update(sysRouteConf, routeConfDto));
     }
 
-    @SysLog("删除动态路由")
+    @AuditRecord("删除动态路由")
     @PreAuthorize("@authorize.hasPermission('sys_delete_route')")
     @DeleteMapping("/{id}")
     @ApiOperation(value = "删除动态路由", notes = "删除动态路由")

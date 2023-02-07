@@ -26,7 +26,7 @@ package com.xhuicloud.push.consumer;
 
 import com.alibaba.fastjson.JSON;
 import com.rabbitmq.client.Channel;
-import com.xhuicloud.common.data.ttl.XHuiCommonThreadLocalHolder;
+import com.xhuicloud.common.core.ttl.XHuiCommonThreadLocalHolder;
 import com.xhuicloud.common.mq.entity.push.PushMqEntity;
 import com.xhuicloud.push.common.PushMultiDiff;
 import com.xhuicloud.push.common.PushMultiple;

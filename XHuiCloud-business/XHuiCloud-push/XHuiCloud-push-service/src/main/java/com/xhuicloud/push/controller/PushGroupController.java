@@ -27,7 +27,7 @@ package com.xhuicloud.push.controller;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xhuicloud.common.core.constant.CacheConstants;
 import com.xhuicloud.common.core.utils.Response;
-import com.xhuicloud.common.log.annotation.SysLog;
+import com.xhuicloud.common.log.annotation.AuditRecord;
 import com.xhuicloud.push.entity.PushGroup;
 import com.xhuicloud.push.service.PushGroupService;
 import io.swagger.annotations.Api;
@@ -35,6 +35,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.web.bind.annotation.*;
+
 import javax.validation.Valid;
 
 @RestController
@@ -63,7 +64,7 @@ public class PushGroupController {
      * @param pushGroup
      * @return
      */
-    @SysLog("新增推送模板组")
+    @AuditRecord("新增推送模板组")
     @PostMapping
     @CacheEvict(value = CacheConstants.PUSH_GROUP, allEntries = true)
     @ApiOperation(value = "新增推送模板组", notes = "新增推送模板组")
@@ -77,7 +78,7 @@ public class PushGroupController {
      * @param pushGroup
      * @return
      */
-    @SysLog("编辑推送模板组")
+    @AuditRecord("编辑推送模板组")
     @PutMapping
     @CacheEvict(value = CacheConstants.PUSH_GROUP, allEntries = true)
     @ApiOperation(value = "编辑推送模板组", notes = "编辑推送模板组")
@@ -91,7 +92,7 @@ public class PushGroupController {
      * @param id
      * @return
      */
-    @SysLog("删除推送模板组")
+    @AuditRecord("删除推送模板组")
     @DeleteMapping("/{id}")
     @CacheEvict(value = CacheConstants.PUSH_GROUP, allEntries = true)
     @ApiOperation(value = "删除推送模板组", notes = "删除推送模板组")

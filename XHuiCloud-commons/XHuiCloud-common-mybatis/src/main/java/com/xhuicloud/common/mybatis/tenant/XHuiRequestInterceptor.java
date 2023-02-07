@@ -25,7 +25,7 @@
 package com.xhuicloud.common.mybatis.tenant;
 
 import com.xhuicloud.common.core.constant.CommonConstants;
-import com.xhuicloud.common.data.ttl.XHuiCommonThreadLocalHolder;
+import com.xhuicloud.common.core.ttl.XHuiCommonThreadLocalHolder;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.MediaType;

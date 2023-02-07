@@ -26,8 +26,8 @@ package com.xhuicloud.auth.handle;
 
 import com.xhuicloud.common.core.constant.CommonConstants;
 import com.xhuicloud.common.core.utils.WebUtils;
-import com.xhuicloud.logs.entity.SysLogLogin;
-import com.xhuicloud.logs.feign.SysLogLoginFeign;
+import com.xhuicloud.logs.entity.AuditLogin;
+import com.xhuicloud.logs.feign.AuditLoginFeign;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
@@ -46,20 +46,20 @@ import static com.xhuicloud.common.core.constant.AuthorizationConstants.IS_COMMI
 @AllArgsConstructor
 public class LoggerAuthenticationFailureHandler implements AuthenticationFailureHandler {
 
-    private final SysLogLoginFeign sysLogLoginFeign;
+    private final AuditLoginFeign auditLoginFeign;
 
     @Override
     public void onAuthenticationFailure(HttpServletRequest request,
                                         HttpServletResponse response,
                                         AuthenticationException exception) throws IOException, ServletException {
         String username = request.getParameter(OAuth2ParameterNames.USERNAME);
-        SysLogLogin sysLogLogin = new SysLogLogin();
-        sysLogLogin.setUsername(username);
-        sysLogLogin.setLoginTime(LocalDateTime.now());
-        sysLogLogin.setIp(WebUtils.getIP(request));
-        sysLogLogin.setUseragent(WebUtils.userAgent(request));
-        sysLogLogin.setStatus(CommonConstants.FAIL);
-        sysLogLogin.setRemake(exception.getMessage());
-        sysLogLoginFeign.save(sysLogLogin, IS_COMMING_ANONYMOUS_YES);
+        AuditLogin auditLogin = new AuditLogin();
+        auditLogin.setUsername(username);
+        auditLogin.setLoginTime(LocalDateTime.now());
+        auditLogin.setIp(WebUtils.getIP(request));
+        auditLogin.setUseragent(WebUtils.userAgent(request));
+        auditLogin.setStatus(CommonConstants.FAIL);
+        auditLogin.setRemake(exception.getMessage());
+        auditLoginFeign.save(auditLogin, IS_COMMING_ANONYMOUS_YES);
     }
 }

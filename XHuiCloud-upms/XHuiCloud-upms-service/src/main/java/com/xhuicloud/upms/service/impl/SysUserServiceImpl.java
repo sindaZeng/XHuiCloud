@@ -33,6 +33,8 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xhuicloud.common.authorization.resource.utils.SecurityHolder;
 import com.xhuicloud.common.core.exception.SysException;
+import com.xhuicloud.common.log.annotation.AuditRecord;
+import com.xhuicloud.common.log.utils.LogRecordContext;
 import com.xhuicloud.upms.dto.UserInfo;
 import com.xhuicloud.upms.dto.UserQueryDto;
 import com.xhuicloud.upms.entity.SysMenu;
@@ -204,17 +206,29 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     }
 
     @Override
+    @AuditRecord(value = "#detail + '原角色:' + #oldRole + '新角色:' + #newRole")
     @Transactional(rollbackFor = Exception.class)
     public Boolean updateUser(SysUser sysUser) {
         SysUser user = getSysUser(sysUser.getUserId());
+        String detail = String.format("%s修改了%s(%s)的用户信息;", SecurityHolder.getOperator(), user.getUsername(), user.getUserId());
         if (CollectionUtil.isNotEmpty(sysUser.getDeptIds())) {
             //删除该用户下的所有部门，重新插入
             sysUserDeptService.updateUserDept(user.getUserId(), sysUser.getDeptIds());
+
         }
         if (CollectionUtil.isNotEmpty(sysUser.getRoleIds())) {
+            List<SysRole> sysRoles = sysRoleService.findRoleById(sysUser.getUserId());
+            List<String> roleCodes = sysRoles.stream().map(SysRole::getRoleCode)
+                    .collect(Collectors.toList());
+            LogRecordContext.putVariable("oldRole", roleCodes);
             //删除该用户下的所有部门，重新插入
             sysUserRoleService.updateUserRole(user.getUserId(), sysUser.getRoleIds());
+            sysRoles = sysRoleService.findRoleById(sysUser.getUserId());
+            roleCodes = sysRoles.stream().map(SysRole::getRoleCode)
+                    .collect(Collectors.toList());
+            LogRecordContext.putVariable("newRole", roleCodes);
         }
+        LogRecordContext.putVariable("detail", detail);
         return updateById(sysUser);
     }
 

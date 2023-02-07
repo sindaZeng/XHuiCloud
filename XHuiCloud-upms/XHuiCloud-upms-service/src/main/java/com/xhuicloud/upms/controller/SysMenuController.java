@@ -25,9 +25,9 @@
 package com.xhuicloud.upms.controller;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.xhuicloud.common.core.utils.Response;
-import com.xhuicloud.common.log.annotation.SysLog;
 import com.xhuicloud.common.authorization.resource.utils.SecurityHolder;
+import com.xhuicloud.common.core.utils.Response;
+import com.xhuicloud.common.log.annotation.AuditRecord;
 import com.xhuicloud.upms.dto.MenuTree;
 import com.xhuicloud.upms.entity.SysMenu;
 import com.xhuicloud.upms.service.SysMenuService;
@@ -108,7 +108,7 @@ public class SysMenuController {
      * @param sysMenu
      * @return
      */
-    @SysLog("新增菜单")
+    @AuditRecord("新增菜单")
     @PostMapping
     @PreAuthorize("@authorize.hasPermission('sys_add_menu')")
     public Response<Boolean> save(@Valid @RequestBody SysMenu sysMenu) {
@@ -121,7 +121,7 @@ public class SysMenuController {
      * @param id
      * @return
      */
-    @SysLog("开启禁用菜单")
+    @AuditRecord("开启禁用菜单")
     @DeleteMapping("/{id}")
     @PreAuthorize("@authorize.hasPermission('sys_delete_menu')")
     public Response<Boolean> delete(@PathVariable Integer id) {
@@ -134,7 +134,7 @@ public class SysMenuController {
      * @param sysMenu
      * @return
      */
-    @SysLog("编辑菜单")
+    @AuditRecord("编辑菜单")
     @PutMapping
     @PreAuthorize("@authorize.hasPermission('sys_editor_menu')")
     public Response<Boolean> update(@Valid @RequestBody SysMenu sysMenu) {

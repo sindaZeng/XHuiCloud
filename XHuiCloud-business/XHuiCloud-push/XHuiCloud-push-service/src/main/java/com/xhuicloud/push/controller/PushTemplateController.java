@@ -27,7 +27,7 @@ package com.xhuicloud.push.controller;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xhuicloud.common.core.constant.CacheConstants;
 import com.xhuicloud.common.core.utils.Response;
-import com.xhuicloud.common.log.annotation.SysLog;
+import com.xhuicloud.common.log.annotation.AuditRecord;
 import com.xhuicloud.push.entity.PushTemplate;
 import com.xhuicloud.push.service.PushTemplateService;
 import io.swagger.annotations.Api;
@@ -65,7 +65,7 @@ public class PushTemplateController {
      * @param pushTemplate
      * @return
      */
-    @SysLog("新增推送模板")
+    @AuditRecord("新增推送模板")
     @PostMapping
     @ApiOperation(value = "新增推送模板", notes = "新增推送模板")
     public Response<Boolean> save(@Valid @RequestBody PushTemplate pushTemplate) {
@@ -78,7 +78,7 @@ public class PushTemplateController {
      * @param pushTemplate
      * @return
      */
-    @SysLog("编辑推送模板")
+    @AuditRecord("编辑推送模板")
     @PutMapping
     @ApiOperation(value = "编辑推送模板", notes = "编辑推送模板")
     @CacheEvict(value = CacheConstants.PUSH_TEMPLATE, key = "#pushTemplate.id")
@@ -92,7 +92,7 @@ public class PushTemplateController {
      * @param id
      * @return
      */
-    @SysLog("删除推送模板")
+    @AuditRecord("删除推送模板")
     @DeleteMapping("/{id}")
     @ApiOperation(value = "删除推送模板", notes = "删除推送模板")
     @CacheEvict(value = CacheConstants.PUSH_TEMPLATE, key = "#pushTemplate.id")

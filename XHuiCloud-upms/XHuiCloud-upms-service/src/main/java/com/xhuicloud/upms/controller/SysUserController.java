@@ -31,7 +31,7 @@ import com.xhuicloud.common.authorization.resource.annotation.Anonymous;
 import com.xhuicloud.common.authorization.resource.utils.SecurityHolder;
 import com.xhuicloud.common.core.utils.ExcelUtil;
 import com.xhuicloud.common.core.utils.Response;
-import com.xhuicloud.common.log.annotation.SysLog;
+import com.xhuicloud.common.log.annotation.AuditRecord;
 import com.xhuicloud.upms.dto.UserInfo;
 import com.xhuicloud.upms.dto.UserQueryDto;
 import com.xhuicloud.upms.entity.SysUser;
@@ -102,7 +102,7 @@ public class SysUserController {
      *
      * @return
      */
-    @SysLog("添加用户")
+    @AuditRecord("添加用户")
     @PostMapping
     @PreAuthorize("@authorize.hasPermission('sys_add_user')")
     public Response<Integer> save(@Valid @RequestBody SysUser sysUser) {
@@ -117,7 +117,7 @@ public class SysUserController {
      * @return
      * @throws Exception
      */
-    @SysLog("导入用户")
+    @AuditRecord("导入用户")
     @PostMapping("/import")
     @PreAuthorize("@authorize.hasPermission('sys_import_user')")
     public Response<String> importUser(MultipartFile file, boolean updateSupport) throws Exception {
@@ -132,7 +132,6 @@ public class SysUserController {
      * @param sysUser
      * @return
      */
-    @SysLog("编辑用户")
     @PutMapping
     @PreAuthorize("@authorize.hasPermission('sys_editor_user')")
     public Response<Boolean> update(@Valid @RequestBody SysUser sysUser) {
@@ -145,7 +144,7 @@ public class SysUserController {
      * @param sysUser
      * @return
      */
-    @SysLog("编辑用户签名")
+    @AuditRecord("编辑用户签名")
     @PutMapping("/motto")
     @PreAuthorize("@authorize.hasPermission('sys_editor_user')")
     public Response<Boolean> updateUserMotto(@Valid @RequestBody SysUser sysUser) {
@@ -158,7 +157,7 @@ public class SysUserController {
      * @param phone
      * @return
      */
-    @SysLog("编辑用户签名")
+    @AuditRecord("编辑用户签名")
     @PutMapping("/phone/{phone}")
     @PreAuthorize("@authorize.hasPermission('sys_editor_user')")
     public Response<Boolean> updateUserPhone(@PathVariable String phone) {
@@ -171,7 +170,7 @@ public class SysUserController {
      * @param sysUser
      * @return
      */
-    @SysLog("编辑用户签名")
+    @AuditRecord("编辑用户签名")
     @PutMapping("/avatar")
     @PreAuthorize("@authorize.hasPermission('sys_editor_user')")
     public Response<Boolean> updateUserAvatar(@Valid @RequestBody SysUser sysUser) {
@@ -184,7 +183,7 @@ public class SysUserController {
      * @param id
      * @return
      */
-    @SysLog("开启/禁用用户")
+    @AuditRecord("开启/禁用用户")
     @DeleteMapping("/{id}")
     @PreAuthorize("@authorize.hasPermission('sys_delete_user')")
     public Response<Boolean> delete(@PathVariable Integer id) {
@@ -197,7 +196,7 @@ public class SysUserController {
      * @param id
      * @return
      */
-    @SysLog("锁定/解锁用户")
+    @AuditRecord("锁定/解锁用户")
     @PostMapping("/{id}")
     @PreAuthorize("@authorize.hasPermission('sys_ban_user')")
     public Response<Boolean> lock(@PathVariable Integer id) {

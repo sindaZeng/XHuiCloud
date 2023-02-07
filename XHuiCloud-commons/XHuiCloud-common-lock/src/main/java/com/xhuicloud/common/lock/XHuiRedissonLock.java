@@ -72,7 +72,7 @@ public class XHuiRedissonLock {
     public boolean tryLock(String lockName, long leaseTime) {
 
         RLock rLock = redisson.getLock(lockName);
-        boolean getLock = false;
+        boolean getLock;
         try {
             getLock = rLock.tryLock(leaseTime, TimeUnit.SECONDS);
         } catch (InterruptedException e) {

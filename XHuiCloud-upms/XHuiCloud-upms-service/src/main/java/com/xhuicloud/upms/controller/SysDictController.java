@@ -28,7 +28,7 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xhuicloud.common.core.constant.CacheConstants;
 import com.xhuicloud.common.core.utils.Response;
-import com.xhuicloud.common.log.annotation.SysLog;
+import com.xhuicloud.common.log.annotation.AuditRecord;
 import com.xhuicloud.upms.entity.SysDict;
 import com.xhuicloud.upms.service.SysDictService;
 import io.swagger.annotations.Api;
@@ -66,7 +66,7 @@ public class SysDictController {
      * @param sysDict
      * @return
      */
-    @SysLog("新增字典项")
+    @AuditRecord("新增字典项")
     @PostMapping
     @CacheEvict(value = CacheConstants.SYS_DICT, allEntries = true)
     @ApiOperation(value = "新增字典项", notes = "新增字典项")
@@ -75,7 +75,7 @@ public class SysDictController {
         return Response.success(sysDictService.save(sysDict));
     }
 
-    @SysLog("编辑字典项")
+    @AuditRecord("编辑字典项")
     @PutMapping
     @CacheEvict(value = CacheConstants.SYS_DICT, allEntries = true)
     @ApiOperation(value = "编辑字典项", notes = "编辑字典项")
@@ -90,7 +90,7 @@ public class SysDictController {
      * @param id
      * @return
      */
-    @SysLog("删除字典项")
+    @AuditRecord("删除字典项")
     @DeleteMapping("/{id}")
     @CacheEvict(value = CacheConstants.SYS_DICT, allEntries = true)
     @ApiOperation(value = "删除字典项", notes = "删除字典项")

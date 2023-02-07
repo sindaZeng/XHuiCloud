@@ -31,9 +31,9 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.collect.Lists;
-import com.xhuicloud.common.core.utils.Response;
-import com.xhuicloud.common.log.annotation.SysLog;
 import com.xhuicloud.common.authorization.resource.annotation.Anonymous;
+import com.xhuicloud.common.core.utils.Response;
+import com.xhuicloud.common.log.annotation.AuditRecord;
 import com.xhuicloud.upms.dto.TenantDto;
 import com.xhuicloud.upms.entity.SysSocial;
 import com.xhuicloud.upms.entity.SysTenant;
@@ -134,7 +134,7 @@ public class SysTenantController {
      *
      * @return
      */
-    @SysLog("添加租户")
+    @AuditRecord("添加租户")
     @PostMapping
     @PreAuthorize("@authorize.hasPermission('sys_add_tenant')")
     public Response<Boolean> save(@Valid @RequestBody SysTenant sysTenant) {
@@ -146,7 +146,7 @@ public class SysTenantController {
      *
      * @return
      */
-    @SysLog("编辑租户")
+    @AuditRecord("编辑租户")
     @PutMapping
     @PreAuthorize("@authorize.hasPermission('sys_editor_tenant')")
     public Response<Boolean> update(@Valid @RequestBody SysTenant sysTenant) {
@@ -159,7 +159,7 @@ public class SysTenantController {
      * @param id
      * @return
      */
-    @SysLog("删除租户")
+    @AuditRecord("删除租户")
     @DeleteMapping("/{id}")
     @PreAuthorize("@authorize.hasPermission('sys_delete_tenant')")
     public Response<Boolean> delete(@PathVariable Integer id) {
@@ -173,7 +173,7 @@ public class SysTenantController {
      * @param state
      * @return
      */
-    @SysLog("改变租户状态")
+    @AuditRecord("改变租户状态")
     @GetMapping("/state")
     @PreAuthorize("@authorize.hasPermission('sys_delete_tenant')")
     public Response<Boolean> state(@RequestParam(value = "id") Integer id, @RequestParam(value = "state") Integer state) {

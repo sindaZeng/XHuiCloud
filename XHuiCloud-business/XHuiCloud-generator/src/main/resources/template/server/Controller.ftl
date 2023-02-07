@@ -27,7 +27,7 @@ package ${package}.controller;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xhuicloud.common.core.utils.Response;
-import com.xhuicloud.common.log.annotation.SysLog;
+import com.xhuicloud.common.log.annotation.AuditRecord;
 import ${package}.entity.${ClassName};
 import ${package}.service.${ClassName}Service;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -82,7 +82,7 @@ public class ${ClassName}Controller {
     * @param ${className} ${tableComment}
     * @return Response
     */
-    @SysLog("新增${tableComment}" )
+    @AuditRecord("新增${tableComment}" )
     @PostMapping
     @PreAuthorize("@authorize.hasPermission('sys_add_${pathName}')" )
     @ApiOperation(value = "新增${tableComment}", notes = "新增${tableComment}")
@@ -96,7 +96,7 @@ public class ${ClassName}Controller {
     * @param ${className} ${tableComment}
     * @return Response
     */
-    @SysLog("编辑${tableComment}" )
+    @AuditRecord("编辑${tableComment}" )
     @PutMapping
     @PreAuthorize("@authorize.hasPermission('sys_editor_${pathName}')" )
     @ApiOperation(value = "修改${tableComment}", notes = "修改${tableComment}")
@@ -110,7 +110,7 @@ public class ${ClassName}Controller {
     * @param id
     * @return Response
     */
-    @SysLog("通过id删除${tableComment}" )
+    @AuditRecord("通过id删除${tableComment}" )
     @DeleteMapping("/{id}" )
     @PreAuthorize("@authorize.hasPermission('sys_delete_${pathName}')" )
     @ApiOperation(value = "通过id删除${tableComment}", notes = "通过id删除${tableComment}")

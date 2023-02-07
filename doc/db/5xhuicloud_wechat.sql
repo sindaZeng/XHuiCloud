@@ -1,18 +1,3 @@
-/*
- Navicat Premium Data Transfer
-
- Source Server         : prod
- Source Server Type    : MySQL
- Source Server Version : 80031
- Source Host           : 14.29.219.82:3306
- Source Schema         : xhuicloud_wechat
-
- Target Server Type    : MySQL
- Target Server Version : 80031
- File Encoding         : 65001
-
- Date: 22/11/2022 17:26:09
-*/
 USE xhuicloud_wechat;
 
 SET NAMES utf8mb4;
@@ -25,6 +10,7 @@ DROP TABLE IF EXISTS `wechat_account`;
 CREATE TABLE `wechat_account`  (
   `id` int NOT NULL AUTO_INCREMENT COMMENT 'id',
   `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '公众号名称',
+  `url` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '公众号头像',
   `app_id` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '公众号AppId',
   `app_secret` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '公众号secret',
   `app_auth_token` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '平台认证token',

@@ -26,7 +26,7 @@ package com.xhuicloud.common.data.cache;
 
 import cn.hutool.core.util.StrUtil;
 import com.xhuicloud.common.core.constant.CacheConstants;
-import com.xhuicloud.common.data.ttl.XHuiCommonThreadLocalHolder;
+import com.xhuicloud.common.core.ttl.XHuiCommonThreadLocalHolder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.convert.DurationStyle;
 import org.springframework.cache.Cache;

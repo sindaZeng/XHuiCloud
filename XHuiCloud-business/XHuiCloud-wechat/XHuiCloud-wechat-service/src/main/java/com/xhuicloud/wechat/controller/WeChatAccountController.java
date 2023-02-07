@@ -29,10 +29,11 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xhuicloud.common.core.constant.CommonConstants;
 import com.xhuicloud.common.core.utils.Response;
-import com.xhuicloud.common.log.annotation.SysLog;
+import com.xhuicloud.common.log.annotation.AuditRecord;
 import com.xhuicloud.wechat.config.WeChatMpCommonService;
 import com.xhuicloud.wechat.entity.WeChatAccount;
 import com.xhuicloud.wechat.service.WeChatAccountService;
+import com.xhuicloud.wechat.vo.WeChatAccountVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
@@ -87,15 +88,19 @@ public class WeChatAccountController {
 
 
     /**
-     * 通过id查询公众号账户
+     * 通过app_id查询公众号账户基本信息
      *
-     * @param id
+     * @param appId
      * @return Response
      */
-    @GetMapping("/{id}")
-    @ApiOperation(value = "通过id查询公众号账户", notes = "通过id查询公众号账户")
-    public Response getById(@PathVariable Integer id) {
-        return Response.success(weChatAccountService.getById(id));
+    @GetMapping("/{appId}")
+    @ApiOperation(value = "通过app_id查询公众号账户基本信息", notes = "通过app_id查询公众号账户基本信息")
+    public Response getByAppId(@PathVariable String appId) {
+        WeChatAccount account = weChatAccountService.getOne(Wrappers.<WeChatAccount>lambdaQuery().eq(WeChatAccount::getAppId, appId));
+        WeChatAccountVo accountVo = new WeChatAccountVo();
+        accountVo.setName(account.getName());
+        accountVo.setUrl(account.getUrl());
+        return Response.success(accountVo);
     }
 
     /**
@@ -146,7 +151,7 @@ public class WeChatAccountController {
      * @param weChatAccount 公众号账户
      * @return Response
      */
-    @SysLog("新增公众号账户")
+    @AuditRecord("新增公众号账户")
     @PostMapping
     @PreAuthorize("@authorize.hasPermission('sys_add_account')")
     @ApiOperation(value = "新增公众号账户", notes = "新增公众号账户")
@@ -162,7 +167,7 @@ public class WeChatAccountController {
      * @param weChatAccount 公众号账户
      * @return Response
      */
-    @SysLog("编辑公众号账户")
+    @AuditRecord("编辑公众号账户")
     @PutMapping
     @PreAuthorize("@authorize.hasPermission('sys_editor_account')")
     @ApiOperation(value = "修改公众号账户", notes = "修改公众号账户")
@@ -178,7 +183,7 @@ public class WeChatAccountController {
      * @param id
      * @return Response
      */
-    @SysLog("通过id删除公众号账户")
+    @AuditRecord("通过id删除公众号账户")
     @DeleteMapping("/{id}")
     @PreAuthorize("@authorize.hasPermission('sys_delete_account')")
     @ApiOperation(value = "通过id删除公众号账户", notes = "通过id删除公众号账户")

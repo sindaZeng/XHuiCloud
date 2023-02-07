@@ -19,3 +19,5 @@ COPY 5xhuicloud_wechat.sql /docker-entrypoint-initdb.d
 COPY 6xhuicloud_gen.sql /docker-entrypoint-initdb.d
 
 COPY 7xhuicloud_push.sql /docker-entrypoint-initdb.d
+
+COPY 8xhuicloud_audit.sql /docker-entrypoint-initdb.d
