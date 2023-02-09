@@ -37,4 +37,6 @@ import com.xhuicloud.wechat.vo.WeChatSummaryVo;
 public interface WeChatAccountService extends IService<WeChatAccount> {
 
     WeChatSummaryVo getUserSummary(String appId);
+
+    void isExist(String appId);
 }

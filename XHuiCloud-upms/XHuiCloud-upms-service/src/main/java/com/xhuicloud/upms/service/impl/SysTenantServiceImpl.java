@@ -41,7 +41,7 @@ public class SysTenantServiceImpl extends ServiceImpl<SysTenantMapper, SysTenant
     public Boolean state(Integer id, Integer state) {
         SysTenant sysTenant = getById(id);
         if (ObjectUtil.isEmpty(sysTenant)) {
-            throw SysException.sysFail(SysException.TENANT_NOT_EXIST_DATA_EXCEPTION);
+            SysException.sysFail(SysException.TENANT_NOT_EXIST_DATA_EXCEPTION);
         }
         sysTenant.setState(state);
         return updateById(sysTenant);

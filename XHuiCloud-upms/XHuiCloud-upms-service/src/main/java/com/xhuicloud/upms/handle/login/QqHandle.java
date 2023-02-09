@@ -75,7 +75,7 @@ public class QqHandle extends AbstractSocialHandler {
         String result = HttpUtil.get(String.format(ThirdLoginUrlConstants.getTokenUrl
                 , sysSocial.getAppId(), sysSocial.getAppSecret(), code, URLUtil.encode(sysSocial.getRedirectUrl())));
         if (result.contains("error_description")) {
-            throw SysException.sysFail(SysException.PARAM_EXCEPTION);
+            SysException.sysFail(SysException.PARAM_EXCEPTION);
         }
         String access_token = result.split("&")[0].split("=")[1];
         log.info("QQ return result:[{}]", result);
@@ -105,7 +105,7 @@ public class QqHandle extends AbstractSocialHandler {
         }
         SysUser user = sysUserService.getById(userId);
         if (ObjectUtil.isNull(user)) {
-            throw SysException.sysFail(SysException.USER_NOT_EXIST_DATA_EXCEPTION);
+            SysException.sysFail(SysException.USER_NOT_EXIST_DATA_EXCEPTION);
         }
         return sysUserService.getSysUser(user);
     }

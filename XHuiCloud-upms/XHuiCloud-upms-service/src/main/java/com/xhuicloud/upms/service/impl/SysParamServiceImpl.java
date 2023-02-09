@@ -57,7 +57,7 @@ public class SysParamServiceImpl extends ServiceImpl<SysParamMapper, SysParam> i
     public Boolean saveParam(SysParam sysParam) {
         if (ObjectUtil.isNotNull(getOne(Wrappers.<SysParam>lambdaQuery()
                 .eq(SysParam::getParamKey,sysParam.getParamKey())))){
-            throw SysException.sysFail(SysException.PARAM_IS_EXIST_DATA_EXCEPTION);
+            SysException.sysFail(SysException.PARAM_IS_EXIST_DATA_EXCEPTION);
         }
         return save(sysParam);
     }

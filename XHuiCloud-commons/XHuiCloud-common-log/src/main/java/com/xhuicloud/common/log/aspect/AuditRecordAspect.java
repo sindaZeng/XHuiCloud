@@ -1,7 +1,9 @@
 package com.xhuicloud.common.log.aspect;
 
+import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.core.util.URLUtil;
+import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.alibaba.fastjson.JSON;
 import com.xhuicloud.common.core.ttl.XHuiCommonThreadLocalHolder;
@@ -26,12 +28,14 @@ import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.expression.AnnotatedElementKey;
 import org.springframework.expression.EvaluationContext;
+
 import javax.servlet.http.HttpServletRequest;
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.MethodType;
 import java.lang.reflect.Method;
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @Desc
@@ -95,6 +99,7 @@ public class AuditRecordAspect {
 
     private void recordExecute(Object result, Method method, AuditRecord annotation, ProceedingJoinPoint point, String errorMsg) {
         String condition = annotation.condition();
+        String[] anonymousFields = annotation.anonymousFields();
         String value = annotation.value();
         Class<?> targetClass = getTargetClass(point);
         // 参数
@@ -119,8 +124,18 @@ public class AuditRecordAspect {
             auditModel.setRequestMethod(point.getSignature().getName());
             auditModel.setRequestUri(URLUtil.getPath(request.getRequestURI()));
             auditModel.setHttpMethod(request.getMethod());
-            auditModel.setParams(Arrays.toString(args));
-            auditModel.setResult(JSONUtil.toJsonStr(result));
+            List<Object> params = new ArrayList<>();
+            JSONObject resultObject = JSONUtil.parseObj(result);
+            if (anonymousFields.length > 0) {
+                for (Object arg : args) {
+                    JSONObject jsonObject = JSONUtil.parseObj(arg);
+                    toAnonymousFields(jsonObject, anonymousFields);
+                    params.add(jsonObject);
+                }
+                toAnonymousFields(resultObject, anonymousFields);
+            }
+            auditModel.setParams(JSONUtil.toJsonStr(params));
+            auditModel.setResult(resultObject.toString());
             auditModel.setStatus(StrUtil.isBlank(errorMsg) ? 1 : 0);
             auditModel.setErrorMsg(errorMsg);
             auditModel.setCreateTime(DateUtils.getNowDate());
@@ -128,6 +143,15 @@ public class AuditRecordAspect {
             pushMqEntity.setCls(AuditModel.class);
             pushMqEntity.setJson(JSON.toJSONString(auditModel));
             commonMqService.persistent(true).sendDirect(LogConstant.AUDIT_RECORD_QUEUE_NAME, pushMqEntity);
+        }
+    }
+
+    private void toAnonymousFields(JSONObject resultObject, String[] anonymousFields) {
+        for (String anonymousField : anonymousFields) {
+            Object field = resultObject.get(anonymousField);
+            if (ObjectUtil.isNotEmpty(field)) {
+                resultObject.set(anonymousField, "******");
+            }
         }
     }
 

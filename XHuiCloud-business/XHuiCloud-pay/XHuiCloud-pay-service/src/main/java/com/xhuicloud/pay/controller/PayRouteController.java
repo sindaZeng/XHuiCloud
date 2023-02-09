@@ -142,7 +142,7 @@ public class PayRouteController {
         if (ObjectUtil.isNotNull(tenantVo)) {
             XHuiCommonThreadLocalHolder.setTenant(Integer.valueOf(tenantId));
         } else {
-            throw SysException.sysFail(SysException.TENANT_NOT_EXIST_DATA_EXCEPTION);
+            SysException.sysFail(SysException.TENANT_NOT_EXIST_DATA_EXCEPTION);
         }
         return tenantVo;
     }

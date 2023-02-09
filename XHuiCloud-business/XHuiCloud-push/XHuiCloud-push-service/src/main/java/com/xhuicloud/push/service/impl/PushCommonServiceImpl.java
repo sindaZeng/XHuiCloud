@@ -64,7 +64,7 @@ public class PushCommonServiceImpl implements PushCommonService {
     @Override
     public void toQueue(BasePush basePush) {
         if (basePush == null) {
-            throw SysException.sysFail("推送载体不能为空~");
+            SysException.sysFail("推送载体不能为空~");
         }
         PushMqEntity pushMqEntity = new PushMqEntity();
         if (basePush instanceof PushSingle) {
@@ -72,7 +72,7 @@ public class PushCommonServiceImpl implements PushCommonService {
             checkUserId(pushSingle.getUserId());
             checkParameter(pushSingle.getParams());
             if (pushGroupService.count(Wrappers.<PushGroup>lambdaQuery().eq(PushGroup::getTemplateCode, pushSingle.getTemplateCode())) <= 0) {
-                throw SysException.sysFail("模板不存在~");
+                SysException.sysFail("模板不存在~");
             }
             pushMqEntity.setCls(pushSingle.getClass());
         } else if (basePush instanceof PushMultiple) {
@@ -80,7 +80,7 @@ public class PushCommonServiceImpl implements PushCommonService {
             checkUserIds(pushMultiple.getUserIds());
             checkParameter(pushMultiple.getParams());
             if (pushGroupService.count(Wrappers.<PushGroup>lambdaQuery().eq(PushGroup::getTemplateCode, pushMultiple.getTemplateCode())) <= 0) {
-                throw SysException.sysFail("模板不存在~");
+                SysException.sysFail("模板不存在~");
             }
             pushMqEntity.setCls(pushMultiple.getClass());
         } else if (basePush instanceof PushMultiDiff) {
@@ -101,7 +101,7 @@ public class PushCommonServiceImpl implements PushCommonService {
     public Response single(PushSingle pushSingle) {
         PushGroup pushGroup = pushGroupService.getOne(Wrappers.<PushGroup>lambdaQuery().eq(PushGroup::getTemplateCode, pushSingle.getTemplateCode()));
         if (pushGroup == null) {
-            throw SysException.sysFail("模板不存在~");
+            SysException.sysFail("模板不存在~");
         }
 
         List<PushChannelEnum> pushChannelEnums = pushSingle.getPushChannelEnums();
@@ -168,7 +168,7 @@ public class PushCommonServiceImpl implements PushCommonService {
             templateCodes.add(template.getTemplateCode());
         }
         if (pushGroupService.count(Wrappers.<PushGroup>lambdaQuery().in(PushGroup::getTemplateCode, templateCodes)) != templateCodes.size()) {
-            throw SysException.sysFail("部分模板不存在~");
+            SysException.sysFail("部分模板不存在~");
         }
     }
 

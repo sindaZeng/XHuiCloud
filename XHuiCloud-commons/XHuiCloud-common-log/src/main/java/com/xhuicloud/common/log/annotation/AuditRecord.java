@@ -26,4 +26,12 @@ public @interface AuditRecord {
      * @return
      */
     String condition() default "";
+
+    /**
+     * 打码字段: 只对请求参数 返回结果有效
+     * 默认使用: * 打码
+     *
+     * @return
+     */
+    String[] anonymousFields() default {};
 }

@@ -122,7 +122,7 @@ public class WeChatMpCommonService {
     public static WxMpMessageRouter getRouters(String appId) {
         WxMpMessageRouter wxMpMessageRouter = routersMap.get(appId);
         if (wxMpMessageRouter == null) {
-            throw SysException.sysFail("没有这个公众号数据!");
+            SysException.sysFail("没有这个公众号数据!");
         }
         return wxMpMessageRouter;
     }
@@ -134,7 +134,7 @@ public class WeChatMpCommonService {
     public static WxMpService getWxMpService(String appId) {
         WxMpService wxMpService = wxMpServiceMap.get(appId);
         if (wxMpService == null) {
-            throw SysException.sysFail("没有这个公众号数据!");
+            SysException.sysFail("没有这个公众号数据!");
         }
         return wxMpService;
     }
@@ -146,7 +146,7 @@ public class WeChatMpCommonService {
     public static Integer getTenant(String appId) {
         Integer tenant = tenantsMap.get(appId);
         if (tenant == null) {
-            throw SysException.sysFail("没有这个公众号数据!");
+            SysException.sysFail("没有这个公众号数据!");
         }
         return tenant;
     }

@@ -68,7 +68,7 @@ public class GenDsInfoServiceImpl extends ServiceImpl<GenDsInfoMapper, GenDsInfo
     public Boolean updateDynamicDataSource(GenDsInfo genDsInfo) {
         GenDsInfo _genDsInfo = getById(genDsInfo.getId());
         if (_genDsInfo == null) {
-            throw SysException.sysFail("数据不存在");
+            SysException.sysFail("数据不存在");
         }
         // 先移除
         DynamicRoutingDataSource dynamicRoutingDataSource = SpringUtil.getBean(DynamicRoutingDataSource.class);

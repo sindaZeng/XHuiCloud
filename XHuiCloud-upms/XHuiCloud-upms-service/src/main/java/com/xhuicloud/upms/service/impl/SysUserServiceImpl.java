@@ -143,7 +143,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     @Override
     public String importUser(List<SysUser> userList, boolean updateSupport) {
         if (CollectionUtils.isEmpty(userList)) {
-            throw SysException.sysFail("导入用户数据不能为空!");
+            SysException.sysFail("导入用户数据不能为空!");
         }
         // 系统默认密码配置
         SysParam sysParamPassWord = sysParamService.getSysParamByKey(SYS_USER_DEFAULT_PASSWORD);
@@ -198,7 +198,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         }
         if (failureNum > 0) {
             failureMsg.insert(0, "很抱歉，导入失败！共 " + failureNum + " 条数据格式不正确，错误如下：");
-            throw SysException.sysFail(failureMsg.toString());
+            SysException.sysFail(failureMsg.toString());
         } else {
             successMsg.insert(0, "数据已全部导入成功！共 " + successNum + " 条，数据如下：");
         }
@@ -259,7 +259,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
             return saveUserAndRoleAndDept(sysUser, deptIds, roleIds);
         } catch (Exception e) {
             log.error(e.getMessage());
-            throw SysException.sysFail(SysException.USER_IS_EXIST_EXCEPTION);
+            throw SysException.fail(SysException.USER_IS_EXIST_EXCEPTION);
         }
     }
 
@@ -280,7 +280,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     @Override
     public Boolean updateUserPhone(String mobile) {
         if (count(Wrappers.<SysUser>lambdaQuery().eq(SysUser::getPhone, mobile)) > 0) {
-            throw SysException.sysFail(SysException.MOBILE_IS_ALREADY_BOUND);
+            SysException.sysFail(SysException.MOBILE_IS_ALREADY_BOUND);
         }
         SysUser user = getSysUser(SecurityHolder.getUserId());
         user.setPhone(mobile);
@@ -290,7 +290,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     private SysUser getSysUser(Integer UserId) {
         SysUser user = getById(UserId);
         if (ObjectUtil.isEmpty(user)) {
-            throw SysException.sysFail(SysException.USER_NOT_EXIST_DATA_EXCEPTION);
+            SysException.sysFail(SysException.USER_NOT_EXIST_DATA_EXCEPTION);
         }
         return user;
     }
@@ -370,7 +370,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     private SysUser checkUserId(Integer id) {
         SysUser sysUser = getById(id);
         if (sysUser == null) {
-            throw SysException.sysFail(SysException.USER_NOT_EXIST_DATA_EXCEPTION);
+            SysException.sysFail(SysException.USER_NOT_EXIST_DATA_EXCEPTION);
         }
         return sysUser;
     }

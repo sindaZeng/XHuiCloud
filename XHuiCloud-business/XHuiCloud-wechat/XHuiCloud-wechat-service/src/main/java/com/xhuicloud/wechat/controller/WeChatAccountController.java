@@ -151,11 +151,12 @@ public class WeChatAccountController {
      * @param weChatAccount 公众号账户
      * @return Response
      */
-    @AuditRecord("新增公众号账户")
     @PostMapping
     @PreAuthorize("@authorize.hasPermission('sys_add_account')")
     @ApiOperation(value = "新增公众号账户", notes = "新增公众号账户")
+    @AuditRecord(value = "新增公众号账户", anonymousFields = {"appSecret", "appAuthToken", "appDecrypt"})
     public Response save(@RequestBody WeChatAccount weChatAccount) {
+        weChatAccountService.isExist(weChatAccount.getAppId());
         weChatAccountService.save(weChatAccount);
         redisTemplate.convertAndSend(CommonConstants.WECHAT_CLIENT_RELOAD, "重新加载公众号配置事件");
         return Response.success();

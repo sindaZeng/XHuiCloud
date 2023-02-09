@@ -24,14 +24,13 @@
 
 package com.xhuicloud.push.enums;
 
-import java.util.Date;
-
 import cn.hutool.core.util.StrUtil;
 import com.xhuicloud.common.core.exception.SysException;
 import com.xhuicloud.push.common.BasePushData.Parameter;
-import java.util.Map;
-
 import com.xhuicloud.push.common.PushSingle;
+
+import java.util.Date;
+import java.util.Map;
 
 public enum WeChatMpMessage implements BasePushMessage{
 
@@ -61,7 +60,7 @@ public enum WeChatMpMessage implements BasePushMessage{
         for (String k : paramNames()) {
             String v = params.get(k);
             if (StrUtil.isBlank(v)) {
-                throw SysException.sysFail("推送参数错误, key:%s", k);
+                SysException.sysFail("推送参数错误, key:%s", k);
             }
             Parameter parameter = new Parameter();
             parameter.setKey(k);

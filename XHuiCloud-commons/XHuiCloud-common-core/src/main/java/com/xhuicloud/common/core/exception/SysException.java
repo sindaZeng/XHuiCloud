@@ -34,30 +34,36 @@ import com.xhuicloud.common.core.exception.base.BaseRuntimeException;
  */
 public class SysException extends BaseRuntimeException {
 
-    public static final String USER_NOT_EXIST_DATA_EXCEPTION="该用户不存在,数据出现错误!请联系管理员!";
+    public static final String USER_NOT_EXIST_DATA_EXCEPTION = "该用户不存在,数据出现错误!请联系管理员!";
 
-    public static final String TENANT_NOT_EXIST_DATA_EXCEPTION="该租户不存在,数据出现错误!请联系管理员!";
+    public static final String TENANT_NOT_EXIST_DATA_EXCEPTION = "该租户不存在,数据出现错误!请联系管理员!";
 
-    public static final String USER_IS_EXIST_EXCEPTION="该用户已存在,数据出现错误!请联系管理员!";
+    public static final String USER_IS_EXIST_EXCEPTION = "该用户已存在,数据出现错误!请联系管理员!";
 
-    public static final String PARAM_IS_EXIST_DATA_EXCEPTION="该参数已存在!";
+    public static final String PARAM_IS_EXIST_DATA_EXCEPTION = "该参数已存在!";
 
-    public static final String MOBILE_IS_ALREADY_BOUND="该手机已被绑定!";
+    public static final String MOBILE_IS_ALREADY_BOUND = "该手机已被绑定!";
 
-    public static final String PARAM_EXCEPTION="参数出现错误, 请重试!";
+    public static final String PARAM_EXCEPTION = "参数出现错误, 请重试!";
 
     /**
-     *  系统错误异常
+     * 系统错误异常
+     *
      * @param message
      * @param args
      * @return
      */
-    public static SysException sysFail(String message, Object... args) {
+    public static void sysFail(String message, Object... args) {
+        throw custom(BASE_EXCEPTION_CODE, message, args);
+    }
+
+    public static SysException fail(String message, Object... args) {
         return custom(BASE_EXCEPTION_CODE, message, args);
     }
 
     /**
      * 自定义错误异常
+     *
      * @param code
      * @param message
      * @param args
@@ -66,6 +72,7 @@ public class SysException extends BaseRuntimeException {
     public static SysException custom(int code, String message, Object... args) {
         return new SysException(code, message, args);
     }
+
     public SysException(int code, String message, Object... args) {
         super(code, message, args);
     }

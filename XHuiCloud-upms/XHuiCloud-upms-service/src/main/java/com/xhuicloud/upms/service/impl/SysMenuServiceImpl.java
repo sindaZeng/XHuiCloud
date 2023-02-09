@@ -61,11 +61,11 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     @Transactional(rollbackFor = Exception.class)
     public Boolean saveMenu(SysMenu sysMenu) {
         if (sysMenu.getType() == 0 && StringUtils.isEmpty(sysMenu.getPath())) {
-            throw SysException.sysFail("类型为菜单时,路由路径不能为空!");
+            SysException.sysFail("类型为菜单时,路由路径不能为空!");
         } else if (sysMenu.getType() == 1 && StringUtils.isEmpty(sysMenu.getPermission())) {
-            throw SysException.sysFail("类型为按钮时,授权标识不能为空!");
+            SysException.sysFail("类型为按钮时,授权标识不能为空!");
         } else if (sysMenu.getType() != 0 && sysMenu.getType() != 1) {
-            throw SysException.sysFail("无效的类型!");
+            SysException.sysFail("无效的类型!");
         }
         return save(sysMenu);
     }
@@ -84,7 +84,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
             sysRoleMenuService.deleteRoleMenus(ids);
             return true;
         } else {
-            throw SysException.sysFail("没有此菜单或者按钮!");
+            throw SysException.fail("没有此菜单或者按钮!");
         }
     }
 

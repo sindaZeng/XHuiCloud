@@ -130,7 +130,7 @@ public class GenCodeUtil {
                 }
             }
         } catch (ConfigurationException e) {
-            throw SysException.sysFail("获取配置文件失败，", e);
+            SysException.sysFail("获取配置文件失败，", e);
         }
 
     }

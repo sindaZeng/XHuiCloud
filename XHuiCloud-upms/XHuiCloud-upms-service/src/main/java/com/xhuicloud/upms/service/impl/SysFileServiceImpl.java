@@ -60,7 +60,7 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impl
     @Override
     public String upload(MultipartFile file) {
         if (StrUtil.isBlank(file.getOriginalFilename())) {
-            throw SysException.sysFail("上传文件错误，文件为空!");
+            SysException.sysFail("上传文件错误，文件为空!");
         }
         try {
             String fileType = FileUtil.extName(file.getOriginalFilename());
@@ -119,7 +119,7 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impl
 //    public String upload(MultipartFile file, String fileType) {
 //
 //        if (StringUtils.isBlank(file.getOriginalFilename())) {
-//            throw SysException.sysFail("上传文件错误，文件为空!");
+//            SysException.sysFail("上传文件错误，文件为空!");
 //        }
 //        // 文件名称
 //        String fileName = IdUtil.simpleUUID() + StrUtil.DOT + FileUtil.extName(file.getOriginalFilename());
@@ -127,7 +127,7 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impl
 //        try {
 //            Response response = uploadManager.put(file.getBytes(), fileName, upToken);
 //            if (response.statusCode != HttpStatus.HTTP_OK) {
-//                throw SysException.sysFail("上传文件错误，请重新上传或联系管理员!");
+//                SysException.sysFail("上传文件错误，请重新上传或联系管理员!");
 //            }
 //            // 保存文件属性 方便管理文件
 //            SysFile sysFile = new SysFile();
@@ -152,13 +152,13 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impl
 //    public Boolean deleteFileById(Integer id) {
 //        SysFile sysFile = getById(id);
 //        if (ObjectUtil.isNull(sysFile)) {
-//            throw SysException.sysFail("文件不存在!");
+//            SysException.sysFail("文件不存在!");
 //        }
 //        try {
 //            int delete = getBaseMapper().deleteById(id);
 //            Response response = bucketManager.delete(bucketProperties.getBucketName(), sysFile.getFileName());
 //            if (response.statusCode != HttpStatus.HTTP_OK) {
-//                throw SysException.sysFail("删除文件错误，请重新删除或联系管理员!");
+//                SysException.sysFail("删除文件错误，请重新删除或联系管理员!");
 //            }
 //            return delete > 0;
 //        } catch (QiniuException ex) {
@@ -173,7 +173,7 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impl
 //        try {
 //            SysFile sysFile = getOne(Wrappers.<SysFile>lambdaQuery().eq(SysFile::getFileName, fileName));
 //            if (ObjectUtil.isNull(sysFile)) {
-//                throw SysException.sysFail("下载文件错误，文件不存在!");
+//                SysException.sysFail("下载文件错误，文件不存在!");
 //            }
 //            SysParam sysConfigByKey = sysParamService.getSysParamByKey(SysConfigConstants.SYS_CDN_DEFAULT_DOMAIN);
 //            HttpUtil.download(sysConfigByKey.getParamValue() + sysFile.getUrl(), response.getOutputStream(), true);

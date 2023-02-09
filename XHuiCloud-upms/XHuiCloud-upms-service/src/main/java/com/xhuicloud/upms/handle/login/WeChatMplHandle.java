@@ -58,7 +58,7 @@ public class WeChatMplHandle extends AbstractSocialHandler {
         Object openId = redisTemplate.opsForValue().get(
                 SecurityConstants.WECHAT_MP_SCAN_SUCCESS + code);
         if (openId == null) {
-            throw SysException.sysFail(SysException.PARAM_EXCEPTION);
+            SysException.sysFail(SysException.PARAM_EXCEPTION);
         }
         return openId.toString();
     }
@@ -81,7 +81,7 @@ public class WeChatMplHandle extends AbstractSocialHandler {
         }
         SysUser user = sysUserService.getById(userId);
         if (ObjectUtil.isNull(user)) {
-            throw SysException.sysFail(SysException.USER_NOT_EXIST_DATA_EXCEPTION);
+            SysException.sysFail(SysException.USER_NOT_EXIST_DATA_EXCEPTION);
         }
         return sysUserService.getSysUser(user);
     }
