@@ -1,0 +1,3 @@
+com.xhuicloud.common.mqtt.server.auth.MqttHttpAuthFilter
+com.xhuicloud.common.mqtt.server.auth.MqttSubscribeValidator
+com.xhuicloud.common.mqtt.server.auth.MqttUniqueIdService
