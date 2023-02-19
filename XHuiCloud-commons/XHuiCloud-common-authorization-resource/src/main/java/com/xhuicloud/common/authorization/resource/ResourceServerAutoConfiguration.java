@@ -47,6 +47,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.server.resource.introspection.OAuth2IntrospectionException;
 import org.springframework.security.oauth2.server.resource.introspection.OpaqueTokenIntrospector;
+import org.springframework.security.oauth2.server.resource.web.DefaultBearerTokenResolver;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.client.RestTemplate;
 
@@ -74,7 +75,9 @@ public class ResourceServerAutoConfiguration implements ApplicationContextAware 
 //                        configurer
 //                                .jwt()
 //                                .jwtAuthenticationConverter(authenticationConverter());
-                    configurer
+                    DefaultBearerTokenResolver resolver = new DefaultBearerTokenResolver();
+                    resolver.setAllowUriQueryParameter(true);
+                    configurer.bearerTokenResolver(resolver)
                             .opaqueToken()
                             .introspector(opaqueTokenIntrospector());
                     configurer.authenticationEntryPoint(new CustomAuthenticationEntryPoint()); // 异常处理
@@ -99,6 +102,7 @@ public class ResourceServerAutoConfiguration implements ApplicationContextAware 
         return new CustomJwtAuthenticationConverter(xHuiUserDetailsService);
     }
 
+    @Bean
     public OpaqueTokenIntrospector opaqueTokenIntrospector() {
         SecurityProperties.ResourceServer resourceServer = securityProperties.getResourceServer();
         if (StrUtil.hasBlank(resourceServer.getIntrospectionUri(),
