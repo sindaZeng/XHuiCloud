@@ -33,7 +33,7 @@ import java.util.List;
 @Mapper
 public interface SysRoleMapper extends BaseMapper<SysRole> {
 
-    List<SysRole> listRolesByUserId(Integer userId);
+    List<SysRole> listRolesByUserId(Long userId);
 
-    List<Integer> listRolesNameByUserId(Integer userId);
+    List<Long> listRolesNameByUserId(Long userId);
 }

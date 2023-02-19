@@ -46,10 +46,10 @@ public class SysUser implements Serializable {
     /**
      * 用户id
      */
-    @TableId(value = "user_id", type = IdType.AUTO)
     @ApiModelProperty(value = "用户id")
+    @TableId(value = "user_id", type = IdType.ASSIGN_ID)
     @Excel(name = "用户编号", cellType = ColumnType.NUMERIC)
-    private Integer userId;
+    private Long userId;
 
     /**
      * 用户名
@@ -112,7 +112,7 @@ public class SysUser implements Serializable {
      */
     @ApiModelProperty(value = "创建者id", hidden = true)
     @TableField(fill = FieldFill.INSERT)
-    private Integer createId;
+    private Long createId;
 
     /**
      * 修改时间
@@ -126,7 +126,7 @@ public class SysUser implements Serializable {
      */
     @ApiModelProperty(value = "更新者id", hidden = true)
     @TableField(fill = FieldFill.UPDATE)
-    private Integer updateId;
+    private Long updateId;
 
     /**
      * 0:账号被锁
@@ -146,21 +146,21 @@ public class SysUser implements Serializable {
      * 租户id
      */
     @ApiModelProperty(value = "租户id")
-    private Integer tenantId;
+    private Long tenantId;
 
     /**
      * 角色名称
      */
     @Excel(name = "用户角色")
     @TableField(exist = false)
-    private List<Integer> roleIds;
+    private List<Long> roleIds;
 
     /**
      * 角色名称
      */
     @Excel(name = "用户部门")
     @TableField(exist = false)
-    private List<Integer> deptIds;
+    private List<Long> deptIds;
 
     private static final long serialVersionUID = 1L;
 }

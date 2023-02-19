@@ -28,8 +28,8 @@ import cn.hutool.core.util.ArrayUtil;
 import com.xhuicloud.common.authorization.resource.constant.CustomAuthorizationGrantType;
 import com.xhuicloud.common.core.constant.CacheConstants;
 import com.xhuicloud.common.core.constant.CommonConstants;
-import com.xhuicloud.common.core.utils.Response;
 import com.xhuicloud.common.core.ttl.XHuiCommonThreadLocalHolder;
+import com.xhuicloud.common.core.utils.Response;
 import com.xhuicloud.upms.dto.UserInfo;
 import com.xhuicloud.upms.entity.SysUser;
 import com.xhuicloud.upms.feign.SysSocialServiceFeign;
@@ -86,16 +86,15 @@ public class XHuiUserDetailsServiceImpl implements XHuiUserDetailsService {
         String username = (String) claims.get(IdTokenClaimNames.SUB);
         Object userId = claims.get(CommonConstants.USER_ID);
         Object tenantId = claims.get(CommonConstants.TENANT_ID);
-        // JSON序列化 Int Long 问题
         if (tenantId instanceof Long) {
-            XHuiCommonThreadLocalHolder.setTenant(((Long) tenantId).intValue());
+            XHuiCommonThreadLocalHolder.setTenant((Long) tenantId);
         } else {
-            XHuiCommonThreadLocalHolder.setTenant((Integer) tenantId);
+            XHuiCommonThreadLocalHolder.setTenant(Long.valueOf(tenantId.toString()));
         }
         if (userId instanceof Long) {
-            XHuiCommonThreadLocalHolder.setUser(((Long) userId).intValue());
+            XHuiCommonThreadLocalHolder.setUser((Long) userId);
         } else {
-            XHuiCommonThreadLocalHolder.setUser((Integer) userId);
+            XHuiCommonThreadLocalHolder.setUser(Long.valueOf(userId.toString()));
         }
         return getUserDetailsByUserName(username);
     }

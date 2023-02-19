@@ -50,7 +50,7 @@ public class PushMultiDiff extends BasePush{
     public static class Push {
 
         @ApiModelProperty(value = "用户id")
-        private Integer userId;
+        private Long userId;
 
         @ApiModelProperty(value = "模板编码")
         private String templateCode;

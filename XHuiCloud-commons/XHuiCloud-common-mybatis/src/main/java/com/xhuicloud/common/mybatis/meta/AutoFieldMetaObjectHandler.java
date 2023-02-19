@@ -65,7 +65,7 @@ public class AutoFieldMetaObjectHandler implements MetaObjectHandler {
     private void set(MetaObject metaObject, String field, String field2) {
         Object fieldObj = metaObject.getValue(field);
         if (fieldObj == null) {
-            Integer userId = XHuiCommonThreadLocalHolder.getUser();
+            Long userId = XHuiCommonThreadLocalHolder.getUser();
             if (userId != null) {
                 this.setFieldValByName(field, userId, metaObject);
             }

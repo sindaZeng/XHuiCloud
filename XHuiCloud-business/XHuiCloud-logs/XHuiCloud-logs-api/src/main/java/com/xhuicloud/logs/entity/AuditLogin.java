@@ -47,13 +47,13 @@ public class AuditLogin implements Serializable{
 
     @TableId
     @ApiModelProperty(value="id")
-    private Integer id;
+    private Long id;
 
     @ApiModelProperty(value="用户名")
     private String username;
 
     @ApiModelProperty(value="用户id")
-    private Integer userId;
+    private Long userId;
 
     @ApiModelProperty(value="登录时间")
     private LocalDateTime loginTime;

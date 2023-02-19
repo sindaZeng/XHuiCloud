@@ -76,7 +76,7 @@ public class RedisAutoCacheManager extends RedisCacheManager {
             return super.getCache(name);
         }
         String tenantPrefix = "";
-        Integer tenant = XHuiCommonThreadLocalHolder.getTenant();
+        Long tenant = XHuiCommonThreadLocalHolder.getTenant();
         if (tenant != null) {
             tenantPrefix = tenant + StrUtil.COLON;
         } else {

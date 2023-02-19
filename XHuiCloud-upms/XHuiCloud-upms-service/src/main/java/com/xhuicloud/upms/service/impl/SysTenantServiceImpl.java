@@ -38,7 +38,7 @@ public class SysTenantServiceImpl extends ServiceImpl<SysTenantMapper, SysTenant
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Boolean state(Integer id, Integer state) {
+    public Boolean state(Long id, Integer state) {
         SysTenant sysTenant = getById(id);
         if (ObjectUtil.isEmpty(sysTenant)) {
             SysException.sysFail(SysException.TENANT_NOT_EXIST_DATA_EXCEPTION);

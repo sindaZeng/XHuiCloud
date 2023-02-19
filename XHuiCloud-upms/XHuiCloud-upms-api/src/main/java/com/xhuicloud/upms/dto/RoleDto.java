@@ -44,7 +44,7 @@ public class RoleDto {
     /**
      * 角色值
      */
-    private Integer value;
+    private Long value;
 
     public RoleDto(SysRole sysRole) {
         this.label = sysRole.getRoleName();

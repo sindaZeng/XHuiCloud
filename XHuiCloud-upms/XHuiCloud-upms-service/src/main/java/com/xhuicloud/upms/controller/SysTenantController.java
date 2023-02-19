@@ -76,7 +76,7 @@ public class SysTenantController {
     @GetMapping("/list")
     public Response<List<TenantVo>> list(@RequestParam(required = false) String name) {
         List<SysTenant> sysTenants = sysTenantService.list(Wrappers.query(SysTenant.builder().state(1).name(name).build()));
-        Map<Integer, List<SysSocial>> sysSocialMap = sysSocialService.list()
+        Map<Long, List<SysSocial>> sysSocialMap = sysSocialService.list()
                 .stream().collect(Collectors
                         .toMap(SysSocial::getTenantId,
                                 sysSocial -> Lists.newArrayList(sysSocial),
@@ -162,7 +162,7 @@ public class SysTenantController {
     @AuditRecord("删除租户")
     @DeleteMapping("/{id}")
     @PreAuthorize("@authorize.hasPermission('sys_delete_tenant')")
-    public Response<Boolean> delete(@PathVariable Integer id) {
+    public Response<Boolean> delete(@PathVariable Long id) {
         return Response.success(sysTenantService.removeById(id));
     }
 
@@ -176,7 +176,7 @@ public class SysTenantController {
     @AuditRecord("改变租户状态")
     @GetMapping("/state")
     @PreAuthorize("@authorize.hasPermission('sys_delete_tenant')")
-    public Response<Boolean> state(@RequestParam(value = "id") Integer id, @RequestParam(value = "state") Integer state) {
+    public Response<Boolean> state(@RequestParam(value = "id") Long id, @RequestParam(value = "state") Integer state) {
         return Response.success(sysTenantService.state(id, state));
     }
 

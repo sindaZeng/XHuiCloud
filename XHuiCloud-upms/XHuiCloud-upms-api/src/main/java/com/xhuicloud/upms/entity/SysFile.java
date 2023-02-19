@@ -44,9 +44,9 @@ public class SysFile extends Model<SysFile> {
     /**
      * 文件ID
      */
-    @TableId(type = IdType.AUTO)
+    @TableId(type = IdType.ASSIGN_ID)
     @ApiModelProperty(value = "文件ID")
-    private Integer id;
+    private Long id;
 
     /**
      * 图片Url
@@ -95,7 +95,7 @@ public class SysFile extends Model<SysFile> {
      */
     @ApiModelProperty(value = "创建者id", hidden = true)
     @TableField(fill = FieldFill.INSERT)
-    private Integer createId;
+    private Long createId;
 
     /**
      * 更新时间
@@ -108,7 +108,7 @@ public class SysFile extends Model<SysFile> {
      */
     @ApiModelProperty(value = "更新者id", hidden = true)
     @TableField(fill = FieldFill.UPDATE)
-    private Integer updateId;
+    private Long updateId;
 
     /**
      * 0:否 1:是
@@ -120,6 +120,6 @@ public class SysFile extends Model<SysFile> {
      * 租户id
      */
     @ApiModelProperty(value = "租户id")
-    private Integer tenantId;
+    private Long tenantId;
 
 }

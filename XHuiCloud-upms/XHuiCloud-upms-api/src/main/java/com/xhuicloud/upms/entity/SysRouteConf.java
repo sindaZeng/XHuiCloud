@@ -40,9 +40,9 @@ public class SysRouteConf extends Model<SysRouteConf> {
     /**
      * 主键
      */
-    @TableId(type = IdType.AUTO)
+    @TableId(type = IdType.ASSIGN_ID)
     @ApiModelProperty(value="主键")
-    private Integer id;
+    private Long id;
 
     /**
      * 路由名称
@@ -92,7 +92,7 @@ public class SysRouteConf extends Model<SysRouteConf> {
      */
     @ApiModelProperty(value = "创建者id", hidden = true)
     @TableField(fill = FieldFill.INSERT)
-    private Integer createId;
+    private Long createId;
 
     /**
      * 更新时间
@@ -105,7 +105,7 @@ public class SysRouteConf extends Model<SysRouteConf> {
      */
     @ApiModelProperty(value = "更新者id", hidden = true)
     @TableField(fill = FieldFill.UPDATE)
-    private Integer updateId;
+    private Long updateId;
 
     /**
      * 0:否 1:是

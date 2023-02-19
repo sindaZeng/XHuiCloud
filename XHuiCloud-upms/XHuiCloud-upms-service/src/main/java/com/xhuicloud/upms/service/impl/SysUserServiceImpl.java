@@ -83,7 +83,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         userInfo.setSysUser(sysUser);
         //查询该用户的角色
         List<SysRole> sysRoles = sysRoleService.findRoleById(sysUser.getUserId());
-        List<Integer> roleIds = sysRoles.stream().map(SysRole::getId)
+        List<Long> roleIds = sysRoles.stream().map(SysRole::getId)
                 .collect(Collectors.toList());
         List<String> roleCodes = sysRoles.stream().map(SysRole::getRoleCode)
                 .collect(Collectors.toList());
@@ -123,7 +123,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Boolean lock(Integer id) {
+    public Boolean lock(Long id) {
         SysUser sysUser = checkUserId(id);
         if (sysUser.getLockFlag() == 0) {
             sysUser.setLockFlag(1);
@@ -152,9 +152,9 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         // 系统默认部门
         SysParam sysParamDept = sysParamService.getSysParamByKey(SYS_USER_DEFAULT_DEPT);
         // 所有的部门id
-        List<Integer> allDeptIds = sysDeptService.getAllDeptIds();
+        List<Long> allDeptIds = sysDeptService.getAllDeptIds();
         // 所有的角色id
-        List<Integer> allRoleIds = sysRoleService.getAllRoleIds();
+        List<Long> allRoleIds = sysRoleService.getAllRoleIds();
         // 成功总数
         int successNum = 0;
         // 失败总数
@@ -167,9 +167,9 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         for (SysUser sysUser : userList) {
             try {
                 // 用户部门
-                List<Integer> deptIds = getDeptIds(allDeptIds, sysUser.getDeptIds(), sysParamDept);
+                List<Long> deptIds = getDeptIds(allDeptIds, sysUser.getDeptIds(), sysParamDept);
                 // 用户角色
-                List<Integer> roleIds = getRoleIds(allRoleIds, sysUser.getRoleIds(), sysParamRole);
+                List<Long> roleIds = getRoleIds(allRoleIds, sysUser.getRoleIds(), sysParamRole);
                 SysUser user = getOne(Wrappers.<SysUser>lambdaQuery().eq(SysUser::getUsername, sysUser.getUsername()));
                 if (ObjectUtils.isEmpty(user)) {
                     sysUser.setPassword(sysParamPassWord.getParamValue());
@@ -234,7 +234,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Integer saveUser(SysUser sysUser) {
+    public Long saveUser(SysUser sysUser) {
         try {
             // 设置默认密码
             if (StringUtils.isBlank(sysUser.getPassword())) {
@@ -245,21 +245,21 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
                 sysUser.setPassword(SecurityHolder.encoder(sysUser.getPassword()));
             }
             // 所有的部门id
-            List<Integer> allDeptIds = sysDeptService.getAllDeptIds();
+            List<Long> allDeptIds = sysDeptService.getAllDeptIds();
             // 所有的角色id
-            List<Integer> allRoleIds = sysRoleService.getAllRoleIds();
+            List<Long> allRoleIds = sysRoleService.getAllRoleIds();
             // 系统默认角色配置
             SysParam sysParamRole = sysParamService.getSysParamByKey(SYS_USER_DEFAULT_ROLE);
             // 系统默认部门
             SysParam sysParamDept = sysParamService.getSysParamByKey(SYS_USER_DEFAULT_DEPT);
             // 用户部门
-            List<Integer> deptIds = getDeptIds(allDeptIds, sysUser.getDeptIds(), sysParamDept);
+            List<Long> deptIds = getDeptIds(allDeptIds, sysUser.getDeptIds(), sysParamDept);
             // 用户角色
-            List<Integer> roleIds = getRoleIds(allRoleIds, sysUser.getRoleIds(), sysParamRole);
+            List<Long> roleIds = getRoleIds(allRoleIds, sysUser.getRoleIds(), sysParamRole);
             return saveUserAndRoleAndDept(sysUser, deptIds, roleIds);
         } catch (Exception e) {
             log.error(e.getMessage());
-            throw SysException.fail(SysException.USER_IS_EXIST_EXCEPTION);
+            throw SysException.fail(SysException.USER_IS_EXIST_EXCEPTION, e.getMessage());
         }
     }
 
@@ -287,8 +287,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         return updateById(user);
     }
 
-    private SysUser getSysUser(Integer UserId) {
-        SysUser user = getById(UserId);
+    private SysUser getSysUser(Long userId) {
+        SysUser user = getById(userId);
         if (ObjectUtil.isEmpty(user)) {
             SysException.sysFail(SysException.USER_NOT_EXIST_DATA_EXCEPTION);
         }
@@ -305,7 +305,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
      * @param sysParamDept
      * @return
      */
-    private List<Integer> getDeptIds(List<Integer> allDeptIds, List<Integer> userDeptIds, SysParam sysParamDept) {
+    private List<Long> getDeptIds(List<Long> allDeptIds, List<Long> userDeptIds, SysParam sysParamDept) {
         return deduplication(allDeptIds, userDeptIds, sysParamDept);
     }
 
@@ -319,17 +319,17 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
      * @param sysParamRole
      * @return
      */
-    private List<Integer> getRoleIds(List<Integer> allRoleIds, List<Integer> userRoleIds, SysParam sysParamRole) {
+    private List<Long> getRoleIds(List<Long> allRoleIds, List<Long> userRoleIds, SysParam sysParamRole) {
         return deduplication(allRoleIds, userRoleIds, sysParamRole);
     }
 
-    private List<Integer> deduplication(List<Integer> allIds, List<Integer> ids, SysParam sysParam) {
+    private List<Long> deduplication(List<Long> allIds, List<Long> ids, SysParam sysParam) {
         if (CollectionUtil.isNotEmpty(ids)) {
             return ids.stream()
                     .distinct().filter(id -> allIds.contains(id)).collect(Collectors.toList());
         } else {
             ids = new ArrayList(1);
-            ids.add(Integer.valueOf(sysParam.getParamValue()));
+            ids.add(Long.valueOf(sysParam.getParamValue()));
             return ids;
         }
     }
@@ -341,7 +341,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
      * @param deptIds
      * @param roleIds
      */
-    private Integer saveUserAndRoleAndDept(SysUser sysUser, List<Integer> deptIds, List<Integer> roleIds) {
+    private Long saveUserAndRoleAndDept(SysUser sysUser, List<Long> deptIds, List<Long> roleIds) {
         // 新增用户
         baseMapper.insert(sysUser);
         // 新增用户角色
@@ -352,7 +352,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     }
 
 
-    private void updateUserAndRoleAndDept(SysUser sysUser, List<Integer> deptIds, List<Integer> roleIds) {
+    private void updateUserAndRoleAndDept(SysUser sysUser, List<Long> deptIds, List<Long> roleIds) {
         // 更新用户
         updateUser(sysUser);
         // 更新用户角色
@@ -367,7 +367,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
      * @param id
      * @return
      */
-    private SysUser checkUserId(Integer id) {
+    private SysUser checkUserId(Long id) {
         SysUser sysUser = getById(id);
         if (sysUser == null) {
             SysException.sysFail(SysException.USER_NOT_EXIST_DATA_EXCEPTION);

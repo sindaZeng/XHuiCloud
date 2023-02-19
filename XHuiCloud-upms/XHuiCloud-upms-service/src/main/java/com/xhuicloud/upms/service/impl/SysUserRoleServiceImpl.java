@@ -40,9 +40,9 @@ public class SysUserRoleServiceImpl extends ServiceImpl<SysUserRoleMapper, SysUs
 
     @Override
     @Transactional
-    public void saveUserRole(Integer userId, List<Integer> roleIds) {
+    public void saveUserRole(Long userId, List<Long> roleIds) {
         List<SysUserRole> list = new ArrayList();
-        for (Integer roleId : roleIds) {
+        for (Long roleId : roleIds) {
             SysUserRole ur = new SysUserRole();
             ur.setUserId(userId);
             ur.setRoleId(roleId);
@@ -55,7 +55,7 @@ public class SysUserRoleServiceImpl extends ServiceImpl<SysUserRoleMapper, SysUs
 
     @Override
     @Transactional
-    public void updateUserRole(Integer userId, List<Integer> roleIds) {
+    public void updateUserRole(Long userId, List<Long> roleIds) {
         remove(Wrappers.<SysUserRole>lambdaQuery().eq(SysUserRole::getUserId,userId));
         saveUserRole(userId, roleIds);
     }

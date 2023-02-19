@@ -42,7 +42,7 @@ public class XHuiFeignTenantInterceptor implements RequestInterceptor {
 
     @Override
     public void apply(RequestTemplate requestTemplate) {
-        Integer tenant = XHuiCommonThreadLocalHolder.getTenant();
+        Long tenant = XHuiCommonThreadLocalHolder.getTenant();
         if (tenant != null) {
             requestTemplate.header(CommonConstants.TENANT_ID, tenant.toString());
         }

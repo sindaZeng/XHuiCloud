@@ -49,7 +49,7 @@ public class UserVo implements Serializable {
      * 用户id
      */
     @ApiModelProperty(value = "主键")
-    private Integer userId;
+    private Long userId;
 
     /**
      * 用户名
@@ -122,7 +122,7 @@ public class UserVo implements Serializable {
      * 角色集
      */
     @ApiModelProperty(value = "角色集")
-    private List<Integer> roleIds;
+    private List<Long> roleIds;
 
 //    /**
 //     * 部门集
@@ -134,6 +134,6 @@ public class UserVo implements Serializable {
      * 部门集
      */
     @ApiModelProperty(value = "部门集")
-    private List<Integer> deptIds;
+    private List<Long> deptIds;
 
 }

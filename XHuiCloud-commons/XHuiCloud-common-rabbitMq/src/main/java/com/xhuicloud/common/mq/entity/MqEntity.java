@@ -44,7 +44,7 @@ public class MqEntity implements Serializable {
     /**
      * 租户id
      */
-    private Integer tenantId;
+    private Long tenantId;
 
     /**
      * 消费次数

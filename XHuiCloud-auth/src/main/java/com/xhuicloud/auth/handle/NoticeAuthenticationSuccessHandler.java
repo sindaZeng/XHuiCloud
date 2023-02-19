@@ -62,8 +62,8 @@ public class NoticeAuthenticationSuccessHandler implements AuthenticationSuccess
             Map<String, Object> additionalParameters = authenticationToken.getAdditionalParameters();
             String username = (String) additionalParameters.get(IdTokenClaimNames.SUB);
             String tenantName = (String) additionalParameters.get(CommonConstants.TENANT_NAME);
-            Integer userId = (Integer) additionalParameters.get(CommonConstants.USER_ID);
-            Integer tenantId = (Integer) additionalParameters.get(CommonConstants.TENANT_ID);
+            Long userId = (Long) additionalParameters.get(CommonConstants.USER_ID);
+            Long tenantId = (Long) additionalParameters.get(CommonConstants.TENANT_ID);
             Map<String, String> params = Maps.newHashMap();
             params.put("first.DATA", "账号名密码登录");
             params.put("keyword1.DATA", username);

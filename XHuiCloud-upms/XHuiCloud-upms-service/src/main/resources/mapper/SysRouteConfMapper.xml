@@ -4,18 +4,18 @@
   <resultMap id="BaseResultMap" type="com.xhuicloud.upms.entity.SysRouteConf">
     <!--@mbg.generated-->
     <!--@Table sys_route_conf-->
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="route_name" jdbcType="VARCHAR" property="routeName" />
-    <result column="route_id" jdbcType="VARCHAR" property="routeId" />
-    <result column="predicates" jdbcType="VARCHAR" property="predicates" />
-    <result column="filters" jdbcType="VARCHAR" property="filters" />
-    <result column="uri" jdbcType="VARCHAR" property="uri" />
-    <result column="sort" jdbcType="INTEGER" property="sort" />
-    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-    <result column="create_id" jdbcType="INTEGER" property="createId" />
-    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
-    <result column="update_id" jdbcType="INTEGER" property="updateId" />
-    <result column="is_del" jdbcType="INTEGER" property="isDel" />
+    <id column="id" property="id" />
+    <result column="route_name" property="routeName" />
+    <result column="route_id" property="routeId" />
+    <result column="predicates" property="predicates" />
+    <result column="filters" property="filters" />
+    <result column="uri" property="uri" />
+    <result column="sort" property="sort" />
+    <result column="create_time" property="createTime" />
+    <result column="create_id" property="createId" />
+    <result column="update_time" property="updateTime" />
+    <result column="update_id" property="updateId" />
+    <result column="is_del" property="isDel" />
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->

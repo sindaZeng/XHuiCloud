@@ -29,5 +29,5 @@ import com.xhuicloud.upms.entity.SysTenant;
 
 public interface SysTenantService extends IService<SysTenant> {
 
-    Boolean state(Integer id, Integer state);
+    Boolean state(Long id, Integer state);
 }

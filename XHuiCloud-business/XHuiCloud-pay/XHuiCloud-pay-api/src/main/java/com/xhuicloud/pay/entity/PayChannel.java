@@ -39,9 +39,9 @@ public class PayChannel implements Serializable {
     /**
      * id
      */
-    @TableId(value = "id", type = IdType.AUTO)
+    @TableId(value = "id", type = IdType.ASSIGN_ID)
     @ApiModelProperty(value="id")
-    private Integer id;
+    private Long id;
 
     /**
      * 应用id
@@ -101,7 +101,7 @@ public class PayChannel implements Serializable {
      * 租户id
      */
     @ApiModelProperty(value="租户id")
-    private Integer tenantId;
+    private Long tenantId;
 
     /**
      * json格式的配置

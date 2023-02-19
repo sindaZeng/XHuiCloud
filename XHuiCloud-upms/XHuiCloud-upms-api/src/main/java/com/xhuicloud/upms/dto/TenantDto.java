@@ -38,23 +38,23 @@ public class TenantDto {
 
     private String value;
 
-    private Integer link;
+    private Long link;
 
     private String logo;
 
-    public static List<TenantDto> build(List<TenantDto> tenantDtos, List<SysTenant> sysTenants){
-        if (tenantDtos == null) {
-            tenantDtos = new ArrayList<>();
+    public static List<TenantDto> build(List<TenantDto> tenants, List<SysTenant> sysTenants){
+        if (tenants == null) {
+            tenants = new ArrayList<>();
         }
         if (CollectionUtil.isNotEmpty(sysTenants)) {
             for (SysTenant sysTenant : sysTenants) {
-                tenantDtos.add(TenantDto.builder()
+                tenants.add(TenantDto.builder()
                         .value(sysTenant.getName())
                         .logo(sysTenant.getLogo())
                         .link(sysTenant.getId()).build());
             }
         }
-        return tenantDtos;
+        return tenants;
     }
 
 }

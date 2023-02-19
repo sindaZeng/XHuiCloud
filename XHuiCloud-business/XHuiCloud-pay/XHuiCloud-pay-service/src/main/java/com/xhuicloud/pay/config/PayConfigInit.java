@@ -68,9 +68,9 @@ public class PayConfigInit {
 
     private final PayChannelService payChannelService;
 
-    public final static Map<Integer,String> tenantIdAliPayAppIdMaps = Maps.newHashMap();
+    public final static Map<Long,String> tenantIdAliPayAppIdMaps = Maps.newHashMap();
 
-    public final static Map<Integer, TenantVo> tenantMaps = Maps.newHashMap();
+    public final static Map<Long, TenantVo> tenantMaps = Maps.newHashMap();
 
     @Async
     @Order

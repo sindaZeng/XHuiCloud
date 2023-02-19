@@ -40,7 +40,7 @@ public class GenCodeDto {
     /**
      * 库id
      */
-    private Integer id;
+    private Long id;
 
     /**
      * 表名

@@ -45,8 +45,8 @@ public class SysSocial extends Model<SysSocial> {
     /**
      * id
      */
-    @TableId(type = IdType.AUTO)
-    private Integer id;
+    @TableId(type = IdType.ASSIGN_ID)
+    private Long id;
 
     /**
      * 类型
@@ -89,7 +89,7 @@ public class SysSocial extends Model<SysSocial> {
      */
     @ApiModelProperty(value = "创建者id", hidden = true)
     @TableField(fill = FieldFill.INSERT)
-    private Integer createId;
+    private Long createId;
 
     /**
      * 更新时间
@@ -102,13 +102,13 @@ public class SysSocial extends Model<SysSocial> {
      */
     @ApiModelProperty(value = "更新者id", hidden = true)
     @TableField(fill = FieldFill.UPDATE)
-    private Integer updateId;
+    private Long updateId;
 
     /**
      * 租户id
      */
     @ApiModelProperty(value = "租户id")
-    private Integer tenantId;
+    private Long tenantId;
 
     /**
      * 0:否 1:是

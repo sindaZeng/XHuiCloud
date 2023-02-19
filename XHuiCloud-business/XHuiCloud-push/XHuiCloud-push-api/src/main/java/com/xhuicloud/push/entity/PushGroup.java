@@ -24,15 +24,19 @@
 
 package com.xhuicloud.push.entity;
 
-import com.baomidou.mybatisplus.annotation.*;
+import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.util.Date;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.Date;
 
 /**
     * 推送组
@@ -46,15 +50,15 @@ public class PushGroup extends Model<PushGroup> {
     /**
      * id
      */
-    @TableId(value = "id", type = IdType.AUTO)
+    @TableId(value = "id", type = IdType.ASSIGN_ID)
     @ApiModelProperty(value="id")
-    private Integer id;
+    private Long id;
 
     /**
      * 租户id
      */
     @ApiModelProperty(value="租户id")
-    private Integer tenantId;
+    private Long tenantId;
 
     /**
      * 创建时间
@@ -79,14 +83,14 @@ public class PushGroup extends Model<PushGroup> {
      */
     @TableField(fill = FieldFill.INSERT)
     @ApiModelProperty(value="创建者id")
-    private Integer createId;
+    private Long createId;
 
     /**
      * 更新者id
      */
     @TableField(fill = FieldFill.UPDATE)
     @ApiModelProperty(value="更新者id")
-    private Integer updateId;
+    private Long updateId;
 
     /**
      * 模板编码

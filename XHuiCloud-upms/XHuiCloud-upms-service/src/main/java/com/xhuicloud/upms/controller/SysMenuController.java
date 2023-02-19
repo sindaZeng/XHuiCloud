@@ -73,7 +73,7 @@ public class SysMenuController {
                 .map(MenuTree::new)
                 .sorted(Comparator.comparingInt(MenuTree::getSort))
                 .collect(Collectors.toList());
-        return Response.success(TreeUtil.build(menuTreeList, 0));
+        return Response.success(TreeUtil.build(menuTreeList, 0l));
     }
 
     /**
@@ -83,7 +83,7 @@ public class SysMenuController {
      * @return
      */
     @GetMapping("/tree/{roleId}")
-    public Response<List<Integer>> getRoleTree(@PathVariable Integer roleId) {
+    public Response<List<Long>> getRoleTree(@PathVariable Long roleId) {
         return Response.success(sysMenuService.findMenuByRoleId(roleId)
                 .stream()
                 .map(SysMenu::getId)
@@ -99,7 +99,7 @@ public class SysMenuController {
     public Response<List<MenuTree>> getMenuTree(@RequestParam Boolean disabled) {
         return Response.success(TreeUtil.buildMenuTree(disabled, sysMenuService
                 .list(Wrappers.<SysMenu>lambdaQuery()
-                        .orderByAsc(SysMenu::getSort)), 0));
+                        .orderByAsc(SysMenu::getSort)), 0l));
     }
 
     /**
@@ -124,7 +124,7 @@ public class SysMenuController {
     @AuditRecord("开启禁用菜单")
     @DeleteMapping("/{id}")
     @PreAuthorize("@authorize.hasPermission('sys_delete_menu')")
-    public Response<Boolean> delete(@PathVariable Integer id) {
+    public Response<Boolean> delete(@PathVariable Long id) {
         return Response.success(sysMenuService.deleteMenu(id));
     }
 

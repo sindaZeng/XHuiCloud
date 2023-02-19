@@ -52,9 +52,9 @@ public class SysTenant extends Model<SysTenant> {
     /**
      * 租户id
      */
-    @TableId(value = "id", type = IdType.AUTO)
+    @TableId(value = "id", type = IdType.ASSIGN_ID)
     @ApiModelProperty(value="租户id")
-    private Integer id;
+    private Long id;
 
     /**
      * 租户名称
@@ -98,14 +98,14 @@ public class SysTenant extends Model<SysTenant> {
      */
     @ApiModelProperty(value = "创建者id", hidden = true)
     @TableField(fill = FieldFill.INSERT)
-    private Integer createId;
+    private Long createId;
 
     /**
      * 更新者id
      */
     @ApiModelProperty(value = "更新者id", hidden = true)
     @TableField(fill = FieldFill.UPDATE)
-    private Integer updateId;
+    private Long updateId;
 
     /**
      * 更新时间

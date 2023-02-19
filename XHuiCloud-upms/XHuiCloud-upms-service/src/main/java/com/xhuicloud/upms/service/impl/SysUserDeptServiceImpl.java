@@ -40,9 +40,9 @@ public class SysUserDeptServiceImpl extends ServiceImpl<SysUserDeptMapper, SysUs
 
     @Override
     @Transactional
-    public void saveUserDept(Integer userId, List<Integer> deptIds) {
+    public void saveUserDept(Long userId, List<Long> deptIds) {
         List<SysUserDept> list = new ArrayList();
-        for (Integer deptId : deptIds) {
+        for (Long deptId : deptIds) {
             SysUserDept ud = new SysUserDept();
             ud.setUserId(userId);
             ud.setDeptId(deptId);
@@ -55,7 +55,7 @@ public class SysUserDeptServiceImpl extends ServiceImpl<SysUserDeptMapper, SysUs
 
     @Override
     @Transactional
-    public void updateUserDept(Integer userId, List<Integer> deptIds) {
+    public void updateUserDept(Long userId, List<Long> deptIds) {
         remove(Wrappers.<SysUserDept>lambdaQuery().eq(SysUserDept::getUserId,userId));
         saveUserDept(userId,deptIds);
     }

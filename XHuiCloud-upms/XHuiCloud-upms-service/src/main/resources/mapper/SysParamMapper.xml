@@ -4,18 +4,18 @@
   <resultMap id="BaseResultMap" type="com.xhuicloud.upms.entity.SysParam">
     <!--@mbg.generated-->
     <!--@Table sys_config-->
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="config_name" jdbcType="VARCHAR" property="paramName" />
-    <result column="config_key" jdbcType="VARCHAR" property="paramKey" />
-    <result column="config_value" jdbcType="VARCHAR" property="paramValue" />
-    <result column="config_type" jdbcType="INTEGER" property="paramType" />
-    <result column="remark" jdbcType="VARCHAR" property="remark" />
-    <result column="sort" jdbcType="INTEGER" property="sort" />
-    <result column="create_id" jdbcType="INTEGER" property="createId" />
-    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-    <result column="update_id" jdbcType="INTEGER" property="updateId" />
-    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
-    <result column="is_del" jdbcType="INTEGER" property="isDel" />
+    <id column="id" property="id" />
+    <result column="config_name" property="paramName" />
+    <result column="config_key" property="paramKey" />
+    <result column="config_value" property="paramValue" />
+    <result column="config_type" property="paramType" />
+    <result column="remark" property="remark" />
+    <result column="sort" property="sort" />
+    <result column="create_id" property="createId" />
+    <result column="create_time" property="createTime" />
+    <result column="update_id" property="updateId" />
+    <result column="update_time" property="updateTime" />
+    <result column="is_del" property="isDel" />
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->

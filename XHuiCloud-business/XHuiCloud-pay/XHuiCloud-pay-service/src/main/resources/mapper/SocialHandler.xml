@@ -4,25 +4,25 @@
   <resultMap id="BaseResultMap" type="com.xhuicloud.pay.entity.PayOrderAll">
     <!--@mbg.generated-->
     <!--@Table pay_order_all-->
-    <id column="id" jdbcType="INTEGER" property="id" />
+    <id column="id" property="id" />
     <result column="amount" jdbcType="DECIMAL" property="amount" />
-    <result column="goods_id" jdbcType="INTEGER" property="goodsId" />
-    <result column="goods_title" jdbcType="VARCHAR" property="goodsTitle" />
-    <result column="order_no" jdbcType="VARCHAR" property="orderNo" />
-    <result column="ref_order_no" jdbcType="VARCHAR" property="refOrderNo" />
-    <result column="pay_order_no" jdbcType="VARCHAR" property="payOrderNo" />
-    <result column="third_pre_no" jdbcType="VARCHAR" property="thirdPreNo" />
-    <result column="third_order_no" jdbcType="VARCHAR" property="thirdOrderNo" />
-    <result column="third_ref_no" jdbcType="VARCHAR" property="thirdRefNo" />
-    <result column="channel_id" jdbcType="VARCHAR" property="channelId" />
-    <result column="open_id" jdbcType="VARCHAR" property="openId" />
-    <result column="state" jdbcType="INTEGER" property="state" />
-    <result column="remark" jdbcType="VARCHAR" property="remark" />
-    <result column="tenant_id" jdbcType="INTEGER" property="tenantId" />
-    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-    <result column="pay_time" jdbcType="TIMESTAMP" property="payTime" />
-    <result column="ref_time" jdbcType="TIMESTAMP" property="refTime" />
-    <result column="finish_time" jdbcType="TIMESTAMP" property="finishTime" />
+    <result column="goods_id" property="goodsId" />
+    <result column="goods_title" property="goodsTitle" />
+    <result column="order_no" property="orderNo" />
+    <result column="ref_order_no" property="refOrderNo" />
+    <result column="pay_order_no" property="payOrderNo" />
+    <result column="third_pre_no" property="thirdPreNo" />
+    <result column="third_order_no" property="thirdOrderNo" />
+    <result column="third_ref_no" property="thirdRefNo" />
+    <result column="channel_id" property="channelId" />
+    <result column="open_id" property="openId" />
+    <result column="state" property="state" />
+    <result column="remark" property="remark" />
+    <result column="tenant_id" property="tenantId" />
+    <result column="create_time" property="createTime" />
+    <result column="pay_time" property="payTime" />
+    <result column="ref_time" property="refTime" />
+    <result column="finish_time" property="finishTime" />
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->

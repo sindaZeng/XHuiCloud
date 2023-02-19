@@ -37,7 +37,6 @@ import com.xhuicloud.upms.service.SysRoleService;
 import lombok.AllArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -52,13 +51,13 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     private final SysUserRoleMapper sysUserRoleMapper;
 
     @Override
-    public List<SysRole> findRoleById(Integer userId) {
+    public List<SysRole> findRoleById(Long userId) {
         return baseMapper.listRolesByUserId(userId);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Boolean deleteRoleById(Integer id) {
+    public Boolean deleteRoleById(Long id) {
         removeById(id);
         sysUserRoleMapper.delete(Wrappers
                 .<SysUserRole>update().lambda()
@@ -71,7 +70,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
 
     @Override
     @Cacheable(value = CacheConstants.SYS_ROLE, unless = "#result == null")
-    public List<Integer> getAllRoleIds() {
+    public List<Long> getAllRoleIds() {
         return list(Wrappers.emptyWrapper()).stream().map(SysRole::getId).collect(Collectors.toList());
     }
 

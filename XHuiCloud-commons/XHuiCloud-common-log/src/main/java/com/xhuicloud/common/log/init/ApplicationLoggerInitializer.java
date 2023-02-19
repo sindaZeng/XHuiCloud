@@ -40,8 +40,11 @@ public class ApplicationLoggerInitializer implements ApplicationContextInitializ
         ConfigurableEnvironment environment = applicationContext.getEnvironment();
         String appName = environment.getProperty("spring.application.name");
         String logBase = environment.getProperty("logging.path", "logs");
-//         spring boot admin 直接加载日志
+        // spring boot admin 直接加载日志
         System.setProperty("logging.file", String.format("%s/%s/debug.log", logBase, appName));
+        // 日志配置
+        System.setProperty("logging.level.com.xhuicloud.*.mapper", "debug");
+        System.setProperty("logging.config", "classpath:com/xhuicloud/common/log/logback/defaults-log.xml");
 
     }
 }

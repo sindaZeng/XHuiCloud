@@ -34,5 +34,5 @@ public interface SysRoleMenuService extends IService<SysRoleMenu> {
 
     Boolean saveRoleMenus(RoleMenusDto roleMenusDto);
 
-    Boolean deleteRoleMenus(List<Integer> ids);
+    Boolean deleteRoleMenus(List<Long> ids);
 }

@@ -86,7 +86,7 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impl
     }
 
     @Override
-    public Boolean deleteFileById(Integer id) {
+    public Boolean deleteFileById(Long id) {
         SysFile sysFile = getById(id);
         ossService.remove(sysFile.getBucketName(), sysFile.getFileName());
         return removeById(id);
@@ -98,7 +98,7 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impl
     }
 
     @Override
-    public FileVo detail(Integer id) {
+    public FileVo detail(Long id) {
         return null;
     }
 
@@ -149,7 +149,7 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impl
 //    @Override
 //    @AuditRecord("删除文件")
 //    @Transactional(rollbackFor = Exception.class)
-//    public Boolean deleteFileById(Integer id) {
+//    public Boolean deleteFileById(Long id) {
 //        SysFile sysFile = getById(id);
 //        if (ObjectUtil.isNull(sysFile)) {
 //            SysException.sysFail("文件不存在!");
@@ -183,7 +183,7 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impl
 //    }
 //
 //    @Override
-//    public FileVo detail(Integer id) {
+//    public FileVo detail(Long id) {
 //        return baseMapper.detail(id, XHuiTenantHolder.getTenant());
 //    }
 }

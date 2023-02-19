@@ -72,7 +72,7 @@ public class AuditRecordController {
     */
     @GetMapping("/{id}")
     @ApiOperation(value = "通过id查询", notes = "通过id查询")
-    public Response getById(@PathVariable Integer id) {
+    public Response getById(@PathVariable Long id) {
         return Response.success(auditRecordService.getById(id));
     }
 
@@ -114,7 +114,7 @@ public class AuditRecordController {
     @DeleteMapping("/{id}" )
     @PreAuthorize("@authorize.hasPermission('sys_delete_auditRecord')" )
     @ApiOperation(value = "通过id删除", notes = "通过id删除")
-    public Response delete(@PathVariable Integer id) {
+    public Response delete(@PathVariable Long id) {
         return Response.success(auditRecordService.removeById(id));
     }
 

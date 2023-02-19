@@ -92,7 +92,7 @@ public class SysUserController {
      */
     @Anonymous
     @GetMapping("/social/{userId}/{type}")
-    public Response<SysUserSocial> getUserSocial(@PathVariable("userId") Integer userId, @PathVariable("type") String type) {
+    public Response<SysUserSocial> getUserSocial(@PathVariable("userId") Long userId, @PathVariable("type") String type) {
         return Response.success(sysUserSocialService.getOne(Wrappers.<SysUserSocial>lambdaQuery()
                 .eq(SysUserSocial::getUserId, userId).eq(SysUserSocial::getSocialType, type)));
     }
@@ -105,7 +105,7 @@ public class SysUserController {
     @AuditRecord("添加用户")
     @PostMapping
     @PreAuthorize("@authorize.hasPermission('sys_add_user')")
-    public Response<Integer> save(@Valid @RequestBody SysUser sysUser) {
+    public Response<Long> save(@Valid @RequestBody SysUser sysUser) {
         return Response.success(sysUserService.saveUser(sysUser));
     }
 
@@ -186,7 +186,7 @@ public class SysUserController {
     @AuditRecord("开启/禁用用户")
     @DeleteMapping("/{id}")
     @PreAuthorize("@authorize.hasPermission('sys_delete_user')")
-    public Response<Boolean> delete(@PathVariable Integer id) {
+    public Response<Boolean> delete(@PathVariable Long id) {
         return Response.success(sysUserService.removeById(id));
     }
 
@@ -199,7 +199,7 @@ public class SysUserController {
     @AuditRecord("锁定/解锁用户")
     @PostMapping("/{id}")
     @PreAuthorize("@authorize.hasPermission('sys_ban_user')")
-    public Response<Boolean> lock(@PathVariable Integer id) {
+    public Response<Boolean> lock(@PathVariable Long id) {
         return Response.success(sysUserService.lock(id));
     }
 }

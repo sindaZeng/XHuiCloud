@@ -63,7 +63,7 @@ public class DsInfoController {
      * 预测试数据库连接是否有效
      */
     @PutMapping("/test/{id}")
-    public Response<Boolean> test(@PathVariable Integer id) {
+    public Response<Boolean> test(@PathVariable Long id) {
         GenDsInfo genDsInfo = genDsInfoService.getById(id);
         return Response.success(handle.get(genDsInfo.getType()).test(genDsInfo));
     }
@@ -80,7 +80,7 @@ public class DsInfoController {
     }
 
     @GetMapping("/info/{id}")
-    public Response<List<TableInfo>> info(@PathVariable Integer id) {
+    public Response<List<TableInfo>> info(@PathVariable Long id) {
         GenDsInfo genDsInfo = genDsInfoService.getById(id);
         DynamicDataSourceContextHolder.push(genDsInfo.getName());
         JdbcHandle jdbcHandle = handle.get(genDsInfo.getType());
@@ -130,7 +130,7 @@ public class DsInfoController {
     @AuditRecord("删除")
     @DeleteMapping("/{id}")
     @PreAuthorize("@authorize.hasPermission('sys_delete_db')")
-    public Response<Boolean> delete(@PathVariable Integer id) {
+    public Response<Boolean> delete(@PathVariable Long id) {
         return Response.success(genDsInfoService.removeById(id));
     }
 

@@ -18,7 +18,7 @@ public class RouteConfDto {
 
     @ApiModelProperty(value="主键")
     @NotNull(message = "id不能为空")
-    private Integer id;
+    private Long id;
 
     /**
      * 路由名称

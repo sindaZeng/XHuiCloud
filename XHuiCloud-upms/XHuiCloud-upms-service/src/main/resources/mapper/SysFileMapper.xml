@@ -4,19 +4,19 @@
     <resultMap id="BaseResultMap" type="com.xhuicloud.upms.entity.SysFile">
         <!--@mbg.generated-->
         <!--@Table sys_file-->
-        <id column="id" jdbcType="INTEGER" property="id"/>
+        <id column="id" property="id"/>
         <result column="url" jdbcType="LONGVARCHAR" property="url"/>
-        <result column="file_name" jdbcType="VARCHAR" property="fileName"/>
-        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="file_name" property="fileName"/>
+        <result column="name" property="name"/>
         <result column="file_size" jdbcType="BIGINT" property="fileSize"/>
-        <result column="file_type" jdbcType="VARCHAR" property="fileType"/>
-        <result column="bucket_name" jdbcType="VARCHAR" property="bucketName"/>
-        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-        <result column="create_id" jdbcType="INTEGER" property="createId" />
-        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
-        <result column="update_id" jdbcType="INTEGER" property="updateId" />
-        <result column="is_del" jdbcType="INTEGER" property="isDel" />
-        <result column="tenant_id" jdbcType="INTEGER" property="tenantId" />
+        <result column="file_type" property="fileType"/>
+        <result column="bucket_name" property="bucketName"/>
+        <result column="create_time" property="createTime" />
+        <result column="create_id" property="createId" />
+        <result column="update_time" property="updateTime" />
+        <result column="update_id" property="updateId" />
+        <result column="is_del" property="isDel" />
+        <result column="tenant_id" property="tenantId" />
     </resultMap>
     <sql id="Base_Column_List">
         <!--@mbg.generated-->

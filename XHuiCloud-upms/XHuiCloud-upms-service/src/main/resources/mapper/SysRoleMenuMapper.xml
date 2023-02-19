@@ -4,8 +4,8 @@
   <resultMap id="BaseResultMap" type="com.xhuicloud.upms.entity.SysRoleMenu">
     <!--@mbg.generated-->
     <!--@Table sys_role_menu-->
-    <id column="role_id" jdbcType="INTEGER" property="roleId" />
-    <id column="menu_id" jdbcType="INTEGER" property="menuId" />
+    <id column="role_id" property="roleId" />
+    <id column="menu_id" property="menuId" />
   </resultMap>
     <delete id="deleteRoleMenus">
       DELETE FROM sys_role_menu

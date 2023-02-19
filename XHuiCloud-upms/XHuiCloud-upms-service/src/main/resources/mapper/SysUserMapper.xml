@@ -4,20 +4,20 @@
     <resultMap id="BaseResultMap" type="com.xhuicloud.upms.entity.SysUser">
         <!--@mbg.generated-->
         <!--@Table sys_user-->
-        <id column="user_id" jdbcType="INTEGER" property="userId"/>
-        <result column="username" jdbcType="VARCHAR" property="username"/>
-        <result column="password" jdbcType="VARCHAR" property="password"/>
-        <result column="avatar" jdbcType="VARCHAR" property="avatar"/>
-        <result column="phone" jdbcType="VARCHAR" property="phone"/>
-        <result column="email" jdbcType="VARCHAR" property="email"/>
-        <result column="sex" jdbcType="INTEGER" property="sex"/>
-        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
-        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
-        <result column="lock_flag" jdbcType="INTEGER" property="lockFlag"/>
-        <result column="is_del" jdbcType="INTEGER" property="isDel"/>
-        <result column="tenant_id" jdbcType="INTEGER" property="tenantId"/>
-        <result column="create_id" jdbcType="INTEGER" property="createId"/>
-        <result column="update_id" jdbcType="INTEGER" property="updateId"/>
+        <id column="user_id" property="userId"/>
+        <result column="username" property="username"/>
+        <result column="password" property="password"/>
+        <result column="avatar" property="avatar"/>
+        <result column="phone" property="phone"/>
+        <result column="email" property="email"/>
+        <result column="sex" property="sex"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="lock_flag" property="lockFlag"/>
+        <result column="is_del" property="isDel"/>
+        <result column="tenant_id" property="tenantId"/>
+        <result column="create_id" property="createId"/>
+        <result column="update_id" property="updateId"/>
     </resultMap>
 
     <resultMap id="BaseUserVoResultMap" type="com.xhuicloud.upms.vo.UserVo" extends="BaseResultMap">

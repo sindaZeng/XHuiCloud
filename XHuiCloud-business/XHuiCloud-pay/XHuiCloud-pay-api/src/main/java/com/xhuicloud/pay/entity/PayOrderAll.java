@@ -45,9 +45,9 @@ public class PayOrderAll implements Serializable {
     /**
      * 订单表id
      */
-    @TableId(value = "id", type = IdType.AUTO)
+    @TableId(value = "id", type = IdType.ASSIGN_ID)
     @ApiModelProperty(value = "订单表id")
-    private Integer id;
+    private Long id;
 
     /**
      * 订单金额
@@ -131,7 +131,7 @@ public class PayOrderAll implements Serializable {
      * 租户id
      */
     @ApiModelProperty(value = "租户id")
-    private Integer tenantId;
+    private Long tenantId;
 
     /**
      * 下单时间

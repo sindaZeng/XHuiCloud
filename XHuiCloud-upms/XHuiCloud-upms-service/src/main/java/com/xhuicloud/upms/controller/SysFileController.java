@@ -98,7 +98,7 @@ public class SysFileController {
     @AuditRecord("删除文件")
     @DeleteMapping("/{id}")
     @PreAuthorize("@authorize.hasPermission('sys_delete_file', 'sys_delete_icon')")
-    public Response<Boolean> delete(@PathVariable Integer id) {
+    public Response<Boolean> delete(@PathVariable Long id) {
         return Response.success(sysFileService.deleteFileById(id));
     }
 
@@ -119,7 +119,7 @@ public class SysFileController {
      * @param id
      */
     @GetMapping("/detail/{id}")
-    public Response<FileVo> detail(@PathVariable Integer id) {
+    public Response<FileVo> detail(@PathVariable Long id) {
        return Response.success(sysFileService.detail(id));
     }
 

@@ -17,7 +17,7 @@ import java.io.Serializable;
 public class ClientVo implements Serializable {
 
     @ApiModelProperty(value = "id")
-    private Integer id;
+    private Long id;
 
     @ApiModelProperty(value = "客户端名称")
     private String name;
@@ -66,7 +66,7 @@ public class ClientVo implements Serializable {
     private Integer isDel;
 
     @ApiModelProperty(value = "租户id")
-    private Integer tenantId;
+    private Long tenantId;
 
     private static final long serialVersionUID = 1L;
 

@@ -57,11 +57,11 @@ public class XHuiTenantFilter extends GenericFilterBean {
 
         String tenantId = request.getHeader(CommonConstants.TENANT_ID);
         if (StrUtil.isNotBlank(tenantId)) {
-            XHuiCommonThreadLocalHolder.setTenant(Integer.parseInt(tenantId));
+            XHuiCommonThreadLocalHolder.setTenant(Long.parseLong(tenantId));
         } else {
             tenantId = request.getParameter(CommonConstants.TENANT_ID);
             if (StrUtil.isNotBlank(tenantId)) {
-                XHuiCommonThreadLocalHolder.setTenant(Integer.parseInt(tenantId));
+                XHuiCommonThreadLocalHolder.setTenant(Long.parseLong(tenantId));
             } else {
                 XHuiCommonThreadLocalHolder.setTenant(CommonConstants.DEFAULT_TENANT_ID);
             }

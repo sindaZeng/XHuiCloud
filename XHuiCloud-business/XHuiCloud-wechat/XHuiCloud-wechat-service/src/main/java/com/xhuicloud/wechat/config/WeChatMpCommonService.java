@@ -66,7 +66,7 @@ public class WeChatMpCommonService {
 
     private static Map<String, WxMpMessageRouter> routersMap = Maps.newHashMap();
 
-    private static Map<String, Integer> tenantsMap = Maps.newHashMap();
+    private static Map<String, Long> tenantsMap = Maps.newHashMap();
 
     private static Map<String, WxMpService> wxMpServiceMap = Maps.newHashMap();
 
@@ -139,12 +139,12 @@ public class WeChatMpCommonService {
         return wxMpService;
     }
 
-    public static Map<String, Integer> getTenantsMap() {
+    public static Map<String, Long> getTenantsMap() {
         return tenantsMap;
     }
 
-    public static Integer getTenant(String appId) {
-        Integer tenant = tenantsMap.get(appId);
+    public static Long getTenant(String appId) {
+        Long tenant = tenantsMap.get(appId);
         if (tenant == null) {
             SysException.sysFail("没有这个公众号数据!");
         }

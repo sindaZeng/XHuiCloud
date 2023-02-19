@@ -81,7 +81,7 @@ public class UserDto implements Serializable {
      * 创建者id
      */
     @ApiModelProperty(value = "创建者id", hidden = true)
-    private Integer createId;
+    private Long createId;
 
     /**
      * 修改时间
@@ -93,7 +93,7 @@ public class UserDto implements Serializable {
      * 更新者id
      */
     @ApiModelProperty(value = "更新者id", hidden = true)
-    private Integer updateId;
+    private Long updateId;
 
     /**
      * 0:账号被锁
@@ -111,14 +111,14 @@ public class UserDto implements Serializable {
      * 租户id
      */
     @ApiModelProperty(value = "租户id")
-    private Integer tenantId;
+    private Long tenantId;
 
 
     /**
      * 角色名称
      */
     @TableField(exist = false)
-    private List<Integer> roleIds;
+    private List<Long> roleIds;
 
     /**
      * 角色名称

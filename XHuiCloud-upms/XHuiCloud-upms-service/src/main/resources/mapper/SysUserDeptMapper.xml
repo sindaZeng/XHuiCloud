@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="com.xhuicloud.upms.entity.SysUserDept">
     <!--@mbg.generated-->
     <!--@Table sys_user_dept-->
-    <id column="user_id" jdbcType="INTEGER" property="userId" />
-    <id column="dept_id" jdbcType="INTEGER" property="deptId" />
+    <id column="user_id" property="userId" />
+    <id column="dept_id" property="deptId" />
   </resultMap>
 </mapper>

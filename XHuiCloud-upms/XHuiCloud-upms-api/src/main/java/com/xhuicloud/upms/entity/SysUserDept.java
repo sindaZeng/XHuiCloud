@@ -34,9 +34,9 @@ import lombok.Data;
 public class SysUserDept extends Model<SysUserDept> {
 
     @ApiModelProperty(value="用户Id")
-    private Integer userId;
+    private Long userId;
 
     @ApiModelProperty(value="部门Id")
-    private Integer deptId;
+    private Long deptId;
 
 }

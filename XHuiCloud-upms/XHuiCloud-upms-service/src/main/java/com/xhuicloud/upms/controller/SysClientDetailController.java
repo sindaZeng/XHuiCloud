@@ -121,7 +121,7 @@ public class SysClientDetailController {
     @PreAuthorize("@authorize.hasPermission('sys_delete_client')")
     @ApiOperation(value = "通过id删除终端信息", notes = "通过id删除终端信息")
     @CacheEvict(value = CacheConstants.CLIENT_DETAILS, key = "#sysClientDetails.clientId")
-    public Response<Boolean> delete(@PathVariable Integer id) {
+    public Response<Boolean> delete(@PathVariable Long id) {
         sysClientDetailsService.removeById(id);
         SpringUtil.publishEvent(new ClientDetailsInitEvent(id));
         return Response.success(Boolean.TRUE);

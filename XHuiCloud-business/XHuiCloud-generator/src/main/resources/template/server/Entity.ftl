@@ -58,7 +58,7 @@ public class ${ClassName} implements Serializable{
     <#list columns as column>
     <#if column.columnKey = 'PRI'>
 
-    @TableId<#if auto?? && column.extra = 'auto_increment'>(value = "${column.columnName}", type = IdType.AUTO)</#if>
+    @TableId<#if auto?? && column.extra = 'auto_increment'>(value = "${column.columnName}", type = IdType.ASSIGN_ID)</#if>
     </#if>
     @ApiModelProperty(value = "${column.columnComment}")
     private ${column.javaDataType} ${column.smallColumnName};

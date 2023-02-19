@@ -69,7 +69,7 @@ public class WeChatMplHandle extends AbstractSocialHandler {
         sysUserSocial.setUserOpenid(openId);
         sysUserSocial.setSocialType(type());
         SysUserSocial userSocial = sysUserSocialMapper.selectOne(Wrappers.lambdaQuery(sysUserSocial));
-        Integer userId;
+        Long userId;
         if (ObjectUtil.isNull(userSocial)) {
             // 创建用户
             sysUserSocial.setUserId(sysUserService.saveUser(createDefaultUser(null)));

@@ -36,12 +36,12 @@ public interface SysUserRoleService extends IService<SysUserRole> {
      * @param userId
      * @param roleIds
      */
-    void saveUserRole(Integer userId, List<Integer> roleIds);
+    void saveUserRole(Long userId, List<Long> roleIds);
 
     /**
      * 更新用户角色
      * @param userId
      * @param roleIds
      */
-    void updateUserRole(Integer userId, List<Integer> roleIds);
+    void updateUserRole(Long userId, List<Long> roleIds);
 }

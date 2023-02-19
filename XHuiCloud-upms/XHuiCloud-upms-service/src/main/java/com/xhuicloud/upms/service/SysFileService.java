@@ -40,9 +40,9 @@ public interface SysFileService extends IService<SysFile> {
      */
     String upload(MultipartFile file);
 
-    Boolean deleteFileById(Integer id);
+    Boolean deleteFileById(Long id);
 
     void download(String fileName, HttpServletResponse response);
 
-    FileVo detail(Integer id);
+    FileVo detail(Long id);
 }

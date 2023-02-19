@@ -41,9 +41,9 @@ public class SysDict extends Model<SysDict> {
     /**
      * 字典项主键
      */
-    @TableId(type = IdType.AUTO)
+    @TableId(type = IdType.ASSIGN_ID)
     @ApiModelProperty(value = "字典项主键")
-    private Integer id;
+    private Long id;
 
     /**
      * 字典项类型
@@ -80,7 +80,7 @@ public class SysDict extends Model<SysDict> {
      */
     @ApiModelProperty(value = "创建者id", hidden = true)
     @TableField(fill = FieldFill.INSERT)
-    private Integer createId;
+    private Long createId;
 
     /**
      * 更新时间
@@ -93,7 +93,7 @@ public class SysDict extends Model<SysDict> {
      */
     @ApiModelProperty(value = "更新者id", hidden = true)
     @TableField(fill = FieldFill.UPDATE)
-    private Integer updateId;
+    private Long updateId;
 
     /**
      * 0:否 1:是

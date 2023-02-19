@@ -67,7 +67,7 @@ public interface SysUserService extends IService<SysUser> {
      * @param id
      * @return
      */
-    Boolean lock(Integer id);
+    Boolean lock(Long id);
 
     /**
      * 导入用户
@@ -84,7 +84,7 @@ public interface SysUserService extends IService<SysUser> {
      * @param sysUser
      * @return
      */
-    Integer saveUser(SysUser sysUser);
+    Long saveUser(SysUser sysUser);
 
     /**
      * 更新用户签名

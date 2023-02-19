@@ -31,7 +31,7 @@ import java.util.List;
 
 public interface SysMenuService extends IService<SysMenu> {
 
-    List<SysMenu> findMenuByRoleId(Integer roleId);
+    List<SysMenu> findMenuByRoleId(Long roleId);
 
     List<SysMenu> findMenuByRoleCode(String roleCode);
 
@@ -49,7 +49,7 @@ public interface SysMenuService extends IService<SysMenu> {
      * @param id
      * @return
      */
-    Boolean deleteMenu(Integer id);
+    Boolean deleteMenu(Long id);
 
     /**
      * 更新菜单

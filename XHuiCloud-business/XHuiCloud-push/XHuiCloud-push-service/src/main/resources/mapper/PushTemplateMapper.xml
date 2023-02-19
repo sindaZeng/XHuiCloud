@@ -4,20 +4,20 @@
   <resultMap id="BaseResultMap" type="com.xhuicloud.push.entity.PushTemplate">
     <!--@mbg.generated-->
     <!--@Table push_template-->
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="tenant_id" jdbcType="INTEGER" property="tenantId" />
-    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <id column="id" property="id" />
+    <result column="tenant_id" property="tenantId" />
+    <result column="create_time" property="createTime" />
+    <result column="update_time" property="updateTime" />
     <result column="is_del" jdbcType="BOOLEAN" property="isDel" />
-    <result column="create_id" jdbcType="INTEGER" property="createId" />
-    <result column="update_id" jdbcType="INTEGER" property="updateId" />
-    <result column="remark" jdbcType="VARCHAR" property="remark" />
-    <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="create_id" property="createId" />
+    <result column="update_id" property="updateId" />
+    <result column="remark" property="remark" />
+    <result column="content" property="content" />
     <result column="status" jdbcType="BOOLEAN" property="status" />
-    <result column="kv" jdbcType="VARCHAR" property="kv" />
-    <result column="group_id" jdbcType="INTEGER" property="groupId" />
-    <result column="channel" jdbcType="VARCHAR" property="channel" />
-    <result column="channel_id" jdbcType="VARCHAR" property="channelId" />
+    <result column="kv" property="kv" />
+    <result column="group_id" property="groupId" />
+    <result column="channel" property="channel" />
+    <result column="channel_id" property="channelId" />
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->

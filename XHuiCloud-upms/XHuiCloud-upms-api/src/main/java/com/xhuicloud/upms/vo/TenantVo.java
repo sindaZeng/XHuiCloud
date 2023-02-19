@@ -36,7 +36,7 @@ import java.util.Map;
 public class TenantVo implements Serializable {
 
     @ApiModelProperty(value="租户id")
-    private Integer id;
+    private Long id;
 
     /**
      * 租户名称

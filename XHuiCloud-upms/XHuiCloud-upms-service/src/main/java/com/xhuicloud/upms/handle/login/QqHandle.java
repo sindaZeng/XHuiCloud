@@ -92,7 +92,7 @@ public class QqHandle extends AbstractSocialHandler {
         sysUserSocial.setUserOpenid(param[2]);
         sysUserSocial.setSocialType(type());
         SysUserSocial userSocial = sysUserSocialMapper.selectOne(new QueryWrapper<>(sysUserSocial));
-        Integer userId;
+        Long userId;
         if (ObjectUtil.isNull(userSocial)) {
             String result = HttpUtil.get(String.format(ThirdLoginUrlConstants.getQqUserInfoUrl, param[0], param[1], param[2]));
             // 创建用户

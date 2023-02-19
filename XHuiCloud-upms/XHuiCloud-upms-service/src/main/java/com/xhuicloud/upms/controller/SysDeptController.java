@@ -64,7 +64,7 @@ public class SysDeptController {
     public Response<List<DeptTree>> getDeptTree() {
         return Response.success(TreeUtil.buildDeptTree(sysDeptService
                 .list(Wrappers.<SysDept>lambdaQuery()
-                        .orderByAsc(SysDept::getSort)), 0));
+                        .orderByAsc(SysDept::getSort)), 0l));
     }
 
     /**
@@ -88,7 +88,7 @@ public class SysDeptController {
      */
     @GetMapping("/{id}")
     @ApiOperation(value = "通过id查询部门", notes = "通过id查询部门")
-    public Response<SysDept> getById(@PathVariable Integer id) {
+    public Response<SysDept> getById(@PathVariable Long id) {
         return Response.success(sysDeptService.getById(id));
     }
 
@@ -130,7 +130,7 @@ public class SysDeptController {
     @DeleteMapping("/{id}" )
     @PreAuthorize("@authorize.hasPermission('sys_delete_dept')" )
     @ApiOperation(value = "通过id删除部门", notes = "通过id删除部门")
-    public Response<Boolean> delete(@PathVariable Integer id) {
+    public Response<Boolean> delete(@PathVariable Long id) {
         return Response.success(sysDeptService.removeById(id));
     }
 

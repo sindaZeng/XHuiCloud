@@ -55,7 +55,7 @@ public class TreeUtil {
      * @param root
      * @return
      */
-    public List<MenuTree> buildMenuTree(Boolean disabled, List<SysMenu> menus, int root) {
+    public List<MenuTree> buildMenuTree(Boolean disabled, List<SysMenu> menus, Long root) {
         List<MenuTree> trees = new ArrayList<>();
         MenuTree node;
         for (SysMenu menu : menus) {
@@ -86,7 +86,7 @@ public class TreeUtil {
      * @param root
      * @return
      */
-    public List<DeptTree> buildDeptTree(List<SysDept> depts, int root) {
+    public List<DeptTree> buildDeptTree(List<SysDept> depts, Long root) {
         List<DeptTree> deptTrees = depts.stream()
                 .filter(dept -> !dept.getId().equals(dept.getParentId()))
                 .sorted(Comparator.comparingInt(SysDept::getSort))
@@ -101,7 +101,7 @@ public class TreeUtil {
         return TreeUtil.build(deptTrees, root);
     }
 
-    public <T extends TreeNode> List<T> build(List<T> treeNodes, Object root) {
+    public <T extends TreeNode> List<T> build(List<T> treeNodes, Long root) {
         List<T> trees = new ArrayList<>();
         for (T treeNode : treeNodes) {
             if (root.equals(treeNode.getParentId())) {

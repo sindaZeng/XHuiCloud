@@ -96,7 +96,7 @@ public class PushGroupController {
     @DeleteMapping("/{id}")
     @CacheEvict(value = CacheConstants.PUSH_GROUP, allEntries = true)
     @ApiOperation(value = "删除推送模板组", notes = "删除推送模板组")
-    public Response<Boolean> delete(@PathVariable Integer id) {
+    public Response<Boolean> delete(@PathVariable Long id) {
         return Response.success(pushGroupService.removeById(id));
     }
 
@@ -107,7 +107,7 @@ public class PushGroupController {
      * @return
      */
     @GetMapping("/{id}")
-    public Response<PushGroup> getById(@PathVariable Integer id) {
+    public Response<PushGroup> getById(@PathVariable Long id) {
         return Response.success(pushGroupService.getById(id));
     }
 

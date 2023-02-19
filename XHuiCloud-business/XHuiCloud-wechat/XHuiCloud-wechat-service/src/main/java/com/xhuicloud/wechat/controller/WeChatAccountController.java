@@ -188,7 +188,7 @@ public class WeChatAccountController {
     @DeleteMapping("/{id}")
     @PreAuthorize("@authorize.hasPermission('sys_delete_account')")
     @ApiOperation(value = "通过id删除公众号账户", notes = "通过id删除公众号账户")
-    public Response delete(@PathVariable Integer id) {
+    public Response delete(@PathVariable Long id) {
         weChatAccountService.removeById(id);
         redisTemplate.convertAndSend(CommonConstants.WECHAT_CLIENT_RELOAD, "重新加载公众号配置事件");
         return Response.success();

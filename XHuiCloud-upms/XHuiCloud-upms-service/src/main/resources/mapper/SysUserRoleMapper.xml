@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="com.xhuicloud.upms.entity.SysUserRole">
     <!--@mbg.generated-->
     <!--@Table sys_user_role-->
-    <id column="user_id" jdbcType="INTEGER" property="userId" />
-    <id column="role_id" jdbcType="INTEGER" property="roleId" />
+    <id column="user_id" property="userId" />
+    <id column="role_id" property="roleId" />
   </resultMap>
 </mapper>

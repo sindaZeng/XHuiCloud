@@ -47,9 +47,9 @@ public class GenDsInfo implements Serializable {
     /**
      * id
      */
-    @TableId(type = IdType.AUTO)
+    @TableId(type = IdType.ASSIGN_ID)
     @ApiModelProperty(value = "id")
-    private Integer id;
+    private Long id;
 
     /**
      * 数据源名称

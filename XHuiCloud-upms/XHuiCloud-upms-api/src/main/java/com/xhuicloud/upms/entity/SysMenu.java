@@ -45,8 +45,8 @@ public class SysMenu extends Model<SysMenu> {
     /**
      * 菜单id
      */
-    @TableId(type = IdType.AUTO)
-    private Integer id;
+    @TableId(type = IdType.ASSIGN_ID)
+    private Long id;
 
     /**
      * 菜单名称
@@ -114,7 +114,7 @@ public class SysMenu extends Model<SysMenu> {
      */
     @ApiModelProperty(value = "创建者id", hidden = true)
     @TableField(fill = FieldFill.INSERT)
-    private Integer createId;
+    private Long createId;
 
     /**
      * 更新时间
@@ -127,7 +127,7 @@ public class SysMenu extends Model<SysMenu> {
      */
     @ApiModelProperty(value = "更新者id", hidden = true)
     @TableField(fill = FieldFill.UPDATE)
-    private Integer updateId;
+    private Long updateId;
 
     /**
      * 0:否 1:是

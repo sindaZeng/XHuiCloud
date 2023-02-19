@@ -48,7 +48,7 @@ public class XHuiUser extends User implements OAuth2AuthenticatedPrincipal {
      * 用户ID
      */
     @Getter
-    private Integer id;
+    private Long id;
 
     /**
      * 手机号
@@ -60,7 +60,7 @@ public class XHuiUser extends User implements OAuth2AuthenticatedPrincipal {
      * 租户ID
      */
     @Getter
-    private Integer tenantId;
+    private Long tenantId;
 
     /**
      * 租户名称
@@ -68,8 +68,8 @@ public class XHuiUser extends User implements OAuth2AuthenticatedPrincipal {
     @Getter
     private String tenantName;
 
-    public XHuiUser(Integer id, String phone,
-                    Integer tenantId, String tenantName,
+    public XHuiUser(Long id, String phone,
+                    Long tenantId, String tenantName,
                     String username, String password,
                     boolean enabled, boolean accountNonExpired,
                     boolean credentialsNonExpired, boolean accountNonLocked,
@@ -90,4 +90,16 @@ public class XHuiUser extends User implements OAuth2AuthenticatedPrincipal {
     public String getName() {
         return this.getUsername();
     }
+
+
+    @Override
+    public String toString() {
+        return "XHuiUser[" +
+                "id=" + id +
+                ", phone=" + phone +
+                ", tenantId=" + tenantId +
+                ", tenantName=" + tenantName +
+                ']';
+    }
+
 }

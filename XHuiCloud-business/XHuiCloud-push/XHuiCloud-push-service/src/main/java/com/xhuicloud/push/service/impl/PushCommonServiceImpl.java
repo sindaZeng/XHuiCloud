@@ -144,13 +144,13 @@ public class PushCommonServiceImpl implements PushCommonService {
         }
     }
 
-    void checkUserId(Integer userId) {
+    void checkUserId(Long userId) {
         if (null == userId) {
             throw ValidateException.validateFail("推送用户不能为空~");
         }
     }
 
-    void checkUserIds(List<Integer> userIds) {
+    void checkUserIds(List<Long> userIds) {
         if (userIds == null || userIds.size() == 0) {
             throw ValidateException.validateFail("推送用户不能为空~");
         }

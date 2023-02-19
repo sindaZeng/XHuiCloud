@@ -38,7 +38,7 @@ public class SysUserSocial extends Model<SysUserSocial> {
      * 用户id
      */
     @ApiModelProperty(value="用户Id")
-    private Integer userId;
+    private Long userId;
 
     /**
      * 开放平台表id

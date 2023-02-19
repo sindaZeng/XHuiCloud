@@ -96,7 +96,7 @@ public class PushTemplateController {
     @DeleteMapping("/{id}")
     @ApiOperation(value = "删除推送模板", notes = "删除推送模板")
     @CacheEvict(value = CacheConstants.PUSH_TEMPLATE, key = "#pushTemplate.id")
-    public Response<Boolean> delete(@PathVariable Integer id) {
+    public Response<Boolean> delete(@PathVariable Long id) {
         return Response.success(pushTemplateService.removeById(id));
     }
 
@@ -108,7 +108,7 @@ public class PushTemplateController {
      */
     @GetMapping("/{id}")
     @Cacheable(value = CacheConstants.PUSH_TEMPLATE, key = "#id")
-    public Response<PushTemplate> getById(@PathVariable Integer id) {
+    public Response<PushTemplate> getById(@PathVariable Long id) {
         return Response.success(pushTemplateService.getById(id));
     }
 

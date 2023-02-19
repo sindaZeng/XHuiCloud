@@ -95,7 +95,7 @@ public class SysDictController {
     @CacheEvict(value = CacheConstants.SYS_DICT, allEntries = true)
     @ApiOperation(value = "删除字典项", notes = "删除字典项")
     @PreAuthorize("@authorize.hasPermission('sys_delete_dict')")
-    public Response<Boolean> delete(@PathVariable Integer id) {
+    public Response<Boolean> delete(@PathVariable Long id) {
         return Response.success(sysDictService.removeById(id));
     }
 

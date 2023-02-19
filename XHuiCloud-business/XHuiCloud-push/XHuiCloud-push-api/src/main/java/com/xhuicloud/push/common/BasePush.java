@@ -43,6 +43,6 @@ public class BasePush implements Serializable {
     private Date sendTime;
 
     @ApiModelProperty("租户Id")
-    private Integer tenantId;
+    private Long tenantId;
 
 }

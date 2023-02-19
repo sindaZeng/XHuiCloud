@@ -45,8 +45,8 @@ public class SysRole extends Model<SysRole> {
     /**
      * 角色id
      */
-    @TableId(type = IdType.AUTO)
-    private Integer id;
+    @TableId(type = IdType.ASSIGN_ID)
+    private Long id;
 
     /**
      * 角色标识
@@ -76,7 +76,7 @@ public class SysRole extends Model<SysRole> {
      */
     @ApiModelProperty(value = "创建者id", hidden = true)
     @TableField(fill = FieldFill.INSERT)
-    private Integer createId;
+    private Long createId;
 
     /**
      * 更新时间
@@ -89,7 +89,7 @@ public class SysRole extends Model<SysRole> {
      */
     @ApiModelProperty(value = "更新者id", hidden = true)
     @TableField(fill = FieldFill.UPDATE)
-    private Integer updateId;
+    private Long updateId;
 
     /**
      * 0:否 1:是
@@ -101,5 +101,5 @@ public class SysRole extends Model<SysRole> {
      * 租户id
      */
     @ApiModelProperty(value = "租户id")
-    private Integer tenantId;
+    private Long tenantId;
 }

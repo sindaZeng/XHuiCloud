@@ -37,7 +37,7 @@ public interface SysUserDeptService extends IService<SysUserDept> {
      * @param userId
      * @param deptIds
      */
-    void saveUserDept(Integer userId, List<Integer> deptIds);
+    void saveUserDept(Long userId, List<Long> deptIds);
 
     /**
      * 更新用户部门
@@ -45,5 +45,5 @@ public interface SysUserDeptService extends IService<SysUserDept> {
      * @param userId
      * @param deptIds
      */
-    void updateUserDept(Integer userId, List<Integer> deptIds);
+    void updateUserDept(Long userId, List<Long> deptIds);
 }

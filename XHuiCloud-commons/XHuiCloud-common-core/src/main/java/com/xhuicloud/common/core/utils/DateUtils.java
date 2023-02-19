@@ -75,6 +75,10 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
         return dateTimeNow(YYYY_MM_DD);
     }
 
+    public static String getToDayBeginTime() {
+        return getDate() + " 00:00:00";
+    }
+
     public static final String getTime() {
         return dateTimeNow(YYYY_MM_DD_HH_MM_SS);
     }

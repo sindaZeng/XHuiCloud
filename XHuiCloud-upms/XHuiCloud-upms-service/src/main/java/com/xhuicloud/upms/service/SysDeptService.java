@@ -36,13 +36,13 @@ public interface SysDeptService extends IService<SysDept> {
      * 获取所有部门id
      * @return
      */
-    List<Integer> getAllDeptIds();
+    List<Long> getAllDeptIds();
 
     Boolean saveDept(SysDept sysDept);
 
-    Boolean deleteDept(Integer id);
+    Boolean deleteDept(Long id);
 
     Boolean updateDept(SysDept sysDept);
 
-    List<List<Integer>> getDeptTree(List<DeptVo> deptVos);
+    List<List<Long>> getDeptTree(List<DeptVo> deptVos);
 }

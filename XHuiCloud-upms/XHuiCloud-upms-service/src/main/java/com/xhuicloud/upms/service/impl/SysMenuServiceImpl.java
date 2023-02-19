@@ -48,7 +48,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     private final SysRoleMenuService sysRoleMenuService;
 
     @Override
-    public List<SysMenu> findMenuByRoleId(Integer roleId) {
+    public List<SysMenu> findMenuByRoleId(Long roleId) {
         return baseMapper.listMenusByRoleId(roleId);
     }
 
@@ -72,12 +72,12 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Boolean deleteMenu(Integer id) {
+    public Boolean deleteMenu(Long id) {
         // 查询当前节点的节点
         SysMenu sysMenu = getOne(Wrappers.<SysMenu>query()
                 .lambda().eq(SysMenu::getId, id));
         if (ObjectUtils.isNotEmpty(sysMenu)) {
-            List<Integer> ids = Lists.newArrayList();
+            List<Long> ids = Lists.newArrayList();
             ids.add(sysMenu.getId());
             getChildMenus(ids, id);
             removeByIds(ids);
@@ -100,8 +100,8 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
      * @param menuList
      * @param id
      */
-    private void getChildMenus(List<Integer> menuList, Integer id) {
-        List<Integer> childMenuList = list(Wrappers.<SysMenu>query()
+    private void getChildMenus(List<Long> menuList, Long id) {
+        List<Long> childMenuList = list(Wrappers.<SysMenu>query()
                 .lambda().eq(SysMenu::getParentId, id)).stream().map(SysMenu::getId).collect(Collectors.toList());
         menuList.addAll(childMenuList);
         childMenuList.forEach(menu -> {

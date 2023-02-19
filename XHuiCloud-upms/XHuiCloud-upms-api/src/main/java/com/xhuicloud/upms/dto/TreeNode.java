@@ -39,11 +39,11 @@ public class TreeNode {
 
     private String label;
 
-    private int value;
+    private long value;
 
-    protected int id;
+    protected long id;
 
-    protected int parentId;
+    protected long parentId;
 
     protected List<TreeNode> children = null;
 

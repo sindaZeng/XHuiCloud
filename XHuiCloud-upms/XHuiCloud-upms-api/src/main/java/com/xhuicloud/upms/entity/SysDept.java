@@ -36,7 +36,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
@@ -52,9 +51,9 @@ public class SysDept extends Model<SysDept> {
     /**
      * 部门id
      */
-    @TableId(type = IdType.AUTO)
+    @TableId(type = IdType.ASSIGN_ID)
     @ApiModelProperty(value = "部门id")
-    private Integer id;
+    private Long id;
 
     /**
      * 部门名称
@@ -72,7 +71,7 @@ public class SysDept extends Model<SysDept> {
      * 上级ID
      */
     @ApiModelProperty(value = "上级ID")
-    private Integer parentId;
+    private Long parentId;
 
     /**
      * 排序
@@ -91,7 +90,7 @@ public class SysDept extends Model<SysDept> {
      */
     @ApiModelProperty(value = "创建者id", hidden = true)
     @TableField(fill = FieldFill.INSERT)
-    private Integer createId;
+    private Long createId;
 
     /**
      * 更新时间
@@ -104,7 +103,7 @@ public class SysDept extends Model<SysDept> {
      */
     @ApiModelProperty(value = "更新者id", hidden = true)
     @TableField(fill = FieldFill.UPDATE)
-    private Integer updateId;
+    private Long updateId;
 
     /**
      * 0:否 1:是
@@ -116,6 +115,6 @@ public class SysDept extends Model<SysDept> {
      * 租户id
      */
     @ApiModelProperty(value = "租户id")
-    private Integer tenantId;
+    private Long tenantId;
 
 }

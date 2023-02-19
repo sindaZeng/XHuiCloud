@@ -47,15 +47,15 @@ public class WechatMenus extends Model<WechatMenus> {
 
     private static final long serialVersionUID = 1L;
 
-    @TableId(type = IdType.AUTO)
+    @TableId(type = IdType.ASSIGN_ID)
     @ApiModelProperty(value = "id")
-    private Integer id;
+    private Long id;
 
     @ApiModelProperty(value = "公众号AppId")
     private String appId;
 
     @ApiModelProperty(value = "账号id")
-    private Integer accountId;
+    private Long accountId;
 
     @ApiModelProperty(value = "菜单")
     private String menu;
@@ -67,16 +67,16 @@ public class WechatMenus extends Model<WechatMenus> {
     private Date createTime;
 
     @ApiModelProperty(value = "创建者id")
-    private Integer createId;
+    private Long createId;
 
     @ApiModelProperty(value = "更新时间")
     private Date updateTime;
 
     @ApiModelProperty(value = "更新者id")
-    private Integer updateId;
+    private Long updateId;
 
     @ApiModelProperty(value = "租户id")
-    private Integer tenantId;
+    private Long tenantId;
 
     @ApiModelProperty(value = "0: 否 1：是")
     private Integer isDel;

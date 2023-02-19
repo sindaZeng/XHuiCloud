@@ -26,12 +26,14 @@ package com.xhuicloud.common.authorization.resource.utils;
 
 import cn.hutool.core.util.StrUtil;
 import com.xhuicloud.common.authorization.resource.userdetails.XHuiUser;
+import com.xhuicloud.common.core.ttl.XHuiCommonThreadLocalHolder;
 import lombok.experimental.UtilityClass;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -90,7 +92,7 @@ public class SecurityHolder {
     /**
      * 获取用户Id
      */
-    public Integer getUserId() {
+    public Long getUserId() {
         return getUser().getId();
     }
 
@@ -113,4 +115,7 @@ public class SecurityHolder {
         return roleCodes;
     }
 
+    public String buildCacheKey(String type, String id) {
+        return String.format("%s:%s:%s:%s", XHuiCommonThreadLocalHolder.getTenant(), OAuth2ParameterNames.TOKEN, type, id);
+    }
 }

@@ -58,7 +58,7 @@ public class LoggerAuthenticationSuccessHandler implements AuthenticationSuccess
             OAuth2AccessTokenAuthenticationToken authenticationToken = (OAuth2AccessTokenAuthenticationToken) authentication;
             Map<String, Object> additionalParameters = authenticationToken.getAdditionalParameters();
             String username = (String) additionalParameters.get(IdTokenClaimNames.SUB);
-            Integer userId = (Integer) additionalParameters.get(CommonConstants.USER_ID);
+            Long userId = (Long) additionalParameters.get(CommonConstants.USER_ID);
             AuditLogin auditLogin = new AuditLogin();
             auditLogin.setUsername(username);
             auditLogin.setUserId(userId);

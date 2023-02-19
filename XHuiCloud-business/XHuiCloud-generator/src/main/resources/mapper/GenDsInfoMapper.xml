@@ -4,16 +4,16 @@
   <resultMap id="BaseResultMap" type="com.xhuicloud.common.datasource.entity.GenDsInfo">
     <!--@mbg.generated-->
     <!--@Table gen_ds_info-->
-    <id column="id" jdbcType="INTEGER" property="id" />
+    <id column="id" property="id" />
     <result column="is_del" jdbcType="BOOLEAN" property="isDel" />
-    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
-    <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="type" jdbcType="VARCHAR" property="type" />
-    <result column="username" jdbcType="VARCHAR" property="username" />
-    <result column="password" jdbcType="VARCHAR" property="password" />
-    <result column="host" jdbcType="VARCHAR" property="host" />
-    <result column="port" jdbcType="VARCHAR" property="port" />
+    <result column="create_time" property="createTime" />
+    <result column="update_time" property="updateTime" />
+    <result column="name" property="name" />
+    <result column="type" property="type" />
+    <result column="username" property="username" />
+    <result column="password" property="password" />
+    <result column="host" property="host" />
+    <result column="port" property="port" />
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->

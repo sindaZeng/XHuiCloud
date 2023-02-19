@@ -58,7 +58,7 @@ public class XHuiTenantHandler implements TenantLineHandler {
      */
     @Override
     public Expression getTenantId() {
-        Integer tenantId = XHuiCommonThreadLocalHolder.getTenant();
+        Long tenantId = XHuiCommonThreadLocalHolder.getTenant();
         if (tenantId == null) {
             return new NullValue();
         }
@@ -83,7 +83,7 @@ public class XHuiTenantHandler implements TenantLineHandler {
      */
     @Override
     public boolean ignoreTable(String tableName) {
-        Integer tenantId = XHuiCommonThreadLocalHolder.getTenant();
+        Long tenantId = XHuiCommonThreadLocalHolder.getTenant();
         if (tenantId == null || getTable() == null) {
             return Boolean.TRUE;
         }

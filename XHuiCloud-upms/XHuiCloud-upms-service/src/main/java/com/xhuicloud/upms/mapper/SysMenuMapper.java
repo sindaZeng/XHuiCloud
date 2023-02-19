@@ -33,7 +33,7 @@ import java.util.List;
 @Mapper
 public interface SysMenuMapper extends BaseMapper<SysMenu> {
 
-    List<SysMenu> listMenusByRoleId(Integer roleId);
+    List<SysMenu> listMenusByRoleId(Long roleId);
 
     List<SysMenu> listMenusByRoleCode(String roleId);
 

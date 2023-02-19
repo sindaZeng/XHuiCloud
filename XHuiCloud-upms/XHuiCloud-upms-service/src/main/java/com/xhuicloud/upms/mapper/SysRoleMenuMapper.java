@@ -33,5 +33,5 @@ import java.util.List;
 
 @Mapper
 public interface SysRoleMenuMapper extends BaseMapper<SysRoleMenu> {
-    Boolean deleteRoleMenus(@Param("ids") List<Integer> ids);
+    Boolean deleteRoleMenus(@Param("ids") List<Long> ids);
 }

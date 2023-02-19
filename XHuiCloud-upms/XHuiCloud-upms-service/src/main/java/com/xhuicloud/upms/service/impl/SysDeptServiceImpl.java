@@ -47,7 +47,7 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
 
     @Override
     @Cacheable(value = CacheConstants.SYS_DEPT, unless = "#result == null")
-    public List<Integer> getAllDeptIds() {
+    public List<Long> getAllDeptIds() {
         return list(Wrappers.emptyWrapper()).stream().map(SysDept::getId).collect(Collectors.toList());
     }
 
@@ -60,7 +60,7 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
 
     @Override
     @CacheEvict(value = CacheConstants.SYS_DEPT, allEntries = true)
-    public Boolean deleteDept(Integer id) {
+    public Boolean deleteDept(Long id) {
         return null;
     }
 
@@ -71,11 +71,11 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
     }
 
     @Override
-    public List<List<Integer>> getDeptTree(List<DeptVo> deptVos) {
+    public List<List<Long>> getDeptTree(List<DeptVo> deptVos) {
         List<SysDept> sysDepts = list(Wrappers.emptyWrapper());
-        List<List<Integer>> depts = Lists.newArrayList();
+        List<List<Long>> depts = Lists.newArrayList();
         for (DeptVo deptVo : deptVos) {
-            List<Integer> oneDepts = Lists.newArrayList();
+            List<Long> oneDepts = Lists.newArrayList();
             completeDepts(sysDepts, deptVo.getDeptId(), oneDepts);
             Collections.sort(oneDepts);
             depts.add(oneDepts);
@@ -89,7 +89,7 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
      * @param deptId
      * @param oneDepts
      */
-    private void completeDepts(List<SysDept> sysDepts, Integer deptId, List<Integer> oneDepts) {
+    private void completeDepts(List<SysDept> sysDepts, Long deptId, List<Long> oneDepts) {
         for (SysDept sysDept : sysDepts) {
             if (deptId == sysDept.getId()) {
                 oneDepts.add(deptId);

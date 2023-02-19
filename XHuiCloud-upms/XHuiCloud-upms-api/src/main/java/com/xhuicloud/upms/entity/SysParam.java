@@ -50,9 +50,9 @@ public class SysParam extends Model<SysParam> {
     /**
      * 参数主键
      */
-    @TableId(type = IdType.AUTO)
+    @TableId(type = IdType.ASSIGN_ID)
     @ApiModelProperty(value = "参数主键")
-    private Integer id;
+    private Long id;
 
     /**
      * 参数名称
@@ -95,7 +95,7 @@ public class SysParam extends Model<SysParam> {
      */
     @ApiModelProperty(value = "创建者id", hidden = true)
     @TableField(fill = FieldFill.INSERT)
-    private Integer createId;
+    private Long createId;
 
     /**
      * 创建时间
@@ -108,7 +108,7 @@ public class SysParam extends Model<SysParam> {
      */
     @ApiModelProperty(value = "更新者id", hidden = true)
     @TableField(fill = FieldFill.UPDATE)
-    private Integer updateId;
+    private Long updateId;
 
     /**
      * 更新时间

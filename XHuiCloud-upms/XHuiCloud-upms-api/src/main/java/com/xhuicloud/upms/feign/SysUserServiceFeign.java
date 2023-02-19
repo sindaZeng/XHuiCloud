@@ -44,6 +44,6 @@ public interface SysUserServiceFeign {
     Response user(@RequestHeader(FROM) String from);
 
     @GetMapping("/social/{userId}/{type}")
-    Response<SysUserSocial> getUserSocial(@PathVariable("userId") Integer userId, @PathVariable("type") String type, @RequestHeader(FROM) String from);
+    Response<SysUserSocial> getUserSocial(@PathVariable("userId") Long userId, @PathVariable("type") String type, @RequestHeader(FROM) String from);
 
 }

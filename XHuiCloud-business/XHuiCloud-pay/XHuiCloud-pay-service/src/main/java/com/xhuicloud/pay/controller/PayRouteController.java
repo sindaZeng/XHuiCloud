@@ -137,10 +137,10 @@ public class PayRouteController {
      * @return
      */
     @Cacheable(value = "Tenant", key = "#tenantId")
-    public TenantVo getTenant(Integer tenantId) {
+    public TenantVo getTenant(Long tenantId) {
         TenantVo tenantVo = PayConfigInit.tenantMaps.get(tenantId);
         if (ObjectUtil.isNotNull(tenantVo)) {
-            XHuiCommonThreadLocalHolder.setTenant(Integer.valueOf(tenantId));
+            XHuiCommonThreadLocalHolder.setTenant(tenantId);
         } else {
             SysException.sysFail(SysException.TENANT_NOT_EXIST_DATA_EXCEPTION);
         }

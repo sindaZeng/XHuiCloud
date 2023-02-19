@@ -72,7 +72,7 @@ public class ${ClassName}Controller {
     */
     @GetMapping("/{id}")
     @ApiOperation(value = "通过id查询${tableComment}", notes = "通过id查询${tableComment}")
-    public Response getById(@PathVariable Integer id) {
+    public Response getById(@PathVariable Long id) {
         return Response.success(${className}Service.getById(id));
     }
 
@@ -114,7 +114,7 @@ public class ${ClassName}Controller {
     @DeleteMapping("/{id}" )
     @PreAuthorize("@authorize.hasPermission('sys_delete_${pathName}')" )
     @ApiOperation(value = "通过id删除${tableComment}", notes = "通过id删除${tableComment}")
-    public Response delete(@PathVariable Integer id) {
+    public Response delete(@PathVariable Long id) {
         return Response.success(${className}Service.removeById(id));
     }
 

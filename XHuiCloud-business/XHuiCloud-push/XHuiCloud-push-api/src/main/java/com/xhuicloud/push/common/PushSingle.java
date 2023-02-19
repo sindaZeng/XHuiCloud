@@ -41,6 +41,6 @@ public class PushSingle extends BasePushData{
 
     @ApiModelProperty(value = "用户id")
     @NotBlank
-    private Integer userId;
+    private Long userId;
 
 }

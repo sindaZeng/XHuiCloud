@@ -110,7 +110,7 @@ public class SysSocialController {
     @AuditRecord("开启禁用社交")
     @DeleteMapping("/{id}")
     @PreAuthorize("@authorize.hasPermission('sys_delete_social')")
-    public Response<Boolean> delete(@PathVariable Integer id) {
+    public Response<Boolean> delete(@PathVariable Long id) {
         return Response.success(sysSocialService.removeById(id));
     }
 

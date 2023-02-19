@@ -80,7 +80,7 @@ public class AliPayServiceImpl implements PayService {
     private Object openAliPay(PayOrderDto payOrderDto, PayOrderAll payOrderAll) {
         try {
             // 根据租户 选择支付商户号
-            Integer tenantId = XHuiCommonThreadLocalHolder.getTenant();
+            Long tenantId = XHuiCommonThreadLocalHolder.getTenant();
             AliPayApiConfigKit.setThreadLocalAppId(PayConfigInit.tenantIdAliPayAppIdMaps.get(tenantId));
             // wap 支付
             alipayWapPay(payOrderDto, payOrderAll, tenantId);
@@ -93,7 +93,7 @@ public class AliPayServiceImpl implements PayService {
     }
 
     @SneakyThrows
-    private Object alipayTradeCreate(PayOrderDto payOrderDto, PayOrderAll payOrderAll, Integer tenantId) {
+    private Object alipayTradeCreate(PayOrderDto payOrderDto, PayOrderAll payOrderAll, Long tenantId) {
         AlipayOpenAuthTokenAppModel authTokenAppModel = new AlipayOpenAuthTokenAppModel();
         authTokenAppModel.setGrantType("authorization_code");
         authTokenAppModel.setCode(payOrderDto.getCode());
@@ -109,7 +109,7 @@ public class AliPayServiceImpl implements PayService {
         return response.getTradeNo();
     }
 
-    private void alipayWapPay(PayOrderDto payOrderDto, PayOrderAll payOrderAll, Integer tenantId) throws AlipayApiException, IOException {
+    private void alipayWapPay(PayOrderDto payOrderDto, PayOrderAll payOrderAll, Long tenantId) throws AlipayApiException, IOException {
         // 唤起支付宝
         AlipayTradeWapPayModel aliPayModel = new AlipayTradeWapPayModel();
         aliPayModel.setSubject(payOrderAll.getGoodsTitle());

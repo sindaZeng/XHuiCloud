@@ -32,5 +32,5 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface SysFileMapper extends BaseMapper<SysFile> {
 
-    FileVo detail(Integer id, Integer tenantId);
+    FileVo detail(Long id, Long tenantId);
 }

@@ -93,7 +93,7 @@ public class SysRouteConfController {
      * @return
      */
     @GetMapping("/getPredicatesAndFiltersById/{id}")
-    public Response<PredicateAndFilterVo> getPredicatesById(@PathVariable Integer id) {
+    public Response<PredicateAndFilterVo> getPredicatesById(@PathVariable Long id) {
         PredicateAndFilterVo predicateAndFilterVo = new PredicateAndFilterVo();
         List<PredicateVo> predicateVos = Lists.newArrayList();
         List<FilterVo> filterVos = Lists.newArrayList();
@@ -134,7 +134,6 @@ public class SysRouteConfController {
     @ApiOperation(value = "新增动态路由", notes = "新增动态路由")
     public Response<Boolean> save(@Valid @RequestBody SysRouteConf sysRouteConf) {
         Boolean isSuccess = sysRouteConfService.save(sysRouteConf);
-        SpringUtil.publishEvent(new DynamicRouteInitEvent(sysRouteConf));
         return Response.success(isSuccess);
     }
 
@@ -153,7 +152,7 @@ public class SysRouteConfController {
     @PreAuthorize("@authorize.hasPermission('sys_delete_route')")
     @DeleteMapping("/{id}")
     @ApiOperation(value = "删除动态路由", notes = "删除动态路由")
-    public Response<Boolean> delete(@PathVariable Integer id) {
+    public Response<Boolean> delete(@PathVariable Long id) {
         Boolean isSuccess = sysRouteConfService.removeById(id);
         SpringUtil.publishEvent(new DynamicRouteInitEvent(id));
         return Response.success(isSuccess);

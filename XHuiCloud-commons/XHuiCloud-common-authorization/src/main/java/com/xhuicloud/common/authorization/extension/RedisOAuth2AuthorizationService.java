@@ -26,8 +26,8 @@ package com.xhuicloud.common.authorization.extension;
 
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
+import com.xhuicloud.common.authorization.resource.utils.SecurityHolder;
 import com.xhuicloud.common.core.constant.CommonConstants;
-import com.xhuicloud.common.core.ttl.XHuiCommonThreadLocalHolder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.oauth2.core.OAuth2AccessToken;
@@ -60,7 +60,7 @@ public class RedisOAuth2AuthorizationService implements OAuth2AuthorizationServi
         Assert.notNull(authorization, "authorization cannot be null");
         String userId = authorization.getAttribute(CommonConstants.USER_ID);
         if (StrUtil.isNotBlank(userId)) {
-            redisTemplate.opsForValue().set(buildCacheKey(OAuth2ParameterNames.USERNAME, userId), authorization, TIMEOUT,
+            redisTemplate.opsForValue().set(SecurityHolder.buildCacheKey(OAuth2ParameterNames.USERNAME, userId), authorization, TIMEOUT,
                     TimeUnit.MINUTES);
         }
 
@@ -68,7 +68,7 @@ public class RedisOAuth2AuthorizationService implements OAuth2AuthorizationServi
         // when the code is returned in the authorization response but the access token request is not yet initiated.
         String state = authorization.getAttribute(OAuth2ParameterNames.STATE);
         if (Objects.nonNull(state)) {
-            redisTemplate.opsForValue().set(buildCacheKey(OAuth2ParameterNames.STATE, state), authorization, TIMEOUT,
+            redisTemplate.opsForValue().set(SecurityHolder.buildCacheKey(OAuth2ParameterNames.STATE, state), authorization, TIMEOUT,
                     TimeUnit.MINUTES);
         }
 
@@ -78,7 +78,7 @@ public class RedisOAuth2AuthorizationService implements OAuth2AuthorizationServi
             OAuth2AuthorizationCode authorizationCodeToken = code.getToken();
             long timeout = ChronoUnit.MINUTES.between(authorizationCodeToken.getIssuedAt(),
                     authorizationCodeToken.getExpiresAt());
-            redisTemplate.opsForValue().set(buildCacheKey(OAuth2ParameterNames.CODE, authorizationCodeToken.getTokenValue()),
+            redisTemplate.opsForValue().set(SecurityHolder.buildCacheKey(OAuth2ParameterNames.CODE, authorizationCodeToken.getTokenValue()),
                     authorization, timeout, TimeUnit.MINUTES);
         }
 
@@ -86,7 +86,7 @@ public class RedisOAuth2AuthorizationService implements OAuth2AuthorizationServi
         if (Objects.nonNull(refresh_token)) {
             OAuth2RefreshToken refreshToken = refresh_token.getToken();
             long timeout = ChronoUnit.SECONDS.between(refreshToken.getIssuedAt(), refreshToken.getExpiresAt());
-            redisTemplate.opsForValue().set(buildCacheKey(OAuth2ParameterNames.REFRESH_TOKEN, refreshToken.getTokenValue()),
+            redisTemplate.opsForValue().set(SecurityHolder.buildCacheKey(OAuth2ParameterNames.REFRESH_TOKEN, refreshToken.getTokenValue()),
                     authorization, timeout, TimeUnit.SECONDS);
         }
 
@@ -94,7 +94,7 @@ public class RedisOAuth2AuthorizationService implements OAuth2AuthorizationServi
         if (Objects.nonNull(access_token)) {
             OAuth2AccessToken accessToken = access_token.getToken();
             long timeout = ChronoUnit.SECONDS.between(accessToken.getIssuedAt(), accessToken.getExpiresAt());
-            redisTemplate.opsForValue().set(buildCacheKey(OAuth2ParameterNames.ACCESS_TOKEN, accessToken.getTokenValue()),
+            redisTemplate.opsForValue().set(SecurityHolder.buildCacheKey(OAuth2ParameterNames.ACCESS_TOKEN, accessToken.getTokenValue()),
                     authorization, timeout, TimeUnit.SECONDS);
         }
 
@@ -107,31 +107,31 @@ public class RedisOAuth2AuthorizationService implements OAuth2AuthorizationServi
 
         String userId = authorization.getAttribute(CommonConstants.USER_ID);
         if (StrUtil.isNotBlank(userId)) {
-            keys.add(buildCacheKey(OAuth2ParameterNames.USERNAME, userId));
+            keys.add(SecurityHolder.buildCacheKey(OAuth2ParameterNames.USERNAME, userId));
         }
 
         String state = authorization.getAttribute(OAuth2ParameterNames.STATE);
         if (Objects.nonNull(state)) {
-            keys.add(buildCacheKey(OAuth2ParameterNames.STATE, state));
+            keys.add(SecurityHolder.buildCacheKey(OAuth2ParameterNames.STATE, state));
         }
 
         OAuth2Authorization.Token<OAuth2AuthorizationCode> code = authorization
                 .getToken(OAuth2AuthorizationCode.class);
         if (Objects.nonNull(code)) {
             OAuth2AuthorizationCode authorizationCodeToken = code.getToken();
-            keys.add(buildCacheKey(OAuth2ParameterNames.CODE, authorizationCodeToken.getTokenValue()));
+            keys.add(SecurityHolder.buildCacheKey(OAuth2ParameterNames.CODE, authorizationCodeToken.getTokenValue()));
         }
 
         OAuth2Authorization.Token<OAuth2RefreshToken> refresh_token = authorization.getRefreshToken();
         if (Objects.nonNull(refresh_token)) {
             OAuth2RefreshToken refreshToken = refresh_token.getToken();
-            keys.add(buildCacheKey(OAuth2ParameterNames.REFRESH_TOKEN, refreshToken.getTokenValue()));
+            keys.add(SecurityHolder.buildCacheKey(OAuth2ParameterNames.REFRESH_TOKEN, refreshToken.getTokenValue()));
         }
 
         OAuth2Authorization.Token<OAuth2AccessToken> access_token = authorization.getAccessToken();
         if (Objects.nonNull(access_token)) {
             OAuth2AccessToken accessToken = access_token.getToken();
-            keys.add(buildCacheKey(OAuth2ParameterNames.ACCESS_TOKEN, accessToken.getTokenValue()));
+            keys.add(SecurityHolder.buildCacheKey(OAuth2ParameterNames.ACCESS_TOKEN, accessToken.getTokenValue()));
         }
         redisTemplate.delete(keys);
     }
@@ -139,18 +139,16 @@ public class RedisOAuth2AuthorizationService implements OAuth2AuthorizationServi
     @Override
     public OAuth2Authorization findById(String principalName) {
         Assert.hasText(principalName, "principalName cannot be empty");
-        return (OAuth2Authorization) redisTemplate.opsForValue().get(buildCacheKey(OAuth2ParameterNames.USERNAME, principalName));
+        return (OAuth2Authorization) redisTemplate.opsForValue().get(SecurityHolder.buildCacheKey(OAuth2ParameterNames.USERNAME, principalName));
     }
 
     @Override
     public OAuth2Authorization findByToken(String token, OAuth2TokenType tokenType) {
         Assert.hasText(token, "token cannot be empty");
         tokenType = ObjectUtil.defaultIfNull(tokenType, new OAuth2TokenType(OAuth2ParameterNames.ACCESS_TOKEN));
-        return (OAuth2Authorization) redisTemplate.opsForValue().get(buildCacheKey(tokenType.getValue(), token));
+        return (OAuth2Authorization) redisTemplate.opsForValue().get(SecurityHolder.buildCacheKey(tokenType.getValue(), token));
     }
 
-    private String buildCacheKey(String type, String id) {
-        return String.format("%s:%s:%s:%s", XHuiCommonThreadLocalHolder.getTenant(), OAuth2ParameterNames.TOKEN, type, id);
-    }
+
 
 }

@@ -63,7 +63,7 @@ public class SysRoleMenuServiceImpl extends ServiceImpl<SysRoleMenuMapper, SysRo
 
     @Override
     @Transactional
-    public Boolean deleteRoleMenus(List<Integer> ids) {
+    public Boolean deleteRoleMenus(List<Long> ids) {
         return baseMapper.deleteRoleMenus(ids);
     }
 }

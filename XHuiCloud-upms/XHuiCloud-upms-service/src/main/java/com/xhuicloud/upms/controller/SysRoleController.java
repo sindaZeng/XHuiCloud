@@ -120,7 +120,7 @@ public class SysRoleController {
     @DeleteMapping("/{id}")
     @CacheEvict(value = CacheConstants.SYS_ROLE, allEntries = true)
     @ApiOperation(value = "删除角色", notes = "删除角色")
-    public Response<Boolean> delete(@PathVariable Integer id) {
+    public Response<Boolean> delete(@PathVariable Long id) {
         return Response.success(sysRoleService.deleteRoleById(id));
     }
 
@@ -131,7 +131,7 @@ public class SysRoleController {
      * @return
      */
     @GetMapping("/{id}")
-    public Response<SysRole> getById(@PathVariable Integer id) {
+    public Response<SysRole> getById(@PathVariable Long id) {
         return Response.success(sysRoleService.getById(id));
     }
 

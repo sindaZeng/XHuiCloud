@@ -42,7 +42,7 @@ public class PushMultiple extends BasePushData{
 
     @ApiModelProperty(value = "用户id")
     @NotNull
-    private List<Integer> userIds;
+    private List<Long> userIds;
 
 }
 

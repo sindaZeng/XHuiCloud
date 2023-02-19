@@ -64,7 +64,7 @@ public class TestLogController {
      */
     @GetMapping("/test3/{id}")
     @AuditRecord(value = "审计保存条件", condition = "#id == 1")
-    public Response test3(@PathVariable Integer id) {
+    public Response test3(@PathVariable Long id) {
         return Response.success();
     }
 

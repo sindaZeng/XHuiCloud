@@ -4,9 +4,9 @@
   <resultMap id="BaseResultMap" type="com.xhuicloud.upms.entity.SysUserSocial">
     <!--@mbg.generated-->
     <!--@Table sys_user_open_service-->
-    <id column="user_id" jdbcType="INTEGER" property="userId" />
-    <id column="social_type" jdbcType="VARCHAR" property="socialType" />
-    <result column="user_openid" jdbcType="VARCHAR" property="userOpenid" />
+    <id column="user_id" property="userId" />
+    <id column="social_type" property="socialType" />
+    <result column="user_openid" property="userOpenid" />
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->

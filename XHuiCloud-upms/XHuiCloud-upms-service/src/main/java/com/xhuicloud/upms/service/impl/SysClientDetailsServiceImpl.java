@@ -26,23 +26,19 @@ package com.xhuicloud.upms.service.impl;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.xhuicloud.common.core.constant.CacheConstants;
 import com.xhuicloud.upms.entity.SysClientDetails;
 import com.xhuicloud.upms.mapper.SysClientDetailsMapper;
 import com.xhuicloud.upms.service.SysClientDetailsService;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 @Service
 public class SysClientDetailsServiceImpl extends ServiceImpl<SysClientDetailsMapper, SysClientDetails> implements SysClientDetailsService {
 
     @Override
-    @Cacheable(value = CacheConstants.CLIENT_DETAILS, key = "#clientId", unless = "#result == null")
+//    @Cacheable(value = CacheConstants.CLIENT_DETAILS, key = "#clientId", unless = "#result == null")
     public SysClientDetails getByIdOrClientId(String clientId) {
         return getOne(
                 Wrappers.<SysClientDetails>lambdaQuery()
-                        .eq(SysClientDetails::getClientId, clientId)
-                        .or()
-                        .eq(SysClientDetails::getId, clientId));
+                        .eq(SysClientDetails::getClientId, clientId));
     }
 }

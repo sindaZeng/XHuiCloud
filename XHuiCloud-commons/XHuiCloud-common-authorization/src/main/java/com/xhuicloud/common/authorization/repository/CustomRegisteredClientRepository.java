@@ -66,7 +66,7 @@ public class CustomRegisteredClientRepository implements RegisteredClientReposit
         if (sysClientDetails == null) {
             return null;
         }
-        RegisteredClient.Builder builder = RegisteredClient.withId(String.valueOf(sysClientDetails.getId()))
+        RegisteredClient.Builder builder = RegisteredClient.withId(sysClientDetails.getClientId())
                 .clientId(sysClientDetails.getClientId())
                 .clientName(sysClientDetails.getName())
                 .clientSecret(sysClientDetails.getClientSecret())
