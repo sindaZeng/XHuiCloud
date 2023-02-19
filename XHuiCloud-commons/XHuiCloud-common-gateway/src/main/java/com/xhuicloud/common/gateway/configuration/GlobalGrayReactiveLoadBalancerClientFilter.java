@@ -24,6 +24,7 @@
 
 package com.xhuicloud.common.gateway.configuration;
 
+import com.alibaba.cloud.nacos.NacosServiceInstance;
 import com.xhuicloud.common.gateway.rule.GlobalGrayLoadBalancer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.client.ServiceInstance;
@@ -64,7 +65,7 @@ public class GlobalGrayReactiveLoadBalancerClientFilter extends ReactiveLoadBala
     public GlobalGrayReactiveLoadBalancerClientFilter(GatewayLoadBalancerProperties loadBalancerProperties,
                                                       LoadBalancerProperties properties,
                                                       GlobalGrayLoadBalancer globalGrayLoadBalancer) {
-        super(null,loadBalancerProperties, properties);
+        super(null, loadBalancerProperties);
         this.properties = properties;
         this.globalGrayLoadBalancer = globalGrayLoadBalancer;
         this.loadBalancerProperties = loadBalancerProperties;
@@ -127,7 +128,9 @@ public class GlobalGrayReactiveLoadBalancerClientFilter extends ReactiveLoadBala
      */
     private Mono<Response<ServiceInstance>> choose(ServerWebExchange exchange) {
         URI uri = exchange.getAttribute(ServerWebExchangeUtils.GATEWAY_REQUEST_URL_ATTR);
-        ServiceInstance serviceInstance = globalGrayLoadBalancer.choose(uri.getHost(), exchange.getRequest());
+        NacosServiceInstance serviceInstance = (NacosServiceInstance) globalGrayLoadBalancer.choose(uri.getHost(), exchange.getRequest());
+        if (uri.getPort() != -1)
+            serviceInstance.setPort(uri.getPort());
         return Mono.just(new DefaultResponse(serviceInstance));
     }
 }
