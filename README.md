@@ -32,7 +32,7 @@
 
 > 1. **快速体验项目**：[在线访问地址](http://xhuicloud.cn/)
 > 2. **接口文档**：[swagger在线](http://api.xhuicloud.cn/doc.html)
-> 3. **后端操作文档**：[建设中](http://doc.xhuicloud.cn/#/)
+> 3. **项目文档**：[建设中](https://www.yuque.com/xinghuiyun/il5o2r)
 > 4. **前端代码**：[Go](https://github.com/sindaZeng/xhuicloud-ui)
 
 ## 前言
@@ -44,7 +44,7 @@
 星辉云是基于(SpringBoot + SpringCloudAlibaba + SpringAuthorizationServer + MyBatis-Plus) 支持Docker容器化部署，主要目的让我们注重业务，降低技术门槛，节省人力成本，缩短项目周期，提高工程的安全与质量。
 
 #### 技术栈支持
-- 基于`spring-security`Rbac权限验证
+- 基于`spring-security`RBAC权限验证
 - 支持`OAuth2.0`协议授权校验
 - 支持`Seata`分布式事务
 - 支持`Nacos`注册中心
@@ -167,6 +167,10 @@ XHuiCloud
 
 - 邮箱： `xhuicloud@163.com`
 - 邮箱： `sindazeng@gmail.com`
+
+## 鸣谢
+- 感谢 JetBrains 提供的 License。     
+  <a href="https://www.jetbrains.com/?from=smart-socket"><img src="jetbrains.png" width="20%" height="20%"/></a>
 
 ## 许可证
 
