@@ -32,7 +32,7 @@
 
 > 1. **快速体验项目**：[在线访问地址](http://xhuicloud.cn/)
 > 2. **接口文档**：[swagger在线](http://api.xhuicloud.cn/doc.html)
-> 3. **项目文档**：[建设中](https://www.yuque.com/xinghuiyun/il5o2r)
+> 3. **项目文档**：[语雀](https://www.yuque.com/xinghuiyun/il5o2r)
 > 4. **前端代码**：[Go](https://github.com/sindaZeng/xhuicloud-ui)
 
 ## 前言
@@ -65,7 +65,7 @@
 - 支持`bom` 模块版本管理，尽可能的松耦合，方便模块升级、 增减模块
 
 
-#### 模块规划
+#### 模块规划(按顺序实现)
 
 - [x] [认证中心(快速体验授权登录 U:admin P:123456)](http://oauth2.xhuicloud.cn/oauth2/authorize?client_id=test&response_type=code&scop=server&redirect_uri=http://xhuicloud.cn)
 - [x] 用户管理
@@ -83,13 +83,13 @@
 - [x] 灰度发布 
 - [x] 推送中心 
 - [x] 监控平台
+- [ ] 微信公众号运营管理(进度 70%)
+- [ ] 基础运营系统
+- [ ] OA办公自动化
+- [ ] 聚合支付
 - [ ] 大屏系统
 - [ ] 报表系统
-- [ ] 聚合支付
-- [ ] 微信公众号运营管理
-- [ ] 基础运营系统
 - [ ] 内容管理
-- [ ] OA办公自动化
 
 #### 目录结构
 ```lua
@@ -105,6 +105,8 @@ XHuiCloud
      ├── XHuiCloud-common-feign                             -- 公共feign
      ├── XHuiCloud-common-gateway                           -- 网关核心模块
      ├── XHuiCloud-common-gray                              -- 灰度发布
+     ├── XHuiCloud-common-mqtt                              -- mqtt 模块
+     ├   └── XHuiCloud-common-mqtt-server                   -- mqtt服务端
      ├── XHuiCloud-common-lock                              -- 分布式锁模块
      ├── XHuiCloud-common-log                               -- 公共日志核心
      ├── XHuiCloud-common-mybaits                           -- 数据源模块
@@ -144,7 +146,7 @@ XHuiCloud
 ### 架构
 
 #### 系统架构图:
-![系统架构图](http://xhuicloud.oss-cn-shenzhen.aliyuncs.com/architecture.png)
+<img src="architecture.png" />
 
 #### 业务架构图:
 待整理
