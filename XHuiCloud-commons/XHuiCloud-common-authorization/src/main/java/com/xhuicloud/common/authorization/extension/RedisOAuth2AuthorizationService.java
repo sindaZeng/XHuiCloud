@@ -58,6 +58,9 @@ public class RedisOAuth2AuthorizationService implements OAuth2AuthorizationServi
     @Override
     public void save(OAuth2Authorization authorization) {
         Assert.notNull(authorization, "authorization cannot be null");
+
+        long timeout = 30000;
+
         String userId = authorization.getAttribute(CommonConstants.USER_ID);
         if (StrUtil.isNotBlank(userId)) {
             redisTemplate.opsForValue().set(SecurityHolder.buildCacheKey(OAuth2ParameterNames.USERNAME, userId), authorization, TIMEOUT,
@@ -76,26 +79,30 @@ public class RedisOAuth2AuthorizationService implements OAuth2AuthorizationServi
                 .getToken(OAuth2AuthorizationCode.class);
         if (Objects.nonNull(code)) {
             OAuth2AuthorizationCode authorizationCodeToken = code.getToken();
-            long timeout = ChronoUnit.MINUTES.between(authorizationCodeToken.getIssuedAt(),
+            timeout = ChronoUnit.MINUTES.between(authorizationCodeToken.getIssuedAt(),
                     authorizationCodeToken.getExpiresAt());
             redisTemplate.opsForValue().set(SecurityHolder.buildCacheKey(OAuth2ParameterNames.CODE, authorizationCodeToken.getTokenValue()),
                     authorization, timeout, TimeUnit.MINUTES);
         }
-
         OAuth2Authorization.Token<OAuth2RefreshToken> refresh_token = authorization.getRefreshToken();
         if (Objects.nonNull(refresh_token)) {
             OAuth2RefreshToken refreshToken = refresh_token.getToken();
-            long timeout = ChronoUnit.SECONDS.between(refreshToken.getIssuedAt(), refreshToken.getExpiresAt());
+            timeout = ChronoUnit.SECONDS.between(refreshToken.getIssuedAt(), refreshToken.getExpiresAt());
             redisTemplate.opsForValue().set(SecurityHolder.buildCacheKey(OAuth2ParameterNames.REFRESH_TOKEN, refreshToken.getTokenValue()),
                     authorization, timeout, TimeUnit.SECONDS);
         }
-
         OAuth2Authorization.Token<OAuth2AccessToken> access_token = authorization.getAccessToken();
         if (Objects.nonNull(access_token)) {
             OAuth2AccessToken accessToken = access_token.getToken();
-            long timeout = ChronoUnit.SECONDS.between(accessToken.getIssuedAt(), accessToken.getExpiresAt());
+            timeout = ChronoUnit.SECONDS.between(accessToken.getIssuedAt(), accessToken.getExpiresAt());
             redisTemplate.opsForValue().set(SecurityHolder.buildCacheKey(OAuth2ParameterNames.ACCESS_TOKEN, accessToken.getTokenValue()),
                     authorization, timeout, TimeUnit.SECONDS);
+        }
+
+        String sessionId = authorization.getAttribute(CommonConstants.SESSION_ID);
+        if (StrUtil.isNotBlank(sessionId)) {
+            redisTemplate.opsForValue().set(SecurityHolder.buildCacheKey(CommonConstants.SESSION_ID, sessionId), userId, timeout,
+                    TimeUnit.MINUTES);
         }
 
     }
@@ -108,6 +115,11 @@ public class RedisOAuth2AuthorizationService implements OAuth2AuthorizationServi
         String userId = authorization.getAttribute(CommonConstants.USER_ID);
         if (StrUtil.isNotBlank(userId)) {
             keys.add(SecurityHolder.buildCacheKey(OAuth2ParameterNames.USERNAME, userId));
+        }
+
+        String sessionId = authorization.getAttribute(CommonConstants.SESSION_ID);
+        if (StrUtil.isNotBlank(sessionId)) {
+            keys.add(SecurityHolder.buildCacheKey(CommonConstants.SESSION_ID, sessionId));
         }
 
         String state = authorization.getAttribute(OAuth2ParameterNames.STATE);
@@ -148,7 +160,6 @@ public class RedisOAuth2AuthorizationService implements OAuth2AuthorizationServi
         tokenType = ObjectUtil.defaultIfNull(tokenType, new OAuth2TokenType(OAuth2ParameterNames.ACCESS_TOKEN));
         return (OAuth2Authorization) redisTemplate.opsForValue().get(SecurityHolder.buildCacheKey(tokenType.getValue(), token));
     }
-
 
 
 }

@@ -24,12 +24,13 @@
 
 package com.xhuicloud.common.authorization.resource.userdetails;
 
+import cn.hutool.core.lang.UUID;
 import cn.hutool.core.util.ArrayUtil;
 import com.xhuicloud.common.authorization.resource.constant.CustomAuthorizationGrantType;
 import com.xhuicloud.common.core.constant.CacheConstants;
 import com.xhuicloud.common.core.constant.CommonConstants;
-import com.xhuicloud.common.core.ttl.XHuiCommonThreadLocalHolder;
 import com.xhuicloud.common.core.utils.Response;
+import com.xhuicloud.common.core.ttl.XHuiCommonThreadLocalHolder;
 import com.xhuicloud.upms.dto.UserInfo;
 import com.xhuicloud.upms.entity.SysUser;
 import com.xhuicloud.upms.feign.SysSocialServiceFeign;
@@ -125,8 +126,10 @@ public class XHuiUserDetailsServiceImpl implements XHuiUserDetailsService {
                 = AuthorityUtils.createAuthorityList(ArrayUtil.toArray(dbAuthsSet, String.class));
         SysUser user = userInfo.getSysUser();
         // 构造security用户
-        return new XHuiUser(user.getUserId(), user.getPhone(), user.getTenantId(), userInfo.getTenantName(), user.getUsername(), user.getPassword(), true,
-                true, true, user.getLockFlag() != USER_IS_LOCK, authorities);
+        return new XHuiUser(user.getUserId(), user.getPhone(), user.getTenantId(),
+                userInfo.getTenantName(), user.getUsername(), user.getPassword(), UUID.randomUUID().toString(),
+                true, true, true,
+                user.getLockFlag() != USER_IS_LOCK, authorities);
     }
 
 }

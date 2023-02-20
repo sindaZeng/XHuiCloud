@@ -68,9 +68,15 @@ public class XHuiUser extends User implements OAuth2AuthenticatedPrincipal {
     @Getter
     private String tenantName;
 
+    /**
+     * session_id
+     */
+    @Getter
+    private String sessionId;
+
     public XHuiUser(Long id, String phone,
                     Long tenantId, String tenantName,
-                    String username, String password,
+                    String username, String password, String sessionId,
                     boolean enabled, boolean accountNonExpired,
                     boolean credentialsNonExpired, boolean accountNonLocked,
                     Collection<? extends GrantedAuthority> authorities) {
@@ -79,6 +85,7 @@ public class XHuiUser extends User implements OAuth2AuthenticatedPrincipal {
         this.phone = phone;
         this.tenantId = tenantId;
         this.tenantName = tenantName;
+        this.sessionId = sessionId;
     }
 
     @Override

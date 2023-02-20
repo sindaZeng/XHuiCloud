@@ -34,7 +34,6 @@ import org.springframework.http.*;
 import org.springframework.http.client.support.BasicAuthenticationInterceptor;
 import org.springframework.security.oauth2.core.OAuth2AuthenticatedPrincipal;
 import org.springframework.security.oauth2.core.OAuth2TokenIntrospectionClaimNames;
-import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.server.resource.introspection.BadOpaqueTokenException;
 import org.springframework.security.oauth2.server.resource.introspection.OAuth2IntrospectionException;
 import org.springframework.security.oauth2.server.resource.introspection.OpaqueTokenIntrospector;
@@ -45,7 +44,8 @@ import org.springframework.web.client.RestOperations;
 import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
-import java.util.*;
+import java.util.Collections;
+import java.util.Map;
 
 /**
  * 自定义'匿名令牌'自省器
@@ -59,8 +59,6 @@ public class CustomOpaqueTokenIntrospect implements OpaqueTokenIntrospector {
 
     private final RestOperations restOperations;
 
-    private final JwtDecoder jwtDecoder;
-
     private final XHuiUserDetailsService xHuiUserDetailsService;
 
     private Converter<String, RequestEntity<?>> requestEntityConverter;
@@ -73,17 +71,15 @@ public class CustomOpaqueTokenIntrospect implements OpaqueTokenIntrospector {
      * @param clientSecret     The client's secret
      */
     public CustomOpaqueTokenIntrospect(String introspectionUri, String clientId, String clientSecret,
-                                       XHuiUserDetailsService xHuiUserDetailsService, JwtDecoder jwtDecoder) {
+                                       XHuiUserDetailsService xHuiUserDetailsService) {
         Assert.notNull(introspectionUri, "introspectionUri cannot be null");
         Assert.notNull(clientId, "clientId cannot be null");
         Assert.notNull(clientSecret, "clientSecret cannot be null");
-        Assert.notNull(jwtDecoder, "jwtDecoder cannot be null");
         this.requestEntityConverter = this.defaultRequestEntityConverter(URI.create(introspectionUri));
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.getInterceptors().add(new BasicAuthenticationInterceptor(clientId, clientSecret));
         this.restOperations = restTemplate;
         this.xHuiUserDetailsService = xHuiUserDetailsService;
-        this.jwtDecoder = jwtDecoder;
     }
 
     private Converter<String, RequestEntity<?>> defaultRequestEntityConverter(URI introspectionUri) {

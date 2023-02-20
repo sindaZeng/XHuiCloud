@@ -35,6 +35,7 @@ import org.springframework.security.oauth2.core.OAuth2TokenType;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
 import org.springframework.security.oauth2.server.authorization.authentication.OAuth2ClientAuthenticationToken;
 import org.springframework.security.oauth2.server.authorization.token.*;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -60,6 +61,7 @@ public class CustomOAuth2TokenCustomizer implements OAuth2TokenCustomizer {
                     attributes.put(CommonConstants.USER_ID, principal.getId());
                     attributes.put(CommonConstants.TENANT_NAME, principal.getTenantName());
                     attributes.put(CommonConstants.TENANT_ID, principal.getTenantId());
+                    attributes.put(CommonConstants.SESSION_ID, principal.getSessionId());
                     setAttributes(attributes, context);
                 }
             }

@@ -25,7 +25,7 @@ public class UsernamePasswordHandle extends AbstractSocialHandler {
     @Override
     public UserInfo info(String openId) {
         SysUser user = sysUserService.getOne(Wrappers.<SysUser>query().lambda()
-                .eq(SysUser::getUsername, openId));
+                .eq(SysUser::getUsername, openId).or().eq(SysUser::getPhone, openId));
         if (user == null) {
             return null;
         }

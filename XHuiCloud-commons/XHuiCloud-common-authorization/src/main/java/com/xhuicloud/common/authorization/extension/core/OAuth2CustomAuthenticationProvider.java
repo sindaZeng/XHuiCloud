@@ -131,6 +131,7 @@ public abstract class OAuth2CustomAuthenticationProvider<T extends OAuth2CustomG
                     .principalName(authenticate.getName())
                     .authorizationGrantType(getGrantType())
                     .attribute(OAuth2Authorization.AUTHORIZED_SCOPE_ATTRIBUTE_NAME, authorizedScopes)
+                    .attribute(CommonConstants.SESSION_ID, getSessionId(authenticate))
                     .attribute(CommonConstants.USER_ID, userId);
 
             // 是否有登录信息
@@ -196,7 +197,6 @@ public abstract class OAuth2CustomAuthenticationProvider<T extends OAuth2CustomG
             OAuth2RefreshToken refreshToken = (OAuth2RefreshToken) generatedRefreshToken;
             authorizationBuilder.refreshToken(refreshToken);
         }
-
         authorization = authorizationBuilder.build();
         this.authorizationService.save(authorization);
         return authorization;
@@ -206,6 +206,13 @@ public abstract class OAuth2CustomAuthenticationProvider<T extends OAuth2CustomG
         Object principal = authenticate.getPrincipal();
         if (principal != null && principal instanceof XHuiUser) {
             return ((XHuiUser) principal).getId().toString();
+        }
+        return authenticate.getName();
+    }
+    private String getSessionId(Authentication authenticate) {
+        Object principal = authenticate.getPrincipal();
+        if (principal != null && principal instanceof XHuiUser) {
+            return ((XHuiUser) principal).getSessionId();
         }
         return authenticate.getName();
     }
