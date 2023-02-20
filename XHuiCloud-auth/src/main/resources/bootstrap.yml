@@ -13,7 +13,12 @@ spring:
   config:
     import:
       - optional:nacos:application-common-@profiles.active@.yml
+      - optional:nacos:xhuicloud-common-@profiles.active@.yml
       - optional:nacos:@artifactId@-@profiles.active@.yml
 
 server:
   port: 16000
+
+xhuicloud:
+  log:
+    enabled: false

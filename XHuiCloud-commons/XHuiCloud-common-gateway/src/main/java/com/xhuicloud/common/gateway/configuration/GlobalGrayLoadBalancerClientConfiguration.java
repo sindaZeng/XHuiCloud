@@ -44,7 +44,7 @@ import org.springframework.context.annotation.Configuration;
  * @create: 2020/7/18 10:38 下午
  */
 @Configuration
-@ConditionalOnProperty(value = "gray.enabled", havingValue = "true")
+@ConditionalOnProperty(value = "xhuicloud.gray.enabled", havingValue = "true")
 @AutoConfigureBefore(GatewayReactiveLoadBalancerClientAutoConfiguration.class)
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.REACTIVE)
 public class GlobalGrayLoadBalancerClientConfiguration {

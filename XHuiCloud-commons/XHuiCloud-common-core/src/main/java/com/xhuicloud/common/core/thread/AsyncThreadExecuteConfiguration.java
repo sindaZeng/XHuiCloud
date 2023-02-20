@@ -32,13 +32,14 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
-import java.util.concurrent.ThreadPoolExecutor;
+
+import java.util.concurrent.RejectedExecutionHandler;
 
 @Slf4j
 @EnableAsync
 @EnableConfigurationProperties(AsyncThreadExecuteProperties.class)
 @ConditionalOnClass(AsyncThreadExecuteProperties.class)
-@ConditionalOnProperty(prefix = "xhui.thread", value = "enabled", matchIfMissing = true)
+@ConditionalOnProperty(prefix = "xhuicloud.thread", value = "enabled", matchIfMissing = true)
 public class AsyncThreadExecuteConfiguration {
 
     private static final String THREAD_NAME = "xhui-async-";
@@ -63,7 +64,7 @@ public class AsyncThreadExecuteConfiguration {
         // ThreadPoolExecutor.DiscardPolic 丢弃任务，但是不抛出异常。
         // ThreadPoolExecutor.DiscardOldestPolicy 丢弃队列最前面的任务，然后重新尝试执行任务
         // ThreadPoolExecutor.CallerRunsPolic 由调用线程处理该任务
-        ThreadPoolExecutor.CallerRunsPolicy callerRunsPolicy = new ThreadPoolExecutor.CallerRunsPolicy();
+        RejectedExecutionHandler callerRunsPolicy = properties.getRejectedExecution().getHandler();
         executor.setRejectedExecutionHandler(callerRunsPolicy);
         executor.setThreadFactory(new ThreadFactoryName());
         log.info("线程池初始化完成: corePoolSize = {}, maxPoolSize = {}, " +

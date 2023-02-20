@@ -43,7 +43,7 @@ import org.springframework.context.annotation.Bean;
 
 @AllArgsConstructor
 @EnableConfigurationProperties(OssProperties.class)
-@ConditionalOnProperty(name = "oss.enable", havingValue = "true", matchIfMissing = true)
+@ConditionalOnProperty(name = "xhuicloud.oss.enable", havingValue = "true", matchIfMissing = true)
 public class OssAutoConfiguration {
 
     @Bean

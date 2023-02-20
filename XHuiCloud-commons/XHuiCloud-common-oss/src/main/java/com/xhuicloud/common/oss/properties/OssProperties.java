@@ -28,7 +28,7 @@ import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @Data
-@ConfigurationProperties(prefix = "oss")
+@ConfigurationProperties(prefix = "xhuicloud.oss")
 public class OssProperties {
 
     /**

@@ -79,13 +79,13 @@ public class ElasticJobProperties {
          * 会话超时时间.
          * 单位毫秒.
          */
-        private int sessionTimeoutMilliseconds=10000;
+        private int sessionTimeoutMilliseconds = 10000;
 
         /**
          * 连接超时时间.
          * 单位毫秒.
          */
-        private int connectionTimeoutMilliseconds=10000;
+        private int connectionTimeoutMilliseconds = 10000;
 
         /**
          * 连接Zookeeper的权限令牌.

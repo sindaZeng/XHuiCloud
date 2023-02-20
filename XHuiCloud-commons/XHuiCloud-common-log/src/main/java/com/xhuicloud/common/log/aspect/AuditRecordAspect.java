@@ -17,6 +17,7 @@ import com.xhuicloud.common.log.constant.LogConstant;
 import com.xhuicloud.common.log.model.AuditModel;
 import com.xhuicloud.common.log.model.Operator;
 import com.xhuicloud.common.log.utils.LogRecordContext;
+import com.xhuicloud.common.mq.annotation.EnableXHuiRabbitMq;
 import com.xhuicloud.common.mq.entity.push.PushMqEntity;
 import com.xhuicloud.common.mq.service.CommonMqService;
 import lombok.SneakyThrows;
@@ -44,6 +45,7 @@ import java.util.List;
  */
 @Slf4j
 @Aspect
+@EnableXHuiRabbitMq
 public class AuditRecordAspect {
 
     private final LogExpressionParser parser;

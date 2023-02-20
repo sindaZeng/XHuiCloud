@@ -24,11 +24,12 @@
 
 package com.xhuicloud.common.core.thread;
 
+import com.xhuicloud.common.core.enums.RejectedExecutionEnum;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @Data
-@ConfigurationProperties(prefix = "xhui.thread.pool")
+@ConfigurationProperties(prefix = "xhuicloud.thread.pool")
 public class AsyncThreadExecuteProperties {
 
     private int corePoolSize = 20;
@@ -38,5 +39,8 @@ public class AsyncThreadExecuteProperties {
     private int keepAliveSeconds = 300;
 
     private int queueCapacity = 50;
+
+    private RejectedExecutionEnum rejectedExecution = RejectedExecutionEnum.AbortPolicy;
+
 
 }

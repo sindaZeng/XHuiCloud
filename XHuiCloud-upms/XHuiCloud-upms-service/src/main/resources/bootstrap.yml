@@ -15,6 +15,7 @@ spring:
   config:
     import:
       - optional:nacos:application-common-@profiles.active@.yml
+      - optional:nacos:xhuicloud-common-@profiles.active@.yml
       - optional:nacos:@artifactId@-@profiles.active@.yml
   autoconfigure:
     exclude: org.springframework.cloud.gateway.config.GatewayAutoConfiguration,org.springframework.cloud.gateway.config.GatewayClassPathWarningAutoConfiguration

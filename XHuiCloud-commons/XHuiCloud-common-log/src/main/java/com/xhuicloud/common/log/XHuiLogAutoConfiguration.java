@@ -26,7 +26,6 @@ package com.xhuicloud.common.log;
 
 import com.xhuicloud.common.log.aspect.AuditRecordAspect;
 import com.xhuicloud.common.log.component.IOperatorGetService;
-import com.xhuicloud.common.mq.annotation.EnableXHuiRabbitMq;
 import com.xhuicloud.common.mq.service.CommonMqService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,10 +43,9 @@ import org.springframework.scheduling.annotation.EnableAsync;
  */
 @EnableAsync
 @Configuration
-@EnableXHuiRabbitMq
 @AllArgsConstructor
 @ConditionalOnWebApplication
-@ConditionalOnProperty(name = "xhui.log.enabled", havingValue = "true", matchIfMissing = true)
+@ConditionalOnProperty(name = "xhuicloud.log.enabled", havingValue = "true", matchIfMissing = true)
 public class XHuiLogAutoConfiguration {
 
     private final CommonMqService commonMqService;
