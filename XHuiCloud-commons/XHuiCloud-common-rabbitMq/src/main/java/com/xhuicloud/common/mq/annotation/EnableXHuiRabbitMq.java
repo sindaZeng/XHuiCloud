@@ -33,7 +33,7 @@ import java.lang.annotation.*;
 
 @Documented
 @Inherited
-@Target({ ElementType.TYPE })
+@Target({ElementType.TYPE, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 @Import(XHuiRabbitMqAutoConfiguration.class)
 @EnableConfigurationProperties(XHuiRabbitMqProperties.class)

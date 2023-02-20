@@ -31,6 +31,12 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>XHuiCloud-common-log</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>${project.groupId}</groupId>
+                    <artifactId>XHuiCloud-common-rabbitMq</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>

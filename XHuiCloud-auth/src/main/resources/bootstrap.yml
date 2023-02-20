@@ -18,7 +18,3 @@ spring:
 
 server:
   port: 16000
-
-xhuicloud:
-  log:
-    enabled: false

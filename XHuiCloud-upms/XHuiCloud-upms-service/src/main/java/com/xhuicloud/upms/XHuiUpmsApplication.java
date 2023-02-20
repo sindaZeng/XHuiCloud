@@ -26,10 +26,12 @@ package com.xhuicloud.upms;
 
 import com.xhuicloud.common.authorization.resource.annotation.EnableResourceServer;
 import com.xhuicloud.common.feign.annotation.EnableXHuiFeignClients;
+import com.xhuicloud.common.log.annotation.EnableAudit;
 import com.xhuicloud.common.swagger.annotation.EnableXHuiSwagger;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+@EnableAudit
 @EnableXHuiSwagger
 @SpringBootApplication
 @EnableXHuiFeignClients

@@ -26,6 +26,7 @@ package com.xhuicloud.pay;
 
 import com.xhuicloud.common.authorization.resource.annotation.EnableResourceServer;
 import com.xhuicloud.common.feign.annotation.EnableXHuiFeignClients;
+import com.xhuicloud.common.log.annotation.EnableAudit;
 import com.xhuicloud.common.swagger.annotation.EnableXHuiSwagger;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -36,6 +37,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author: Sinda
  * @create: 2020-06-03 11:17
  */
+@EnableAudit
 @SpringBootApplication
 @EnableXHuiFeignClients
 @EnableResourceServer
