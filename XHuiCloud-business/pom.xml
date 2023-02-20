@@ -24,5 +24,6 @@
         <module>XHuiCloud-push</module>
         <module>XHuiCloud-monitor</module>
         <module>XHuiCloud-wechat</module>
+        <module>XHuiCloud-ai</module>
     </modules>
 </project>
