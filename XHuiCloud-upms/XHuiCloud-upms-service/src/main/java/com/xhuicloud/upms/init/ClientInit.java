@@ -41,6 +41,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.listener.ChannelTopic;
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.transaction.event.TransactionalEventListener;
 
 /**
  * @program: XHuiCloud
@@ -59,11 +60,17 @@ public class ClientInit implements InitializingBean {
 
     private final RedisMessageListenerContainer listenerContainer;
 
+    @Async
+    @Order
+    @EventListener({WebServerInitializedEvent.class})
+    public void webServerInit() {
+        clientDetailsInit();
+    }
 
     @Async
     @Order
-    @EventListener({WebServerInitializedEvent.class, ClientDetailsInitEvent.class})
-    public void init() {
+    @TransactionalEventListener({ClientDetailsInitEvent.class})
+    public void clientDetailsInit() {
         log.info("初始化客户端信息开始 ");
         sysClientDetailsService.list().forEach(clientDetails -> {
             String key = String.format("%s:%s", CacheConstants.CLIENT_DETAILS_EXTENSION, clientDetails.getClientId());
@@ -77,7 +84,7 @@ public class ClientInit implements InitializingBean {
     public void afterPropertiesSet() throws Exception {
         listenerContainer.addMessageListener((message, bytes) -> {
             log.warn("Redis 重新初始化客户端信息事件");
-            init();
+            clientDetailsInit();
         }, new ChannelTopic(CommonConstants.CLIENT_RELOAD));
     }
 

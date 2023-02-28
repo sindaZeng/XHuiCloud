@@ -48,6 +48,7 @@ import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.transaction.event.TransactionalEventListener;
 
 import java.net.URI;
 import java.util.List;
@@ -69,11 +70,17 @@ public class RouteInit {
 
     @Async
     @Order
-    @EventListener({WebServerInitializedEvent.class, DynamicRouteInitEvent.class})
-    public void init() {
+    @EventListener({WebServerInitializedEvent.class})
+    public void webServerInit() {
+        dynamicRouteInit();
+    }
+
+    @Async
+    @Order
+    @TransactionalEventListener({DynamicRouteInitEvent.class})
+    public void dynamicRouteInit() {
         log.info("初始化网关路由开始 ");
         redisTemplate.delete(CommonConstants.ROUTE_KEY);
-
         List<SysRouteConf> routes = sysRouteConfService.getRoutes();
         if (CollectionUtil.isNotEmpty(routes)) {
             routes.forEach(route -> {
@@ -82,19 +89,17 @@ public class RouteInit {
                 vo.setId(route.getRouteId());
                 vo.setUri(URI.create(route.getUri()));
                 vo.setOrder(route.getSort());
-
                 JSONArray filterObj = JSONUtil.parseArray(route.getFilters());
                 vo.setFilters(filterObj.toList(FilterDefinition.class));
                 JSONArray predicateObj = JSONUtil.parseArray(route.getPredicates());
                 vo.setPredicates(predicateObj.toList(PredicateDefinition.class));
-
                 log.info("加载路由ID：{},{}", route.getRouteId(), vo);
                 redisTemplate.setKeySerializer(new StringRedisSerializer());
                 redisTemplate.setHashValueSerializer(new Jackson2JsonRedisSerializer<>(RouteDefinitionVo.class));
                 redisTemplate.opsForHash().put(CommonConstants.ROUTE_KEY, route.getRouteId(), vo);
             });
             log.info("初始化网关路由结束 ");
-        }else {
+        } else {
             throw new NullPointerException("获取初始化网关路由异常!");
         }
         redisTemplate.convertAndSend(CommonConstants.GATEWAY_JVM_ROUTE_RELOAD, "路由信息更新");
@@ -113,7 +118,7 @@ public class RouteInit {
         container.setConnectionFactory(redisConnectionFactory);
         container.addMessageListener((message, bytes) -> {
             log.warn("接收到重新Redis 重新加载路由事件");
-            init();
+            dynamicRouteInit();
         }, new ChannelTopic(CommonConstants.ROUTE_RELOAD));
         return container;
     }
