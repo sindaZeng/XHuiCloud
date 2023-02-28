@@ -8,7 +8,7 @@ SET FOREIGN_KEY_CHECKS = 0;
 -- ----------------------------
 DROP TABLE IF EXISTS `audit_login`;
 CREATE TABLE `audit_login`  (
-                                `id` bigint(20) NOT NULL COMMENT 'id',
+                                `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id',
                                 `username` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '用户名',
                                 `user_id` bigint(20) NULL DEFAULT NULL COMMENT '用户id',
                                 `login_time` datetime NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '登录时间',
@@ -24,7 +24,7 @@ CREATE TABLE `audit_login`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `audit_record`;
 CREATE TABLE `audit_record`  (
-                                 `id` bigint(20) NOT NULL COMMENT '编号',
+                                 `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id',
                                  `req_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '请求id',
                                  `request_ip` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT '' COMMENT '操作IP',
                                  `service_system` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT '0' COMMENT '业务系统',
